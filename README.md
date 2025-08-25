@@ -51,7 +51,7 @@ The D&A Agent Hub implements a **research-only sub-agent pattern** where expert 
 
 5. **Activate the configuration:**
    ```bash
-   scripts/manage-mcp.sh add
+   scripts/manage-mcp.py add
    claude restart
    ```
 
@@ -104,16 +104,14 @@ da-agent-hub/
 │   ├── business/               # Business context docs
 │   ├── technical/              # Technical documentation
 │   └── projects/               # Project-specific info
-├── config/                     # Configuration files
-│   ├── mcp-base.json          # Base MCP server config
-│   └── CLAUDE.md              # Claude context template
-├── workspace/                  # Symlinked repositories
+├── repos/                      # Symlinked repositories
 ├── developer/                  # Personal customizations
 │   ├── customize.sh           # Personal setup script
 │   └── workspace-config.json  # Repository configuration
 ├── scripts/                    # Utility scripts
+│   ├── manage-mcp.py          # Unified MCP server management
 │   ├── manage-workspace.sh    # Workspace manager
-│   ├── merge_mcp_config.py    # MCP config merger
+│   ├── manage-tasks.sh        # Task file management
 │   └── test-setup.sh          # Setup validation
 ├── mcp-servers/               # MCP server implementations
 └── setup.sh                  # Main setup script
@@ -138,34 +136,34 @@ Additional servers are documented in `FUTURE-IMPROVEMENTS.md`:
 
 ### Configuration
 
-MCP servers are configured in `config/mcp-base.json` using `claude mcp add` commands. Environment variables are loaded from `.env`.
+MCP servers are configured directly in the management script using `claude mcp add` commands. Environment variables are loaded from `.env`.
 
 **Management Commands:**
 ```bash
 # Add all configured servers
-scripts/manage-mcp.sh add
+scripts/manage-mcp.py add
 
 # Check server status  
-scripts/manage-mcp.sh status
+scripts/manage-mcp.py status
 
 # List configured servers
-scripts/manage-mcp.sh list
+scripts/manage-mcp.py list
 
 # Remove specific server
-scripts/manage-mcp.sh remove server-name
+scripts/manage-mcp.py remove server-name
 ```
 
 ## Workspace Management
 
 ### Repository Organization
 
-Use the workspace manager to organize your repositories:
+Use the repository manager to organize your repositories:
 
 ```bash
 # Setup repository symlinks
 ./scripts/manage-workspace.sh setup
 
-# List current workspace
+# List current repositories
 ./scripts/manage-workspace.sh list
 
 # Check repository status
@@ -285,9 +283,9 @@ The system supports 90% shared configuration with 10% personal customization:
 
 ### Adding MCP Servers
 
-1. Add server to `config/mcp-base.json`
+1. Add server configuration to `scripts/manage-mcp.py`
 2. Update environment template: `.env.template`  
-3. Run `scripts/manage-mcp.sh add` to configure
+3. Run `scripts/manage-mcp.py add` to configure
 4. Test with `./scripts/test-setup.sh`
 
 ### Future Improvements
