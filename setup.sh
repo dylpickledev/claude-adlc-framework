@@ -106,9 +106,9 @@ setup_claude_config() {
     # Create Claude config directory
     mkdir -p "$CLAUDE_CONFIG_DIR"
     
-    # Copy CLAUDE.md context file
-    if [ -f "$SCRIPT_DIR/config/CLAUDE.md" ]; then
-        cp "$SCRIPT_DIR/config/CLAUDE.md" "$CLAUDE_MD_PATH"
+    # Copy CLAUDE.md context file from root
+    if [ -f "$SCRIPT_DIR/CLAUDE.md" ]; then
+        cp "$SCRIPT_DIR/CLAUDE.md" "$CLAUDE_MD_PATH"
         log_success "Copied CLAUDE.md context file"
     else
         log_warning "CLAUDE.md template not found, will create basic version"
@@ -146,8 +146,8 @@ EOF
     fi
     
     # Setup MCP servers using Python script
-    if [ -f "$SCRIPT_DIR/scripts/add-mcp-servers.py" ]; then
-        python "$SCRIPT_DIR/scripts/add-mcp-servers.py"
+    if [ -f "$SCRIPT_DIR/scripts/manage-mcp.py" ]; then
+        python "$SCRIPT_DIR/scripts/manage-mcp.py" add
         log_success "MCP servers configured"
     else
         log_warning "MCP server configuration script not found"
@@ -169,41 +169,14 @@ add_mcp_servers() {
     log_success "MCP server setup completed"
 }
 
-# Setup workspace symlinks
-setup_workspace() {
-    log_info "Setting up workspace symlinks..."
+# Setup repository symlinks
+setup_repos() {
+    log_info "Setting up repository directory..."
     
-    # Create workspace directory
-    mkdir -p workspace
+    # Create repos directory
+    mkdir -p repos
     
-    # Setup repository symlinks (will be configured by user)
-    cat > workspace/README.md << 'EOF'
-# Workspace Directory
-
-This directory contains symlinks to your actual repositories.
-
-## Adding Repositories
-
-To add a repository to your workspace:
-
-```bash
-ln -s /path/to/your/repo workspace/repo-name
-```
-
-## Recommended Structure
-
-- `dbt/` - dbt project repository
-- `dlthub/` - dlthub project repository
-- `orchestration/` - Orchestra/Airflow DAGs
-- `tableau/` - Tableau workbooks and scripts
-- `docs/` - Documentation repository
-
-## Customization
-
-Edit `developer/workspace-config.sh` to automate your specific symlink setup.
-EOF
-    
-    log_success "Workspace directory configured"
+    log_success "Repository directory configured"
 }
 
 # Create environment template
@@ -277,8 +250,8 @@ setup_developer_customization() {
 # Example: Custom repository symlinks
 setup_personal_repos() {
     echo "Setting up personal repository symlinks..."
-    # ln -sf /path/to/your/dbt/project workspace/dbt
-    # ln -sf /path/to/your/dlthub/project workspace/dlthub
+    # ln -sf /path/to/your/dbt/project repos/dbt
+    # ln -sf /path/to/your/dlthub/project repos/dlthub
 }
 
 # Example: Custom environment variables
@@ -416,9 +389,8 @@ tmp/
 temp/
 .tmp/
 
-# Workspace symlinks (will be recreated)
-workspace/*
-!workspace/README.md
+# Repository symlinks (will be recreated)
+repos/*
 EOF
     
     log_success ".gitignore created"
@@ -433,7 +405,7 @@ main() {
     install_mcp_servers
     setup_claude_config
     add_mcp_servers
-    setup_workspace
+    setup_repos
     create_env_template
     setup_developer_customization
     create_gitignore
@@ -445,7 +417,7 @@ main() {
     log_info "2. Edit developer/customize.sh with your repository paths"
     log_info "3. Run ./developer/customize.sh"
     log_info "4. Restart Claude to load MCP servers: claude restart"
-    log_info "5. Manage MCP servers: ./scripts/manage-mcp.sh [add|remove|list|status]"
+    log_info "5. Manage MCP servers: ./scripts/manage-mcp.py [add|remove|list|status]"
     log_info "6. Run ./scripts/test-setup.sh to validate configuration"
     log_info ""
     log_info "For more information, see README.md"

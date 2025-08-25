@@ -39,7 +39,7 @@ test_prerequisites() {
 test_directory_structure() {
     log_info "Testing directory structure..."
     
-    local dirs=("knowledge" "config" "workspace" "developer" "scripts" ".claude")
+    local dirs=("knowledge" "repos" "developer" "scripts" ".claude")
     local missing=0
     
     for dir in "${dirs[@]}"; do
@@ -75,7 +75,7 @@ test_agent_definitions() {
 test_scripts() {
     log_info "Testing scripts..."
     
-    local scripts=("setup.sh" "scripts/manage-workspace.sh" "scripts/add-mcp-servers.py")
+    local scripts=("setup.sh" "scripts/manage-workspace.sh" "scripts/manage-mcp.py")
     local missing=0
     
     for script in "${scripts[@]}"; do
@@ -93,7 +93,7 @@ test_scripts() {
 test_configuration() {
     log_info "Testing configuration..."
     
-    local configs=("config/mcp-base.json" "config/CLAUDE.md" ".env.template")
+    local configs=("CLAUDE.md" ".env.template")
     local missing=0
     
     for config in "${configs[@]}"; do

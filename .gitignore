@@ -66,3 +66,6 @@ temp/
 # Workspace symlinks (will be recreated)
 workspace/*
 !workspace/README.md
+
+# Repository clones
+repos/
