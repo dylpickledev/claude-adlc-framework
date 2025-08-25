@@ -27,7 +27,8 @@
       "Bash(claude --agent business-context)",
       "Bash(dbt run:*)",
       "WebFetch(domain:docs.getorchestra.io)",
-      "WebFetch(domain:docs.getdbt.com)"
+      "WebFetch(domain:docs.getdbt.com)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": [],

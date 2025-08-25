@@ -59,7 +59,7 @@ create_case_structure() {
     
     # Case Brief
     cat > "$case_dir/case-brief.md" << EOF
-# ${case_name^^} 🔍
+# $(echo "$case_name" | tr '[:lower:]' '[:upper:]') 🔍
 
 **Case Classification:** $priority PRIORITY
 **Case Number:** $(date +%Y%m%d-%H%M%S)
@@ -92,7 +92,7 @@ EOF
 # DETECTIVE CLAUDE ASSIGNMENT 🕵️
 
 ## Your Mission Briefing
-You are Detective Claude, assigned to **${case_name^^}**.
+You are Detective Claude, assigned to **$(echo "$case_name" | tr '[:lower:]' '[:upper:]')**.
 
 ### Case Details
 - **Read your case brief:** ./case-brief.md
@@ -127,7 +127,7 @@ EOF
 
     # Evidence Report Template
     cat > "$case_dir/evidence-report.md" << EOF
-# EVIDENCE REPORT: ${case_name^^}
+# EVIDENCE REPORT: $(echo "$case_name" | tr '[:lower:]' '[:upper:]')
 
 **Detective:** Claude  
 **Date:** $(date +"%Y-%m-%d %H:%M:%S")  
