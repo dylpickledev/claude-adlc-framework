@@ -69,3 +69,4 @@ workspace/*
 
 # Repository clones
 repos/
+.claude/settings.local.json
