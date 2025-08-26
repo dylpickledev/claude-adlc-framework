@@ -28,7 +28,8 @@
       "Bash(dbt run:*)",
       "WebFetch(domain:docs.getorchestra.io)",
       "WebFetch(domain:docs.getdbt.com)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(./sherlock/bureau/dispatch-cases.sh:*)"
     ],
     "deny": [],
     "ask": [],
