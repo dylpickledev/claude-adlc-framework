@@ -24,36 +24,36 @@ The D&A Agent Hub implements a **research-only sub-agent pattern** where expert 
 - Git
 - Claude Code CLI
 
-### Installation
+### One-Command Installation
 
-1. **Clone and setup the repository:**
-   ```bash
-   git clone <your-repo-url> da-agent-hub
-   cd da-agent-hub
-   ./setup.sh
-   ```
+```bash
+git clone <your-repo-url> da-agent-hub
+cd da-agent-hub
+./setup-interactive.sh
+```
 
-2. **Configure your environment:**
-   ```bash
-   cp .env.template .env
-   # Edit .env with your actual credentials
-   ```
+**That's it!** The interactive setup will:
+- 🔍 Auto-detect your existing dbt projects and repositories
+- ❓ Ask for only the credentials you actually need with helpful guidance
+- 🔗 Test connections and validate configurations  
+- 🏗️ Set up all MCP servers and agents automatically
+- ✅ Provide a complete status report
 
-3. **Customize for your repositories:**
-   ```bash
-   ./developer/customize.sh
-   ```
+**Setup time: 2-3 minutes**
 
-4. **Validate the setup:**
-   ```bash
-   ./scripts/test-setup.sh
-   ```
+### Status & Troubleshooting
 
-5. **Activate the configuration:**
-   ```bash
-   scripts/manage-mcp.py add
-   claude restart
-   ```
+```bash
+# Check system status anytime
+./setup-interactive.sh --status
+
+# Re-run setup to update configuration  
+./setup-interactive.sh
+
+# Available Claude slash commands
+/setup    # Interactive setup through Claude
+/status   # System health check
+```
 
 ## Sub-Agent System
 
@@ -114,7 +114,7 @@ da-agent-hub/
 │   ├── manage-tasks.sh        # Task file management
 │   └── test-setup.sh          # Setup validation
 ├── mcp-servers/               # MCP server implementations
-└── setup.sh                  # Main setup script
+└── setup.sh                  # Interactive setup script
 ```
 
 ## MCP Server Integration
