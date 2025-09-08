@@ -67,6 +67,9 @@ temp/
 workspace/*
 !workspace/README.md
 
-# Repository clones
-repos/
+# Repository clones - keep folder structure but not contents
+repos/*/
+!repos/*/.gitkeep
+repos/*/*
+
 .claude/settings.local.json

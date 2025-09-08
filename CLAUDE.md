@@ -1,8 +1,39 @@
-- hey. dont read my .env in full. only env var names
+don't look at the full .env file. Only search for the var names up to the equals sign.
 
-## dbt Issue Analysis Patterns
+## Repository Branch Structures
 
-### Common dbt Issue Categories
+### dbt_cloud
+- **master**: Production branch
+- **dbt_dw**: Staging branch
+- **Workflow**: Branch from dbt_dw, sync before creating features
+
+### dbt_errors_to_issues
+- **main**: Production branch (no staging branch)
+- **Workflow**: Branch directly from main
+
+### roy_kent
+- **master**: Production branch (no staging branch)  
+- **Workflow**: Branch directly from master
+
+### sherlock
+- **main**: Production branch (no staging branch)
+- **Workflow**: Branch directly from main
+
+## General Git Workflow
+
+### Branch Naming Convention
+- Feature branches: `feature/description`
+- Fix branches: `fix/description`
+
+### Standard Workflow Steps
+1. Sync with production/staging branch before creating features
+2. Create descriptive branch names
+3. Keep branches focused and atomic
+4. Test locally before pushing
+
+## Cross-System Issue Analysis & Coordination
+
+### Common Issue Categories (Multi-Tool)
 1. **Schema/Column Reference Errors**: Tests referencing incorrect column names vs actual model schemas
 2. **Data Quality Issues**: Uniqueness constraint violations, null constraint failures, massive duplications
 3. **Cross-System Validation Failures**: Mismatches between source systems and dbt model expectations
@@ -13,27 +44,19 @@
 - **Model Layer Impact**: Problems cascade from staging (stg_) through marts (dm_) to reports (rpt_)
 - **Source System Dependencies**: ERP, Customer, Operations, Safety systems create different data patterns
 
-### Effective Prioritization Framework
-1. **CRITICAL**: Schema compilation errors that block other work
-2. **HIGH**: Large-scale data quality issues indicating upstream pipeline problems
-3. **MEDIUM**: Business logic and validation failures
+### Cross-Tool Prioritization Framework
+1. **CRITICAL**: Schema compilation errors that block other work (dbt-expert)
+2. **HIGH**: Large-scale data quality issues indicating upstream pipeline problems (orchestra-expert + dlthub-expert)
+3. **MEDIUM**: Business logic and validation failures (dbt-expert + business-context)
 4. **LOW**: Warning-level issues that don't break functionality
 
-### Investigation Strategy
-- Use dbt-mcp to examine actual model schemas vs test expectations
-- Check upstream Orchestra pipeline health for massive duplication issues
-- Validate source system data quality for cross-system reconciliation failures
-- Focus on fixing blocking issues before addressing data quality problems
+### Agent Coordination Strategy
+- **dbt-expert**: Examine model schemas vs test expectations, focus on blocking compilation issues first
+- **orchestra-expert**: Check pipeline health for massive duplication issues, upstream data quality
+- **snowflake-expert**: Validate warehouse-level performance and data quality issues  
+- **dlthub-expert**: Source system data quality for cross-system reconciliation failures
+- **tableau-expert**: Dashboard performance issues stemming from data problems
+- **business-context**: Business logic validation and stakeholder requirement clarification
 
-## Git Workflow for dbt_cloud Repository
-
-### Branch Structure
-- **master**: Production branch
-- **dbt_dw**: Staging branch
-
-### Branching Workflow
-1. Always sync local dbt_dw with remote: `git checkout dbt_dw && git pull origin dbt_dw`
-2. Create new feature branches from dbt_dw: `git checkout -b feature-branch-name`
-3. Never branch directly from master
-4. Ensure dbt_dw is up-to-date before creating any new branches
 - git branches should be prefixed by feature/ or fix/
+- use subagents for tasks to help optimize your context window. Determine if it'd be best to use defined agent, or if its general then give to a general subagent

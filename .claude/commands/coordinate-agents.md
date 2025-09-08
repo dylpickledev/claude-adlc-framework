@@ -1,6 +1,6 @@
 ---
-description: Coordinate multiple sub-agents for complex D&A tasks
-argument-hint: [task-description]
+description: Coordinate multiple sub-agents for complex D&A tasks (sequential)
+argument-hint: [task-description] [--swarm]
 ---
 
 The **main Claude instance** is the master coordinator for D&A platform sub-agents. The main Claude's role is to orchestrate multiple specialist agents while ensuring each works autonomously within their expertise.
@@ -80,8 +80,30 @@ Based on the task provided, the main Claude instance should:
 7. **Run validation tests** - execute the testing procedures agents specify
 8. **Report results** - provide user with implemented solutions and test outcomes
 
+## Execution Modes
+
+### Sequential Coordination (Default)
+Traditional one-at-a-time agent invocation:
+1. Invoke agents sequentially based on dependencies
+2. Each agent completes before next begins
+3. Manual synthesis of results
+
+### Swarm Coordination (--swarm flag)  
+Parallel agent execution for faster results:
+1. Auto-detect required agents based on task keywords
+2. Launch all agents simultaneously in parallel
+3. Automated status tracking and synthesis
+4. Optional branch creation and PR generation
+
 ## Task Execution
 
+**For sequential coordination:**
 Execute the coordination strategy for: **$ARGUMENTS**
+
+**For swarm coordination:**
+```bash
+# Use the swarm command instead for parallel execution:
+/swarm "$ARGUMENTS" [--branch-type=feature|fix] [--auto-pr]
+```
 
 Create the shared task context, invoke the appropriate sub-agents, and synthesize their autonomous findings into a cohesive solution.
