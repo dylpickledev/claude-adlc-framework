@@ -57,6 +57,7 @@ don't look at the full .env file. Only search for the var names up to the equals
 - **dlthub-expert**: Source system data quality for cross-system reconciliation failures
 - **tableau-expert**: Dashboard performance issues stemming from data problems
 - **business-context**: Business logic validation and stakeholder requirement clarification
+- **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
 
 - git branches should be prefixed by feature/ or fix/
 - use subagents for tasks to help optimize your context window. Determine if it'd be best to use defined agent, or if its general then give to a general subagent

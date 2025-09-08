@@ -29,10 +29,10 @@ The D&A Agent Hub implements a **research-only sub-agent pattern** where expert 
 ```bash
 git clone <your-repo-url> da-agent-hub
 cd da-agent-hub
-./setup-interactive.sh
+./setup.sh
 ```
 
-**That's it!** The interactive setup will:
+**That's it!** The setup script will:
 - 🔍 Auto-detect your existing dbt projects and repositories
 - ❓ Ask for only the credentials you actually need with helpful guidance
 - 🔗 Test connections and validate configurations  
@@ -45,10 +45,10 @@ cd da-agent-hub
 
 ```bash
 # Check system status anytime
-./setup-interactive.sh --status
+./setup.sh --status
 
 # Re-run setup to update configuration  
-./setup-interactive.sh
+./setup.sh
 
 # Available Claude slash commands
 /setup    # Interactive setup through Claude
@@ -78,6 +78,7 @@ cd da-agent-hub
 | **Snowflake Expert** | `.claude/agents/snowflake-expert.md` | Query optimization, cost analysis |
 | **dlthub Expert** | `.claude/agents/dlthub-expert.md` | Data ingestion, connector configuration |
 | **Business Context** | `.claude/agents/business-context.md` | Requirements analysis, stakeholder context |
+| **DA Architect** | `.claude/agents/da-architect.md` | System design, data flow analysis, strategic platform decisions |
 
 ### Usage Pattern
 
@@ -92,14 +93,16 @@ cd da-agent-hub
 ```
 da-agent-hub/
 ├── .claude/
-│   └── agents/                 # Claude Code sub-agents
-│       ├── business-context.md # Business requirements expert
-│       ├── dbt-expert.md      # dbt specialist
-│       ├── orchestra-expert.md # Orchestra specialist
-│       ├── tableau-expert.md  # Tableau specialist
-│       ├── snowflake-expert.md # Snowflake specialist
-│       └── dlthub-expert.md   # dlthub specialist
-├── agents/                    # Documentation only (legacy structure)
+│   ├── agents/                 # Claude Code sub-agents
+│   │   ├── business-context.md # Business requirements expert
+│   │   ├── dbt-expert.md      # dbt specialist
+│   │   ├── orchestra-expert.md # Orchestra specialist
+│   │   ├── tableau-expert.md  # Tableau specialist
+│   │   ├── snowflake-expert.md # Snowflake specialist
+│   │   ├── dlthub-expert.md   # dlthub specialist
+│   │   └── da-architect.md    # Data architecture specialist
+│   ├── commands/              # Claude Code commands
+│   └── tasks/                 # Task coordination files
 ├── knowledge/                  # Knowledge base
 │   ├── business/               # Business context docs
 │   ├── technical/              # Technical documentation
@@ -113,7 +116,6 @@ da-agent-hub/
 │   ├── manage-workspace.sh    # Workspace manager
 │   ├── manage-tasks.sh        # Task file management
 │   └── test-setup.sh          # Setup validation
-├── mcp-servers/               # MCP server implementations
 └── setup.sh                  # Interactive setup script
 ```
 
