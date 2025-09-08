@@ -117,7 +117,120 @@ da-agent-hub/
 │   ├── manage-tasks.sh        # Task file management
 │   └── test-setup.sh          # Setup validation
 └── setup.sh                  # Interactive setup script
+
+## 🚀 Claude Code Best Practices for New Developers
+
+*Based on [Anthropic's official Claude Code best practices guide](https://www.anthropic.com/engineering/claude-code-best-practices)*
+
+### Quick Start Workflow (Recommended)
+
+**1. 🔍 Explore, Plan, Code Pattern**
+```bash
+# Start by exploring what you have
+/status                    # Check current system health
+claude "analyze my dbt models"  # Let agents investigate first
+
+# Then implement based on findings
+claude "implement the recommendations from dbt-expert analysis"
 ```
+
+**2. 🧪 Test-Driven Development for Data**
+```bash
+# Write tests first, confirm they fail
+dbt test --select new_model --store-failures
+
+# Implement to make tests pass  
+dbt run --select new_model
+
+# Verify success
+dbt test --select new_model
+```
+
+**3. 📸 Visual Development (for dashboards)**
+```bash
+/screenshot    # Analyze dashboard screenshots
+/visual-iterate # Structured design improvement workflow
+```
+
+### Advanced Workflows
+
+**4. 🎯 Domain Expert Pattern**
+```bash
+# Use specific experts for complex analysis
+claude --agent dbt-expert "analyze performance issues"
+claude --agent snowflake-expert "optimize warehouse costs"  
+claude --agent tableau-expert "improve dashboard load times"
+```
+
+**5. 🔧 GitHub CLI Integration**
+```bash
+/gh-workflow  # Enhanced PR and issue management
+gh pr create --body "$(cat .claude/tasks/current-task.md)"
+```
+
+**6. 📋 Task Management**
+- Always use TodoWrite for multi-step tasks
+- Break complex work into smaller, trackable pieces
+- Mark todos complete immediately after finishing
+
+### Optimization Tips
+
+**7. ⚡ Context Management**
+- Use `/clear` when switching between different problem domains
+- Provide specific instructions rather than vague requests
+- Course-correct early if Claude misunderstands
+
+**8. 🎪 Multi-Agent Coordination**
+```bash
+# Let experts analyze independently, then coordinate
+claude "coordinate findings from dbt-expert and snowflake-expert analyses"
+```
+
+**9. 📊 Data Stack Workflows**
+```bash
+# Cross-system issue investigation
+claude "investigate data quality issues across Orchestra → dbt → Snowflake pipeline"
+
+# Performance optimization
+claude "analyze end-to-end performance from source systems to dashboards"
+```
+
+### Key Commands Reference
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/setup` | Complete system setup | Initial configuration |
+| `/status` | System health check | Regular maintenance |
+| `/screenshot` | Visual analysis | Dashboard feedback |
+| `/test-framework` | TDD workflows | Data quality testing |
+| `/gh-workflow` | GitHub integration | PR automation |
+
+### Pro Tips for Data Teams
+
+**🔍 Investigation Pattern:**
+1. Use business-context agent for requirements
+2. Use technical experts for system analysis  
+3. Use da-architect for cross-system decisions
+4. Implement solutions incrementally
+
+**⚡ Performance Optimization:**
+- Run multiple Claude instances for parallel work
+- Use git worktrees for concurrent feature development
+- Leverage headless mode for automation tasks
+
+**🛡️ Safety First:**
+- All sub-agents are research-only (no system modification)
+- Clear separation between analysis and implementation
+- Built-in tool restrictions prevent accidents
+
+### Getting Help
+
+- **Documentation Issues**: Check `.claude/commands/` for examples
+- **Setup Problems**: Run `./setup.sh --status` for diagnostics  
+- **Agent Behavior**: Review `.claude/agents/` for role definitions
+- **Best Practices**: This repo implements Anthropic's recommendations
+
+**Remember**: The DA Agent Hub is designed around Claude Code best practices - explore, plan with agents, then implement systematically! 🎯
 
 ## MCP Server Integration
 

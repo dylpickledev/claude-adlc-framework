@@ -25,20 +25,34 @@ I'll guide you through implementing a comprehensive testing framework that follo
 
 ### 1. dbt Model Tests (Unit Level)
 ```yaml
-# models/staging/stg_customers.yml
+# models/staging/_models.yml - Modern dbt testing syntax
 models:
   - name: stg_customers
-    tests:
+    description: "Cleaned customer data from ERP system"
+    data_tests:
       - unique:
           column_name: customer_id
       - not_null:
           column_name: customer_id
     columns:
       - name: customer_id
-        tests:
+        description: "Primary key for customers"
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Customer email address"  
+        data_tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Customer status"
+        data_tests:
+          - accepted_values:
+              values: ['active', 'inactive', 'prospect']
           - relationships:
-              to: ref('stg_orders')
-              field: customer_id
+              to: ref('dim_customer_status')
+              field: status_code
 ```
 
 ### 2. Data Quality Tests (Integration Level)
@@ -98,42 +112,61 @@ where (
 
 ## 🔄 **TDD Workflow Commands**
 
-### Test-First Development Cycle
+### Test-First Development Cycle (Following dbt Best Practices)
 ```bash
-# 1. Write test first (RED phase)
-echo "select count(*) from {{ ref('new_model') }} having count(*) = 0" > tests/assert_new_model_has_data.sql
+# 1. Write schema with tests first (RED phase)
+# Create models/staging/_models.yml with data_tests defined
+dbt parse  # Validate YAML syntax
 
-# 2. Run test to confirm failure
-dbt test --select test_name:assert_new_model_has_data
+# 2. Run tests to confirm failure
+dbt test --select stg_new_model --store-failures
 
 # 3. Implement model (GREEN phase)  
-dbt run --select new_model
+dbt run --select stg_new_model
 
-# 4. Verify test passes
-dbt test --select test_name:assert_new_model_has_data
+# 4. Verify tests pass
+dbt test --select stg_new_model
 
-# 5. Refactor if needed (REFACTOR phase)
-dbt run --select new_model --full-refresh
+# 5. Build with dependencies (includes run + test)
+dbt build --select +stg_new_model+
+
+# 6. Refactor if needed (REFACTOR phase)
+dbt run --select stg_new_model --full-refresh
+dbt test --select stg_new_model  # Verify after refactor
 ```
 
-### Continuous Testing
+### Continuous Testing (Best Practice Commands)
 ```bash
-# Run all tests with failure storage
+# Run all tests with failure storage for debugging
 dbt test --store-failures
 
-# Test specific model and its dependencies
+# Test specific model and its dependencies (upstream + downstream)
 dbt test --select +my_model+
 
-# Performance testing with profiling
-dbt run --select my_model --profiles-dir ./profiles --profile performance_test
+# Build command (recommended) - runs models and tests in dependency order
+dbt build --select my_model
+
+# Test primary keys on all models (critical first step)
+dbt test --select config.tags:primary_key
+
+# Test by layer using selectors
+dbt test --select fqn:*staging*     # Test all staging models
+dbt test --select fqn:*marts*      # Test all mart models
+
+# Performance-aware testing with limited scope
+dbt build --select my_model --full-refresh
 ```
 
 ## 📊 **Testing Strategy by Component**
 
-### dbt Models
-- **Schema tests**: Data type validation, uniqueness, nulls
-- **Custom tests**: Business rule validation
-- **Freshness tests**: Data recency checks
+### dbt Models (Following Official Best Practices)
+- **Primary Key Tests**: Always test uniqueness and not_null on primary keys
+- **Generic Tests**: Use built-in tests (unique, not_null, accepted_values, relationships)
+- **Custom Generic Tests**: Create reusable, parameterized tests for business rules
+- **Singular Tests**: Use .sql files in tests/ for one-off, specific assertions
+- **Documentation**: Include descriptions with all tests for clarity
+- **Test Organization**: Use _models.yml files in each layer directory
+- **Freshness Tests**: Test source data recency and availability
 
 ### Snowflake Queries  
 - **Performance tests**: Query execution time validation
@@ -152,13 +185,32 @@ dbt run --select my_model --profiles-dir ./profiles --profile performance_test
 
 ## 🛠️ **Testing Utilities**
 
-### Custom Test Macros
+### Custom Generic Test Macros (Following dbt Best Practices)
 ```sql
 -- macros/test_row_count_between.sql
 {% test row_count_between(model, min_count, max_count) %}
-  select count(*)
+  select count(*) as row_count
   from {{ model }}
   having count(*) not between {{ min_count }} and {{ max_count }}
+{% endtest %}
+
+-- Usage in _models.yml:
+-- data_tests:
+--   - row_count_between:
+--       min_count: 1000
+--       max_count: 50000
+```
+
+### Advanced Testing Patterns
+```sql
+-- macros/test_unique_combination_of_columns.sql  
+{% test unique_combination_of_columns(model, combination_of_columns) %}
+  select 
+    {{ combination_of_columns | join(', ') }},
+    count(*) as occurrences
+  from {{ model }}
+  group by {{ combination_of_columns | join(', ') }}
+  having count(*) > 1
 {% endtest %}
 ```
 
@@ -176,22 +228,54 @@ dbt run --select my_model --profiles-dir ./profiles --profile performance_test
 
 ## 📋 **Testing Checklist**
 
-### Before Implementation
-- [ ] Write failing tests first
-- [ ] Define success criteria
-- [ ] Set performance expectations
-- [ ] Plan test data requirements
+### Before Implementation (Following dbt Best Practices)
+- [ ] Write failing tests first (TDD approach)
+- [ ] Define success criteria and business logic requirements
+- [ ] Set performance expectations and thresholds
+- [ ] Plan test data requirements and create seed files if needed
+- [ ] Document test purpose in schema YAML files
+- [ ] Plan incremental model testing strategy (if applicable)
+- [ ] Consider cross-project dependencies for large projects
 
-### During Development
-- [ ] Run tests frequently
-- [ ] Keep tests simple and focused
+### During Development (Best Practice Workflow)
+- [ ] Run tests frequently using `dbt build` for efficiency
+- [ ] Keep tests simple and focused on single assertion
 - [ ] Test edge cases and error conditions
-- [ ] Document test purpose and expectations
+- [ ] Document test purpose and expectations in YAML descriptions
+- [ ] Use version control branches for feature development
+- [ ] Implement code reviews via Pull Requests
+- [ ] Use model selection syntax to limit data processing during development
+- [ ] Test incremental models with `--full-refresh` when logic changes
 
-### After Implementation
-- [ ] All tests pass consistently
-- [ ] Performance meets requirements
-- [ ] No false positives/negatives
-- [ ] Tests are maintainable
+### After Implementation (Production Readiness)
+- [ ] All tests pass consistently across environments
+- [ ] Performance meets requirements (use incremental models for >1M rows)
+- [ ] No false positives/negatives in test results
+- [ ] Tests are maintainable and documented
+- [ ] Unique keys defined for incremental models (no nulls)
+- [ ] Schema change handling configured (`on_schema_change`)
+- [ ] CI/CD pipeline includes slim CI for modified models only
+- [ ] Tests cover primary keys with uniqueness and not_null assertions
 
-This comprehensive testing framework implements Claude Code's **test-driven development** best practice specifically for data analytics workflows.
+## 🚀 **Advanced Testing Strategies**
+
+### Incremental Model Testing
+```bash
+# Test incremental models with schema changes
+dbt run --select incremental_model --full-refresh
+dbt test --select incremental_model
+
+# Test with incremental predicates for performance
+dbt run --select incremental_model --vars '{"start_date": "2024-01-01"}'
+```
+
+### CI/CD Integration Testing
+```bash
+# Slim CI - only test changed models (recommended for large projects)
+dbt build --select state:modified+ --defer --state ./previous-state
+
+# Test downstream impact
+dbt test --select +changed_model+ --exclude changed_model
+```
+
+This comprehensive testing framework implements Claude Code's **test-driven development** best practice specifically for data analytics workflows, enhanced with official dbt best practices for large-scale projects.
