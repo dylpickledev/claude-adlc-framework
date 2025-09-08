@@ -22,7 +22,38 @@ The D&A Agent Hub implements a **research-only sub-agent pattern** where expert 
 - macOS (tested) or Linux
 - Python 3.8+
 - Git
-- Claude Code CLI
+
+**Required Tools:**
+- **Claude Code CLI** - [Install Guide](https://docs.anthropic.com/en/docs/claude-code/installation)
+- **GitHub CLI (gh)** - [Install Guide](https://cli.github.com/manual/installation)
+
+#### Quick Install Commands
+
+**Claude Code CLI:**
+```bash
+# macOS (Homebrew)
+brew install claude
+
+# Linux (curl)
+curl -fsSL https://claude.ai/install.sh | sh
+```
+
+**GitHub CLI:**
+```bash
+# macOS (Homebrew)  
+brew install gh
+
+# Linux (apt)
+sudo apt install gh
+
+# Or visit: https://cli.github.com/manual/installation
+```
+
+**Verification:**
+```bash
+claude --version    # Should show Claude Code version
+gh --version       # Should show GitHub CLI version
+```
 
 ### One-Command Installation
 
