@@ -27,7 +27,7 @@ The D&A Agent Hub implements a **research-only sub-agent pattern** where expert 
 ### One-Command Installation
 
 ```bash
-git clone <your-repo-url> da-agent-hub
+git clone https://github.com/graniterock/da-agent-hub.git da-agent-hub
 cd da-agent-hub
 ./setup.sh
 ```
