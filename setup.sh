@@ -73,31 +73,10 @@ prompt_optional() {
 
 # Environment detection
 detect_environment() {
-    log_step "Detecting Your Environment"
+    log_step "Verifying Prerequisites"
     
-    # Detect dbt projects
-    echo "Scanning for dbt projects..."
-    DBT_PROJECTS=$(find "$HOME" -name "dbt_project.yml" -not -path "*/venv/*" -not -path "*/node_modules/*" 2>/dev/null | head -5)
-    if [ -n "$DBT_PROJECTS" ]; then
-        log_success "Found dbt projects:"
-        echo "$DBT_PROJECTS" | while read project; do
-            echo "  - $(dirname "$project")"
-        done
-        DETECTED_DBT_PATH=$(dirname $(echo "$DBT_PROJECTS" | head -1))
-    else
-        log_warning "No dbt projects found"
-    fi
-    
-    # Detect git repositories
-    echo "Scanning for git repositories..."
-    GIT_REPOS=$(find "$HOME" -name ".git" -type d -not -path "*/.*/*" 2>/dev/null | head -10)
-    REPO_COUNT=$(echo "$GIT_REPOS" | wc -l)
-    if [ -n "$GIT_REPOS" ]; then
-        log_success "Found $REPO_COUNT git repositories"
-    fi
-    
-    # Check for common tools and prerequisites
-    echo "Checking for installed tools..."
+    # Check for required tools only
+    echo "Checking for required tools..."
     DETECTED_TOOLS=""
     MISSING_TOOLS=()
     
@@ -126,7 +105,7 @@ detect_environment() {
         DETECTED_TOOLS+="claude "
     fi
     
-    # Optional tools
+    # Optional tools (just report, don't scan filesystem)
     command -v dbt >/dev/null 2>&1 && DETECTED_TOOLS+="dbt "
     command -v snowsql >/dev/null 2>&1 && DETECTED_TOOLS+="snowsql "
     command -v psql >/dev/null 2>&1 && DETECTED_TOOLS+="postgresql "
@@ -137,9 +116,8 @@ detect_environment() {
         exit 1
     fi
     
-    if [ -n "$DETECTED_TOOLS" ]; then
-        log_success "Found tools: $DETECTED_TOOLS"
-    fi
+    log_success "Found required tools: $DETECTED_TOOLS"
+    log_info "All repositories will be cloned from configuration - no filesystem scanning needed"
 }
 
 # Load existing environment
@@ -284,8 +262,8 @@ if knowledge:
         print(f'    - {kb_name} ({branch} branch) [{kb_type}]')
 "
     
-    # Create repos directory
-    mkdir -p repos
+    # Create directories
+    mkdir -p repos knowledge
     
     # Parse repository configuration and clone
     python3 -c "
@@ -315,16 +293,12 @@ try:
     knowledge = config.get('knowledge', {})
     settings = config.get('settings', {})
     
-    # Combine repos and knowledge sources for processing
-    all_sources = {}
-    all_sources.update(repos)
-    all_sources.update(knowledge)
-    
     cloned_count = 0
     skipped_count = 0
     failed_count = 0
     
-    for repo_name, repo_config in all_sources.items():
+    # Process repos (clone to repos/)
+    for repo_name, repo_config in repos.items():
         repo_path = f'repos/{repo_name}'
         
         # Skip if directory already exists and update_existing is False
@@ -375,6 +349,58 @@ try:
             else:
                 failed_count += 1
     
+    # Process knowledge sources (clone to knowledge/)
+    for kb_name, kb_config in knowledge.items():
+        kb_path = f'knowledge/{kb_name}'
+        
+        # Skip if directory already exists and update_existing is False
+        if os.path.exists(kb_path):
+            if settings.get('update_existing', True):
+                print(f'ℹ Updating existing knowledge source: {kb_name}')
+                if run_command(f'cd {kb_path} && git fetch --all', f'Fetch updates for {kb_name}'):
+                    branch = kb_config.get('branch', 'main')
+                    run_command(f'cd {kb_path} && git checkout {branch} && git pull origin {branch}', f'Update {kb_name} to latest {branch}')
+                    cloned_count += 1
+                else:
+                    failed_count += 1
+            else:
+                print(f'⏭ Skipping existing knowledge source: {kb_name}')
+                skipped_count += 1
+            continue
+        
+        # Clone knowledge source using gh CLI or git fallback
+        url = kb_config.get('url')
+        branch = kb_config.get('branch', 'main')
+        
+        # Extract repo path from URL for gh CLI
+        repo_identifier = ''
+        if 'github.com' in url:
+            # Extract owner/repo from URL
+            import re
+            match = re.search(r'github\\\\.com[/:]([^/]+)/([^/.]+)', url)
+            if match:
+                repo_identifier = f'{match.group(1)}/{match.group(2)}'
+        
+        # Use gh CLI for GitHub repositories if available
+        if repo_identifier and '$gh_available' == 'true':
+            clone_cmd = f'gh repo clone {repo_identifier} {kb_path} -- --branch {branch}'
+            if run_command(clone_cmd, f'Clone {kb_name} ({branch} branch) via gh CLI'):
+                cloned_count += 1
+            else:
+                # Fallback to git clone
+                clone_cmd = f'git clone -b {branch} {url} {kb_path}'
+                if run_command(clone_cmd, f'Fallback clone {kb_name} ({branch} branch)'):
+                    cloned_count += 1
+                else:
+                    failed_count += 1
+        else:
+            # Use regular git clone for non-GitHub or when gh not available
+            clone_cmd = f'git clone -b {branch} {url} {kb_path}'
+            if run_command(clone_cmd, f'Clone {kb_name} ({branch} branch)'):
+                cloned_count += 1
+            else:
+                failed_count += 1
+    
     print(f'\\nRepository cloning summary:')
     print(f'  Cloned/Updated: {cloned_count}')
     print(f'  Skipped: {skipped_count}') 
@@ -402,7 +428,7 @@ setup_repositories() {
         log_info "No repository configuration found - falling back to local detection"
     fi
     
-    # Note: No symlink fallback - all repositories are cloned from configuration
+    # Note: All repositories are cloned from configuration to their respective directories
     
     # Report final repository status
     if [ -d "repos" ]; then
@@ -474,11 +500,11 @@ setup_developer_customization() {
 # Developer Customization Script
 # Add your personal configuration here
 
-# Example: Custom repository symlinks
+# Example: Custom repository setup
 setup_personal_repos() {
-    echo "Setting up personal repository symlinks..."
-    # ln -sf /path/to/your/dbt/project repos/dbt
-    # ln -sf /path/to/your/dlthub/project repos/dlthub
+    echo "Setting up personal repository configurations..."
+    # Add additional repositories or modify clone behavior
+    # Custom git configuration, branch preferences, etc.
 }
 
 # Example: Custom environment variables
@@ -524,7 +550,7 @@ This directory contains your personal customizations that won't be committed to 
 
 ## Usage
 
-1. Edit `customize.sh` to add your repository paths and custom configuration
+1. Edit `customize.sh` to add your custom repository configurations
 2. Run `./developer/customize.sh` after running the main setup
 3. Add any personal files to this directory
 
@@ -601,8 +627,9 @@ tmp/
 temp/
 .tmp/
 
-# Repository symlinks (will be recreated)
+# Cloned repositories (will be recreated by setup)
 repos/*
+knowledge/*
 
 # Claude local configurations
 .claude/mcp.local.json
@@ -712,8 +739,8 @@ if [ "$1" = "--status" ]; then
     
     # Repository check
     if [ -d "repos" ]; then
-        REPO_COUNT=$(ls -la repos/ 2>/dev/null | grep '^l' | wc -l)
-        log_success "Repository workspace: $REPO_COUNT repositories linked"
+        REPO_COUNT=$(ls -1 repos/ 2>/dev/null | wc -l)
+        log_success "Repository workspace: $REPO_COUNT repositories cloned"
     else
         log_warning "Repository workspace not configured"
     fi
