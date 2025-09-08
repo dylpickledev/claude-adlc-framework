@@ -3,66 +3,145 @@ name: setup
 description: Complete D&A Agent Hub setup with interactive configuration
 ---
 
-I'll handle the complete D&A Agent Hub setup process for you. This includes:
+I'll handle the complete D&A Agent Hub setup process for you. This streamlined setup includes:
 
-1. **Automated Environment Detection**: I'll scan for existing dbt projects, git repositories, and common tools
-2. **Interactive Configuration**: I'll ask for only the credentials you actually need with helpful guidance
-3. **Automatic MCP Setup**: I'll configure and validate all MCP servers without manual steps
-4. **Workspace Organization**: I'll automatically create repository symlinks for discovered projects
-5. **End-to-End Testing**: I'll verify everything works before declaring success
+## ✨ **New Interactive Setup Features**
 
-Let me start the setup process:
+### 🔍 **Automated Environment Detection**
+- Scans for existing dbt projects across your system
+- Detects git repositories for workspace organization  
+- Validates required tools (python3, git, claude CLI)
+- Reports optional tools (dbt, snowsql, psql) if available
 
-## Step 1: Environment Detection
-First, I'll scan your system to understand what tools and projects you already have.
+### 🎯 **Smart Credential Collection**
+- **Selective Configuration**: Only prompts for integrations you want to use
+- **Existing Value Preservation**: Detects and offers to keep current credentials
+- **Live Connection Testing**: Validates credentials as you enter them
+- **Clear Guidance**: Direct links to token generation pages
 
-## Step 2: Interactive Configuration  
-I'll guide you through credential setup with:
-- Clear explanations of what each credential is for
-- Links to where you can obtain API tokens
-- Smart defaults and optional vs required fields
-- Connection testing as we go
+### 🏗️ **Repository Configuration System**
+- **JSON-Based Repository Management**: Uses `config/repositories.json` for centralized repo configuration
+- **Authenticated Cloning**: Uses GitHub tokens for private repositories
+- **Batch Repository Operations**: Clones all configured repositories in one step
+- **Update-Aware**: Can update existing repositories or skip them based on configuration
 
-## Step 3: Automated Installation
-I'll handle all the technical setup:
-- Python environment creation
-- MCP server installation and configuration
-- Agent setup and validation
-- Repository workspace organization
+### 🔧 **Enhanced Technical Setup**
+- **Developer Customization Framework**: Creates `developer/` directory for personal configurations
+- **Comprehensive Git Ignore**: Automatically generates complete `.gitignore` 
+- **Agent Installation**: Copies agents to `~/.claude/agents/`
+- **MCP Auto-Configuration**: Automatically sets up all MCP servers
 
-## Step 4: Final Validation
-I'll test all connections and provide a complete status report.
+## 🎛️ **Available Commands**
 
-The entire process should take 2-3 minutes and require no manual file editing or command execution on your part.
+### Primary Commands
+- **`./setup.sh`** - Run the full interactive setup
+- **`./setup.sh --status`** - Check current system status and configuration
+- **`./setup.sh --help`** - Show detailed help and options
 
-## Quick Commands
+## 📋 **Supported Integrations**
 
-- `./setup-interactive.sh` - Run the full interactive setup
-- `./setup-interactive.sh --status` - Check current system status  
-- `./setup-interactive.sh --help` - Show help and options
+### Core Data Stack
+- **dbt Cloud**: API token and environment configuration for transformation management
+- **Snowflake**: Complete connection details with key-based authentication
+  - Account, user, private key, warehouse, database, schema, role
 
-## Status Check
+### Workflow & Project Management
+- **ClickUp**: Client credentials and team ID for project management integration
+- **Orchestra**: API URL and key for workflow orchestration
 
-Let me check your current setup status:
+### Optional Integrations  
+- **Freshservice**: API key and domain for IT service management
+- **GitHub**: Personal access token for authenticated repository access
+- **Tableau**: Server connection details for business intelligence integration
 
-I'll run a comprehensive status check to see what's already configured and what might need attention. This includes:
+## 🔄 **Setup Workflow**
 
-- Environment file status
-- Repository workspace organization
-- MCP server configuration
-- Agent availability
-- Integration health
+### Phase 1: Discovery
+1. **Environment Scanning**: Locates dbt projects and git repositories
+2. **Tool Validation**: Ensures required dependencies are installed
+3. **Existing Configuration**: Loads any previous environment setup
 
-## What's Different Now
+### Phase 2: Configuration
+1. **Interactive Credential Collection**: Prompts only for needed integrations
+2. **Connection Validation**: Tests each integration as configured
+3. **Environment Generation**: Creates comprehensive `.env` file
 
-Instead of the old 6-step manual process, you now have:
+### Phase 3: Implementation  
+1. **Repository Cloning**: Uses `config/repositories.json` to clone all configured repos
+2. **Python Environment**: Sets up virtual environment with required packages
+3. **Agent & MCP Setup**: Installs agents and configures MCP servers
+4. **Developer Framework**: Creates customization structure
 
-✅ **Single Command Setup**: `./setup-interactive.sh` does everything  
-✅ **Auto-Detection**: Finds your dbt projects and repositories automatically  
-✅ **Interactive Prompts**: Only asks for credentials you actually need  
-✅ **Connection Testing**: Validates credentials as we configure them  
-✅ **Smart Defaults**: Uses reasonable defaults for optional settings  
-✅ **Status Checking**: `--status` flag shows what's working and what isn't  
-✅ **Error Recovery**: Clear guidance if something goes wrong  
+### Phase 4: Validation
+1. **System Health Check**: Validates Claude CLI and MCP configuration
+2. **Integration Count**: Reports number of successfully configured integrations
+3. **Next Steps Guidance**: Provides clear instructions for getting started
 
-Ready to begin? I'll start by running the status check to see what's already configured, then guide you through the interactive setup.
+## 🎯 **Status Checking**
+
+The `--status` command provides comprehensive system health information:
+
+- **Environment Configuration**: Shows configured integrations
+- **Repository Workspace**: Reports linked repository count
+- **MCP Server Status**: Validates MCP configuration file
+- **Agent Availability**: Counts installed agents
+
+## 🧩 **Repository Configuration**
+
+The setup now uses `config/repositories.json` for repository management:
+
+```json
+{
+  "repos": {
+    "project-name": {
+      "url": "https://github.com/user/repo.git",
+      "branch": "main",
+      "description": "Project description",
+      "env_var": "PROJECT_DIR"
+    }
+  },
+  "knowledge": {
+    "docs-repo": {
+      "url": "https://github.com/user/docs.git", 
+      "branch": "main",
+      "description": "Documentation repository",
+      "type": "git_repository"
+    }
+  },
+  "settings": {
+    "clone_method": "https",
+    "depth": null,
+    "update_existing": true,
+    "check_git_access": true,
+    "fallback_to_symlink": true
+  }
+}
+```
+
+## 🔧 **Developer Customization**
+
+Post-setup customization through `developer/customize.sh`:
+- Personal repository symlinks
+- Custom environment variables  
+- Additional MCP servers
+- Personal configuration files
+
+## 🚀 **Quick Start**
+
+1. **Run Setup**: `./setup.sh` - Complete interactive configuration
+2. **Restart Claude**: `claude restart` - Load MCP servers  
+3. **Check Status**: `./setup.sh --status` - Verify everything works
+4. **Customize**: `./developer/customize.sh` - Add personal configurations
+
+## 📊 **Key Features**
+
+✅ **Single Command Experience**: Complete setup in one interactive session  
+✅ **Repository Configuration System**: JSON-based centralized repository management with rich metadata  
+✅ **Authenticated Git Operations**: GitHub token integration for private repos with fallback options  
+✅ **Developer Customization Framework**: Personal configuration system isolated from git tracking  
+✅ **Enhanced Status Reporting**: Comprehensive system health dashboard showing all integrations  
+✅ **Connection Validation**: Real-time credential testing for dbt Cloud and format validation  
+✅ **Smart Environment Detection**: Automatic discovery of existing tools and projects
+✅ **Multi-Integration Support**: Supports 6+ different service integrations with selective configuration
+
+The setup process typically completes in 2-3 minutes with no manual file editing required.

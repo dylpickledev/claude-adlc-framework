@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # D&A Agent Hub - Interactive Setup Script
-# One-command setup: git clone -> ./setup-interactive.sh -> productive in 60 seconds
+# One-command setup: git clone -> ./setup.sh -> productive in 60 seconds
 
 set -e
 
@@ -18,6 +18,7 @@ NC='\033[0m'
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 CLAUDE_CONFIG_DIR="$HOME/.claude"
 ENV_FILE="$SCRIPT_DIR/.env"
+REPOS_CONFIG_FILE="$SCRIPT_DIR/config/repositories.json"
 
 # Logging functions
 log_info() { echo -e "${BLUE}ℹ${NC} $1"; }
@@ -265,29 +266,180 @@ EOF
     log_success "Environment file created at $ENV_FILE"
 }
 
+# Check if repository configuration exists and is valid
+check_repos_config() {
+    if [ ! -f "$REPOS_CONFIG_FILE" ]; then
+        log_warning "Repository configuration file not found at $REPOS_CONFIG_FILE"
+        return 1
+    fi
+    
+    if ! python3 -c "import json; json.load(open('$REPOS_CONFIG_FILE'))" >/dev/null 2>&1; then
+        log_error "Invalid JSON in repository configuration file"
+        return 1
+    fi
+    
+    return 0
+}
+
+# Clone repositories from configuration
+clone_repositories() {
+    log_step "Cloning All Configured Repositories"
+    
+    if ! check_repos_config; then
+        log_warning "Skipping repository cloning due to configuration issues"
+        return 0
+    fi
+    
+    # Check for GitHub token if configured
+    local github_available=false
+    if [ -n "$GITHUB_PERSONAL_ACCESS_TOKEN" ]; then
+        github_available=true
+        log_info "GitHub token found - will use authenticated cloning"
+    fi
+    
+    # Show what repositories will be cloned
+    log_info "Repositories and knowledge sources to be cloned:"
+    python3 -c "
+import json
+with open('$REPOS_CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+repos = config.get('repos', {})
+knowledge = config.get('knowledge', {})
+
+if repos:
+    print('  Code Repositories:')
+    for repo_name, repo_config in repos.items():
+        branch = repo_config.get('branch', 'main')
+        print(f'    - {repo_name} ({branch} branch)')
+
+if knowledge:
+    print('  Knowledge Sources:')
+    for kb_name, kb_config in knowledge.items():
+        branch = kb_config.get('branch', 'main')
+        kb_type = kb_config.get('type', 'git_repository')
+        print(f'    - {kb_name} ({branch} branch) [{kb_type}]')
+"
+    
+    # Create repos directory
+    mkdir -p repos
+    
+    # Parse repository configuration and clone
+    python3 -c "
+import json
+import subprocess
+import os
+import sys
+
+def run_command(cmd, description):
+    try:
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f'✓ {description}')
+            return True
+        else:
+            print(f'✗ {description}: {result.stderr.strip()}')
+            return False
+    except Exception as e:
+        print(f'✗ {description}: {e}')
+        return False
+
+try:
+    with open('$REPOS_CONFIG_FILE', 'r') as f:
+        config = json.load(f)
+    
+    repos = config.get('repos', {})
+    knowledge = config.get('knowledge', {})
+    settings = config.get('settings', {})
+    
+    # Combine repos and knowledge sources for processing
+    all_sources = {}
+    all_sources.update(repos)
+    all_sources.update(knowledge)
+    
+    cloned_count = 0
+    skipped_count = 0
+    failed_count = 0
+    
+    for repo_name, repo_config in all_sources.items():
+        repo_path = f'repos/{repo_name}'
+        
+        # Skip if directory already exists and update_existing is False
+        if os.path.exists(repo_path):
+            if settings.get('update_existing', True):
+                print(f'ℹ Updating existing repository: {repo_name}')
+                if run_command(f'cd {repo_path} && git fetch --all', f'Fetch updates for {repo_name}'):
+                    branch = repo_config.get('branch', 'main')
+                    run_command(f'cd {repo_path} && git checkout {branch} && git pull origin {branch}', f'Update {repo_name} to latest {branch}')
+                    cloned_count += 1
+                else:
+                    failed_count += 1
+            else:
+                print(f'⏭ Skipping existing repository: {repo_name}')
+                skipped_count += 1
+            continue
+        
+        # Clone repository
+        url = repo_config.get('url')
+        branch = repo_config.get('branch', 'main')
+        depth_arg = ''
+        
+        if settings.get('depth'):
+            depth_arg = f'--depth {settings[\"depth\"]}'
+        
+        # Use GitHub token if available for github.com URLs
+        clone_url = url
+        if '$github_available' == 'true' and 'github.com' in url and url.startswith('https://'):
+            clone_url = url.replace('https://github.com/', 'https://\$GITHUB_PERSONAL_ACCESS_TOKEN@github.com/')
+        
+        clone_cmd = f'git clone {depth_arg} -b {branch} {clone_url} {repo_path}'
+        
+        if run_command(clone_cmd, f'Clone {repo_name} ({branch} branch)'):
+            cloned_count += 1
+        else:
+            failed_count += 1
+    
+    print(f'\\nRepository cloning summary:')
+    print(f'  Cloned/Updated: {cloned_count}')
+    print(f'  Skipped: {skipped_count}') 
+    print(f'  Failed: {failed_count}')
+    
+except Exception as e:
+    print(f'Error processing repository configuration: {e}')
+    sys.exit(1)
+"
+    
+    log_success "Repository cloning completed"
+}
+
 # Auto-setup repositories
 setup_repositories() {
     log_step "Setting Up Repository Workspace"
     
     mkdir -p repos
     
-    if [ -n "$DETECTED_DBT_PATH" ]; then
-        ln -sf "$DETECTED_DBT_PATH" repos/dbt 2>/dev/null || true
-        log_success "Linked dbt project: $DETECTED_DBT_PATH -> repos/dbt"
+    # First, try to clone repositories from configuration
+    if check_repos_config; then
+        log_info "Repository configuration found - attempting to clone repositories"
+        clone_repositories
+    else
+        log_info "No repository configuration found - falling back to local detection"
     fi
     
-    # Link other common repositories found nearby
-    if [ -n "$GIT_REPOS" ]; then
-        echo "$GIT_REPOS" | while read git_dir; do
-            repo_path=$(dirname "$git_dir")
-            repo_name=$(basename "$repo_path")
-            
-            # Skip if already linked or if it's this repo
-            if [ "$repo_path" != "$SCRIPT_DIR" ] && [ ! -e "repos/$repo_name" ]; then
-                ln -sf "$repo_path" "repos/$repo_name" 2>/dev/null || true
+    # Note: No symlink fallback - all repositories are cloned from configuration
+    
+    # Report final repository status
+    if [ -d "repos" ]; then
+        REPO_COUNT=$(ls -1 repos/ 2>/dev/null | wc -l)
+        log_success "Repository workspace configured with $REPO_COUNT repositories"
+        
+        # List what's available
+        echo "Available repositories:"
+        for repo in repos/*/; do
+            if [ -d "$repo" ]; then
+                repo_name=$(basename "$repo")
+                echo "  - $repo_name (cloned)"
             fi
         done
-        log_success "Repository workspace configured"
     fi
 }
 
@@ -609,9 +761,9 @@ elif [ "$1" = "--help" ]; then
     echo "D&A Agent Hub Setup"
     echo ""
     echo "Usage:"
-    echo "  ./setup-interactive.sh        Run interactive setup"
-    echo "  ./setup-interactive.sh --status    Show current status"
-    echo "  ./setup-interactive.sh --help      Show this help"
+    echo "  ./setup.sh        Run interactive setup"
+    echo "  ./setup.sh --status    Show current status"
+    echo "  ./setup.sh --help      Show this help"
     exit 0
 fi
 

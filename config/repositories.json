@@ -1,0 +1,56 @@
+{
+  "_comment": "Repository and knowledge source configuration for D&A Agent Hub. All entries are cloned during setup.",
+  "knowledge": {
+    "da_team_documentation": {
+      "url": "https://github.com/graniterock/da-team-documentation.git",
+      "branch": "main",
+      "description": "Data & Analytics team documentation",
+      "type": "git_repository"
+    }
+  },
+  "repos": {
+    "dbt_cloud": {
+      "url": "https://github.com/graniterock/dbt_cloud.git",
+      "branch": "dbt_dw",
+      "description": "Main dbt transformation project",
+      "env_var": "DBT_PROJECT_DIR"
+    },
+    "dbt_errors_to_issues": {
+      "url": "https://github.com/graniterock/dbt_errors_to_issues.git",
+      "branch": "main",
+      "description": "dbt error reporting automation"
+    },
+    "roy_kent": {
+      "url": "https://github.com/graniterock/roy_kent.git",
+      "branch": "master",
+      "description": "Roy Kent coaching system"
+    },
+    "sherlock": {
+      "url": "https://github.com/graniterock/sherlock.git",
+      "branch": "main", 
+      "description": "Sherlock investigation system"
+    },
+    "orchestra": {
+      "url": "https://github.com/graniterock/orchestra.git",
+      "branch": "main",
+      "description": "Orchestra workflow orchestration system"
+    },
+    "postgres_pipelines": {
+      "url": "https://github.com/graniterock/postgres_pipelines.git",
+      "branch": "main", 
+      "description": "PostgreSQL data pipeline configurations"
+    },
+    "dbt_postgres": {
+      "url": "https://github.com/graniterock/dbt_postgres.git",
+      "branch": "main",
+      "description": "dbt transformations for PostgreSQL"
+    }
+  },
+  "settings": {
+    "clone_method": "https",
+    "depth": null,
+    "update_existing": true,
+    "check_git_access": true,
+    "fallback_to_symlink": true
+  }
+}

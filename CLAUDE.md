@@ -61,3 +61,48 @@ don't look at the full .env file. Only search for the var names up to the equals
 
 - git branches should be prefixed by feature/ or fix/
 - use subagents for tasks to help optimize your context window. Determine if it'd be best to use defined agent, or if its general then give to a general subagent
+
+## Test-Driven Data Development (TDD)
+
+### Data Testing Workflow
+Follow Claude Code's TDD best practice adapted for data work:
+
+1. **Write Tests First**: Create dbt tests before implementing models
+   ```sql
+   -- tests/assert_customer_ids_unique.sql
+   select customer_id, count(*)
+   from {{ ref('stg_customers') }}
+   group by customer_id
+   having count(*) > 1
+   ```
+
+2. **Confirm Test Failures**: Run tests to verify they initially fail
+   ```bash
+   dbt test --select stg_customers --store-failures
+   ```
+
+3. **Implement Model Logic**: Write SQL to pass tests
+   ```sql
+   -- models/staging/stg_customers.sql
+   select distinct customer_id, customer_name
+   from {{ source('erp', 'customers') }}
+   ```
+
+4. **Verify No Overfitting**: Test against production data samples
+   ```bash
+   dbt test --select stg_customers --vars '{"test_data_sample": 1000}'
+   ```
+
+### Data Quality Testing Strategy
+- **Schema Tests**: Column existence, data types, constraints
+- **Business Logic Tests**: Reconciliation, metric validation, referential integrity
+- **Performance Tests**: Query execution time, result set sizes
+- **Cross-System Tests**: Source system vs. warehouse validation
+
+### TDD Commands for Data Work
+```bash
+# Test-first development cycle
+dbt test --select <model_name> --store-failures  # Confirm failures
+dbt run --select <model_name>                    # Implement solution
+dbt test --select <model_name>                   # Verify success
+```
