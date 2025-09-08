@@ -15,35 +15,45 @@
       "description": "Main dbt transformation project",
       "env_var": "DBT_PROJECT_DIR"
     },
-    "dbt_errors_to_issues": {
-      "url": "https://github.com/graniterock/dbt_errors_to_issues.git",
-      "branch": "main",
-      "description": "dbt error reporting automation"
-    },
     "roy_kent": {
       "url": "https://github.com/graniterock/roy_kent.git",
       "branch": "master",
       "description": "Roy Kent coaching system"
     },
     "sherlock": {
-      "url": "https://github.com/graniterock/sherlock.git",
+      "url": "https://github.com/graniterock/sherlock-investigation-bureau.git",
       "branch": "main", 
-      "description": "Sherlock investigation system"
+      "description": "Sherlock Investigation Bureau - data quality and pipeline issue investigation"
     },
     "orchestra": {
       "url": "https://github.com/graniterock/orchestra.git",
-      "branch": "main",
+      "branch": "master",
       "description": "Orchestra workflow orchestration system"
     },
     "postgres_pipelines": {
       "url": "https://github.com/graniterock/postgres_pipelines.git",
-      "branch": "main", 
+      "branch": "master", 
       "description": "PostgreSQL data pipeline configurations"
     },
     "dbt_postgres": {
       "url": "https://github.com/graniterock/dbt_postgres.git",
-      "branch": "main",
+      "branch": "master",
       "description": "dbt transformations for PostgreSQL"
+    },
+    "streamlit_apps_snowflake": {
+      "url": "https://github.com/graniterock/streamlit_apps_snowflake.git",
+      "branch": "master",
+      "description": "Streamlit applications for Snowflake data visualization"
+    },
+    "snowflake_notebooks": {
+      "url": "https://github.com/graniterock/snowflake_notebooks.git",
+      "branch": "master",
+      "description": "Snowflake notebook collection for data analysis"
+    },
+    "hex_pipelines": {
+      "url": "https://github.com/graniterock/hex_pipelines.git",
+      "branch": "master",
+      "description": "Hex platform data pipeline configurations"
     }
   },
   "settings": {
