@@ -111,13 +111,25 @@ cd da-agent-hub
 | **Business Context** | `.claude/agents/business-context.md` | Requirements analysis, stakeholder context |
 | **DA Architect** | `.claude/agents/da-architect.md` | System design, data flow analysis, strategic platform decisions |
 
-### Usage Pattern
+### Usage Patterns
 
-1. **Task Assignment**: Assign research to appropriate expert
-2. **Context Handoff**: Expert reads task from `.claude/tasks/current-task.md`
-3. **Research Phase**: Expert analyzes and investigates thoroughly
-4. **Documentation**: Expert creates detailed findings in `.claude/tasks/[tool]-findings.md`
-5. **Implementation**: Parent agent executes based on expert recommendations
+#### For Complex Projects (Multi-day, Cross-repository, Research)
+Use `/start_project` command for structured project workflow:
+
+1. **Project Initialization**: Use `/start_project` to ideate and initialize with `./scripts/work-init.sh`
+2. **Task Assignment**: Assign research to appropriate expert within project context
+3. **Context Handoff**: Expert reads task from `projects/<project-name>/tasks/current-task.md`
+4. **Research Phase**: Expert analyzes and investigates thoroughly
+5. **Documentation**: Expert creates detailed findings in `projects/<project-name>/tasks/[tool]-findings.md`
+6. **Implementation**: Parent agent executes based on expert recommendations
+7. **Project Completion**: Archive work using `./scripts/work-complete.sh <project-name>`
+
+#### For Simple Tasks (Quick fixes, Single actions, Immediate responses)
+Use direct TodoWrite and execution:
+
+1. **Task Tracking**: Use TodoWrite for immediate task management
+2. **Direct Execution**: Execute tasks without intermediate files
+3. **Sub-agent Consultation**: Use specialized agents when needed, but no persistent project structure
 
 ## Directory Structure
 
@@ -230,6 +242,7 @@ claude "analyze end-to-end performance from source systems to dashboards"
 
 | Command | Purpose | Example |
 |---------|---------|---------|
+| `/start_project` | Initialize structured projects | Complex multi-day work |
 | `/setup` | Complete system setup | Initial configuration |
 | `/status` | System health check | Regular maintenance |
 | `/screenshot` | Visual analysis | Dashboard feedback |

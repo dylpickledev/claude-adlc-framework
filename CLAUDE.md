@@ -62,6 +62,47 @@ don't look at the full .env file. Only search for the var names up to the equals
 - git branches should be prefixed by feature/ or fix/
 - use subagents for tasks to help optimize your context window. Determine if it'd be best to use defined agent, or if its general then give to a general subagent
 
+## Task vs Project Classification
+
+### Use Project Structure (`/start_project` + `projects/` directory) When:
+- **Multi-day efforts** that span multiple work sessions
+- **Cross-repository coordination** (dbt + snowflake + tableau changes)
+- **Research and analysis** that will inform multiple decisions
+- **Collaborative work** with team members or reviewers
+- **Knowledge preservation** needed for future reference
+- **Complex troubleshooting** requiring systematic investigation
+
+### Use Simple Task Execution (TodoWrite + direct action) When:
+- **Quick fixes** (typos, small config changes, single-file updates)  
+- **Immediate responses** to questions or information requests
+- **One-off scripts** or utilities
+- **Documentation updates** that don't require research
+- **Status checks** or system diagnostics
+- **Simple file operations** or code formatting
+
+### Communication Patterns
+- **Project Work**: Sub-agents read requirements from `projects/<project-name>/spec.md`, receive tasks from `projects/<project-name>/tasks/current-task.md`, and write findings to `projects/<project-name>/tasks/[tool]-findings.md`
+- **Simple Tasks**: Direct TodoWrite tracking, immediate execution, no intermediate files
+
+### Project File Structure
+Each project created with `/start_project` follows this structure:
+
+```
+projects/active/<project-name>/
+├── README.md           # Navigation hub with quick links and progress
+├── spec.md            # Project specification (stable requirements)
+├── context.md         # Working context (dynamic state tracking)
+└── tasks/             # Agent coordination directory
+    ├── current-task.md     # Current agent assignments
+    └── <tool>-findings.md  # Detailed agent findings
+```
+
+#### File Purposes:
+- **README.md**: Entry point for navigation, progress summary, key decisions
+- **spec.md**: Stable project requirements, end goals, implementation plan, success criteria
+- **context.md**: Dynamic state tracking - branches, PRs, blockers, current focus
+- **tasks/**: Agent coordination - task assignments and detailed findings
+
 ## Test-Driven Data Development (TDD)
 
 ### Data Testing Workflow
