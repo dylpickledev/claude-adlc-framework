@@ -73,3 +73,5 @@ repos/*/
 repos/*/*
 
 .claude/settings.local.json
+
+# Project work tracking - commit everything for collaboration
