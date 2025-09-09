@@ -84,6 +84,39 @@ don't look at the full .env file. Only search for the var names up to the equals
 - **Project Work**: Sub-agents read requirements from `projects/<project-name>/spec.md`, receive tasks from `projects/<project-name>/tasks/current-task.md`, and write findings to `projects/<project-name>/tasks/[tool]-findings.md`
 - **Simple Tasks**: Direct TodoWrite tracking, immediate execution, no intermediate files
 
+## Spec-Driven Development Commands
+
+### Data Analytics Project Lifecycle
+Use structured commands for complex multi-tool data projects:
+
+1. **`/specify [project description]`** - Create specification and feature branch
+2. **`/plan [technical details]`** - Generate implementation plan with tool coordination
+3. **`/tasks [context]`** - Break down into executable tasks with sub-agent assignments
+
+### Command Usage Examples
+
+#### /specify Command
+```
+/specify Build a daily customer metrics dashboard that shows customer acquisition, retention, and lifetime value trends. Need data from CRM, billing, and support systems refreshed nightly for executive team review.
+```
+
+#### /plan Command
+```  
+/plan Use dbt for transformations, Snowflake for storage, Tableau for visualization, and Orchestra for orchestration. Data sources include Salesforce CRM, Stripe billing, and Freshservice support tickets.
+```
+
+#### /tasks Command
+```
+/tasks Focus on cross-tool integration testing and sub-agent coordination for staged implementation.
+```
+
+### When to Use Spec-Driven Commands
+- **Multi-tool projects** spanning dbt, Snowflake, Tableau, Orchestra
+- **Cross-repository coordination** requiring multiple experts
+- **Business stakeholder alignment** needing clear specifications
+- **Complex data pipelines** with multiple integration points
+- **Projects requiring systematic validation** across tool boundaries
+
 ### Project File Structure
 Each project created with `/start_project` follows this structure:
 
