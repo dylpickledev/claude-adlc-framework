@@ -212,8 +212,9 @@ check_repos_config() {
         return 1
     fi
     
+    # Test JSON validity
     if ! python3 -c "import json; json.load(open('$REPOS_CONFIG_FILE'))" >/dev/null 2>&1; then
-        log_error "Invalid JSON in repository configuration file"
+        log_error "Invalid JSON format in repository configuration file"
         return 1
     fi
     
@@ -243,8 +244,14 @@ clone_repositories() {
     log_info "Repositories and knowledge sources to be cloned:"
     python3 -c "
 import json
-with open('$REPOS_CONFIG_FILE', 'r') as f:
-    config = json.load(f)
+import sys
+sys.path.append('$SCRIPT_DIR/scripts')
+from parse_repositories_md import parse_repositories_md
+
+config = parse_repositories_md('$REPOS_CONFIG_FILE')
+if config is None:
+    sys.exit(1)
+
 repos = config.get('repos', {})
 knowledge = config.get('knowledge', {})
 
@@ -271,6 +278,8 @@ import json
 import subprocess
 import os
 import sys
+sys.path.append('$SCRIPT_DIR/scripts')
+from parse_repositories_md import parse_repositories_md
 
 def run_command(cmd, description):
     try:
@@ -286,8 +295,10 @@ def run_command(cmd, description):
         return False
 
 try:
-    with open('$REPOS_CONFIG_FILE', 'r') as f:
-        config = json.load(f)
+    config = parse_repositories_md('$REPOS_CONFIG_FILE')
+    if config is None:
+        print('Error parsing repository configuration')
+        sys.exit(1)
     
     repos = config.get('repos', {})
     knowledge = config.get('knowledge', {})
@@ -414,11 +425,34 @@ except Exception as e:
     log_success "Repository cloning completed"
 }
 
+# Setup git worktrees for parallel development
+setup_worktrees() {
+    log_step "Setting Up Git Worktrees"
+    
+    mkdir -p worktrees
+    
+    log_info "Worktree directory created for parallel development"
+    echo "Use git worktree commands to manage parallel branches:"
+    echo "  ${CYAN}git worktree add worktrees/hotfix -b hotfix/issue-name${NC}"
+    echo "  ${CYAN}git worktree add worktrees/feature -b feature/feature-name${NC}"
+    echo "  ${CYAN}git worktree add worktrees/experiment -b experiment/idea${NC}"
+    echo ""
+    echo "Management commands:"
+    echo "  ${CYAN}git worktree list${NC}                    # Show all worktrees"
+    echo "  ${CYAN}git worktree remove worktrees/feature${NC} # Clean up when done"
+    echo "  ${CYAN}git worktree prune${NC}                   # Remove stale references"
+    
+    log_success "Worktree structure ready for parallel development"
+}
+
 # Auto-setup repositories
 setup_repositories() {
     log_step "Setting Up Repository Workspace"
     
     mkdir -p repos
+    
+    # Setup worktrees
+    setup_worktrees
     
     # First, try to clone repositories from configuration
     if check_repos_config; then
@@ -630,6 +664,9 @@ temp/
 # Cloned repositories (will be recreated by setup)
 repos/*
 knowledge/*
+
+# Git worktrees (local development branches)
+worktrees/
 
 # Claude local configurations
 .claude/mcp.local.json

@@ -249,6 +249,44 @@ claude "analyze end-to-end performance from source systems to dashboards"
 - Use git worktrees for concurrent feature development
 - Leverage headless mode for automation tasks
 
+### Git Worktrees for Parallel Development
+
+The setup script creates a `worktrees/` directory for parallel branch development without context switching.
+
+**Common Workflows:**
+
+```bash
+# Emergency hotfix (while working on feature)
+git worktree add worktrees/hotfix -b hotfix/fix-login-bug
+cd worktrees/hotfix
+# Make urgent fix
+git commit -m "fix: resolve login authentication issue"
+cd ../..
+scripts/worktree.sh remove hotfix
+
+# Experimental feature
+git worktree add worktrees/experiment -b experiment/new-dashboard
+cd worktrees/experiment
+# Try new approach
+# If successful, merge; if not, just remove worktree
+
+# Parallel features
+git worktree add worktrees/feature -b feature/data-validation
+# Work continues in main repo while feature develops separately
+```
+
+**Helper Commands:**
+- `scripts/worktree.sh add <name> <branch>` - Create worktree
+- `scripts/worktree.sh list` - Show all active worktrees  
+- `scripts/worktree.sh remove <name>` - Clean up worktree
+- `scripts/worktree.sh clean` - Remove all worktrees
+
+**When to Use Worktrees:**
+- **Hotfixes**: Emergency fixes without losing current work
+- **Experiments**: Testing ideas without committing to branches
+- **Reviews**: Checking out PRs for local testing
+- **Parallel Features**: Multiple developers on same repository
+
 **🛡️ Safety First:**
 - All sub-agents are research-only (no system modification)
 - Clear separation between analysis and implementation
