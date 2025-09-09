@@ -1,19 +1,22 @@
 {
-  "_comment": "Repository and knowledge source configuration for D&A Agent Hub. All entries are cloned during setup.",
+  "_comment": "Repository configuration for D&A Agent Hub. All entries are cloned during setup.",
+  "settings": {
+    "clone_method": "https",
+    "update_existing": true,
+    "check_git_access": true
+  },
   "knowledge": {
     "da_team_documentation": {
       "url": "https://github.com/graniterock/da-team-documentation.git",
       "branch": "main",
-      "description": "Data & Analytics team documentation",
-      "type": "git_repository"
+      "description": "Data & Analytics team documentation"
     }
   },
   "repos": {
     "dbt_cloud": {
       "url": "https://github.com/graniterock/dbt_cloud.git",
       "branch": "dbt_dw",
-      "description": "Main dbt transformation project",
-      "env_var": "DBT_PROJECT_DIR"
+      "description": "Main dbt transformation project"
     },
     "roy_kent": {
       "url": "https://github.com/graniterock/roy_kent.git",
@@ -22,7 +25,7 @@
     },
     "sherlock": {
       "url": "https://github.com/graniterock/sherlock-investigation-bureau.git",
-      "branch": "main", 
+      "branch": "main",
       "description": "Sherlock Investigation Bureau - data quality and pipeline issue investigation"
     },
     "orchestra": {
@@ -32,7 +35,7 @@
     },
     "postgres_pipelines": {
       "url": "https://github.com/graniterock/postgres_pipelines.git",
-      "branch": "master", 
+      "branch": "master",
       "description": "PostgreSQL data pipeline configurations"
     },
     "dbt_postgres": {
@@ -55,12 +58,5 @@
       "branch": "master",
       "description": "Hex platform data pipeline configurations"
     }
-  },
-  "settings": {
-    "clone_method": "https",
-    "depth": null,
-    "update_existing": true,
-    "check_git_access": true,
-    "fallback_to_symlink": true
   }
 }

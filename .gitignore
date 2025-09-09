@@ -72,6 +72,11 @@ repos/*/
 !repos/*/.gitkeep
 repos/*/*
 
+# Knowledge clones - keep folder structure but not contents
+knowledge/*/
+!knowledge/*/.gitkeep
+knowledge/*/*
+
 .claude/settings.local.json
 
 # Project work tracking - commit everything for collaboration

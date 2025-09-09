@@ -244,13 +244,9 @@ clone_repositories() {
     log_info "Repositories and knowledge sources to be cloned:"
     python3 -c "
 import json
-import sys
-sys.path.append('$SCRIPT_DIR/scripts')
-from parse_repositories_md import parse_repositories_md
 
-config = parse_repositories_md('$REPOS_CONFIG_FILE')
-if config is None:
-    sys.exit(1)
+with open('$REPOS_CONFIG_FILE', 'r') as f:
+    config = json.load(f)
 
 repos = config.get('repos', {})
 knowledge = config.get('knowledge', {})
@@ -265,8 +261,7 @@ if knowledge:
     print('  Knowledge Sources:')
     for kb_name, kb_config in knowledge.items():
         branch = kb_config.get('branch', 'main')
-        kb_type = kb_config.get('type', 'git_repository')
-        print(f'    - {kb_name} ({branch} branch) [{kb_type}]')
+        print(f'    - {kb_name} ({branch} branch)')
 "
     
     # Create directories
@@ -278,8 +273,6 @@ import json
 import subprocess
 import os
 import sys
-sys.path.append('$SCRIPT_DIR/scripts')
-from parse_repositories_md import parse_repositories_md
 
 def run_command(cmd, description):
     try:
@@ -295,10 +288,8 @@ def run_command(cmd, description):
         return False
 
 try:
-    config = parse_repositories_md('$REPOS_CONFIG_FILE')
-    if config is None:
-        print('Error parsing repository configuration')
-        sys.exit(1)
+    with open('$REPOS_CONFIG_FILE', 'r') as f:
+        config = json.load(f)
     
     repos = config.get('repos', {})
     knowledge = config.get('knowledge', {})
@@ -334,11 +325,9 @@ try:
         # Extract repo path from URL for gh CLI
         repo_identifier = ''
         if 'github.com' in url:
-            # Extract owner/repo from URL
-            import re
-            match = re.search(r'github\\.com[/:]([^/]+)/([^/.]+)', url)
-            if match:
-                repo_identifier = f'{match.group(1)}/{match.group(2)}'
+            # Extract owner/repo from URL (e.g., https://github.com/owner/repo.git -> owner/repo)
+            parts = url.replace('https://github.com/', '').replace('git@github.com:', '').replace('.git', '')
+            repo_identifier = parts
         
         # Use gh CLI for GitHub repositories if available
         if repo_identifier and '$gh_available' == 'true':
@@ -386,11 +375,9 @@ try:
         # Extract repo path from URL for gh CLI
         repo_identifier = ''
         if 'github.com' in url:
-            # Extract owner/repo from URL
-            import re
-            match = re.search(r'github\\\\.com[/:]([^/]+)/([^/.]+)', url)
-            if match:
-                repo_identifier = f'{match.group(1)}/{match.group(2)}'
+            # Extract owner/repo from URL (e.g., https://github.com/owner/repo.git -> owner/repo)
+            parts = url.replace('https://github.com/', '').replace('git@github.com:', '').replace('.git', '')
+            repo_identifier = parts
         
         # Use gh CLI for GitHub repositories if available
         if repo_identifier and '$gh_available' == 'true':
@@ -515,8 +502,11 @@ setup_technical() {
     # Setup developer customization framework
     setup_developer_customization
     
-    # Create comprehensive gitignore
-    create_comprehensive_gitignore
+    # Make all shell scripts executable
+    make_scripts_executable
+    
+    # Skip gitignore creation - using existing .gitignore
+    log_info "Using existing .gitignore configuration"
 }
 
 # Setup developer customization framework
@@ -593,6 +583,21 @@ This directory contains your personal customizations that won't be committed to 
 This entire directory is ignored by git to keep personal configurations private.
 EOF
     fi
+}
+
+# Make all shell scripts executable
+make_scripts_executable() {
+    echo "Making shell scripts executable..."
+    
+    # Find and make executable all .sh files in the project
+    find . -name "*.sh" -type f -exec chmod +x {} \;
+    
+    # Also handle Python scripts that should be executable
+    if [ -f "scripts/manage-mcp.py" ]; then
+        chmod +x scripts/manage-mcp.py
+    fi
+    
+    log_success "Shell scripts are now executable"
 }
 
 # Create comprehensive gitignore
