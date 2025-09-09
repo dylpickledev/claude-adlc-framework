@@ -34,9 +34,12 @@ projects/
 
 **This creates:**
 - `projects/active/feature-snowflake-cost-optimization/` directory
-- README.md with project template
+- **README.md** - Navigation hub with quick links and progress tracking
+- **spec.md** - Project specification with requirements and implementation plan  
+- **context.md** - Dynamic working context with branches, PRs, and current state
+- **tasks/** - Agent coordination directory
 - New git branch with matching name
-- Staged README ready for first commit
+- All files staged and ready for first commit
 
 ### 2. Work on Project
 
@@ -84,7 +87,10 @@ Documentation creation, updates, or improvements
 **IMPORTANT:** Projects folders are for coordination, NOT code changes. All actual code goes in `repos/`.
 
 ### What Goes in `projects/`
-- **README.md** - Project description, objectives, and progress
+- **README.md** - Navigation hub and progress summary
+- **spec.md** - Stable project specification and requirements
+- **context.md** - Dynamic working context (branches, PRs, blockers)
+- **tasks/** - Agent coordination and findings
 - **notes/** - Research findings and meeting notes  
 - **docs/** - Documentation drafts and requirements
 - **config/** - Configuration templates or examples
@@ -99,8 +105,14 @@ Documentation creation, updates, or improvements
 ### Typical Project Flow
 ```
 projects/feature-snowflake-optimization/
-├── README.md                    # Objectives, tasks, PR links
-├── notes/performance-analysis.md   # Research findings
+├── README.md                      # Navigation hub, progress, decisions
+├── spec.md                        # Requirements, success criteria, timeline
+├── context.md                     # Current branches, PRs, blockers
+├── tasks/
+│   ├── current-task.md           # Agent assignments
+│   ├── snowflake-findings.md     # Cost analysis research
+│   └── dbt-findings.md           # Performance optimization findings
+├── notes/performance-analysis.md  # Research findings
 └── analysis/query-benchmarks.csv  # Test results
 
 repos/dbt_cloud/
@@ -112,6 +124,13 @@ repos/snowflake_utils/
 ```
 
 The `projects/` folder **coordinates** the work across multiple repos and preserves the context.
+
+### Enhanced File Structure Benefits
+
+- **spec.md**: Provides Claude with stable project requirements and clear end goals
+- **context.md**: Tracks dynamic state so Claude always knows current project status  
+- **README.md**: Serves as navigation hub for quick project overview
+- **tasks/**: Enables structured agent coordination and findings preservation
 
 ## Knowledge Dissemination
 

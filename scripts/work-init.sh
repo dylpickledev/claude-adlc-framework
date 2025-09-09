@@ -58,67 +58,197 @@ if [ "$CURRENT_BRANCH" != "main" ]; then
     fi
 fi
 
-# Create project directory
-mkdir -p "$PROJECT_DIR"
+# Create project directory and tasks subdirectory
+mkdir -p "$PROJECT_DIR/tasks"
 
-# Generate README.md
+# Generate README.md (Navigation Hub)
 cat > "$PROJECT_DIR/README.md" << EOF
 # $PROJECT_TYPE: $DESCRIPTION
 
+**Status:** 🟡 Active  
 **Created:** $(date '+%Y-%m-%d %H:%M:%S')  
 **Type:** $PROJECT_TYPE  
-**Base Branch:** $CURRENT_BRANCH  
 **Work Branch:** $PROJECT_NAME
 
-## Objective
+## Quick Navigation
 
-$DESCRIPTION
+- 📋 **[Specification](./spec.md)** - Project goals, requirements, and implementation plan
+- 🔄 **[Working Context](./context.md)** - Current state, branches, PRs, and blockers
+- 🤖 **[Agent Tasks](./tasks/)** - Sub-agent coordination and findings
 
-## Tasks
+## Progress Summary
 
-- [ ] Initial analysis
-- [ ] Implementation plan
-- [ ] Testing strategy
-- [ ] Documentation updates
+<!-- High-level status updates go here -->
 
-## Research Notes
+## Key Decisions Made
 
-<!-- Use this section for research findings, links, and context -->
-
-## Related PRs & Issues
-
-<!-- Link to related work across repositories -->
-- da-agent-hub: 
-- dbt_cloud: 
-- other repos: 
-
-## Files Changed
-
-<!-- Track important file changes during development -->
-
-## Testing
-
-<!-- Document testing approach and results -->
-
-## Completion Checklist
-
-- [ ] All code changes implemented
-- [ ] Tests passing
-- [ ] Documentation updated
-- [ ] PRs created in target repositories
-- [ ] Knowledge extracted to permanent storage
+<!-- Document major choices and rationale -->
 
 ---
 
 *Use \`./scripts/work-complete.sh $PROJECT_NAME\` when ready to complete this work.*
 EOF
 
+# Generate spec.md (Project Specification)
+cat > "$PROJECT_DIR/spec.md" << EOF
+# Project Specification: $DESCRIPTION
+
+## End Goal
+
+$DESCRIPTION
+
+<!-- Expand this section with specific, measurable outcomes -->
+
+## Success Criteria
+
+- [ ] Define specific success metrics here
+- [ ] Add measurable completion criteria
+- [ ] Include user/business value delivered
+
+## Scope
+
+### Included
+- Core functionality to be delivered
+- Systems and repositories affected
+- Required integrations
+
+### Excluded
+- Out-of-scope items to avoid scope creep
+- Future enhancements for later phases
+
+## Implementation Plan
+
+### Phase 1: Analysis & Planning
+- [ ] Initial investigation
+- [ ] Requirements gathering
+- [ ] Technical design
+- [ ] Risk assessment
+
+### Phase 2: Development
+- [ ] Core implementation
+- [ ] Testing framework
+- [ ] Documentation
+
+### Phase 3: Deployment & Validation
+- [ ] Integration testing
+- [ ] Production deployment
+- [ ] Success metric validation
+
+## Technical Requirements
+
+### Systems Involved
+- **Repositories:** (list affected repos)
+- **Data Sources:** (if applicable)
+- **Integration Points:** (APIs, databases, etc.)
+
+### Tools & Technologies
+- dbt (transformations)
+- Snowflake (data warehouse)
+- Tableau (reporting)
+- Orchestra (orchestration)
+- Other: (specify)
+
+## Acceptance Criteria
+
+### Functional Requirements
+- [ ] Specific functional requirements
+- [ ] User experience criteria
+- [ ] Performance requirements
+
+### Non-Functional Requirements  
+- [ ] Security considerations
+- [ ] Scalability requirements
+- [ ] Maintainability standards
+
+## Risk Assessment
+
+### High Risk
+- Potential blockers and mitigation strategies
+
+### Medium Risk
+- Moderate concerns and contingency plans
+
+### Dependencies
+- External dependencies that could impact delivery
+- Coordination required with other teams/projects
+
+## Timeline Estimate
+
+- **Analysis:** X days
+- **Implementation:** X days  
+- **Testing & Deployment:** X days
+- **Total Estimated:** X days
+
+---
+
+*This specification should remain stable throughout the project. Updates to working context go in context.md*
+EOF
+
+# Generate context.md (Working Context)
+cat > "$PROJECT_DIR/context.md" << EOF
+# Working Context: $DESCRIPTION
+
+**Last Updated:** $(date '+%Y-%m-%d %H:%M:%S')  
+**Current Focus:** Initial setup
+
+## Repository Status
+
+### da-agent-hub
+- **Branch:** $PROJECT_NAME
+- **Status:** Active work branch
+- **Changes:** Project initialization
+
+### dbt_cloud
+- **Branch:** (none yet)
+- **Status:** (not started)
+- **Changes:** (none)
+
+### Other Repositories
+- **Add other repos as needed**
+
+## Active Pull Requests
+
+<!-- Update as PRs are created -->
+- No PRs created yet
+
+## Current Blockers
+
+<!-- Track impediments and resolution plans -->
+- No blockers identified
+
+## Environment State
+
+### Test Results
+- No tests run yet
+
+### Deployment Status  
+- No deployments yet
+
+## Agent Findings Summary
+
+<!-- Links to detailed findings in tasks/ directory -->
+- **dbt-expert:** (pending assignment)
+- **snowflake-expert:** (pending assignment)
+- **tableau-expert:** (pending assignment)
+- **business-context:** (pending assignment)
+
+## Next Actions
+
+1. Complete initial project setup
+2. Assign research tasks to appropriate agents
+3. Begin implementation based on spec.md requirements
+
+---
+
+*This file tracks dynamic state - update frequently as work progresses*
+EOF
+
 # Create work branch
 echo -e "${GREEN}Creating work branch: $PROJECT_NAME${NC}"
 git checkout -b "$PROJECT_NAME"
 
-# Stage the README
-git add "$PROJECT_DIR/README.md"
+# Stage all project files
+git add "$PROJECT_DIR/"
 
 echo
 echo -e "${GREEN}✅ Work project initialized successfully!${NC}"
@@ -126,8 +256,14 @@ echo "Project: $PROJECT_NAME"
 echo "Directory: $PROJECT_DIR"
 echo "Branch: $PROJECT_NAME"
 echo
+echo "Files created:"
+echo "  📋 $PROJECT_DIR/README.md (navigation hub)"
+echo "  📝 $PROJECT_DIR/spec.md (project specification)"
+echo "  🔄 $PROJECT_DIR/context.md (working context)"
+echo "  📁 $PROJECT_DIR/tasks/ (agent coordination)"
+echo
 echo "Next steps:"
-echo "1. Edit $PROJECT_DIR/README.md to refine your objectives"
-echo "2. Start working on your tasks"
-echo "3. Use the project folder to organize related files"
+echo "1. Edit spec.md to define clear requirements and implementation plan"
+echo "2. Update context.md as work progresses"
+echo "3. Use tasks/ directory for agent coordination"
 echo "4. Run './scripts/work-complete.sh $PROJECT_NAME' when finished"
