@@ -29,9 +29,9 @@
       "description": "Sherlock Investigation Bureau - data quality and pipeline issue investigation"
     },
     "orchestra": {
-      "url": "https://github.com/graniterock/orchestra.git",
+      "url": "https://github.com/graniterock/Orchestra.git",
       "branch": "master",
-      "description": "Orchestra workflow orchestration system"
+      "description": "Primary orchestration system - kicks off and manages Prefect flow executions"
     },
     "postgres_pipelines": {
       "url": "https://github.com/graniterock/postgres_pipelines.git",
@@ -53,10 +53,77 @@
       "branch": "master",
       "description": "Snowflake notebook collection for data analysis"
     },
+    "prefect": {
+      "url": "https://github.com/graniterock/prefect.git",
+      "branch": "master",
+      "description": "Main Prefect flows repository (airbyte-orchestrator, dbt-jobs-orchestrator, business integrations: JDE/AD sync, RockTalk employee sync)"
+    },
+    "plantdemand_etl": {
+      "url": "https://github.com/graniterock/plantdemand-etl.git",
+      "branch": "master",
+      "description": "PlantDemand ETL and Construction Forecasts flows"
+    },
+    "mapistry_etl": {
+      "url": "https://github.com/graniterock/mapistry-etl.git",
+      "branch": "master",
+      "description": "Mapistry ETL flows"
+    },
+    "xbe_data_ingestion": {
+      "url": "https://github.com/graniterock/xbe_data_ingestion.git",
+      "branch": "main",
+      "description": "XBE data ingestion flows"
+    },
     "hex_pipelines": {
       "url": "https://github.com/graniterock/hex_pipelines.git",
       "branch": "master",
       "description": "Hex platform data pipeline configurations"
+    }
+  },
+  "prefect_context": {
+    "_comment": "Prefect Cloud workspace context for workflow orchestration analysis",
+    "workspace": "graniterock/bedrock",
+    "environment": "production",
+    "source_repositories": [
+      "orchestra",
+      "prefect",
+      "plantdemand_etl",
+      "mapistry_etl",
+      "xbe_data_ingestion"
+    ],
+    "work_pools": [
+      "K8s-Prod",
+      "production"
+    ],
+    "key_flows": [
+      "mapistry-etl",
+      "dbt-jobs-orchestrator-flow",
+      "airbyte-orchestrator",
+      "Construction Forecasts",
+      "Fuel cloud data ingestion",
+      "PlantDemand ETL",
+      "XBE ingestion",
+      "jde-ad-sync",
+      "rocktalk-employee-sync",
+      "union-pacific-etl",
+      "wrightexpress-ftp-etl"
+    ],
+    "integration_patterns": [
+      "dbt Cloud coordination",
+      "Airbyte data ingestion",
+      "External API orchestration",
+      "Business system synchronization"
+    ],
+    "coordination_strategy": {
+      "master_orchestration": "orchestra-expert leads ALL workflow analysis - triggers everything",
+      "prefect_flows": "Most Prefect flows are in the main 'prefect' repository (airbyte-orchestrator, dbt-jobs, business integrations)",
+      "specialized_flows": "Construction/PlantDemand in plantdemand_etl, Mapistry in mapistry_etl, XBE in xbe_data_ingestion",
+      "dbt_coordination": "orchestra-expert + dbt-expert for direct dbt job triggering",
+      "cross_tool_coordination": "orchestra-expert coordinates all tools (Prefect, dbt, Airbyte, etc.)"
+    },
+    "orchestration_hierarchy": {
+      "level_1_master": "Orchestra (kicks off everything - Prefect, dbt, Airbyte, Snowflake jobs)",
+      "level_2_executors": "Prefect flows, dbt jobs, Airbyte syncs (when Orchestra calls them)",
+      "level_3_data": "Snowflake, data warehouses (receive processed data)"
     }
   }
 }
