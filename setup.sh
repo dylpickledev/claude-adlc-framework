@@ -268,7 +268,7 @@ if knowledge:
     mkdir -p repos knowledge
     
     # Parse repository configuration and clone
-    python3 -c "
+    GH_AVAILABLE="$gh_available" python3 -c "
 import json
 import subprocess
 import os
@@ -330,7 +330,8 @@ try:
             repo_identifier = parts
         
         # Use gh CLI for GitHub repositories if available
-        if repo_identifier and '$gh_available' == 'true':
+        gh_available = os.environ.get('GH_AVAILABLE', 'false')
+        if repo_identifier and gh_available == 'true':
             clone_cmd = f'gh repo clone {repo_identifier} {repo_path} -- --branch {branch}'
             if run_command(clone_cmd, f'Clone {repo_name} ({branch} branch) via gh CLI'):
                 cloned_count += 1
@@ -380,7 +381,8 @@ try:
             repo_identifier = parts
         
         # Use gh CLI for GitHub repositories if available
-        if repo_identifier and '$gh_available' == 'true':
+        gh_available = os.environ.get('GH_AVAILABLE', 'false')
+        if repo_identifier and gh_available == 'true':
             clone_cmd = f'gh repo clone {repo_identifier} {kb_path} -- --branch {branch}'
             if run_command(clone_cmd, f'Clone {kb_name} ({branch} branch) via gh CLI'):
                 cloned_count += 1
