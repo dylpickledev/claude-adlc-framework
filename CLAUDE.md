@@ -86,6 +86,15 @@ don't look at the full .env file. Only search for the var names up to the equals
 
 ## Spec-Driven Development Commands
 
+### Critical First Step: Branch Creation
+**ALWAYS create feature branch BEFORE any project file creation:**
+
+```bash
+git checkout -b feature/[project-name]
+```
+
+**Then proceed with project structure and files.**
+
 ### Data Analytics Project Lifecycle
 Use structured commands for complex multi-tool data projects:
 
