@@ -98,7 +98,7 @@ graph TB
     CA -->|Uses| MA
     MA -->|Analysis| IC
     IC -->|Responds to| DEV
-    DEV -->|@claude mentions| IC
+    DEV -->|"@claude mentions"| IC
     IC -->|Creates| PR
     PR -->|Implements| FIX
     FIX -->|Resolves| DBT
