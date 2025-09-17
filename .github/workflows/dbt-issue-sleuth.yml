@@ -22,19 +22,6 @@ jobs:
     - name: Checkout da-agent-hub
       uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-
-    - name: Install Claude Code
-      run: |
-        npm install -g @anthropic/claude-code
-
-    - name: Configure Claude Code
-      run: |
-        echo "${{ secrets.ANTHROPIC_API_KEY }}" | claude auth --stdin
-
     - name: Extract dispatch payload
       id: payload
       run: |
@@ -51,56 +38,63 @@ jobs:
         fi
 
     - name: Investigate with Claude
-      run: |
-        echo "🔍 Starting Claude investigation for ${{ steps.payload.outputs.repository }} (${{ steps.payload.outputs.project }})"
+      uses: anthropics/claude-code-action@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        prompt: |
+          # dbt Issue Investigation
 
-        # Create investigation prompt
-        cat > investigate_issues.md << EOF
-        # dbt Issue Investigation
+          Please investigate recent dbt issues in **${{ steps.payload.outputs.repository }}** for the **${{ steps.payload.outputs.project }}** project.
 
-        Please investigate recent dbt issues in **${{ steps.payload.outputs.repository }}** for the **${{ steps.payload.outputs.project }}** project.
+          ## Context
+          - **Repository**: ${{ steps.payload.outputs.repository }}
+          - **Project**: ${{ steps.payload.outputs.project }}
+          - **Trigger**: ${{ steps.payload.outputs.trigger }}
+          - **Run ID**: ${{ steps.payload.outputs.run_id }}
 
-        ## Context
-        - **Repository**: ${{ steps.payload.outputs.repository }}
-        - **Project**: ${{ steps.payload.outputs.project }}
-        - **Trigger**: ${{ steps.payload.outputs.trigger }}
-        - **Run ID**: ${{ steps.payload.outputs.run_id }}
+          ## Investigation Tasks
 
-        ## Investigation Tasks
+          1. **Find Recent Issues**: Search for open issues with Claude metadata in the target repository
+          2. **Prioritize by Metadata**: Focus on high-priority issues and critical error types
+          3. **Multi-Agent Analysis**: Use appropriate agents based on affected systems:
+             - `dbt-expert`: For model compilation and test failures
+             - `snowflake-expert`: For warehouse-level performance issues
+             - `tableau-expert`: For report model issues (rpt_* models)
+             - `business-context`: For business logic validation
+             - `da-architect`: For cross-system analysis
 
-        1. **Find Recent Issues**: Search for open issues with Claude metadata in the target repository
-        2. **Prioritize by Metadata**: Focus on high-priority issues and critical error types
-        3. **Multi-Agent Analysis**: Use appropriate agents based on affected systems:
-           - \`dbt-expert\`: For model compilation and test failures
-           - \`snowflake-expert\`: For warehouse-level performance issues
-           - \`tableau-expert\`: For report model issues (rpt_* models)
-           - \`business-context\`: For business logic validation
-           - \`da-architect\`: For cross-system analysis
+          4. **Investigation Steps**: For each high-priority issue:
+             - Analyze the error details and patterns
+             - Check related models and dependencies
+             - Examine recent changes that might have caused the issue
+             - Look for similar patterns across other models
+             - Provide specific fix recommendations
 
-        4. **Investigation Steps**: For each high-priority issue:
-           - Analyze the error details and patterns
-           - Check related models and dependencies
-           - Examine recent changes that might have caused the issue
-           - Look for similar patterns across other models
-           - Provide specific fix recommendations
+          5. **Update Issues**: Add investigation findings as comments with:
+             - Root cause analysis
+             - Recommended fixes
+             - Related issues or patterns
+             - Priority assessment for team action
 
-        5. **Update Issues**: Add investigation findings as comments with:
-           - Root cause analysis
-           - Recommended fixes
-           - Related issues or patterns
-           - Priority assessment for team action
+          ## Focus Areas
+          - Schema compilation errors (highest priority)
+          - Data quality issues indicating upstream problems
+          - Business logic validation failures
+          - Cross-system integration issues
 
-        ## Focus Areas
-        - Schema compilation errors (highest priority)
-        - Data quality issues indicating upstream problems
-        - Business logic validation failures
-        - Cross-system integration issues
+          Please proceed with the investigation and provide a summary of findings.
 
-        Please proceed with the investigation and provide a summary of findings.
-        EOF
+          ## Available Actions for Users
 
-        # Run Claude investigation
-        claude chat investigate_issues.md
+          After investigation, users can interact with me by:
+          - **@claude create PR** - I'll create a pull request with the fix
+          - **@claude investigate [specific aspect]** - I'll do deeper analysis
+          - **Assign to claude[bot]** - I'll automatically attempt to fix the issue
+          - **Add label `claude:fix`** - I'll create a PR to fix the issue
+          - **Add label `claude:investigate`** - I'll do additional investigation
+
+          I'm here to help collaboratively resolve dbt issues!
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}

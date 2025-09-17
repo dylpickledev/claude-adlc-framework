@@ -1,0 +1,211 @@
+name: Claude Collaborative Fixes
+
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [assigned, labeled]
+
+jobs:
+  claude-collaborate:
+    runs-on: ubuntu-latest
+
+    # Only run if Claude is mentioned, assigned, or specific labels are added
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'issues' && github.event.action == 'assigned' && github.event.assignee.login == 'claude[bot]') ||
+      (github.event_name == 'issues' && github.event.action == 'labeled' && contains(github.event.label.name, 'claude:'))
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Detect Action Type and Context
+      id: action
+      run: |
+        echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
+        echo "issue_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+        echo "issue_title=${{ github.event.issue.title }}" >> $GITHUB_OUTPUT
+
+        # Determine what action Claude should take
+        if [[ "${{ github.event_name }}" == "issue_comment" ]]; then
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          if [[ "$COMMENT_BODY" == *"create PR"* ]] || [[ "$COMMENT_BODY" == *"make a PR"* ]] || [[ "$COMMENT_BODY" == *"fix this"* ]]; then
+            echo "action=create_pr" >> $GITHUB_OUTPUT
+            echo "trigger=comment_request" >> $GITHUB_OUTPUT
+          elif [[ "$COMMENT_BODY" == *"investigate"* ]] || [[ "$COMMENT_BODY" == *"analyze"* ]]; then
+            echo "action=investigate" >> $GITHUB_OUTPUT
+            echo "trigger=comment_request" >> $GITHUB_OUTPUT
+          else
+            echo "action=chat" >> $GITHUB_OUTPUT
+            echo "trigger=comment_mention" >> $GITHUB_OUTPUT
+          fi
+          echo "user_input<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMENT_BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.event_name }}" == "issues" ]] && [[ "${{ github.event.action }}" == "assigned" ]]; then
+          echo "action=auto_fix" >> $GITHUB_OUTPUT
+          echo "trigger=assignment" >> $GITHUB_OUTPUT
+          echo "user_input=Auto-assigned for fixing" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.event_name }}" == "issues" ]] && [[ "${{ github.event.action }}" == "labeled" ]]; then
+          LABEL_NAME="${{ github.event.label.name }}"
+          if [[ "$LABEL_NAME" == "claude:fix" ]]; then
+            echo "action=create_pr" >> $GITHUB_OUTPUT
+            echo "trigger=label" >> $GITHUB_OUTPUT
+          elif [[ "$LABEL_NAME" == "claude:investigate" ]]; then
+            echo "action=investigate" >> $GITHUB_OUTPUT
+            echo "trigger=label" >> $GITHUB_OUTPUT
+          else
+            echo "action=chat" >> $GITHUB_OUTPUT
+            echo "trigger=label" >> $GITHUB_OUTPUT
+          fi
+          echo "user_input=Label-triggered action: $LABEL_NAME" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Get Issue Content
+      id: issue
+      run: |
+        ISSUE_BODY=$(gh issue view ${{ steps.action.outputs.issue_number }} --repo ${{ steps.action.outputs.repository }} --json body --jq '.body')
+        echo "body<<EOF" >> $GITHUB_OUTPUT
+        echo "$ISSUE_BODY" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Claude Collaborative Analysis
+      uses: anthropics/claude-code-action@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        prompt: |
+          # Claude Collaborative Fix System
+
+          I'm Claude, your AI assistant for dbt issue resolution. I've been triggered by a **${{ steps.action.outputs.trigger }}** to help with this issue.
+
+          ## Context
+          - **Repository**: ${{ steps.action.outputs.repository }}
+          - **Issue**: #${{ steps.action.outputs.issue_number }} - "${{ steps.action.outputs.issue_title }}"
+          - **Action Requested**: ${{ steps.action.outputs.action }}
+          - **User Input**: ${{ steps.action.outputs.user_input }}
+
+          ## Issue Details
+          ${{ steps.issue.outputs.body }}
+
+          ## Instructions Based on Action Type
+
+          ${{ steps.action.outputs.action == 'create_pr' && '
+          ### 🔧 CREATE PULL REQUEST MODE
+
+          Please:
+          1. **Analyze the dbt issue** using the dbt-expert agent
+          2. **Identify the root cause** of the test failure or model error
+          3. **Create a new branch** with name format: `claude/fix-issue-${{ steps.action.outputs.issue_number }}`
+          4. **Implement the fix** by modifying the appropriate dbt files
+          5. **Create a pull request** with:
+             - Clear title: "fix: [description of fix for issue #${{ steps.action.outputs.issue_number }}]"
+             - Detailed description explaining the problem and solution
+             - Link to the original issue
+             - Any testing steps needed
+          6. **Add a comment** to the original issue linking to the PR
+
+          Focus on:
+          - SQL fixes for model logic issues
+          - Test configuration updates
+          - Schema corrections
+          - Data quality improvements
+          ' || '' }}
+
+          ${{ steps.action.outputs.action == 'investigate' && '
+          ### 🔍 INVESTIGATION MODE
+
+          Please:
+          1. **Deep dive analysis** using appropriate specialized agents:
+             - dbt-expert for model/test issues
+             - snowflake-expert for warehouse problems
+             - business-context for logic validation
+          2. **Examine dependencies** and related models
+          3. **Check recent changes** that might have caused the issue
+          4. **Identify patterns** across similar models
+          5. **Provide detailed findings** as a comment on the issue
+          6. **Suggest multiple solution approaches** with pros/cons
+          7. **Ask clarifying questions** if more context is needed
+
+          Focus on:
+          - Root cause analysis
+          - Impact assessment
+          - Historical context
+          - Related issue detection
+          ' || '' }}
+
+          ${{ steps.action.outputs.action == 'auto_fix' && '
+          ### 🤖 AUTO-FIX MODE
+
+          I have been assigned to automatically fix this issue. Please:
+          1. **Analyze the problem** thoroughly
+          2. **Determine if auto-fix is appropriate** (simple, low-risk changes only)
+          3. **If appropriate**: Create a PR with the fix
+          4. **If too complex**: Add a comment explaining why manual intervention is needed
+          5. **Update the issue** with progress and next steps
+
+          Auto-fix criteria:
+          - Simple SQL logic fixes
+          - Test configuration updates
+          - Missing column additions
+          - Basic deduplication issues
+
+          Avoid auto-fixing:
+          - Complex business logic changes
+          - Schema migrations
+          - Performance optimizations
+          - Cross-system integration issues
+          ' || '' }}
+
+          ${{ steps.action.outputs.action == 'chat' && '
+          ### 💬 CHAT MODE
+
+          Please:
+          1. **Respond to the user comment** directly and helpfully
+          2. **Use appropriate agents** based on the question
+          3. **Provide actionable insights**
+          4. **Ask follow-up questions** if needed
+          5. **Suggest next steps** or actions I can take
+          6. **Offer to create PRs** or investigate further if appropriate
+
+          Be conversational and collaborative!
+          ' || '' }}
+
+          ## Available Tools and Agents
+
+          Use these specialized agents as needed:
+          - **dbt-expert**: Model compilation, test failures, SQL logic
+          - **snowflake-expert**: Warehouse performance, data types, constraints
+          - **tableau-expert**: Report model issues (rpt_* models)
+          - **business-context**: Business logic validation, requirements
+          - **da-architect**: Cross-system analysis, data flow issues
+
+          ## Success Criteria
+
+          - Provide clear, actionable responses
+          - Reference specific files and line numbers when possible
+          - Include links to relevant documentation
+          - Be proactive about offering additional help
+          - Always update the original issue with findings or progress
+
+          Please proceed with the ${{ steps.action.outputs.action }} action!
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
+        DBT_CLOUD_ACCOUNT_ID: ${{ secrets.DBT_CLOUD_ACCOUNT_ID }}
+
+    - name: Summary
+      if: always()
+      run: |
+        echo "🤖 Claude Collaborative Fix completed"
+        echo "Repository: ${{ steps.action.outputs.repository }}"
+        echo "Issue: #${{ steps.action.outputs.issue_number }}"
+        echo "Action: ${{ steps.action.outputs.action }}"
+        echo "Trigger: ${{ steps.action.outputs.trigger }}"
+        echo "Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
