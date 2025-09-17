@@ -1,498 +1,554 @@
-# D&A Agent Hub
+# 🤖 DA Agent Hub: AI-Powered Data Infrastructure Management
 
-A Claude Code sub-agent system for navigating complex data analytics stacks. This repository provides specialized expert agents for dbt, Orchestra, Tableau, Snowflake, dlthub, and business context management.
+**Automated dbt error monitoring and Claude AI-powered investigation system with interactive collaboration capabilities.**
 
-## Overview
+[![dbt](https://img.shields.io/badge/dbt-Cloud-orange?logo=dbt)](https://cloud.getdbt.com/)
+[![Claude](https://img.shields.io/badge/Claude-AI-blue?logo=anthropic)](https://claude.ai/)
+[![GitHub](https://img.shields.io/badge/GitHub-Actions-black?logo=github)](https://github.com/features/actions)
+[![Snowflake](https://img.shields.io/badge/Snowflake-Data-lightblue?logo=snowflake)](https://snowflake.com/)
 
-The D&A Agent Hub implements a **research-only sub-agent pattern** where expert agents analyze and plan, while the parent Claude instance handles implementation. This approach optimizes token usage and provides specialized expertise for each tool in your data stack.
+---
 
-### Key Features
+## 🌟 Overview
 
-- **Sub-Agent Architecture**: Specialized experts for each tool (dbt, Orchestra, Tableau, Snowflake, dlthub)
-- **Business Context Agent**: Flexible document retrieval from various sources
-- **MCP Server Integration**: Pre-configured connections to data tools
-- **Workspace Management**: Organized repository symlinks for easy navigation
-- **Developer Customization**: Personal configuration framework
-- **Cross-Platform Support**: macOS-optimized with tool-agnostic design
+The DA Agent Hub provides a **complete end-to-end solution** for proactive data infrastructure management. It automatically monitors your dbt Cloud projects for errors, creates GitHub issues with detailed context, and uses Claude AI to investigate and propose fixes—all while enabling interactive collaboration for complex problem-solving.
 
-## Quick Start
+### 🏗️ System Architecture
+
+```mermaid
+graph TB
+    subgraph "Data Infrastructure"
+        DBT[dbt Cloud]
+        SF[Snowflake]
+        TB[Tableau]
+    end
+
+    subgraph "Monitoring & Alerting"
+        GHA[GitHub Actions<br/>Daily Monitor]
+        GI[GitHub Issues<br/>Auto-Created]
+    end
+
+    subgraph "AI Investigation System"
+        CA[Claude AI<br/>Investigation]
+        MA[Multi-Agent<br/>Analysis]
+        IC[Interactive<br/>Collaboration]
+    end
+
+    subgraph "Human Collaboration"
+        DEV[Data Engineers]
+        PR[Pull Requests<br/>Auto-Generated]
+        FIX[Implemented Fixes]
+    end
+
+    DBT -->|Errors| GHA
+    GHA -->|Creates/Updates| GI
+    GI -->|Triggers| CA
+    CA -->|Uses| MA
+    MA -->|Analysis| IC
+    IC -->|Responds to| DEV
+    DEV -->|@claude mentions| IC
+    IC -->|Creates| PR
+    PR -->|Implements| FIX
+    FIX -->|Resolves| DBT
+```
+
+---
+
+## 🎯 Key Features
+
+### 🔍 **Automated Error Detection**
+- **Daily Monitoring**: Checks dbt Cloud at 6:30 AM UTC for test failures and model errors
+- **Smart Issue Management**: Creates/updates GitHub issues with comprehensive error details
+- **Priority Classification**: Automatically categorizes issues by error type and severity
+- **Cross-Repository Support**: Works across multiple dbt projects (roy_kent, dbt_cloud)
+
+### 🤖 **AI-Powered Investigation**
+- **Automatic Analysis**: Claude investigates every new issue with specialized domain expertise
+- **Multi-Agent System**: Uses expert agents for different aspects:
+  - **dbt-expert**: Model compilation, test failures, SQL optimization
+  - **snowflake-expert**: Warehouse performance, query optimization
+  - **tableau-expert**: Dashboard and report model issues
+  - **business-context**: Requirements validation and stakeholder alignment
+  - **da-architect**: Cross-system analysis and strategic decisions
+
+### 💬 **Interactive Collaboration**
+- **@claude Mentions**: Comment on any issue to get AI assistance
+- **Automatic PR Creation**: Request fixes with `@claude create PR`
+- **Assignment-Based Fixing**: Assign issues to `claude[bot]` for auto-fix attempts
+- **Label-Based Triggers**: Use labels like `claude:fix` and `claude:investigate`
+- **Multi-Turn Conversations**: Collaborative problem-solving with context retention
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- macOS (tested) or Linux
-- Python 3.8+
-- Git
+- **GitHub Repository**: Access to your dbt projects on GitHub
+- **dbt Cloud**: Active dbt Cloud account with API access
+- **Claude Pro/Max**: Subscription for OAuth token authentication
+- **GitHub Actions**: Enabled in your repositories
 
-**Required Tools:**
-- **Claude Code CLI** - [Install Guide](https://docs.anthropic.com/en/docs/claude-code/installation)
-- **GitHub CLI (gh)** - [Install Guide](https://cli.github.com/manual/installation)
+### 1. Setup Repositories
 
-#### Quick Install Commands
+The system works across **three repositories**:
 
-**Claude Code CLI:**
+1. **Your dbt Project** (e.g., `roy_kent`, `dbt_cloud`)
+   - Contains dbt models, tests, and configurations
+   - Gets the monitoring workflow
+
+2. **graniterock/dbt_errors_to_issues**
+   - Shared Python scripts for error processing
+   - Handles dbt Cloud API integration
+
+3. **graniterock/da-agent-hub** (this repo)
+   - Claude AI investigation system
+   - Interactive collaboration workflows
+
+### 2. Configure Secrets
+
+Set up these GitHub repository secrets:
+
+#### In Your dbt Project Repository:
 ```bash
-# macOS (Homebrew)
-brew install claude
-
-# Linux (curl)
-curl -fsSL https://claude.ai/install.sh | sh
+DBT_CLOUD_API_TOKEN=your_dbt_cloud_api_token
+DBT_CLOUD_ACCOUNT_ID=your_account_id
+GITHUB_API_TOKEN=your_github_pat_token
 ```
 
-**GitHub CLI:**
+#### In da-agent-hub Repository:
 ```bash
-# macOS (Homebrew)  
-brew install gh
-
-# Linux (apt)
-sudo apt install gh
-
-# Or visit: https://cli.github.com/manual/installation
+ANTHROPIC_API_KEY=your_claude_oauth_token
+DBT_CLOUD_API_TOKEN=your_dbt_cloud_api_token
+DBT_CLOUD_ACCOUNT_ID=your_account_id
 ```
 
-**Verification:**
-```bash
-claude --version    # Should show Claude Code version
-gh --version       # Should show GitHub CLI version
+### 3. Deploy Monitoring Workflow
+
+Copy the monitoring workflow to your dbt project:
+
+```yaml
+# .github/workflows/dbt-error-monitor.yml
+name: dbt Error Monitoring
+
+on:
+  schedule:
+    - cron: '30 6 * * *'  # 6:30 AM UTC daily
+  workflow_dispatch:
+
+jobs:
+  monitor-dbt-errors:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout dbt_errors_to_issues repository
+      uses: actions/checkout@v4
+      with:
+        repository: graniterock/dbt_errors_to_issues
+        ref: main
+        path: dbt-error-monitor
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        cd dbt-error-monitor
+        pip install -r requirements.txt
+
+    - name: Run dbt error monitoring for your_project
+      run: |
+        cd dbt-error-monitor
+        python run_for_project.py
+      env:
+        DBT_PROJECT_NAME: your_project_name
+        DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
+        DBT_CLOUD_ACCOUNT_ID: ${{ secrets.DBT_CLOUD_ACCOUNT_ID }}
+        GITHUB_API_TOKEN: ${{ secrets.GITHUB_API_TOKEN }}
+        GITHUB_REPO: your_org/your_dbt_repo
+
+    - name: Trigger Claude sleuthing for new issues
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.GITHUB_API_TOKEN }}
+        repository: graniterock/da-agent-hub
+        event-type: dbt-issue-sleuth
+        client-payload: |
+          {
+            "repository": "your_org/your_dbt_repo",
+            "project": "your_project_name",
+            "trigger": "scheduled_monitoring",
+            "run_id": "${{ github.run_id }}"
+          }
 ```
 
-### One-Command Installation
+---
+
+## 🎮 Usage Guide
+
+### 💬 Interactive Commands
+
+#### **@claude Mentions**
+Comment on any GitHub issue to get Claude's help:
 
 ```bash
-git clone https://github.com/graniterock/da-agent-hub.git da-agent-hub
-cd da-agent-hub
-./setup.sh
+# Request a fix
+@claude create PR to resolve this unique constraint issue
+
+# Deep investigation
+@claude investigate the upstream data quality for this model
+
+# General discussion
+@claude what do you think is causing these test failures?
+
+# Collaborative debugging
+@claude I think this might be related to the ERP data load timing, can you check?
 ```
 
-**That's it!** The setup script will:
-- 🔍 Auto-detect your existing dbt projects and repositories
-- ❓ Ask for only the credentials you actually need with helpful guidance
-- 🔗 Test connections and validate configurations  
-- 🏗️ Set up all MCP servers and agents automatically
-- ✅ Provide a complete status report
+#### **Assignment-Based Auto-Fix**
+Assign any issue to `claude[bot]` and Claude will:
+1. Analyze the problem thoroughly
+2. Determine if it's suitable for auto-fixing
+3. Create a PR with the solution (for simple fixes)
+4. Or explain why manual intervention is needed (for complex issues)
 
-**Setup time: 2-3 minutes**
+#### **Label-Based Triggers**
+Add labels to issues for specific actions:
 
-### Status & Troubleshooting
+- 🏷️ **`claude:fix`**: Create a pull request with a fix
+- 🏷️ **`claude:investigate`**: Perform deeper analysis
+- 🏷️ **`claude:collaborate`**: Start interactive discussion mode
 
-```bash
-# Check system status anytime
-./setup.sh --status
+### 📊 Daily Workflow
 
-# Re-run setup to update configuration  
-./setup.sh
-
-# Available Claude slash commands
-/setup    # Interactive setup through Claude
-/status   # System health check
+```mermaid
+graph LR
+    A[6:30 AM UTC<br/>Monitor Runs] --> B[Issues Created/<br/>Updated]
+    B --> C[Claude Auto-<br/>Investigates]
+    C --> D[Team Reviews<br/>AI Findings]
+    D --> E[Request PR or<br/>Collaborate]
+    E --> F[Claude Creates<br/>Fix PR]
+    F --> G[Team Reviews<br/>& Merges]
 ```
 
-## Sub-Agent System
+### 🔧 Example Interactions
 
-### Architecture Pattern
+#### **Scenario 1: Simple Fix Request**
+```
+You: @claude create PR to fix the unique constraint violation
+
+Claude: I'll analyze the bt4_rpt_stock_receipt_reconciliation model
+and create a PR. Let me check the duplicate records and implement
+a deduplication solution.
+
+→ Creates PR: "fix: deduplicate primary keys in stock receipt model"
+  - Adds DISTINCT clause to staging model
+  - Updates test configuration
+  - Includes documentation updates
+```
+
+#### **Scenario 2: Collaborative Investigation**
+```
+You: @claude I think this might be related to the upstream ERP data
+timing. Can you investigate that angle?
+
+Claude: Great insight! Let me investigate the upstream data patterns
+using the dlthub-expert agent to check source ingestion timing...
+
+→ Updates issue with:
+  - ERP data load schedule analysis
+  - Timing conflict identification
+  - Recommended schedule adjustments
+  - Pipeline health assessment
+```
+
+#### **Scenario 3: Auto-Fix Assignment**
+```
+Action: You assign issue to claude[bot]
+
+Claude: I've been assigned to fix this issue. Analyzing...
+- Found duplicate primary keys in stock receipt data
+- Root cause: Missing deduplication in staging model
+- This is a simple fix appropriate for auto-implementation
+- Creating PR with solution...
+
+→ Automatically creates and links PR with fix
+```
+
+---
+
+## 🏛️ System Architecture
+
+### 🔄 Data Flow
+
+1. **Detection Phase**: dbt Cloud runs daily tests and transformations
+2. **Monitoring Phase**: GitHub Actions monitors dbt Cloud API for failures
+3. **Issue Management**: Creates/updates GitHub issues with detailed error context
+4. **AI Trigger**: Automatically dispatches investigation request to Claude
+5. **Investigation Phase**: Claude analyzes using specialized expert agents
+6. **Collaboration Phase**: Users interact via comments, assignments, or labels
+7. **Resolution Phase**: Claude creates PRs with fixes or provides guidance
+
+### 🧠 Multi-Agent Intelligence
+
+The system leverages **specialized AI agents** for domain expertise:
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Parent Agent │───▶│  .claude/tasks/  │◀───│   Sub-Agent     │
-│  (Claude Code)  │    │  current-task.md │    │   (Specialist)  │
-│                 │    │  findings.md     │    │                 │
-│  Implementation │    │  plan.md         │    │   Research Only │
+│   dbt-expert    │    │ snowflake-expert │    │ tableau-expert  │
+│                 │    │                  │    │                 │
+│ • SQL Logic     │    │ • Query Perf     │    │ • Dashboard     │
+│ • Model Tests   │    │ • Cost Analysis  │    │   Performance   │
+│ • Dependencies  │    │ • Schema Issues  │    │ • Report Models │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│business-context │    │   da-architect   │    │ dlthub-expert   │
+│                 │    │                  │    │                 │
+│ • Requirements  │    │ • System Design  │    │ • Data Ingestion│
+│ • Stakeholder   │    │ • Cross-Platform │    │ • Source Quality│
+│   Alignment     │    │   Decisions      │    │ • Connectors    │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
-### Available Experts
+### 🔐 Security & Authentication
 
-| Agent | Location | Specialization |
-|-------|----------|----------------|
-| **dbt Expert** | `.claude/agents/dbt-expert.md` | SQL transformations, modeling, testing |
-| **Orchestra Expert** | `.claude/agents/orchestra-expert.md` | Workflow orchestration, pipeline analysis |
-| **Tableau Expert** | `.claude/agents/tableau-expert.md` | Dashboard optimization, reporting analysis |
-| **Snowflake Expert** | `.claude/agents/snowflake-expert.md` | Query optimization, cost analysis |
-| **dlthub Expert** | `.claude/agents/dlthub-expert.md` | Data ingestion, connector configuration |
-| **Business Context** | `.claude/agents/business-context.md` | Requirements analysis, stakeholder context |
-| **DA Architect** | `.claude/agents/da-architect.md` | System design, data flow analysis, strategic platform decisions |
+- **dbt Cloud API**: Account-specific tokens with environment-level permissions
+- **GitHub Actions**: Classic Personal Access Tokens for cross-repository access
+- **Claude AI**: OAuth token authentication (requires Claude Pro/Max subscription)
+- **Secrets Management**: All credentials stored as encrypted GitHub repository secrets
+- **Least Privilege**: Each component has minimal required permissions
 
-### Usage Patterns
+---
 
-#### For Complex Projects (Multi-day, Cross-repository, Research)
-Use `/start_project` command for structured project workflow:
+## 💰 Cost Analysis
 
-1. **Project Initialization**: Use `/start_project` to ideate and initialize with `./scripts/work-init.sh`
-2. **Task Assignment**: Assign research to appropriate expert within project context
-3. **Context Handoff**: Expert reads task from `projects/<project-name>/tasks/current-task.md`
-4. **Research Phase**: Expert analyzes and investigates thoroughly
-5. **Documentation**: Expert creates detailed findings in `projects/<project-name>/tasks/[tool]-findings.md`
-6. **Implementation**: Parent agent executes based on expert recommendations
-7. **Project Completion**: Archive work using `./scripts/work-complete.sh <project-name>`
+### **Annual Operating Costs: $0-100**
 
-#### For Simple Tasks (Quick fixes, Single actions, Immediate responses)
-Use direct TodoWrite and execution:
+| Component | Cost | Notes |
+|-----------|------|-------|
+| **GitHub Actions** | $0 | Free tier covers typical usage (2,000 minutes/month) |
+| **Claude API** | $0 | OAuth token uses existing Claude Pro/Max subscription |
+| **dbt Cloud API** | $0 | Read-only access, no additional charges |
+| **Repository Storage** | $0 | Normal GitHub repository limits |
+| **Total Annual** | **$0-100** | May incur small costs for heavy usage |
 
-1. **Task Tracking**: Use TodoWrite for immediate task management
-2. **Direct Execution**: Execute tasks without intermediate files
-3. **Sub-agent Consultation**: Use specialized agents when needed, but no persistent project structure
+### **ROI Benefits**
+- **Reduced MTTR**: Issues resolved 50-80% faster with AI guidance
+- **Proactive Detection**: Catch problems hours vs. days after occurrence
+- **Team Efficiency**: Data engineers focus on implementation vs. diagnosis
+- **Knowledge Preservation**: Investigation findings become searchable institutional knowledge
 
-## Directory Structure
+---
 
-```
-da-agent-hub/
-├── .claude/
-│   ├── agents/                 # Claude Code sub-agents
-│   │   ├── business-context.md # Business requirements expert
-│   │   ├── dbt-expert.md      # dbt specialist
-│   │   ├── orchestra-expert.md # Orchestra specialist
-│   │   ├── tableau-expert.md  # Tableau specialist
-│   │   ├── snowflake-expert.md # Snowflake specialist
-│   │   ├── dlthub-expert.md   # dlthub specialist
-│   │   └── da-architect.md    # Data architecture specialist
-│   ├── commands/              # Claude Code commands
-│   └── tasks/                 # Task coordination files
-├── knowledge/                  # Knowledge base
-│   ├── business/               # Business context docs
-│   ├── technical/              # Technical documentation
-│   └── projects/               # Project-specific info
-├── repos/                      # Symlinked repositories
-├── developer/                  # Personal customizations
-│   ├── customize.sh           # Personal setup script
-│   └── workspace-config.json  # Repository configuration
-├── scripts/                    # Utility scripts
-│   ├── manage-mcp.py          # Unified MCP server management
-│   ├── manage-workspace.sh    # Workspace manager
-│   ├── manage-tasks.sh        # Task file management
-│   └── test-setup.sh          # Setup validation
-└── setup.sh                  # Interactive setup script
+## 🛠️ Advanced Configuration
 
-## 🚀 Claude Code Best Practices for New Developers
+### Cross-Repository Setup
 
-*Based on [Anthropic's official Claude Code best practices guide](https://www.anthropic.com/engineering/claude-code-best-practices)*
+For organizations with multiple dbt projects:
 
-### Quick Start Workflow (Recommended)
+1. **Central Hub**: One da-agent-hub repository for all AI investigation
+2. **Project-Specific Monitoring**: Each dbt repository gets its own monitoring workflow
+3. **Shared Scripts**: Single dbt_errors_to_issues repository handles all projects
+4. **Unified Intelligence**: Claude provides consistent analysis across projects
 
-**1. 🔍 Explore, Plan, Code Pattern**
-```bash
-# Start by exploring what you have
-/status                    # Check current system health
-claude "analyze my dbt models"  # Let agents investigate first
+### Custom Agent Development
 
-# Then implement based on findings
-claude "implement the recommendations from dbt-expert analysis"
+Extend the system with custom agents:
+
+```markdown
+# .claude/agents/custom-expert.md
+
+You are a specialized expert for [your domain].
+
+## Capabilities
+- Domain-specific analysis
+- Custom tool integration
+- Specialized knowledge base
+
+## When to Use
+- Issue involves [specific conditions]
+- Complex [domain] problems
+- Cross-system [domain] analysis
+
+## Analysis Framework
+1. [Domain-specific step 1]
+2. [Domain-specific step 2]
+3. [Domain-specific step 3]
 ```
 
-**2. 🧪 Test-Driven Development for Data**
-```bash
-# Write tests first, confirm they fail
-dbt test --select new_model --store-failures
+### Integration with CI/CD
 
-# Implement to make tests pass  
-dbt run --select new_model
+Enhance your deployment pipeline:
 
-# Verify success
-dbt test --select new_model
+```yaml
+# Add to your CI/CD workflow
+- name: Trigger Pre-Deployment Analysis
+  if: contains(github.head_ref, 'claude/')
+  uses: peter-evans/repository-dispatch@v3
+  with:
+    repository: graniterock/da-agent-hub
+    event-type: pre-deployment-analysis
+    client-payload: |
+      {
+        "pr_number": "${{ github.event.number }}",
+        "branch": "${{ github.head_ref }}",
+        "analysis_type": "pre_deployment"
+      }
 ```
 
-**3. 📸 Visual Development (for dashboards)**
-```bash
-/screenshot    # Analyze dashboard screenshots
-/visual-iterate # Structured design improvement workflow
-```
+---
 
-### Advanced Workflows
+## 🧪 Testing & Validation
 
-**4. 🎯 Domain Expert Pattern**
-```bash
-# Use specific experts for complex analysis
-claude --agent dbt-expert "analyze performance issues"
-claude --agent snowflake-expert "optimize warehouse costs"  
-claude --agent tableau-expert "improve dashboard load times"
-```
+### Test the System
 
-**5. 🔧 GitHub CLI Integration**
-```bash
-/gh-workflow  # Enhanced PR and issue management
-gh pr create --body "$(cat .claude/tasks/current-task.md)"
-```
-
-**6. 📋 Task Management**
-- Always use TodoWrite for multi-step tasks
-- Break complex work into smaller, trackable pieces
-- Mark todos complete immediately after finishing
-
-### Optimization Tips
-
-**7. ⚡ Context Management**
-- Use `/clear` when switching between different problem domains
-- Provide specific instructions rather than vague requests
-- Course-correct early if Claude misunderstands
-
-**8. 🎪 Multi-Agent Coordination**
-```bash
-# Let experts analyze independently, then coordinate
-claude "coordinate findings from dbt-expert and snowflake-expert analyses"
-```
-
-**9. 📊 Data Stack Workflows**
-```bash
-# Cross-system issue investigation
-claude "investigate data quality issues across Orchestra → dbt → Snowflake pipeline"
-
-# Performance optimization
-claude "analyze end-to-end performance from source systems to dashboards"
-```
-
-### Key Commands Reference
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `/start_project` | Initialize structured projects | Complex multi-day work |
-| `/setup` | Complete system setup | Initial configuration |
-| `/status` | System health check | Regular maintenance |
-| `/screenshot` | Visual analysis | Dashboard feedback |
-| `/test-framework` | TDD workflows | Data quality testing |
-| `/gh-workflow` | GitHub integration | PR automation |
-
-### Pro Tips for Data Teams
-
-**🔍 Investigation Pattern:**
-1. Use business-context agent for requirements
-2. Use technical experts for system analysis  
-3. Use da-architect for cross-system decisions
-4. Implement solutions incrementally
-
-**⚡ Performance Optimization:**
-- Run multiple Claude instances for parallel work
-- Use git worktrees for concurrent feature development
-- Leverage headless mode for automation tasks
-
-### Git Worktrees for Parallel Development
-
-The setup script creates a `worktrees/` directory for parallel branch development without context switching.
-
-**Common Workflows:**
-
-```bash
-# Emergency hotfix (while working on feature)
-git worktree add worktrees/hotfix -b hotfix/fix-login-bug
-cd worktrees/hotfix
-# Make urgent fix
-git commit -m "fix: resolve login authentication issue"
-cd ../..
-scripts/worktree.sh remove hotfix
-
-# Experimental feature
-git worktree add worktrees/experiment -b experiment/new-dashboard
-cd worktrees/experiment
-# Try new approach
-# If successful, merge; if not, just remove worktree
-
-# Parallel features
-git worktree add worktrees/feature -b feature/data-validation
-# Work continues in main repo while feature develops separately
-```
-
-**Helper Commands:**
-- `scripts/worktree.sh add <name> <branch>` - Create worktree
-- `scripts/worktree.sh list` - Show all active worktrees  
-- `scripts/worktree.sh remove <name>` - Clean up worktree
-- `scripts/worktree.sh clean` - Remove all worktrees
-
-**When to Use Worktrees:**
-- **Hotfixes**: Emergency fixes without losing current work
-- **Experiments**: Testing ideas without committing to branches
-- **Reviews**: Checking out PRs for local testing
-- **Parallel Features**: Multiple developers on same repository
-
-**🛡️ Safety First:**
-- All sub-agents are research-only (no system modification)
-- Clear separation between analysis and implementation
-- Built-in tool restrictions prevent accidents
-
-### Getting Help
-
-- **Documentation Issues**: Check `.claude/commands/` for examples
-- **Setup Problems**: Run `./setup.sh --status` for diagnostics  
-- **Agent Behavior**: Review `.claude/agents/` for role definitions
-- **Best Practices**: This repo implements Anthropic's recommendations
-
-**Remember**: The DA Agent Hub is designed around Claude Code best practices - explore, plan with agents, then implement systematically! 🎯
-
-## MCP Server Integration
-
-### Currently Active
-
-The system includes pre-configured MCP servers for:
-
-- **dbt-mcp**: dbt Cloud and Snowflake transformations
-- **freshservice-mcp**: IT service management and ticketing
-
-### Planned Future Integrations
-
-Additional servers are documented in `FUTURE-IMPROVEMENTS.md`:
-
-- **ClickUp**: Project management (custom server)
-- **Tableau**: Dashboard platform (awaiting uvx package)
-- **Orchestra**: Workflow orchestration (awaiting uvx package)
-
-### Configuration
-
-MCP servers are configured directly in the management script using `claude mcp add` commands. Environment variables are loaded from `.env`.
-
-**Management Commands:**
-```bash
-# Add all configured servers
-scripts/manage-mcp.py add
-
-# Check server status  
-scripts/manage-mcp.py status
-
-# List configured servers
-scripts/manage-mcp.py list
-
-# Remove specific server
-scripts/manage-mcp.py remove server-name
-```
-
-## Workspace Management
-
-### Repository Organization
-
-Use the repository manager to organize your repositories:
-
-```bash
-# Setup repository symlinks
-./scripts/manage-workspace.sh setup
-
-# List current repositories
-./scripts/manage-workspace.sh list
-
-# Check repository status
-./scripts/manage-workspace.sh status
-
-# Clean broken links
-./scripts/manage-workspace.sh clean
-```
-
-### Configuration
-
-Edit `developer/workspace-config.json` to configure your repository paths:
-
-```json
-{
-  "repositories": {
-    "dbt": {
-      "path": "/path/to/your/dbt/project",
-      "description": "dbt transformation project",
-      "enabled": true
-    },
-    "dlthub": {
-      "path": "/path/to/your/dlthub/project",
-      "description": "dlthub data ingestion project", 
-      "enabled": true
-    }
-  }
-}
-```
-
-## Developer Customization
-
-### Personal Configuration
-
-The `developer/` directory contains your personal customizations:
-
-- `customize.sh`: Personal setup script
-- `workspace-config.json`: Repository configuration
-- `scripts/`: Custom scripts
-- `configs/`: Personal configuration files
-- `knowledge/`: Personal knowledge base
-
-### Team Sharing
-
-The system supports 90% shared configuration with 10% personal customization:
-
-- **Shared**: Agent definitions, MCP configurations, scripts
-- **Personal**: Repository paths, credentials, custom knowledge
-- **Ignored**: The entire `developer/` directory is git-ignored
-
-## Common Workflows
-
-### Data Quality Investigation
-
-```bash
-# 1. Use Business Context Agent to understand requirements
-# 2. Use Snowflake Expert to investigate data anomalies  
-# 3. Use dbt Expert to review transformation logic
-# 4. Use Orchestra Expert to check pipeline health
-# 5. Implement coordinated remediation plan
-```
-
-### Performance Optimization
-
-```bash
-# 1. Use Tableau Expert to identify slow dashboards
-# 2. Use Snowflake Expert to analyze query performance
-# 3. Use dbt Expert to optimize model structure
-# 4. Implement coordinated improvements
-```
-
-### New Feature Development
-
-```bash
-# 1. Use Business Context Agent to gather requirements
-# 2. Use appropriate tool experts for technical analysis
-# 3. Plan implementation across all affected systems
-# 4. Coordinate deployment and testing
-```
-
-## Troubleshooting
-
-### Setup Issues
-
-1. **Run the test script:**
+1. **Create a test dbt issue**:
    ```bash
-   ./scripts/test-setup.sh
+   gh issue create --title "Test Claude Collaboration" \
+     --body "Testing the AI investigation system"
    ```
 
-2. **Check MCP server status:**
+2. **Trigger Claude investigation**:
    ```bash
-   claude mcp list
+   # Comment on the issue
+   @claude investigate this test issue and demonstrate system capabilities
    ```
 
-3. **Validate environment:**
+3. **Verify workflow execution**:
    ```bash
-   source venv/bin/activate
-   python -c "import json; print('Python OK')"
+   gh run list --limit 5
    ```
 
-### Common Problems
+### Health Checks
 
-| Issue | Solution |
-|-------|----------|
-| MCP servers not loading | Check `.env` file, restart Claude |
-| Repository symlinks broken | Run `./scripts/manage-workspace.sh clean` |
-| Permission errors | Check script permissions with `chmod +x` |
-| Python package issues | Recreate venv: `rm -rf venv && python3 -m venv venv` |
+Monitor system health:
 
-## Contributing
+```bash
+# Check workflow status
+gh run list --workflow="dbt Error Monitoring" --limit 3
 
-### Adding New Agents
+# Verify Claude authentication
+gh run list --workflow="Claude Collaborative Fixes" --limit 3
 
-1. Create agent directory: `agents/new-tool-expert/`
-2. Add agent definition: `agents/new-tool-expert/agent.md`
-3. Update documentation and tests
+# Review recent issues
+gh issue list --label="dbt-error" --limit 5
+```
 
-### Adding MCP Servers
+---
 
-1. Add server configuration to `scripts/manage-mcp.py`
-2. Update environment template: `.env.template`  
-3. Run `scripts/manage-mcp.py add` to configure
-4. Test with `./scripts/test-setup.sh`
+## 🚨 Troubleshooting
 
-### Future Improvements
+### Common Issues
 
-See `FUTURE-IMPROVEMENTS.md` for planned enhancements and roadmap.
+| Problem | Symptoms | Solution |
+|---------|----------|----------|
+| **Workflow not triggering** | No new runs after @claude mention | Check workflow is on main branch |
+| **Authentication failed** | "Invalid API key" error | Verify OAuth token in secrets |
+| **No issues created** | dbt errors but no GitHub issues | Check dbt Cloud API permissions |
+| **Claude not responding** | Workflow runs but no comments | Verify ANTHROPIC_API_KEY secret |
 
-## Support
+### Debug Steps
 
-For issues and feature requests, please see the project repository issues section.
+1. **Check workflow files**:
+   ```bash
+   ls -la .github/workflows/
+   ```
 
-## License
+2. **Verify secrets**:
+   ```bash
+   gh secret list
+   ```
 
-[Your License Here]
+3. **Review workflow logs**:
+   ```bash
+   gh run view --log-failed
+   ```
+
+4. **Test API connectivity**:
+   ```bash
+   curl -H "Authorization: Bearer $DBT_TOKEN" \
+     "https://cloud.getdbt.com/api/v2/accounts/$ACCOUNT_ID/"
+   ```
+
+---
+
+## 🎯 Best Practices
+
+### For Data Teams
+
+1. **Proactive Monitoring**: Review daily AI investigations to catch patterns
+2. **Collaborative Debugging**: Use @claude mentions for complex issues
+3. **Knowledge Building**: Let Claude document solutions for future reference
+4. **Gradual Automation**: Start with investigation, progress to auto-fixing
+
+### For Claude Interactions
+
+1. **Be Specific**: "Investigate unique constraint violations in dim_customer"
+2. **Provide Context**: "This started after yesterday's ERP data load"
+3. **Ask Follow-ups**: "What about impact on downstream dashboards?"
+4. **Request Actions**: "Create a PR to fix this" vs. "What should we do?"
+
+### for System Administration
+
+1. **Regular Health Checks**: Monitor workflow success rates
+2. **Token Rotation**: Update API tokens before expiration
+3. **Capacity Planning**: Monitor GitHub Actions usage
+4. **Security Auditing**: Review access logs periodically
+
+---
+
+## 🔮 Future Enhancements
+
+### Planned Features
+- **Slack Integration**: Real-time notifications and interactions
+- **Tableau Dashboard**: System health and metrics visualization
+- **Advanced Analytics**: Pattern recognition across historical issues
+- **Auto-Deployment**: Safe automatic deployment of simple fixes
+- **Multi-Cloud Support**: AWS, GCP, Azure data platforms
+
+### Contributing
+
+We welcome contributions! Areas for enhancement:
+
+- Custom agent development
+- Additional data platform integrations
+- Enhanced error pattern recognition
+- Improved auto-fix capabilities
+- Documentation and examples
+
+---
+
+## 📚 Documentation
+
+### Quick References
+- **[Claude Interaction Guide](docs/claude-interactions.md)**: Complete command reference
+- **[Agent Development](docs/agent-development.md)**: Creating custom experts
+- **[Workflow Configuration](docs/workflow-config.md)**: Setup and customization
+- **[Troubleshooting Guide](docs/troubleshooting.md)**: Common issues and solutions
+
+### External Resources
+- [dbt Cloud API Documentation](https://docs.getdbt.com/dbt-cloud/api-v2)
+- [Claude Code Documentation](https://docs.anthropic.com/claude/docs)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+
+---
+
+## 📞 Support & Community
+
+- **Issues**: [GitHub Issues](https://github.com/graniterock/da-agent-hub/issues)
+- **Documentation**: [Wiki](https://github.com/graniterock/da-agent-hub/wiki)
+- **Discussions**: [GitHub Discussions](https://github.com/graniterock/da-agent-hub/discussions)
+
+---
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE) for details.
+
+---
+
+**Built with ❤️ for data teams who want AI-powered infrastructure management**
+
+*Transform your reactive error handling into proactive, intelligent data operations.*
