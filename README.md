@@ -11,7 +11,59 @@
 
 ## 🌟 Overview
 
-The DA Agent Hub provides a **complete end-to-end solution** for proactive data infrastructure management. It automatically monitors your dbt Cloud projects for errors, creates GitHub issues with detailed context, and uses Claude AI to investigate and propose fixes—all while enabling interactive collaboration for complex problem-solving.
+The DA Agent Hub serves **two complementary purposes** for modern data teams:
+
+### 🔧 **1. Local Development Agent Hub**
+**For developers working locally on data pipelines**
+
+A Claude Code CLI system with specialized sub-agents that help you develop, debug, and optimize your data infrastructure locally. Think of it as having a team of expert consultants available in your terminal.
+
+### 🤖 **2. Automated GitHub Workflows**
+**For autonomous pipeline monitoring and maintenance**
+
+A complete automated system that monitors your dbt Cloud projects for errors, creates GitHub issues with detailed context, and uses Claude AI to investigate and propose fixes—all while enabling interactive collaboration for complex problem-solving.
+
+## 📊 **How They Work Together**
+
+```mermaid
+graph TB
+    subgraph "Local Development (Purpose 1)"
+        DEV[Data Engineer]
+        CLI[Claude Code CLI]
+        AGENTS[Specialized Agents<br/>dbt • snowflake • tableau]
+        LOCAL[Local Repositories]
+    end
+
+    subgraph "Automated Operations (Purpose 2)"
+        GHA[GitHub Actions<br/>Daily Monitor]
+        GI[GitHub Issues<br/>Auto-Created]
+        CA[Claude AI<br/>Investigation]
+        PR[Auto-Generated<br/>Pull Requests]
+    end
+
+    subgraph "Data Infrastructure"
+        DBT[dbt Cloud]
+        SF[Snowflake]
+        TB[Tableau]
+    end
+
+    %% Local Development Flow
+    DEV --> CLI
+    CLI --> AGENTS
+    AGENTS --> LOCAL
+    LOCAL --> DBT
+
+    %% Automated Operations Flow
+    DBT -->|Errors| GHA
+    GHA -->|Creates| GI
+    GI -->|Triggers| CA
+    CA -->|Creates| PR
+    PR -->|Fixes| DBT
+
+    %% Cross-Purpose Integration
+    DEV -.->|@claude mentions| GI
+    AGENTS -.->|Same expertise| CA
+```
 
 ### 🏗️ System Architecture
 
@@ -52,26 +104,66 @@ graph TB
     FIX -->|Resolves| DBT
 ```
 
+## 🎯 **When to Use Each Approach**
+
+### 🔧 **Use Local Development When:**
+- **Developing new features**: Building dbt models, Tableau dashboards, or data pipelines
+- **Debugging complex issues**: Need interactive, back-and-forth problem solving
+- **Learning and exploration**: Want to understand your data stack better
+- **Performance optimization**: Tuning queries, models, or infrastructure
+- **Architecture decisions**: Planning system changes or integrations
+- **Immediate assistance**: Need help right now while working
+
+### 🤖 **Use Automated Operations When:**
+- **Production monitoring**: Want 24/7 oversight of your data pipelines
+- **Team collaboration**: Multiple people need to track and resolve issues
+- **Consistent processes**: Want standardized issue tracking and resolution
+- **Scalable maintenance**: Managing multiple projects or environments
+- **Knowledge preservation**: Building institutional memory of issues and solutions
+- **Proactive operations**: Catch and fix issues before they impact users
+
+### 🔄 **Use Both Together For:**
+- **Complete coverage**: Local development + production monitoring
+- **Continuous learning**: Insights from production feed back into development
+- **Team efficiency**: Developers use local agents, ops team uses automation
+- **Knowledge sharing**: Same agent expertise across both environments
+
 ---
 
 ## 🎯 Key Features
 
-### 🔍 **Automated Error Detection**
-- **Daily Monitoring**: Checks dbt Cloud at 6:30 AM UTC for test failures and model errors
-- **Smart Issue Management**: Creates/updates GitHub issues with comprehensive error details
-- **Priority Classification**: Automatically categorizes issues by error type and severity
-- **Cross-Repository Support**: Works across multiple dbt projects (roy_kent, dbt_cloud)
+### 🔧 **Local Development Features**
 
-### 🤖 **AI-Powered Investigation**
-- **Automatic Analysis**: Claude investigates every new issue with specialized domain expertise
-- **Multi-Agent System**: Uses expert agents for different aspects:
-  - **dbt-expert**: Model compilation, test failures, SQL optimization
-  - **snowflake-expert**: Warehouse performance, query optimization
-  - **tableau-expert**: Dashboard and report model issues
-  - **business-context**: Requirements validation and stakeholder alignment
-  - **da-architect**: Cross-system analysis and strategic decisions
+#### **Specialized Agent System**
+- **dbt-expert**: SQL transformations, model optimization, test development
+- **snowflake-expert**: Query performance, cost analysis, warehouse optimization
+- **tableau-expert**: Dashboard development, report model analysis
+- **business-context**: Requirements gathering, stakeholder alignment
+- **da-architect**: System design, data flow analysis, strategic decisions
+- **dlthub-expert**: Data ingestion, source system integration
 
-### 💬 **Interactive Collaboration**
+#### **Local Development Tools**
+- **Interactive CLI**: Claude Code integration with specialized sub-agents
+- **Repository Management**: Organized workspace with symlinked repositories
+- **Project Workflows**: Structured approach for complex multi-day projects
+- **Knowledge Management**: Personal and team knowledge base integration
+- **Custom Commands**: Tailored workflows for your specific data stack
+
+### 🤖 **Automated Operations Features**
+
+#### **Autonomous Monitoring**
+- **Daily Error Detection**: Automated dbt Cloud monitoring at 6:30 AM UTC
+- **Smart Issue Creation**: GitHub issues with comprehensive error context
+- **Priority Classification**: Automatic categorization by error type and severity
+- **Cross-Repository Support**: Works across multiple dbt projects
+
+#### **AI-Powered Investigation**
+- **Automatic Analysis**: Claude investigates every new issue with domain expertise
+- **Multi-Agent Analysis**: Same expert agents as local development
+- **Root Cause Identification**: Deep dive analysis with historical context
+- **Fix Recommendations**: Specific, actionable solution proposals
+
+#### **Interactive Collaboration**
 - **@claude Mentions**: Comment on any issue to get AI assistance
 - **Automatic PR Creation**: Request fixes with `@claude create PR`
 - **Assignment-Based Fixing**: Assign issues to `claude[bot]` for auto-fix attempts
@@ -82,16 +174,48 @@ graph TB
 
 ## 🚀 Quick Start
 
-### Prerequisites
+**Choose your path based on your primary use case:**
 
+### 🔧 **Path 1: Local Development Setup**
+**For developers who want AI-powered assistance while developing locally**
+
+#### Prerequisites
+- **Claude Code CLI**: [Installation Guide](https://docs.anthropic.com/claude/docs)
+- **GitHub CLI**: [Installation Guide](https://cli.github.com/manual/installation)
+- **Your data repositories**: dbt, dlthub, etc.
+
+#### Setup Steps
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/graniterock/da-agent-hub.git
+   cd da-agent-hub
+   ```
+
+2. **Run the setup script**:
+   ```bash
+   ./setup.sh
+   ```
+   This will auto-detect your repositories and configure the agent system.
+
+3. **Start using agents**:
+   ```bash
+   claude "analyze my dbt models using the dbt-expert agent"
+   claude "help me optimize this Snowflake query with snowflake-expert"
+   ```
+
+### 🤖 **Path 2: Automated Operations Setup**
+**For teams who want automated monitoring and AI-powered issue resolution**
+
+#### Prerequisites
 - **GitHub Repository**: Access to your dbt projects on GitHub
 - **dbt Cloud**: Active dbt Cloud account with API access
 - **Claude Pro/Max**: Subscription for OAuth token authentication
 - **GitHub Actions**: Enabled in your repositories
 
-### 1. Setup Repositories
+#### Setup Steps
 
-The system works across **three repositories**:
+##### 1. Setup Repositories
+The automated system works across **three repositories**:
 
 1. **Your dbt Project** (e.g., `roy_kent`, `dbt_cloud`)
    - Contains dbt models, tests, and configurations
@@ -105,7 +229,7 @@ The system works across **three repositories**:
    - Claude AI investigation system
    - Interactive collaboration workflows
 
-### 2. Configure Secrets
+##### 2. Configure Secrets
 
 Set up these GitHub repository secrets:
 
@@ -187,7 +311,48 @@ jobs:
 
 ## 🎮 Usage Guide
 
-### 💬 Interactive Commands
+### 🔧 **Local Development Usage**
+
+#### **Basic Agent Consultation**
+```bash
+# Get help with dbt models
+claude "analyze my dbt model performance using dbt-expert"
+
+# Optimize Snowflake queries
+claude "help me optimize this query with snowflake-expert"
+
+# Review Tableau dashboard design
+claude "evaluate my dashboard with tableau-expert"
+
+# Multi-agent analysis
+claude "coordinate dbt-expert and snowflake-expert to solve this performance issue"
+```
+
+#### **Project Workflows**
+```bash
+# Start a complex project
+/start_project
+
+# Use agents for research
+claude --agent dbt-expert "investigate model dependencies"
+
+# Implement solutions
+claude "implement the dbt-expert recommendations"
+```
+
+#### **Local Commands**
+```bash
+# Check system status
+/status
+
+# Setup workspace
+./setup.sh
+
+# Manage repositories
+./scripts/manage-workspace.sh list
+```
+
+### 🤖 **Automated Operations Usage**
 
 #### **@claude Mentions**
 Comment on any GitHub issue to get Claude's help:
@@ -220,7 +385,21 @@ Add labels to issues for specific actions:
 - 🏷️ **`claude:investigate`**: Perform deeper analysis
 - 🏷️ **`claude:collaborate`**: Start interactive discussion mode
 
-### 📊 Daily Workflow
+### 📊 **Purpose Comparison**
+
+| Aspect | 🔧 Local Development | 🤖 Automated Operations |
+|--------|---------------------|-------------------------|
+| **Primary User** | Data engineers developing locally | Teams wanting autonomous monitoring |
+| **When Used** | During development, debugging, optimization | 24/7 automated monitoring and response |
+| **Interaction** | Direct CLI commands and agent consultation | GitHub issues, comments, and PR workflows |
+| **Agent Access** | Same specialized agents via Claude Code CLI | Same agents via GitHub Actions workflows |
+| **Repository Scope** | Your local workspace and repositories | Cross-repository GitHub automation |
+| **Response Time** | Immediate (seconds) | Automated (minutes to hours) |
+| **Use Cases** | Feature development, debugging, optimization | Error monitoring, issue resolution, maintenance |
+| **Setup Complexity** | Simple (clone + setup script) | Moderate (workflows + secrets + repositories) |
+| **Cost Model** | Personal Claude subscription | Team GitHub Actions + Claude subscription |
+
+### 📊 Automated Daily Workflow
 
 ```mermaid
 graph LR
@@ -232,7 +411,7 @@ graph LR
     F --> G[Team Reviews<br/>& Merges]
 ```
 
-### 🔧 Example Interactions
+### 🔧 Automated Operations Examples
 
 #### **Scenario 1: Simple Fix Request**
 ```
