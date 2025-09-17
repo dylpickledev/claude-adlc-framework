@@ -61,8 +61,8 @@ graph TB
     PR -->|Fixes| DBT
 
     %% Cross-Purpose Integration
-    DEV -.->|@claude mentions| GI
-    AGENTS -.->|Same expertise| CA
+    DEV -.->|"@claude mentions"| GI
+    AGENTS -.->|"Same expertise"| CA
 ```
 
 ### 🏗️ System Architecture
