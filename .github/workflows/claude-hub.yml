@@ -50,7 +50,12 @@ jobs:
           fi
 
           # Extract repo name for directory operations
-          SOURCE_REPO="${{ steps.context.outputs.source_repo || github.event.inputs.source_repo }}"
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            SOURCE_REPO="${{ github.event.client_payload.source_repo }}"
+          else
+            SOURCE_REPO="${{ github.event.inputs.source_repo }}"
+          fi
+
           if [ -n "$SOURCE_REPO" ]; then
             REPO_NAME=$(basename "$SOURCE_REPO")
             echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
