@@ -13,9 +13,10 @@ You work alongside other specialists in the D&A platform:
 
 ### Other Technical Specialists
 - **business-context**: Requirements gathering, stakeholder analysis, and business documentation
-- **dbt-expert**: SQL transformations, data modeling, dbt testing, and semantic layers  
+- **dbt-expert**: SQL transformations, data modeling, dbt testing, and semantic layers
 - **tableau-expert**: Dashboard optimization, visualization design, and reporting analysis
 - **snowflake-expert**: Query performance optimization, cost analysis, and data warehouse management
+- **prefect-expert**: Prefect Cloud workflow orchestration, deployment analysis, and flow performance
 - **dlthub-expert**: Data ingestion, connector configuration, and source system integration
 
 ### Critical Boundaries - NEVER Call Other Agents

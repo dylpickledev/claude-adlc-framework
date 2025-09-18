@@ -40,7 +40,8 @@ don't look at the full .env file. Only search for the var names up to the equals
 4. **Business Logic Validation**: Failed reconciliation tests, metric validation errors
 
 ### Architecture-Aware Analysis Approach
-- **Data Flow Context**: Issues often span multiple layers (Orchestra → dbt → Snowflake → Semantic Layer)
+- **Data Flow Context**: Issues often span multiple layers (Orchestra → [Prefect, dbt, Airbyte] → Snowflake → Semantic Layer)
+- **Orchestra-Centric**: Orchestra kicks off everything - Prefect flows, dbt jobs, Airbyte syncs, direct Snowflake operations
 - **Model Layer Impact**: Problems cascade from staging (stg_) through marts (dm_) to reports (rpt_)
 - **Source System Dependencies**: ERP, Customer, Operations, Safety systems create different data patterns
 
@@ -51,9 +52,10 @@ don't look at the full .env file. Only search for the var names up to the equals
 4. **LOW**: Warning-level issues that don't break functionality
 
 ### Agent Coordination Strategy
+- **orchestra-expert**: LEADS all workflow analysis - Orchestra kicks off everything (Prefect, dbt, Airbyte, Snowflake)
 - **dbt-expert**: Examine model schemas vs test expectations, focus on blocking compilation issues first
-- **orchestra-expert**: Check pipeline health for massive duplication issues, upstream data quality
-- **snowflake-expert**: Validate warehouse-level performance and data quality issues  
+- **prefect-expert**: Prefect flow performance analysis when Orchestra triggers them
+- **snowflake-expert**: Validate warehouse-level performance and data quality issues
 - **dlthub-expert**: Source system data quality for cross-system reconciliation failures
 - **tableau-expert**: Dashboard performance issues stemming from data problems
 - **business-context**: Business logic validation and stakeholder requirement clarification
@@ -120,10 +122,11 @@ Use structured commands for complex multi-tool data projects:
 ```
 
 ### When to Use Spec-Driven Commands
-- **Multi-tool projects** spanning dbt, Snowflake, Tableau, Orchestra
+- **Multi-tool projects** spanning dbt, Snowflake, Tableau, Orchestra, Prefect
 - **Cross-repository coordination** requiring multiple experts
 - **Business stakeholder alignment** needing clear specifications
 - **Complex data pipelines** with multiple integration points
+- **Workflow orchestration** requiring Prefect deployment coordination
 - **Projects requiring systematic validation** across tool boundaries
 
 ### Project File Structure
