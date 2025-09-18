@@ -1,0 +1,253 @@
+# Enhanced dbt Error Monitoring with Claude Classification
+# Copy this file to each dbt repository: .github/workflows/dbt-error-monitor.yml
+
+name: dbt Error Monitoring with Classification
+
+on:
+  schedule:
+    # Run daily at 6:30 AM UTC (completes before 7 AM work day)
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run in dry-run mode (no actual changes)'
+        required: false
+        default: false
+        type: boolean
+      check_recoveries_only:
+        description: 'Only check for recovered issues'
+        required: false
+        default: false
+        type: boolean
+      force_classification:
+        description: 'Force re-classification of existing issues'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  monitor-dbt-errors:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout dbt_errors_to_issues repository
+      uses: actions/checkout@v4
+      with:
+        repository: dmoditto/dbt_errors_to_issues
+        ref: feature/repo-specific-monitoring
+        path: dbt-error-monitor
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        cd dbt-error-monitor
+        pip install -r requirements.txt
+
+    - name: Determine Repository Context
+      id: repo_context
+      run: |
+        # Extract repository name from GitHub context
+        REPO_NAME="${{ github.repository }}"
+        PROJECT_NAME=$(basename "$REPO_NAME")
+
+        echo "repository=$REPO_NAME" >> $GITHUB_OUTPUT
+        echo "project_name=$PROJECT_NAME" >> $GITHUB_OUTPUT
+
+        # Set repository-specific configuration
+        case $PROJECT_NAME in
+          "dbt_cloud")
+            echo "priority_level=critical" >> $GITHUB_OUTPUT
+            echo "sla_hours=4" >> $GITHUB_OUTPUT
+            ;;
+          "roy_kent")
+            echo "priority_level=high" >> $GITHUB_OUTPUT
+            echo "sla_hours=24" >> $GITHUB_OUTPUT
+            ;;
+          *)
+            echo "priority_level=medium" >> $GITHUB_OUTPUT
+            echo "sla_hours=48" >> $GITHUB_OUTPUT
+            ;;
+        esac
+
+    - name: Check for existing similar issues before monitoring
+      id: pre_check
+      run: |
+        # Get count of recent open issues to avoid spam
+        RECENT_ISSUES=$(gh search issues \
+          --repo ${{ steps.repo_context.outputs.repository }} \
+          --state open \
+          --label "dbt-error" \
+          --created ">$(date -d '24 hours ago' -u +%Y-%m-%dT%H:%M:%SZ)" \
+          --json number \
+          --limit 100 | jq '. | length')
+
+        echo "recent_issue_count=$RECENT_ISSUES" >> $GITHUB_OUTPUT
+
+        if [ "$RECENT_ISSUES" -gt 10 ]; then
+          echo "High volume of recent issues detected ($RECENT_ISSUES)"
+          echo "should_throttle=true" >> $GITHUB_OUTPUT
+        else
+          echo "should_throttle=false" >> $GITHUB_OUTPUT
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run dbt error monitoring
+      id: monitoring
+      run: |
+        cd dbt-error-monitor
+
+        # Capture the output for processing
+        OUTPUT_FILE="/tmp/monitoring_output.json"
+
+        python run_for_project.py \
+          ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }} \
+          ${{ github.event.inputs.check_recoveries_only == 'true' && '--check-recoveries' || '' }} \
+          --output-format json \
+          --output-file "$OUTPUT_FILE"
+
+        # Check if any new issues were created
+        if [ -f "$OUTPUT_FILE" ]; then
+          NEW_ISSUES=$(jq -r '.new_issues // [] | length' "$OUTPUT_FILE")
+          RECOVERED_ISSUES=$(jq -r '.recovered_issues // [] | length' "$OUTPUT_FILE")
+
+          echo "new_issues_count=$NEW_ISSUES" >> $GITHUB_OUTPUT
+          echo "recovered_issues_count=$RECOVERED_ISSUES" >> $GITHUB_OUTPUT
+
+          # Extract issue numbers for classification
+          NEW_ISSUE_NUMBERS=$(jq -r '.new_issues // [] | map(.number) | join(",")' "$OUTPUT_FILE")
+          echo "new_issue_numbers=$NEW_ISSUE_NUMBERS" >> $GITHUB_OUTPUT
+        else
+          echo "new_issues_count=0" >> $GITHUB_OUTPUT
+          echo "recovered_issues_count=0" >> $GITHUB_OUTPUT
+          echo "new_issue_numbers=" >> $GITHUB_OUTPUT
+        fi
+      env:
+        DBT_PROJECT_NAME: ${{ steps.repo_context.outputs.project_name }}
+        DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
+        DBT_CLOUD_ACCOUNT_ID: ${{ secrets.DBT_CLOUD_ACCOUNT_ID }}
+        GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPO: ${{ steps.repo_context.outputs.repository }}
+
+    - name: Trigger immediate classification for new issues
+      if: steps.monitoring.outputs.new_issues_count > 0
+      run: |
+        IFS=',' read -ra ISSUE_ARRAY <<< "${{ steps.monitoring.outputs.new_issue_numbers }}"
+
+        for issue_number in "${ISSUE_ARRAY[@]}"; do
+          if [ ! -z "$issue_number" ]; then
+            echo "Triggering classification for issue #$issue_number"
+
+            # Trigger the Claude error classifier
+            gh workflow run claude-error-classifier.yml \
+              --repo graniterock/da-agent-hub \
+              --field repository="${{ steps.repo_context.outputs.repository }}" \
+              --field issue_number="$issue_number"
+
+            # Small delay to avoid rate limiting
+            sleep 2
+          fi
+        done
+      env:
+        GITHUB_TOKEN: ${{ secrets.DA_AGENT_HUB_PAT }}
+
+    - name: Trigger Claude investigation for all new issues
+      if: steps.monitoring.outputs.new_issues_count > 0 && steps.pre_check.outputs.should_throttle == 'false'
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.DA_AGENT_HUB_PAT }}
+        repository: graniterock/da-agent-hub
+        event-type: dbt-issue-sleuth
+        client-payload: |
+          {
+            "repository": "${{ steps.repo_context.outputs.repository }}",
+            "project": "${{ steps.repo_context.outputs.project_name }}",
+            "trigger": "scheduled_monitoring",
+            "run_id": "${{ github.run_id }}",
+            "new_issues_count": ${{ steps.monitoring.outputs.new_issues_count }},
+            "new_issue_numbers": "${{ steps.monitoring.outputs.new_issue_numbers }}",
+            "priority_level": "${{ steps.repo_context.outputs.priority_level }}"
+          }
+
+    - name: Check for pattern-based escalation
+      if: steps.monitoring.outputs.new_issues_count > 5
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.DA_AGENT_HUB_PAT }}
+        repository: graniterock/da-agent-hub
+        event-type: pattern-detected
+        client-payload: |
+          {
+            "analysis_type": "high_volume_errors",
+            "repository": "${{ steps.repo_context.outputs.repository }}",
+            "issue_count": ${{ steps.monitoring.outputs.new_issues_count }},
+            "time_window": "24_hours",
+            "escalation_reason": "High volume of new errors detected"
+          }
+
+    - name: Update recovery tracking
+      if: steps.monitoring.outputs.recovered_issues_count > 0
+      run: |
+        echo "🎉 ${{ steps.monitoring.outputs.recovered_issues_count }} issues auto-recovered"
+
+        # Trigger auto-resolution monitor to update patterns
+        gh workflow run auto-resolution-monitor.yml \
+          --repo graniterock/da-agent-hub \
+          --field repository="${{ steps.repo_context.outputs.project_name }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.DA_AGENT_HUB_PAT }}
+
+    - name: Create monitoring summary
+      if: always()
+      run: |
+        echo "📊 dbt Error Monitoring completed"
+        echo "Repository: ${{ steps.repo_context.outputs.repository }}"
+        echo "Project: ${{ steps.repo_context.outputs.project_name }}"
+        echo "New Issues: ${{ steps.monitoring.outputs.new_issues_count }}"
+        echo "Recovered Issues: ${{ steps.monitoring.outputs.recovered_issues_count }}"
+        echo "Priority Level: ${{ steps.repo_context.outputs.priority_level }}"
+        echo "Should Throttle: ${{ steps.pre_check.outputs.should_throttle }}"
+        echo "Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+    - name: Create daily summary issue
+      if: github.event_name == 'schedule' && (steps.monitoring.outputs.new_issues_count > 0 || steps.monitoring.outputs.recovered_issues_count > 0)
+      run: |
+        SUMMARY_TITLE="Daily Monitoring Summary: ${{ steps.repo_context.outputs.project_name }} - $(date '+%Y-%m-%d')"
+
+        SUMMARY_BODY=$(cat << EOF
+        # Daily dbt Error Monitoring Summary
+
+        **Repository**: ${{ steps.repo_context.outputs.repository }}
+        **Date**: $(date '+%Y-%m-%d')
+        **Time**: $(date -u '+%H:%M:%S UTC')
+
+        ## Results
+        - **New Issues Created**: ${{ steps.monitoring.outputs.new_issues_count }}
+        - **Issues Auto-Recovered**: ${{ steps.monitoring.outputs.recovered_issues_count }}
+        - **Recent Issue Volume**: ${{ steps.pre_check.outputs.recent_issue_count }} (24h)
+
+        ## Actions Taken
+        - Triggered Claude classification for new issues
+        - Initiated investigation workflow
+        ${{ steps.pre_check.outputs.should_throttle == 'true' && '- ⚠️ Throttled investigation due to high volume' || '' }}
+        ${{ steps.monitoring.outputs.new_issues_count > 5 && '- 🚨 Escalated for pattern analysis (high volume)' || '' }}
+
+        ## Issue Numbers
+        ${{ steps.monitoring.outputs.new_issue_numbers != '' && format('New Issues: {0}', steps.monitoring.outputs.new_issue_numbers) || 'No new issues created' }}
+
+        ---
+        *Auto-generated by Enhanced dbt Error Monitor*
+        EOF
+        )
+
+        gh issue create \
+          --repo graniterock/da-agent-hub \
+          --title "$SUMMARY_TITLE" \
+          --body "$SUMMARY_BODY" \
+          --label "monitoring-summary,${{ steps.repo_context.outputs.project_name }},auto-generated"
+      env:
+        GITHUB_TOKEN: ${{ secrets.DA_AGENT_HUB_PAT }}

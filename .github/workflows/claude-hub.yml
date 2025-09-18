@@ -1,0 +1,208 @@
+name: Claude Central Hub
+
+on:
+  repository_dispatch:
+    types: [repo-event]
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: 'Source repository for testing'
+        required: true
+        type: string
+      event_type:
+        description: 'Event type to simulate'
+        required: true
+        type: choice
+        options:
+          - issues
+          - pull_request
+          - issue_comment
+      test_mode:
+        description: 'Run in test mode'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  execute-claude:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout da-agent-hub
+        uses: actions/checkout@v4
+
+      - name: Extract Event Context
+        id: context
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "source_repo=${{ github.event.client_payload.source_repo }}" >> $GITHUB_OUTPUT
+            echo "event_name=${{ github.event.client_payload.event_name }}" >> $GITHUB_OUTPUT
+            echo "trigger=dispatch" >> $GITHUB_OUTPUT
+            echo "event_data<<EOF" >> $GITHUB_OUTPUT
+            echo '${{ toJson(github.event.client_payload.event) }}' >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "source_repo=${{ github.event.inputs.source_repo }}" >> $GITHUB_OUTPUT
+            echo "event_name=${{ github.event.inputs.event_type }}" >> $GITHUB_OUTPUT
+            echo "trigger=manual" >> $GITHUB_OUTPUT
+            echo "test_mode=${{ github.event.inputs.test_mode }}" >> $GITHUB_OUTPUT
+            echo "event_data={}" >> $GITHUB_OUTPUT
+          fi
+
+          # Extract repo name for directory operations
+          REPO_NAME=$(basename "${{ steps.context.outputs.source_repo || github.event.inputs.source_repo }}")
+          echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+
+      - name: Setup Repositories Directory
+        run: |
+          # Create repos directory (mimics what setup.sh does locally)
+          mkdir -p repos
+          echo "Created repos directory for repository cloning"
+
+      - name: Clone Required Repository
+        run: |
+          SOURCE_REPO="${{ steps.context.outputs.source_repo }}"
+          REPO_NAME="${{ steps.context.outputs.repo_name }}"
+
+          # Read branch from repositories.json (same config setup.sh uses)
+          if [ -f "config/repositories.json" ]; then
+            BRANCH=$(jq -r ".repos.$REPO_NAME.branch // \"main\"" config/repositories.json)
+            echo "Using branch '$BRANCH' from repositories.json for $REPO_NAME"
+          else
+            BRANCH="main"
+            echo "repositories.json not found, defaulting to main branch"
+          fi
+
+          cd repos
+
+          # Clone with PAT for push access (needed for creating fix PRs)
+          echo "Cloning $SOURCE_REPO (branch: $BRANCH)"
+          git clone -b $BRANCH https://x-access-token:${{ secrets.DA_AGENT_HUB_PAT || secrets.GITHUB_TOKEN }}@github.com/$SOURCE_REPO $REPO_NAME
+
+          # Configure git for potential commits
+          cd $REPO_NAME
+          git config user.name "claude[bot]"
+          git config user.email "claude@da-agent-hub.anthropic.com"
+
+          echo "Repository $REPO_NAME cloned and configured"
+
+      - name: Determine Claude Task
+        id: task
+        run: |
+          EVENT_NAME="${{ steps.context.outputs.event_name }}"
+          EVENT_DATA='${{ steps.context.outputs.event_data }}'
+
+          # Determine what Claude should do based on the event
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            echo "task=pr_review" >> $GITHUB_OUTPUT
+            echo "agent=dbt-expert" >> $GITHUB_OUTPUT
+          elif [[ "$EVENT_NAME" == "issues" ]]; then
+            if [[ "$EVENT_DATA" == *"opened"* ]]; then
+              echo "task=classify_issue" >> $GITHUB_OUTPUT
+              echo "agent=github-sleuth-expert" >> $GITHUB_OUTPUT
+            else
+              echo "task=update_issue" >> $GITHUB_OUTPUT
+              echo "agent=issue-lifecycle-expert" >> $GITHUB_OUTPUT
+            fi
+          elif [[ "$EVENT_NAME" == "issue_comment" ]]; then
+            if [[ "$EVENT_DATA" == *"@claude fix"* ]] || [[ "$EVENT_DATA" == *"@claude create PR"* ]]; then
+              echo "task=create_fix_pr" >> $GITHUB_OUTPUT
+              echo "agent=dbt-expert" >> $GITHUB_OUTPUT
+            elif [[ "$EVENT_DATA" == *"@claude investigate"* ]]; then
+              echo "task=investigate" >> $GITHUB_OUTPUT
+              echo "agent=github-sleuth-expert" >> $GITHUB_OUTPUT
+            else
+              echo "task=respond" >> $GITHUB_OUTPUT
+              echo "agent=github-sleuth-expert" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "task=general_analysis" >> $GITHUB_OUTPUT
+            echo "agent=github-sleuth-expert" >> $GITHUB_OUTPUT
+          fi
+
+          echo "Determined task: $(cat $GITHUB_OUTPUT | grep task= | cut -d'=' -f2)"
+          echo "Selected agent: $(cat $GITHUB_OUTPUT | grep agent= | cut -d'=' -f2)"
+
+      - name: Check if Urgent Auto-Resolution Needed
+        if: steps.task.outputs.task == 'classify_issue'
+        run: |
+          # For new critical issues, schedule faster auto-resolution check
+          if [[ "${{ steps.context.outputs.event_data }}" == *"critical"* ]] || [[ "${{ steps.context.outputs.event_data }}" == *"production"* ]]; then
+            echo "Critical issue detected - will trigger expedited resolution check"
+            echo "urgent_issue=true" >> $GITHUB_ENV
+          fi
+
+      - name: Execute Claude with Full Context
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.DA_AGENT_HUB_PAT || secrets.GITHUB_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+          working_directory: .
+          claude_args: |
+            --model claude-3-5-sonnet-20241022
+            --agent ${{ steps.task.outputs.agent }}
+            --add-dir repos/${{ steps.context.outputs.repo_name }}
+          prompt: |
+            # Claude Central Hub Task Execution
+
+            You are running from da-agent-hub with full access to all specialized agents and the target repository.
+
+            ## Context
+            - **Source Repository**: ${{ steps.context.outputs.source_repo }}
+            - **Event Type**: ${{ steps.context.outputs.event_name }}
+            - **Task**: ${{ steps.task.outputs.task }}
+            - **Agent**: ${{ steps.task.outputs.agent }}
+            - **Trigger**: ${{ steps.context.outputs.trigger }}
+
+            ## Available Resources
+            - All agents from `.claude/agents/` are available
+            - Target repository code is in `repos/${{ steps.context.outputs.repo_name }}/`
+            - You can use GitHub CLI to operate on the source repository
+            - For creating PRs: work in the repos directory, commit, and push
+
+            ## Task Instructions
+
+            ### For PR Reviews (${{ steps.task.outputs.task == 'pr_review' && 'ACTIVE' || 'inactive' }})
+            - Analyze the PR changes in the target repository
+            - Provide constructive feedback using dbt-expert knowledge
+            - Comment on the original PR using `gh pr comment`
+
+            ### For Issue Classification (${{ steps.task.outputs.task == 'classify_issue' && 'ACTIVE' || 'inactive' }})
+            - Classify the issue using github-sleuth-expert knowledge
+            - Determine if it's: transient_failure, code_fix_required, data_quality_issue, infrastructure_issue, or false_positive
+            - Apply appropriate labels using `gh issue edit`
+            - Add classification comment
+
+            ### For Fix PR Creation (${{ steps.task.outputs.task == 'create_fix_pr' && 'ACTIVE' || 'inactive' }})
+            - Analyze the issue and implement a fix
+            - Create a new branch in repos/${{ steps.context.outputs.repo_name }}
+            - Make the necessary changes
+            - Commit and push the changes
+            - Create a PR using `gh pr create`
+
+            ### For Investigation (${{ steps.task.outputs.task == 'investigate' && 'ACTIVE' || 'inactive' }})
+            - Investigate the issue using github-sleuth-expert knowledge
+            - Look for patterns, related issues, or root causes
+            - Provide detailed analysis as a comment
+
+            ## Event Data
+            ```json
+            ${{ steps.context.outputs.event_data }}
+            ```
+
+            Please execute the appropriate task based on the context above.
+
+      - name: Create Execution Summary
+        if: always()
+        run: |
+          echo "🤖 Claude Central Hub Execution Complete"
+          echo "Repository: ${{ steps.context.outputs.source_repo }}"
+          echo "Task: ${{ steps.task.outputs.task }}"
+          echo "Agent: ${{ steps.task.outputs.agent }}"
+          echo "Trigger: ${{ steps.context.outputs.trigger }}"
+          echo "Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+          # Create summary for debugging
+          if [ "${{ steps.context.outputs.test_mode }}" = "true" ]; then
+            echo "🧪 Test mode - no real actions taken"
+          fi

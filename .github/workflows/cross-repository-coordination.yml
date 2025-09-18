@@ -1,0 +1,301 @@
+name: Cross-Repository Issue Coordination
+
+on:
+  repository_dispatch:
+    types: [cross-repo-issue, pattern-detected, escalation-needed]
+  workflow_dispatch:
+    inputs:
+      analysis_type:
+        description: 'Type of cross-repository analysis'
+        required: true
+        type: choice
+        options:
+          - pattern_analysis
+          - correlation_check
+          - system_health
+          - workflow_optimization
+      time_window:
+        description: 'Analysis time window'
+        required: false
+        type: choice
+        options:
+          - '24_hours'
+          - '7_days'
+          - '30_days'
+        default: '24_hours'
+
+jobs:
+  coordinate-cross-repo-issues:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout da-agent-hub
+      uses: actions/checkout@v4
+
+    - name: Extract Coordination Context
+      id: context
+      run: |
+        if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+          echo "trigger=api_dispatch" >> $GITHUB_OUTPUT
+          echo "analysis_type=${{ github.event.client_payload.analysis_type }}" >> $GITHUB_OUTPUT
+          echo "repositories=${{ github.event.client_payload.repositories }}" >> $GITHUB_OUTPUT
+          echo "issue_context=${{ github.event.client_payload.issue_context }}" >> $GITHUB_OUTPUT
+        else
+          echo "trigger=manual" >> $GITHUB_OUTPUT
+          echo "analysis_type=${{ github.event.inputs.analysis_type }}" >> $GITHUB_OUTPUT
+          echo "time_window=${{ github.event.inputs.time_window }}" >> $GITHUB_OUTPUT
+          echo "repositories=dbt_cloud,roy_kent,da-agent-hub" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Gather Cross-Repository Issue Data
+      id: data
+      run: |
+        REPOS="${{ steps.context.outputs.repositories }}"
+        TIME_WINDOW="${{ steps.context.outputs.time_window }}"
+
+        # Set time filter based on window
+        case $TIME_WINDOW in
+          "24_hours") TIME_FILTER="created:>$(date -d '1 day ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          "7_days") TIME_FILTER="created:>$(date -d '7 days ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          "30_days") TIME_FILTER="created:>$(date -d '30 days ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          *) TIME_FILTER="created:>$(date -d '1 day ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+        esac
+
+        # Collect issues from all repositories
+        ALL_ISSUES="[]"
+        IFS=',' read -ra REPO_ARRAY <<< "$REPOS"
+
+        for repo in "${REPO_ARRAY[@]}"; do
+          echo "Gathering issues from graniterock/$repo"
+
+          REPO_ISSUES=$(gh search issues \
+            --repo graniterock/$repo \
+            --json number,title,state,labels,createdAt,updatedAt,body,assignees \
+            --limit 50 \
+            "$TIME_FILTER") || echo "[]"
+
+          # Add repository field to each issue
+          REPO_ISSUES=$(echo "$REPO_ISSUES" | jq --arg repo "$repo" 'map(. + {"repository": $repo})')
+
+          # Merge with existing issues
+          ALL_ISSUES=$(echo "$ALL_ISSUES $REPO_ISSUES" | jq -s 'flatten')
+        done
+
+        echo "all_issues<<EOF" >> $GITHUB_OUTPUT
+        echo "$ALL_ISSUES" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+        TOTAL_ISSUES=$(echo "$ALL_ISSUES" | jq '. | length')
+        echo "total_issues=$TOTAL_ISSUES" >> $GITHUB_OUTPUT
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Analyze Cross-Repository Patterns
+      uses: anthropics/claude-code-action@v1
+      id: analysis
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        claude_args: |
+          --model claude-3-5-sonnet-20241022
+          --agent github-sleuth-expert
+        prompt: |
+          # Cross-Repository Issue Analysis
+
+          Please analyze patterns and correlations across our data infrastructure repositories.
+
+          ## Analysis Context
+          - **Analysis Type**: ${{ steps.context.outputs.analysis_type }}
+          - **Time Window**: ${{ steps.context.outputs.time_window }}
+          - **Repositories**: ${{ steps.context.outputs.repositories }}
+          - **Total Issues**: ${{ steps.data.outputs.total_issues }}
+          - **Trigger**: ${{ steps.context.outputs.trigger }}
+
+          ## All Repository Issues
+          ```json
+          ${{ steps.data.outputs.all_issues }}
+          ```
+
+          ## Analysis Instructions
+
+          Based on the analysis type, please focus on:
+
+          ### Pattern Analysis
+          - Identify recurring error patterns across repositories
+          - Look for similar issues happening in multiple repos
+          - Detect timing correlations (same day/time issues)
+          - Find common root causes affecting multiple systems
+
+          ### Correlation Check
+          - Find issues that might be related across repositories
+          - Identify upstream/downstream dependencies causing issues
+          - Look for cascade failures (dbt_cloud → roy_kent → da-agent-hub)
+          - Detect infrastructure-wide problems
+
+          ### System Health Assessment
+          - Overall error volume and trends
+          - Priority distribution across repositories
+          - Resolution time patterns
+          - Expert workload distribution
+
+          ### Workflow Optimization
+          - Automation effectiveness analysis
+          - Manual intervention frequency
+          - Expert assignment accuracy
+          - Process bottlenecks identification
+
+          ## Required Deliverables
+
+          Please provide:
+
+          1. **Pattern Summary**: Key patterns identified with examples
+          2. **Correlation Matrix**: Related issues across repositories
+          3. **Health Indicators**: System-wide health metrics
+          4. **Action Items**: Specific recommendations with priorities
+          5. **Escalation Needs**: Issues requiring immediate attention
+
+          ## Repository-Specific Context
+
+          ### dbt_cloud (Production Critical)
+          - Production data pipeline impacts
+          - Downstream reporting effects
+          - Schema and data quality issues
+
+          ### roy_kent (Business Intelligence)
+          - Business metric accuracy
+          - Dashboard availability
+          - Semantic layer health
+
+          ### da-agent-hub (Automation Hub)
+          - Workflow coordination efficiency
+          - Agent system reliability
+          - Cross-system integration health
+
+          Provide actionable insights that can improve our overall data infrastructure reliability.
+
+    - name: Create Cross-Repository Coordination Issue
+      if: steps.analysis.outputs.response contains 'escalation_needed' || steps.context.outputs.analysis_type == 'system_health'
+      run: |
+        # Create a coordination issue in da-agent-hub for cross-repository concerns
+        ISSUE_TITLE="Cross-Repository Coordination: ${{ steps.context.outputs.analysis_type }} - $(date '+%Y-%m-%d')"
+
+        ISSUE_BODY=$(cat << EOF
+        # Cross-Repository Issue Coordination Report
+
+        **Analysis Type**: ${{ steps.context.outputs.analysis_type }}
+        **Time Window**: ${{ steps.context.outputs.time_window }}
+        **Repositories Analyzed**: ${{ steps.context.outputs.repositories }}
+        **Total Issues**: ${{ steps.data.outputs.total_issues }}
+
+        ## Claude Analysis Results
+
+        ${{ steps.analysis.outputs.response }}
+
+        ## Affected Repositories
+        - **dbt_cloud**: Production data pipelines
+        - **roy_kent**: Business intelligence and semantic layer
+        - **da-agent-hub**: Automation and coordination
+
+        ## Next Steps
+        - [ ] Review cross-repository patterns
+        - [ ] Implement recommended optimizations
+        - [ ] Update automation rules if needed
+        - [ ] Schedule follow-up analysis
+
+        ---
+        *Auto-generated by Cross-Repository Coordination workflow*
+        *Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')*
+        EOF
+        )
+
+        gh issue create \
+          --repo graniterock/da-agent-hub \
+          --title "$ISSUE_TITLE" \
+          --body "$ISSUE_BODY" \
+          --label "cross-repository,coordination,auto-generated" \
+          --assignee "claude[bot]"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update Repository-Specific Issues
+      run: |
+        # If specific issues need updates across repositories, apply them
+        echo "Applying cross-repository issue updates..."
+
+        # Extract specific actions from Claude's analysis
+        RESPONSE="${{ steps.analysis.outputs.response }}"
+
+        # Look for actionable items in the response
+        if echo "$RESPONSE" | grep -q "label:"; then
+          echo "Found label updates to apply"
+          # Implementation would parse specific labeling actions
+        fi
+
+        if echo "$RESPONSE" | grep -q "link:"; then
+          echo "Found issue linking recommendations"
+          # Implementation would create cross-references between related issues
+        fi
+
+        if echo "$RESPONSE" | grep -q "escalate:"; then
+          echo "Found escalation requirements"
+          # Implementation would trigger escalation workflows
+        fi
+
+    - name: Schedule Follow-up Analysis
+      if: steps.context.outputs.analysis_type == 'pattern_analysis'
+      run: |
+        # Schedule another pattern analysis in 7 days
+        echo "Scheduling follow-up pattern analysis for next week"
+
+        # This could trigger a delayed workflow or create a reminder issue
+        gh issue create \
+          --repo graniterock/da-agent-hub \
+          --title "Scheduled: Follow-up Pattern Analysis - $(date -d '+7 days' '+%Y-%m-%d')" \
+          --body "Automated reminder to run follow-up cross-repository pattern analysis." \
+          --label "scheduled,pattern-analysis,reminder" \
+          --milestone "Weekly Operations"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Generate Coordination Summary
+      if: always()
+      run: |
+        echo "🔄 Cross-Repository Coordination completed"
+        echo "Analysis Type: ${{ steps.context.outputs.analysis_type }}"
+        echo "Repositories: ${{ steps.context.outputs.repositories }}"
+        echo "Issues Analyzed: ${{ steps.data.outputs.total_issues }}"
+        echo "Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+  update-automation-rules:
+    runs-on: ubuntu-latest
+    needs: coordinate-cross-repo-issues
+    if: github.event.inputs.analysis_type == 'workflow_optimization'
+
+    steps:
+    - name: Review Automation Rule Updates
+      uses: anthropics/claude-code-action@v1
+      with:
+        claude_args: "--agent issue-lifecycle-expert"
+        prompt: |
+          # Automation Rule Optimization
+
+          Based on the cross-repository analysis, please review and recommend updates to our automation rules.
+
+          ## Current Automation Rules
+          - Auto-classification of errors
+          - Expert assignment patterns
+          - Resolution monitoring schedules
+          - Escalation triggers
+
+          ## Optimization Focus
+          - Reduce false positives
+          - Improve expert assignment accuracy
+          - Optimize monitoring frequencies
+          - Enhance escalation criteria
+
+          Please provide specific rule updates that can be implemented in our GitHub Actions workflows.
+
+    - name: Apply Rule Updates
+      run: |
+        echo "📋 Automation rule optimization completed"
+        echo "Review workflow files for potential updates based on analysis"
