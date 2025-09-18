@@ -1,5 +1,6 @@
 name: Claude Central Hub
 
+# Centralized Claude orchestration for cross-repository automation
 on:
   repository_dispatch:
     types: [repo-event]
