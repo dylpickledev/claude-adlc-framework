@@ -50,8 +50,15 @@ jobs:
           fi
 
           # Extract repo name for directory operations
-          REPO_NAME=$(basename "${{ steps.context.outputs.source_repo || github.event.inputs.source_repo }}")
-          echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+          SOURCE_REPO="${{ steps.context.outputs.source_repo || github.event.inputs.source_repo }}"
+          if [ -n "$SOURCE_REPO" ]; then
+            REPO_NAME=$(basename "$SOURCE_REPO")
+            echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+            echo "Extracted repo name: $REPO_NAME from $SOURCE_REPO"
+          else
+            echo "ERROR: SOURCE_REPO is empty"
+            exit 1
+          fi
 
       - name: Setup Repositories Directory
         run: |
@@ -64,9 +71,22 @@ jobs:
           SOURCE_REPO="${{ steps.context.outputs.source_repo }}"
           REPO_NAME="${{ steps.context.outputs.repo_name }}"
 
+          echo "SOURCE_REPO: $SOURCE_REPO"
+          echo "REPO_NAME: $REPO_NAME"
+
+          # Validate inputs
+          if [ -z "$SOURCE_REPO" ]; then
+            echo "ERROR: SOURCE_REPO is empty"
+            exit 1
+          fi
+          if [ -z "$REPO_NAME" ]; then
+            echo "ERROR: REPO_NAME is empty"
+            exit 1
+          fi
+
           # Read branch from repositories.json (same config setup.sh uses)
           if [ -f "config/repositories.json" ]; then
-            BRANCH=$(jq -r ".repos.$REPO_NAME.branch // \"main\"" config/repositories.json)
+            BRANCH=$(jq -r ".repos.\"$REPO_NAME\".branch // \"main\"" config/repositories.json)
             echo "Using branch '$BRANCH' from repositories.json for $REPO_NAME"
           else
             BRANCH="main"
@@ -133,15 +153,9 @@ jobs:
           fi
 
       - name: Execute Claude with Full Context
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@beta
         with:
-          github_token: ${{ secrets.DA_AGENT_HUB_PAT || secrets.GITHUB_TOKEN }}
-          claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
-          working_directory: .
-          claude_args: |
-            --model claude-3-5-sonnet-20241022
-            --agent ${{ steps.task.outputs.agent }}
-            --add-dir repos/${{ steps.context.outputs.repo_name }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             # Claude Central Hub Task Execution
 
@@ -165,7 +179,7 @@ jobs:
             ### For PR Reviews (${{ steps.task.outputs.task == 'pr_review' && 'ACTIVE' || 'inactive' }})
             - Analyze the PR changes in the target repository
             - Provide constructive feedback using dbt-expert knowledge
-            - Comment on the original PR using `gh pr comment`
+            - Comment on the original PR using GitHub CLI
 
             ### For Issue Classification (${{ steps.task.outputs.task == 'classify_issue' && 'ACTIVE' || 'inactive' }})
             - Classify the issue using github-sleuth-expert knowledge
@@ -189,6 +203,8 @@ jobs:
             ```json
             ${{ steps.context.outputs.event_data }}
             ```
+
+            **IMPORTANT**: You MUST respond back to the original PR/issue that triggered this dispatch. Use GitHub CLI to comment on the source repository.
 
             Please execute the appropriate task based on the context above.
 
