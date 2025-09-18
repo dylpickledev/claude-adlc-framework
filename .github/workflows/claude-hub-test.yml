@@ -1,0 +1,23 @@
+name: Claude Central Hub Test
+
+on:
+  repository_dispatch:
+    types: [repo-event]
+  workflow_dispatch:
+    inputs:
+      test_param:
+        description: 'Test parameter'
+        required: false
+        type: string
+        default: 'test'
+
+jobs:
+  test-workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Step
+        run: |
+          echo "🧪 Claude Hub Test Triggered"
+          echo "Event: ${{ github.event_name }}"
+          echo "Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
