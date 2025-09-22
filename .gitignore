@@ -72,10 +72,13 @@ repos/*/
 !repos/*/.gitkeep
 repos/*/*
 
-# Knowledge clones - keep folder structure but not contents
+# Knowledge folder - include top level but exclude subfolders (other repos)
 knowledge/*/
 !knowledge/*/.gitkeep
 knowledge/*/*
+# Allow D&A team documentation in knowledge/da_team_documentation/
+!knowledge/da_team_documentation/
+!knowledge/da_team_documentation/**
 
 .claude/settings.local.json
 
