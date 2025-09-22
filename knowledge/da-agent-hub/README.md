@@ -1,44 +1,30 @@
 # 📚 DA Agent Hub Documentation
 
-Welcome to the comprehensive documentation suite for the DA Agent Hub - an AI-powered data infrastructure management system.
+Welcome to the comprehensive documentation suite for the DA Agent Hub - an AI-powered Analytics Development Lifecycle (ADLC) platform.
 
-## 📖 Documentation Structure
+## 🔄 Three-Layer ADLC Architecture
 
-### 🏠 [Main README](../README.md)
-**Start here** - Complete system overview, architecture, and quick start guide.
+The DA Agent Hub implements the complete [dbt Analytics Development Lifecycle](https://www.getdbt.com/resources/the-analytics-development-lifecycle) through three integrated AI-powered layers:
 
-- System architecture and data flow
-- Key features and capabilities
-- Installation and setup instructions
-- Cost analysis and ROI benefits
-- Security and authentication overview
+### 💡 [Layer 1: Planning](planning/)
+**ADLC Plan Phase** - Idea Management & Strategic Planning
+- Business case validation and idea capture
+- Strategic planning and prioritization frameworks
+- Stakeholder feedback integration
+- Impact analysis and roadmap creation
 
-### 💬 [Claude Interaction Guide](claude-interactions.md)
-**Essential for daily use** - Complete reference for interacting with Claude AI.
+### 🔧 [Layer 2: Development](development/)
+**ADLC Develop/Test/Deploy Phases** - Local Development & Project Management
+- **[Agent Development](development/agent-development.md)**: Creating custom specialist agents
+- **[Claude Interactions](development/claude-interactions.md)**: Command reference and best practices
+- **[Setup Guide](development/setup.md)**: Complete installation and configuration
+- **[Workflow Configuration](development/workflow-config.md)**: Development workflow setup
 
-- @claude mention commands and syntax
-- Label-based and assignment triggers
-- Multi-turn conversation examples
-- Agent specialization guide
-- Performance tips and best practices
-
-### ⚙️ [Workflow Configuration Guide](workflow-config.md)
-**For system administrators** - Setup and customization instructions.
-
-- Repository configuration and secrets
-- Workflow customization options
-- Security and authentication setup
-- Advanced integrations and features
-- Monitoring and observability
-
-### 🔧 [Troubleshooting Guide](troubleshooting.md)
-**When things go wrong** - Comprehensive problem-solving resource.
-
-- Common issues and solutions
-- Step-by-step debugging procedures
-- Health monitoring and diagnostics
-- Recovery and maintenance procedures
-- Getting help and support
+### 🤖 [Layer 3: Operations](operations/)
+**ADLC Operate/Observe/Discover/Analyze Phases** - Automated Operations
+- **[Cross-Repository Architecture](operations/cross-repository-issue-architecture.md)**: Multi-repo coordination
+- **[Issue Tracking Deployment](operations/enhanced-issue-tracking-deployment.md)**: Automated issue resolution
+- **[Troubleshooting Guide](operations/troubleshooting.md)**: Operations problem-solving
 
 ## 🚀 Quick Navigation
 

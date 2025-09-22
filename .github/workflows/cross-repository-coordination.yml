@@ -23,6 +23,10 @@ on:
           - '7_days'
           - '30_days'
         default: '24_hours'
+  push:
+    # Only validate workflow file, don't actually run jobs
+    paths:
+      - '.github/workflows/cross-repository-coordination.yml'
 
 jobs:
   coordinate-cross-repo-issues:
