@@ -68,12 +68,13 @@ The `knowledge/da_team_documentation/` directory contains comprehensive Data & A
 
 ### Agent Coordination Strategy
 - **orchestra-expert**: LEADS all workflow analysis - Orchestra kicks off everything (Prefect, dbt, Airbyte, Snowflake)
-- **dbt-expert**: Examine model schemas vs test expectations, focus on blocking compilation issues first
+- **documentation-expert**: ENSURES all agents create proper documentation within their tools and follow GraniteRock standards
+- **dbt-expert**: Examine model schemas vs test expectations, focus on blocking compilation issues first, maintain model documentation
 - **prefect-expert**: Prefect flow performance analysis when Orchestra triggers them
-- **snowflake-expert**: Validate warehouse-level performance and data quality issues
+- **snowflake-expert**: Validate warehouse-level performance and data quality issues, document schema purposes
 - **dlthub-expert**: Source system data quality for cross-system reconciliation failures
-- **tableau-expert**: Dashboard performance issues stemming from data problems
-- **business-context**: Business logic validation and stakeholder requirement clarification
+- **tableau-expert**: Dashboard performance issues stemming from data problems, create user guides
+- **business-context**: Business logic validation and stakeholder requirement clarification using knowledge base templates
 - **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
 
 - git branches should be prefixed by feature/ or fix/
