@@ -244,7 +244,11 @@ projects/active/feature-data-quality-monitoring/
 # 4. Specialist agent coordination
 claude "coordinate dbt-expert and tableau-expert for customer dashboard implementation"
 
-# 5. Automated monitoring catches issues
+# 5. Agent training and continuous improvement
+./scripts/analyze-claude-chats.sh
+# → Analyzes conversation patterns → Generates improvement recommendations → Enhanced agents
+
+# 6. Automated monitoring catches issues
 # GitHub Actions detect errors → Claude investigates → Cross-repo PRs created
 ```
 
@@ -295,6 +299,12 @@ claude "tableau-expert: design executive dashboard mockups"
 - **AI-Powered Investigation**: Automatic analysis with specialist agent expertise
 - **Cross-Repo Intelligence**: PRs spanning dbt, Snowflake, Tableau repositories
 - **Interactive Collaboration**: @claude mentions for issue resolution
+
+### **🎓 Intelligent Agent Training System**
+- **Automated Learning**: Analyzes Claude conversations to improve agent effectiveness
+- **Privacy-Preserving**: Personal chat analysis stays local, anonymized insights shared
+- **Continuous Improvement**: Agents get smarter with every project completed
+- **Data-Driven Enhancements**: Recommendations based on real usage patterns
 
 ### **🌐 Cross-Layer Intelligence**
 - **Context Preservation**: Ideas link to projects link to operational fixes

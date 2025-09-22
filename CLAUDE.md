@@ -268,6 +268,160 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - Determine if it'd be best to use defined agent, or if its general then give to a general subagent
 - Always preserve context links between ideas → projects → operations
 
+## ADLC Continuous Improvement Strategy
+
+### Agent Knowledge Evolution
+During project completion (via `/complete` command), actively identify and capture:
+
+#### Agent Capability Enhancements
+- **New tool patterns** discovered during implementation
+- **Integration strategies** that proved effective across specialist domains
+- **Troubleshooting insights** for common cross-system issues
+- **Performance optimizations** specific to tool combinations
+- **Best practices** that emerged from collaborative work
+
+#### Agent File Updates (`/.claude/agents/`)
+**Update agent files when projects demonstrate:**
+- **dbt-expert.md**: Novel SQL patterns, model architectures, testing strategies
+- **snowflake-expert.md**: Query optimization techniques, cost management patterns
+- **tableau-expert.md**: Dashboard design patterns, user experience improvements
+- **da-architect.md**: System integration patterns, architecture decision frameworks
+- **documentation-expert.md**: Enhanced documentation standards and templates
+- **business-context.md**: Stakeholder management patterns, requirement gathering improvements
+- **orchestra-expert.md**: Workflow orchestration patterns, dependency management strategies
+- **dlthub-expert.md**: Data ingestion patterns, source system integration improvements
+
+#### Knowledge Base Enhancement (`/knowledge/`)
+**Add documentation when projects reveal:**
+- **System architecture patterns**: Novel integration strategies worth preserving
+- **Process improvements**: Workflow enhancements that improve team efficiency
+- **Technical guides**: Implementation patterns for complex multi-tool scenarios
+- **Team collaboration methods**: Cross-functional coordination strategies
+- **ADLC methodology refinements**: Improvements to the development lifecycle itself
+
+### Proactive Improvement Identification
+**During project work, continuously assess:**
+
+#### Should We Open a Separate PR for System Improvements?
+**Consider system improvement PRs when discovering:**
+- **Agent capability gaps**: Missing expertise areas that would benefit the team
+- **Knowledge documentation needs**: Undocumented patterns that cause repeated questions
+- **Process bottlenecks**: Workflow inefficiencies that slow development
+- **Tool integration opportunities**: Missing connections between specialist agents
+- **ADLC phase improvements**: Enhancements to capture/roadmap/build/complete workflows
+
+#### Improvement PR Decision Framework
+**Create separate improvement PRs for:**
+- **HIGH IMPACT**: Agent updates that benefit multiple future projects
+- **KNOWLEDGE GAPS**: Missing documentation that causes repeated research
+- **PROCESS OPTIMIZATION**: Workflow improvements with measurable efficiency gains
+- **INTEGRATION ENHANCEMENT**: Cross-tool coordination improvements
+- **ADLC METHODOLOGY**: Core system workflow refinements
+
+**Examples of improvement PR topics:**
+```
+- "feat: Enhance dbt-expert with incremental model optimization patterns"
+- "docs: Add Snowflake cost optimization playbook to knowledge base"
+- "feat: Create tableau-performance-expert agent for dashboard optimization"
+- "docs: Document cross-repo coordination patterns in operations guide"
+- "feat: Improve /complete command with automated knowledge extraction"
+```
+
+### Implementation During Project Work
+**While completing projects, suggest improvements:**
+
+1. **During Implementation**: "This pattern might be valuable for future projects - should we document it?"
+2. **During Testing**: "This troubleshooting approach could benefit [relevant-expert] agent"
+3. **During Completion**: "The integration strategy here could improve our ADLC workflow"
+4. **During Archival**: "This process improvement warrants a separate PR for the team"
+
+### Continuous Improvement Workflow
+```
+🔧 PROJECT WORK (current focus)
+    ↓ Identify improvement opportunities
+📝 IMPROVEMENT IDENTIFICATION
+    ↓ Assess impact and scope
+🎯 IMPROVEMENT PR RECOMMENDATION
+    ↓ Separate from current work
+🚀 SYSTEM ENHANCEMENT
+    ↓ Benefits future projects
+💡 ENHANCED ADLC CAPABILITY
+```
+
+### Success Metrics for Continuous Improvement
+- **Agent effectiveness**: Reduced need for manual research on recurring topics
+- **Knowledge accessibility**: Faster onboarding and reduced repeated questions
+- **Process efficiency**: Measurable improvements in project completion time
+- **Cross-tool coordination**: Smoother integration across specialist domains
+- **Team learning velocity**: Faster adoption of new patterns and best practices
+
+## Agent Training & Learning System
+
+### Automated Chat Analysis for Continuous Improvement
+The DA Agent Hub includes an intelligent training system that analyzes Claude Code conversation histories to continuously improve agent effectiveness. This system learns from real usage patterns to enhance the ADLC workflow.
+
+#### Chat Analysis Features
+- **User-Agnostic Discovery**: Automatically finds Claude conversations regardless of developer setup
+- **Privacy-Preserving**: Personal analysis results stay local, only anonymized insights shared
+- **Effectiveness Metrics**: Tracks agent usage patterns, success rates, and knowledge gaps
+- **Improvement Recommendations**: Generates specific suggestions for agent enhancements
+
+#### Usage Commands
+```bash
+# Analyze your Claude conversations for training insights
+./scripts/analyze-claude-chats.sh
+
+# Results stored locally (not committed to git)
+ls knowledge/da-agent-hub/training/analysis-results/
+
+# Use insights to create agent improvement PRs
+git checkout -b feature/improve-[agent-name]-based-on-analysis
+```
+
+#### Integration with Project Completion
+The `/complete` command automatically analyzes project-related conversations:
+- **Extracts learnings** from project chat history
+- **Identifies patterns** in agent usage and effectiveness
+- **Generates recommendations** for agent improvements
+- **Creates PR suggestions** for high-impact enhancements
+
+#### Training Data Sources
+- **Agent invocation patterns**: Which agents are used for what tasks
+- **Success/failure indicators**: User corrections, retry attempts, satisfaction signals
+- **Knowledge gaps**: Areas where agents lack sufficient information
+- **Collaboration patterns**: Multi-agent coordination effectiveness
+- **Query types**: Common question patterns requiring better responses
+
+#### Continuous Learning Loop
+```
+🔧 PROJECT WORK → 💬 CLAUDE CONVERSATIONS → 📊 AUTOMATED ANALYSIS
+    ↑                                                      ↓
+🚀 ENHANCED AGENTS ← 📝 IMPROVEMENT PRs ← 💡 RECOMMENDATIONS
+```
+
+#### Privacy & Security
+- **Local processing**: All analysis happens on developer's machine
+- **Git exclusion**: Personal analysis results automatically ignored
+- **Anonymized insights**: Only high-level patterns shared with team
+- **Opt-in sharing**: Developers choose what improvements to contribute
+
+#### Example Analysis Output
+```markdown
+## Agent Effectiveness Report
+- dbt-expert: 47 invocations (72% first-attempt success)
+- snowflake-expert: 31 invocations (85% satisfaction rate)
+
+## Knowledge Gaps Identified
+1. Incremental model strategies (8 requests need better guidance)
+2. Cross-system debugging patterns (5 requests lack clear workflows)
+
+## Recommended Improvements
+- Update dbt-expert.md with incremental model decision framework
+- Create cross-system troubleshooting playbook for da-architect.md
+```
+
+This training system ensures the DA Agent Hub becomes more effective with every project, creating a self-improving ADLC platform that learns from real team usage patterns.
+
 ## Task vs Project Classification
 
 ### Use Project Structure (`/start_project` + `projects/` directory) When:
