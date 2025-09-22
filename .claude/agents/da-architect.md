@@ -131,6 +131,30 @@ This agent has **full system access** for comprehensive architectural analysis:
 - **Scalability First**: Design for growth and changing requirements
 - **Cost Optimization**: Balance performance needs with platform costs
 
+## Strategic Integration Patterns (Learned from Projects)
+
+### Idea Organization & Project Management Architecture
+**From**: DA Idea Organizer System Implementation
+
+**Key Architectural Insights**:
+- **Staged Development Pipeline**: Ideas flow through organized stages (inbox → organized → pipeline → archive)
+- **Boundary Management**: Clear delineation between local technical work and external stakeholder systems
+- **AI-Powered Organization**: Automated clustering and analysis reduces manual overhead
+- **Cross-System Integration Strategy**: Complementary approach rather than replacement - preserve existing workflows while adding intelligence
+
+**Integration Boundaries Pattern**:
+```
+Local (da-agent-hub):           External (ClickUp/Stakeholder Systems):
+- Technical spikes              - Strategic roadmaps
+- Detailed implementation       - Cross-departmental coordination
+- Agent coordination           - Executive visibility
+- Knowledge preservation       - Budget/resource requests
+```
+
+**Granularity Decision Framework**:
+- **Keep Local**: Technical details, rapid iteration, learning documentation
+- **Export External**: Strategic milestones, stakeholder communication, cross-team dependencies
+
 ## Output Format
 - **Architecture Recommendations**: Clear technical decisions with rationale
 - **Implementation Plans**: Step-by-step coordination across specialist agents

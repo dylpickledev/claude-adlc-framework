@@ -256,25 +256,27 @@ jobs:
         run: |
           SOURCE_REPO="${{ steps.context.outputs.source_repo }}"
           EVENT_NAME="${{ steps.context.outputs.event_name }}"
+          TASK="${{ steps.task.outputs.task }}"
+          AGENT="${{ steps.task.outputs.agent }}"
 
           # Check if findings.md exists (Claude should have created it)
           if [ ! -f findings.md ]; then
             echo "⚠️ No findings.md found - Claude may not have completed the task"
             echo "Creating minimal response..."
-            cat > findings.md << 'EOF'
-## 🤖 Claude Task Execution Notice
-
-The Claude task was triggered but no detailed findings were generated. This may indicate:
-- The task is still in progress
-- There was an issue with the analysis
-- The specific task type may need manual review
-
-**Task**: ${{ steps.task.outputs.task }}
-**Agent**: ${{ steps.task.outputs.agent }}
-**Repository**: ${{ steps.context.outputs.source_repo }}
-
-Please check the workflow logs for more details.
-EOF
+            {
+              echo "## 🤖 Claude Task Execution Notice"
+              echo ""
+              echo "The Claude task was triggered but no detailed findings were generated. This may indicate:"
+              echo "- The task is still in progress"
+              echo "- There was an issue with the analysis"
+              echo "- The specific task type may need manual review"
+              echo ""
+              echo "**Task**: ${TASK}"
+              echo "**Agent**: ${AGENT}"
+              echo "**Repository**: ${SOURCE_REPO}"
+              echo ""
+              echo "Please check the workflow logs for more details."
+            } > findings.md
           fi
 
           # Determine target number and post response if not already posted

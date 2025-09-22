@@ -1,5 +1,160 @@
 don't look at the full .env file. Only search for the var names up to the equals sign.
 
+# DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
+
+## Overview
+
+The DA Agent Hub implements the complete [dbt Analytics Development Lifecycle](https://www.getdbt.com/resources/the-analytics-development-lifecycle) with three integrated AI-powered layers that map to ADLC phases:
+
+### 🔄 ADLC Alignment
+```
+💡 LAYER 1: PLAN → Ideation & strategic planning with AI organization
+🔧 LAYER 2: DEVELOP + TEST + DEPLOY → Local development with specialist agents
+🤖 LAYER 3: OPERATE + OBSERVE + DISCOVER + ANALYZE → Automated operations
+```
+
+### Three-Layer Architecture
+1. **💡 Planning Layer** - ADLC Plan: Transform brainstorming into structured roadmaps
+2. **🔧 Development Layer** - ADLC Develop/Test/Deploy: Execute with specialist AI coordination
+3. **🤖 Operations Layer** - ADLC Operate/Observe/Discover/Analyze: Monitor and optimize
+
+## Layer 1: ADLC Planning Phase - Idea Management System ("Spaghetti Organizer")
+
+### ADLC Plan Alignment
+This layer implements the **Plan** phase of the Analytics Development Lifecycle:
+- **Business case validation**: `./scripts/capture.sh` captures problems and opportunities
+- **Implementation planning**: Auto-organization with intelligent clustering
+- **Stakeholder feedback**: `./scripts/roadmap.sh` facilitates strategic planning
+- **Impact analysis**: AI clustering identifies downstream effects
+- **Long-term maintenance**: Roadmaps consider sustainability
+
+### Simplified Workflow
+The complete analytics development lifecycle is now handled by **4 simple commands**:
+
+#### 1. **`./scripts/capture.sh "[idea]"`** or **`/capture "[idea]"`** - Idea Capture
+- Rapid idea collection (< 30 seconds)
+- Auto-organizes when inbox reaches 3+ ideas
+- ADLC Plan: Business case validation and idea collection
+
+#### 2. **`./scripts/roadmap.sh [timeframe]`** or **`/roadmap [timeframe]`** - Strategic Planning
+- Creates prioritization frameworks
+- Impact vs effort analysis
+- Timeframe options: quarterly, sprint, annual
+- ADLC Plan: Strategic planning and stakeholder feedback
+
+#### 3. **`./scripts/build.sh [idea-name]`** or **`/build [idea-name]`** - Project Execution
+- One command from idea → full project setup
+- Auto-promotes ideas through pipeline
+- Creates complete project structure
+- ADLC Develop/Test/Deploy: Complete project implementation
+
+#### 4. **`./scripts/finish.sh [project-name]`** or **`/finish [project-name]`** - Project Completion
+- Archives completed projects
+- Updates related ideas
+- Handles git workflow guidance
+- ADLC Complete: Project archival and operations transition
+
+### Organization Workflow
+Ideas flow automatically through these stages:
+- **Inbox**: Raw ideas from `capture.sh` (`ideas/inbox/`)
+- **Organized**: Auto-clustered themes (`ideas/organized/`)
+- **Roadmaps**: Strategic planning outputs (`ideas/roadmaps/`)
+- **Pipeline**: Ideas ready for `build.sh` (`ideas/pipeline/`)
+- **Archive**: Completed or rejected ideas (`ideas/archive/`)
+
+### Granularity Rules
+
+**Keep Local (da-agent-hub)**:
+- Technical spikes and proof-of-concepts
+- Detailed implementation work (models, code, testing)
+- Agent coordination and technical findings
+- Knowledge preservation and learning documentation
+
+**Export to ClickUp**:
+- Strategic roadmaps for stakeholder visibility
+- Cross-departmental initiatives requiring coordination
+- Executive-level milestones and budget requests
+- Stakeholder communication and milestone tracking
+
+### Integration with Project System
+- **Seamless promotion**: `/build` uses existing `work-init.sh` workflow
+- **Context preservation**: Links maintained between ideas and projects
+- **Specialist agents**: Technical analysis from dbt-expert, snowflake-expert, etc.
+- **Git workflow**: Full version control for idea evolution
+
+## Layer 2: ADLC Development Phase - Local Development & Project Management
+
+### ADLC Develop/Test/Deploy Alignment
+This layer implements **Develop**, **Test**, and **Deploy** phases:
+- **Human-readable code**: Specialist agents ensure code quality and documentation
+- **Flexible workflows**: Project structure adapts to different analytics needs
+- **Code quality**: Agent coordination maintains standards and best practices
+- **Peer review**: Agent analysis provides technical review before deployment
+- **Automated deployment**: Integration with CI/CD via existing workflows
+- **Testing strategy**: Data quality validation and system integration testing
+
+### Project Execution Workflow
+Use the structured project management system for implementing ideas:
+
+```
+ideas/organized/customer-analytics/
+    ↓ /build customer-analytics
+projects/active/feature-customer-analytics/
+    ├── spec.md           # Enhanced from organized idea
+    ├── context.md        # Dynamic state tracking
+    ├── tasks/           # Agent coordination
+    └── README.md        # Navigation hub
+```
+
+### Specialist Agent Coordination
+Leverage domain experts throughout development:
+- **dbt-expert**: SQL transformations, model optimization, test development
+- **snowflake-expert**: Query performance, cost analysis, warehouse optimization
+- **tableau-expert**: Dashboard development, report model analysis
+- **business-context**: Requirements gathering, stakeholder alignment
+- **da-architect**: System design, data flow analysis, strategic decisions
+- **dlthub-expert**: Data ingestion, source system integration
+- **orchestra-expert**: Workflow orchestration (leads all workflow analysis)
+- **prefect-expert**: Prefect flow performance when Orchestra triggers them
+
+### Project Management Commands
+All project management is now handled by the simplified 4-command system:
+- **`./scripts/build.sh [idea-name]`** - Initialize project from organized idea
+- **`./scripts/finish.sh [project-name]`** - Complete and archive project
+
+**Legacy scripts** (still available but not needed):
+- `./scripts/work-init.sh` - Used internally by `build.sh`
+- `./scripts/work-complete.sh` - Used internally by `finish.sh`
+
+## Layer 3: ADLC Operations Phase - Automated Operations & Cross-Repo Intelligence
+
+### ADLC Operate/Observe/Discover/Analyze Alignment
+This layer implements the operational phases of the Analytics Development Lifecycle:
+- **Operate**: 24/7 system monitoring via GitHub Actions, error-tolerant workflows
+- **Observe**: Performance monitoring, key metrics tracking, proactive issue detection
+- **Discover**: Cross-repo artifact exploration, collaborative investigation analysis
+- **Analyze**: Business insight generation, automated documentation, re-iteration support
+
+### GitHub Actions Integration
+The system includes automated workflows that provide Claude instances with:
+- **Error Detection**: dbt Cloud monitoring and issue creation
+- **Cross-Repo Context**: Access to multiple repository states
+- **Investigation Tools**: Specialist agents for deep technical analysis
+- **Resolution Capabilities**: Automated PR generation across repositories
+
+### Operations Context for Claude
+When Claude operates via GitHub Actions, it has access to:
+- **Repository Network**: dbt_cloud, snowflake utilities, tableau configs
+- **Error Context**: Full stack traces, data lineage, system states
+- **Agent Expertise**: Same specialist agents available for operations
+- **Resolution Patterns**: Historical fix patterns and knowledge base
+
+### Automated Workflow Capabilities
+- **Issue Investigation**: AI-powered analysis of dbt errors and data quality issues
+- **Cross-System Fixes**: PRs spanning multiple repositories when needed
+- **Context Preservation**: Links back to original ideas and projects when relevant
+- **Stakeholder Communication**: Automated updates and resolution summaries
+
 ## Knowledge Repository Structure
 
 ### D&A Team Documentation
@@ -10,10 +165,25 @@ The `knowledge/da_team_documentation/` directory contains comprehensive Data & A
 - **Structure**: Organized by data products, architecture, integrations, and templates
 - **Navigation**: Use the readme.md as the main entry point for team documentation
 
+### DA Agent Hub Platform Documentation
+The `knowledge/da-agent-hub/` directory contains comprehensive documentation for the DA Agent Hub platform, organized by ADLC workflow phases:
+
+- **Location**: `knowledge/da-agent-hub/README.md`
+- **Purpose**: Complete documentation for the Analytics Development Lifecycle AI platform
+- **Structure**: Three ADLC-aligned layers with phase-specific documentation
+- **Navigation**: Each layer has dedicated subfolder with overview and specific guides
+
+#### ADLC Documentation Structure:
+- **Planning Layer** (`knowledge/da-agent-hub/planning/`): Idea management and strategic planning workflows
+- **Development Layer** (`knowledge/da-agent-hub/development/`): Local development, agent coordination, and project management
+- **Operations Layer** (`knowledge/da-agent-hub/operations/`): Automated operations, cross-repo coordination, and troubleshooting
+
 ### Knowledge Folder Management
 - **Top-level files**: Included in version control for team collaboration
 - **Subfolders**: Generally excluded (other knowledge repos should be separately source controlled)
-- **Exception**: `knowledge/da_team_documentation/` is fully tracked for team documentation
+- **Exceptions**:
+  - `knowledge/da_team_documentation/` - GraniteRock D&A team documentation
+  - `knowledge/da-agent-hub/` - DA Agent Hub platform documentation organized by ADLC phases
 
 ## Repository Branch Structures
 
@@ -60,6 +230,21 @@ The `knowledge/da_team_documentation/` directory contains comprehensive Data & A
 - **Model Layer Impact**: Problems cascade from staging (stg_) through marts (dm_) to reports (rpt_)
 - **Source System Dependencies**: ERP, Customer, Operations, Safety systems create different data patterns
 
+## Complete Development Workflow
+
+### Three-Layer Integration - Simplified 4-Command Workflow
+```
+💡 CAPTURE: ./scripts/capture.sh → auto-organize → roadmap planning
+    ↓ Strategic prioritization
+🗺️ ROADMAP: ./scripts/roadmap.sh → impact/effort analysis → execution planning
+    ↓ Priority selection
+🔧 BUILD: ./scripts/build.sh → project setup → specialist agents → development
+    ↓ Deploy to production
+🎯 FINISH: ./scripts/finish.sh → archive → git workflow → next iteration
+    ↓ Operations monitoring
+🤖 OPERATIONS: GitHub Actions → Error detection → AI investigation → Cross-repo PRs
+```
+
 ### Cross-Tool Prioritization Framework
 1. **CRITICAL**: Schema compilation errors that block other work (dbt-expert)
 2. **HIGH**: Large-scale data quality issues indicating upstream pipeline problems (orchestra-expert + dlthub-expert)
@@ -77,8 +262,11 @@ The `knowledge/da_team_documentation/` directory contains comprehensive Data & A
 - **business-context**: Business logic validation and stakeholder requirement clarification using knowledge base templates
 - **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
 
-- git branches should be prefixed by feature/ or fix/
-- use subagents for tasks to help optimize your context window. Determine if it'd be best to use defined agent, or if its general then give to a general subagent
+### Development Best Practices
+- Git branches should be prefixed by feature/ or fix/
+- Use subagents for tasks to help optimize your context window
+- Determine if it'd be best to use defined agent, or if its general then give to a general subagent
+- Always preserve context links between ideas → projects → operations
 
 ## Task vs Project Classification
 
@@ -102,51 +290,49 @@ The `knowledge/da_team_documentation/` directory contains comprehensive Data & A
 - **Project Work**: Sub-agents read requirements from `projects/<project-name>/spec.md`, receive tasks from `projects/<project-name>/tasks/current-task.md`, and write findings to `projects/<project-name>/tasks/[tool]-findings.md`
 - **Simple Tasks**: Direct TodoWrite tracking, immediate execution, no intermediate files
 
-## Spec-Driven Development Commands
+## Simplified Analytics Development Commands
 
-### Critical First Step: Branch Creation
-**ALWAYS create feature branch BEFORE any project file creation:**
+### Complete Workflow in 4 Commands
 
+The DA Agent Hub now provides a streamlined approach that reduces complexity while maintaining full functionality:
+
+#### **Essential Commands:**
+1. **`./scripts/capture.sh "[idea]"`** → Brainstorm and collect ideas
+2. **`./scripts/roadmap.sh [timeframe]`** → Strategic planning and prioritization
+3. **`./scripts/build.sh [idea-name]`** → Execute highest priority ideas
+4. **`./scripts/finish.sh [project-name]`** → Complete and archive projects
+
+#### **Usage Examples:**
 ```bash
-git checkout -b feature/[project-name]
+# Weekly team brainstorming
+./scripts/capture.sh "Customer churn prediction model"
+./scripts/capture.sh "Real-time safety metrics dashboard"
+
+# Monthly strategic planning
+./scripts/roadmap.sh quarterly
+
+# Execute top priority
+./scripts/build.sh "customer-churn-prediction"
+
+# Complete project
+./scripts/finish.sh "feature-customer-churn-prediction"
 ```
 
-**Then proceed with project structure and files.**
+#### **When to Use This Approach:**
+- **All analytics projects** - from simple reports to complex multi-tool implementations
+- **Cross-repository coordination** - automatic specialist agent involvement
+- **Business stakeholder alignment** - built-in prioritization frameworks
+- **Complex data pipelines** - full project structure and coordination
+- **Team collaboration** - shared ideation and strategic planning processes
 
-### Data Analytics Project Lifecycle
-Use structured commands for complex multi-tool data projects:
-
-1. **`/specify [project description]`** - Create specification and feature branch
-2. **`/plan [technical details]`** - Generate implementation plan with tool coordination
-3. **`/tasks [context]`** - Break down into executable tasks with sub-agent assignments
-
-### Command Usage Examples
-
-#### /specify Command
-```
-/specify Build a daily customer metrics dashboard that shows customer acquisition, retention, and lifetime value trends. Need data from CRM, billing, and support systems refreshed nightly for executive team review.
-```
-
-#### /plan Command
-```  
-/plan Use dbt for transformations, Snowflake for storage, Tableau for visualization, and Orchestra for orchestration. Data sources include Salesforce CRM, Stripe billing, and Freshservice support tickets.
-```
-
-#### /tasks Command
-```
-/tasks Focus on cross-tool integration testing and sub-agent coordination for staged implementation.
-```
-
-### When to Use Spec-Driven Commands
-- **Multi-tool projects** spanning dbt, Snowflake, Tableau, Orchestra, Prefect
-- **Cross-repository coordination** requiring multiple experts
-- **Business stakeholder alignment** needing clear specifications
-- **Complex data pipelines** with multiple integration points
-- **Workflow orchestration** requiring Prefect deployment coordination
-- **Projects requiring systematic validation** across tool boundaries
+#### **Auto-Branch Management:**
+The `build.sh` command automatically handles git workflow:
+- Creates feature branches following naming conventions
+- Sets up complete project structure with specialist agent coordination
+- Integrates with existing `work-init.sh` and `work-complete.sh` infrastructure
 
 ### Project File Structure
-Each project created with `/start_project` follows this structure:
+Each project created with `./scripts/build.sh` follows this structure:
 
 ```
 projects/active/<project-name>/
@@ -164,47 +350,25 @@ projects/active/<project-name>/
 - **context.md**: Dynamic state tracking - branches, PRs, blockers, current focus
 - **tasks/**: Agent coordination - task assignments and detailed findings
 
-## Test-Driven Data Development (TDD)
+## Analytics Development Testing Strategy
 
-### Data Testing Workflow
-Follow Claude Code's TDD best practice adapted for data work:
+### ADLC Testing Alignment
+Following the Analytics Development Lifecycle testing approach:
 
-1. **Write Tests First**: Create dbt tests before implementing models
-   ```sql
-   -- tests/assert_customer_ids_unique.sql
-   select customer_id, count(*)
-   from {{ ref('stg_customers') }}
-   group by customer_id
-   having count(*) > 1
-   ```
+**Unit Tests**: Logic testing within individual models
+**Data Tests**: Data quality and conformance validation
+**Integration Tests**: Cross-system and end-to-end validation
 
-2. **Confirm Test Failures**: Run tests to verify they initially fail
-   ```bash
-   dbt test --select stg_customers --store-failures
-   ```
-
-3. **Implement Model Logic**: Write SQL to pass tests
-   ```sql
-   -- models/staging/stg_customers.sql
-   select distinct customer_id, customer_name
-   from {{ source('erp', 'customers') }}
-   ```
-
-4. **Verify No Overfitting**: Test against production data samples
-   ```bash
-   dbt test --select stg_customers --vars '{"test_data_sample": 1000}'
-   ```
-
-### Data Quality Testing Strategy
+### Data Quality Testing Framework
 - **Schema Tests**: Column existence, data types, constraints
-- **Business Logic Tests**: Reconciliation, metric validation, referential integrity
+- **Business Logic Tests**: Metric validation, referential integrity
 - **Performance Tests**: Query execution time, result set sizes
 - **Cross-System Tests**: Source system vs. warehouse validation
 
-### TDD Commands for Data Work
+### Testing Commands for Analytics Work
 ```bash
-# Test-first development cycle
-dbt test --select <model_name> --store-failures  # Confirm failures
-dbt run --select <model_name>                    # Implement solution
-dbt test --select <model_name>                   # Verify success
+# ADLC-aligned testing workflow
+dbt test --select <model_name>                   # Run all test types
+dbt run --select <model_name>                    # Execute implementation
+dbt test --select <model_name> --store-failures  # Validate results
 ```
