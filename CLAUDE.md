@@ -1,5 +1,20 @@
 don't look at the full .env file. Only search for the var names up to the equals sign.
 
+## Knowledge Repository Structure
+
+### D&A Team Documentation
+The `knowledge/da_team_documentation/` directory contains comprehensive Data & Analytics team documentation migrated from Confluence:
+
+- **Location**: `knowledge/da_team_documentation/readme.md`
+- **Purpose**: Authoritative source for GraniteRock's Data & Analytics team documentation
+- **Structure**: Organized by data products, architecture, integrations, and templates
+- **Navigation**: Use the readme.md as the main entry point for team documentation
+
+### Knowledge Folder Management
+- **Top-level files**: Included in version control for team collaboration
+- **Subfolders**: Generally excluded (other knowledge repos should be separately source controlled)
+- **Exception**: `knowledge/da_team_documentation/` is fully tracked for team documentation
+
 ## Repository Branch Structures
 
 ### dbt_cloud
