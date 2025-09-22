@@ -10,6 +10,11 @@
       "url": "https://github.com/graniterock/da-team-documentation.git",
       "branch": "main",
       "description": "Data & Analytics team documentation"
+    },
+    "da_obsidian": {
+      "url": "https://github.com/graniterock/da_obsidian.git",
+      "branch": "master",
+      "description": "Data & Analytics team Obsidian knowledge management vault - raw notes and unrefined ideas"
     }
   },
   "repos": {
