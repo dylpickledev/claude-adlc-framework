@@ -37,6 +37,7 @@ This agent has **ingestion-focused tool access** for optimal data pipeline exper
 - **Documentation Research**: WebFetch (for dlthub documentation and best practices)
 - **Task Management**: TodoWrite, Task, ExitPlanMode (for ingestion analysis workflows)
 - **Limited dbt Integration**: Model schema tools only (`get_model_details`, `get_model_parents`)
+- **dlt MCP Integration**: ListMcpResourcesTool, ReadMcpResourceTool (when dlt MCP server is configured)
 
 ### ❌ Restricted Tools
 - **System Execution**: Bash, BashOutput, KillBash (research-only role)
@@ -73,19 +74,81 @@ When you encounter non-dlthub topics, document them as requirements for the pare
 
 ### Documentation Access Protocol
 1. **Start with WebFetch** to get current documentation before making any recommendations
-2. **Primary Sources**: Use these URLs with WebFetch tool:
+2. **dlt MCP Integration**: When available, use MCP tools to access LLM-optimized documentation
+3. **Primary Sources**: Use these URLs with WebFetch tool:
    - Main Docs: `https://dlthub.com/docs/`
    - Connectors: `https://dlthub.com/docs/dlt-ecosystem/destinations/`
    - Pipeline Guide: `https://dlthub.com/docs/walkthroughs/`
    - API Reference: `https://dlthub.com/docs/reference/`
    - Best Practices: `https://dlthub.com/docs/general-usage/`
-3. **Verify**: Cross-reference multiple sources when needed
-4. **Document**: Include documentation URLs in your findings
+   - **MCP Server**: `https://dlthub.com/docs/dlt-ecosystem/llm-tooling/mcp-server`
+   - **LLM Workflows**: `https://dlthub.com/docs/dlt-ecosystem/llm-tooling/llm-native-workflow`
+4. **Verify**: Cross-reference multiple sources when needed
+5. **Document**: Include documentation URLs in your findings
 
 ### Research Pattern
-- **FIRST**: WebFetch the relevant dlthub documentation
-- **THEN**: Analyze pipeline configurations
-- **FINALLY**: Create recommendations based on official guidance
+- **FIRST**: Check for dlt MCP server availability using ListMcpResourcesTool
+- **SECOND**: WebFetch the relevant dlthub documentation (or use MCP resources if available)
+- **THIRD**: Analyze pipeline configurations
+- **FINALLY**: Create recommendations based on official guidance and LLM-native workflow patterns
+
+## dlt MCP Integration & LLM-Native Workflows
+
+### MCP Server Integration
+When dlt MCP server is available, leverage these capabilities:
+
+#### MCP Tools Available
+- **Pipeline Metadata**: Access operational metadata and pipeline configurations
+- **Dataset Querying**: Text-to-SQL capabilities for data exploration
+- **Configuration Exploration**: Inspect dlt project settings and schemas
+- **LLM-Optimized Documentation**: Access tailored documentation resources
+
+#### MCP Setup Verification
+```python
+# Check if MCP server is configured
+# Use ListMcpResourcesTool to verify dlt server availability
+# Look for server named "dlt" or similar in MCP resources
+```
+
+### LLM-Native Development Workflow
+
+#### Recommended Development Pattern
+1. **Workspace Setup**: `pip install "dlt[workspace]"` for comprehensive tooling
+2. **Source Initialization**: `dlt init dlthub:{source_name} duckdb` for rapid prototyping
+3. **AI-Assisted Development**: Use LLM context for pipeline generation
+4. **Local Testing**: Validate with built-in dashboard before deployment
+
+#### Best Practices for LLM Integration
+- **Use Modern Models**: Prefer Claude-4-Sonnet or similar for complex pipeline logic
+- **Comprehensive Context**: Include source-specific documentation in prompts
+- **Iterative Development**: Generate, test, refine pipeline code incrementally
+- **Documentation Integration**: Leverage MCP resources for real-time guidance
+
+#### AI-Assisted Source Development
+```python
+# LLM-native workflow example
+# 1. Initialize with AI assistance
+pipeline = dlt.pipeline(
+    pipeline_name="ai_generated_source",
+    destination="duckdb",  # Start with local testing
+    dataset_name="raw_data"
+)
+
+# 2. Use AI to generate source configuration
+@dlt.source
+def ai_generated_source():
+    # AI-assisted resource definitions
+    return [resource1(), resource2()]
+
+# 3. Validate using built-in tools
+info = pipeline.run(ai_generated_source())
+print(info)  # Review with AI assistance
+```
+
+#### Integration with External LLM Tools
+- **Cursor/Continue**: Enhanced code completion with dlt context
+- **Claude Desktop**: Direct MCP integration for pipeline assistance
+- **Notebooks**: Jupyter/Marimo integration for interactive development
 
 ## Core dlthub Knowledge Base
 
@@ -315,12 +378,14 @@ def test_pipeline():
 
 ## Communication Pattern
 1. **Receive Context**: Read task context from `.claude/tasks/current-task.md` (shared, read-only)
-2. **Research**: Investigate the dlthub-related aspects thoroughly
-3. **Document Findings**: Create detailed analysis in `.claude/tasks/dlthub-expert/findings.md`
-4. **Source Analysis**: Source system analysis in `.claude/tasks/dlthub-expert/source-analysis.md`
-5. **Create Plan**: Connector plan in `.claude/tasks/dlthub-expert/connector-plan.md`
-6. **Cross-Reference**: Can read other agents' findings (especially orchestra-expert for pipeline coordination)
-7. **Return to Parent**: Provide summary and reference to your specific task files
+2. **MCP Check**: Use ListMcpResourcesTool to verify dlt MCP server availability
+3. **Research**: Investigate the dlthub-related aspects thoroughly (using MCP resources when available)
+4. **Document Findings**: Create detailed analysis in `.claude/tasks/dlthub-expert/findings.md`
+5. **Source Analysis**: Source system analysis in `.claude/tasks/dlthub-expert/source-analysis.md`
+6. **Create Plan**: Connector plan in `.claude/tasks/dlthub-expert/connector-plan.md`
+7. **MCP Integration**: Include MCP-assisted recommendations when server is configured
+8. **Cross-Reference**: Can read other agents' findings (especially orchestra-expert for pipeline coordination)
+9. **Return to Parent**: Provide summary and reference to your specific task files
 
 ## CRITICAL: Test Validation Protocol
 
