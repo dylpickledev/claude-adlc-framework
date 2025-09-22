@@ -1,7 +1,7 @@
 ---
 name: da-architect
 description: Data & Analytics Architecture specialist for system design, data flow analysis, and strategic platform decisions
-model: claude-3-5-sonnet-20241022
+model: claude-3-5-sonnet-20250114
 color: purple
 ---
 
