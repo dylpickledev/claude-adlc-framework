@@ -1,0 +1,68 @@
+name: Test Claude Authentication
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-auth:
+    name: Test Claude API Authentication
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Claude API with X-API-Key header
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Testing Claude API authentication..."
+          response=$(curl -s -X POST https://api.anthropic.com/v1/messages \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: $ANTHROPIC_API_KEY" \
+            -d '{
+              "model": "claude-3-5-sonnet-20241022",
+              "max_tokens": 100,
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "Hello, just testing authentication. Please respond with: Authentication successful!"
+                }
+              ]
+            }')
+
+          echo "Response: $response"
+
+          # Check if response contains error
+          if echo "$response" | grep -q "error"; then
+            echo "❌ Authentication failed with X-API-Key header"
+            exit 1
+          else
+            echo "✅ Authentication successful with X-API-Key header"
+          fi
+
+      - name: Test Claude API with Authorization Bearer header (if first fails)
+        if: failure()
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Testing Claude API with Bearer token..."
+          response=$(curl -s -X POST https://api.anthropic.com/v1/messages \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
+            -d '{
+              "model": "claude-3-5-sonnet-20241022",
+              "max_tokens": 100,
+              "messages": [
+                {
+                  "role": "user",
+                  "content": "Hello, testing Bearer token authentication. Please respond with: Bearer authentication successful!"
+                }
+              ]
+            }')
+
+          echo "Response: $response"
+
+          if echo "$response" | grep -q "error"; then
+            echo "❌ Authentication failed with Bearer header too"
+            exit 1
+          else
+            echo "✅ Authentication successful with Bearer header"
+          fi
