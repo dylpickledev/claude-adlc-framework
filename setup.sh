@@ -276,7 +276,7 @@ if knowledge:
 "
     
     # Create directories
-    mkdir -p repos/{orchestration,ingestion,transformation,serving,operations} knowledge
+    mkdir -p repos/{orchestration,ingestion_operational,ingestion_analytics,transformation,front_end,operations} knowledge
     
     # Parse repository configuration and clone
     GH_AVAILABLE="$gh_available" python3 -c "
@@ -284,6 +284,7 @@ import json
 import subprocess
 import os
 import sys
+import shutil
 
 def run_command(cmd, description):
     try:
@@ -296,6 +297,20 @@ def run_command(cmd, description):
             return False
     except Exception as e:
         print(f'✗ {description}: {e}')
+        return False
+
+def move_existing_repo(old_path, new_path, repo_name):
+    \"\"\"Move an existing repository from old location to new location\"\"\"
+    try:
+        # Ensure the new directory exists
+        os.makedirs(os.path.dirname(new_path), exist_ok=True)
+
+        # Move the repository
+        shutil.move(old_path, new_path)
+        print(f'📁 Moved existing repository {repo_name} from {old_path} to {new_path}')
+        return True
+    except Exception as e:
+        print(f'✗ Failed to move {repo_name}: {e}')
         return False
 
 try:
@@ -370,9 +385,17 @@ try:
         for repo_name, repo_config in layer_repos.items():
             repo_folder = repo_config.get('folder', f'data-stack/{layer_name}')
             repo_path = f'{repo_folder}/{repo_name}'
+            old_repo_path = f'repos/{repo_name}'  # Check if repo exists in wrong location
 
             # Ensure the folder exists
             os.makedirs(repo_folder, exist_ok=True)
+
+            # Check if repository exists in old location (repos/ root) and move it
+            if os.path.exists(old_repo_path) and not os.path.exists(repo_path):
+                if move_existing_repo(old_repo_path, repo_path, repo_name):
+                    print(f'ℹ Moved existing repository from repos/{repo_name} to {repo_path}')
+                else:
+                    print(f'✗ Failed to move {repo_name} - will try to clone fresh')
 
             # Skip if directory already exists and update_existing is False
             if os.path.exists(repo_path):
@@ -543,10 +566,14 @@ setup_repositories() {
 
     # Show data stack organization within repos/
     echo "Data stack organization (repos/ subfolders):"
-    for layer in repos/orchestration repos/ingestion repos/transformation repos/serving repos/operations; do
+    for layer in repos/orchestration repos/ingestion_operational repos/ingestion_analytics repos/transformation repos/front_end repos/operations; do
         if [ -d "$layer" ]; then
             layer_name=$(basename "$layer")
-            echo "  ${layer_name^}:"
+            # Use compatible string capitalization
+            first_char=$(echo "$layer_name" | cut -c1 | tr '[:lower:]' '[:upper:]')
+            rest_chars=$(echo "$layer_name" | cut -c2-)
+            capitalized_name="${first_char}${rest_chars}"
+            echo "  ${capitalized_name}:"
             layer_count=0
             for repo in "$layer"*/; do
                 if [ -d "$repo" ]; then

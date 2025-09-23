@@ -176,9 +176,40 @@ Local (da-agent-hub):           External (ClickUp/Stakeholder Systems):
 - **PR status management**: Dynamic label removal and status comment generation
 - **Cross-repository coordination**: Framework for multi-repo automation workflows
 
+## Context Switching Patterns
+
+### Automated Git Workflow Management for AI-Assisted Development
+**From**: Switch Command Implementation Project
+
+**Key Patterns**:
+- **Work Preservation Strategy**: Automated staging and committing with context-aware commit messages
+- **Branch Management Automation**: Seamless switching between project contexts with remote synchronization
+- **Multi-Project Workflow Support**: Zero-loss context switching while maintaining development continuity
+
+**Implementation Architecture**:
+```
+Current Work → Auto-Commit → Remote Push → Main Branch Sync → New Context
+     ↓              ↓             ↓              ↓              ↓
+Stage All      Generate      Preserve      Clean State    Ready for
+Changes        Message       Remotely      Locally        New Work
+```
+
+**Commit Message Generation Strategy**:
+- **Branch Type Detection**: Analyze branch naming patterns (feature/, fix/, research/)
+- **Context-Aware Messages**: Auto-generate descriptive commit messages based on work type
+- **Work Preservation Intent**: Clear messaging about context switching and continuation capability
+- **Consistent Attribution**: Standardized co-authoring with Claude Code integration
+
+**Team Collaboration Patterns**:
+- **Remote Branch Strategy**: Automatic push to remote ensures team visibility and backup
+- **Resume Capability**: Simple command patterns for returning to previous work contexts
+- **Clean State Management**: Consistent main branch state reduces merge conflicts
+- **Review Readiness**: All work automatically committed and available for PR creation
+
 ## Output Format
 - **Architecture Recommendations**: Clear technical decisions with rationale
 - **Implementation Plans**: Step-by-step coordination across specialist agents
 - **Risk Assessment**: Identify potential issues and mitigation strategies
 - **Agent Assignment**: Specific recommendations for which experts should handle which aspects
 - **Automation Design**: GitHub Actions workflow patterns and integration strategies
+- **Context Switching Solutions**: Work preservation and project transition strategies

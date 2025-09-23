@@ -307,6 +307,77 @@ Links to related documentation and resources
 - [ ] Business context is clearly explained for technical implementations
 - [ ] Documentation includes appropriate metadata (owner, domain, update frequency)
 
+## Command Documentation Standards
+
+### Claude Code Command Implementation Patterns
+**From**: Switch Command Implementation Project
+
+**Standard Protocol Documentation Format**:
+```markdown
+# /[command] Command Protocol
+
+## Purpose
+[Clear, single-sentence purpose statement]
+
+## Usage
+```bash
+claude /[command] [parameters]
+```
+
+## Protocol
+[Step-by-step workflow description]
+
+## Claude Instructions
+[Specific instructions for Claude execution]
+
+## Integration with ADLC
+[How command fits into Analytics Development Lifecycle]
+
+## Success Criteria
+[Measurable completion indicators]
+```
+
+**Integration Between Command Files and Implementation Scripts**:
+- **Command Documentation**: `.claude/commands/[command].md` provides protocol and usage
+- **Implementation Scripts**: `scripts/[command].sh` handles technical execution
+- **Workflow Integration**: Commands integrate seamlessly with ADLC phases
+- **Testing Standards**: Automated validation and user experience testing
+
+**Documentation Quality Requirements**:
+- **Clear Purpose**: Single-sentence command purpose statement
+- **Usage Examples**: Multiple scenarios with expected outcomes
+- **Error Handling**: Documented failure modes and recovery procedures
+- **ADLC Integration**: Explicit connection to Analytics Development Lifecycle phases
+
+### Automated Workflow Documentation Patterns
+**From**: Switch Command Implementation Project
+
+**Workflow Automation Documentation Standards**:
+- **Script Headers**: Comprehensive usage information and parameter descriptions
+- **Function Documentation**: Clear purpose and parameter requirements for each function
+- **Error Handling Documentation**: Expected failure modes and user guidance
+- **Integration Documentation**: How scripts integrate with existing da-agent-hub workflows
+
+**Example Required Script Documentation**:
+```bash
+#!/bin/bash
+
+# [script-name].sh - [Single-line purpose description]
+# Usage: ./scripts/[script-name].sh [parameters]
+#
+# This script provides [detailed workflow description]:
+# 1. [Step-by-step process]
+# 2. [Integration points]
+# 3. [Output expectations]
+
+# Function to [specific purpose]
+function_name() {
+    # [Function documentation]
+    # Parameters: [parameter descriptions]
+    # Returns: [return value description]
+}
+```
+
 ## Integration with 4-Command System
 
 ### Command-Specific Documentation Standards
@@ -330,6 +401,12 @@ Links to related documentation and resources
 - **Completion Documentation**: Project outcomes and lessons learned
 - **Knowledge Preservation**: Reusable patterns and best practices
 - **Stakeholder Communication**: Business impact and next steps
+
+#### 5. **`./scripts/switch.sh` Output** *(New)*
+- **Context Switch Documentation**: Clear workflow steps and state preservation
+- **Work Preservation**: Documentation of commit strategies and remote backup
+- **Resume Instructions**: Clear guidance for returning to previous work contexts
+- **Integration Notes**: How context switching integrates with ADLC workflows
 
 ## Common Documentation Scenarios
 

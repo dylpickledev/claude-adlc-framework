@@ -1,12 +1,12 @@
-name: Claude Complete
+name: Claude Completion Verification
 
 on:
   pull_request:
     types: [labeled]
 
 jobs:
-  complete-pr:
-    name: Complete PR with Claude
+  verify-completion:
+    name: Verify Manual Completion
     runs-on: ubuntu-latest
     if: contains(github.event.label.name, 'claude:complete')
 
@@ -18,82 +18,99 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Merge latest main for completion scripts
+      - name: Merge latest main for verification
         run: |
-          echo "🔄 Merging latest main to ensure latest completion scripts..."
+          echo "🔄 Merging latest main to get complete project structure..."
           git config --local user.email "action@github.com"
-          git config --local user.name "Claude PR Completion"
+          git config --local user.name "Claude Completion Verification"
           git fetch origin main
           git merge origin/main --no-edit || echo "Merge conflict - will proceed with available files"
 
-      - name: Verify completion requirements
+      - name: Verify manual completion was performed
         run: |
-          echo "🔧 Verifying completion requirements..."
+          echo "🔍 Verifying that /complete command was executed manually..."
 
-          # Check if claude-complete.sh exists
-          if [ ! -f "./scripts/claude-complete.sh" ]; then
-            echo "❌ claude-complete.sh script not found"
-            exit 1
+          # Extract project name from branch name
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          echo "Branch name: $BRANCH_NAME"
+
+          # Check if this looks like a project branch
+          if [[ "$BRANCH_NAME" =~ ^(feature|fix|research)- ]]; then
+            PROJECT_NAME="$BRANCH_NAME"
+            echo "Project name detected: $PROJECT_NAME"
+          else
+            echo "⚠️ Branch doesn't follow project naming convention, checking for any active projects..."
+            PROJECT_NAME=""
           fi
 
-          # Make it executable
-          chmod +x ./scripts/claude-complete.sh
+          # Check if project was moved from active to completed
+          COMPLETION_VERIFIED=false
 
-          # Verify dependencies
-          echo "✅ curl version: $(curl --version | head -1)"
-          echo "✅ git version: $(git --version)"
-          echo "✅ python3 version: $(python3 --version)"
-          echo "✅ Dependencies verified"
+          if [ -n "$PROJECT_NAME" ]; then
+            # Check specific project archive
+            CURRENT_MONTH=$(date +%Y-%m)
+            ARCHIVE_PATH="projects/completed/$CURRENT_MONTH/$PROJECT_NAME"
 
-      - name: Run Claude completion
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          echo "🤖 Starting Claude PR completion..."
-          echo "PR: #${{ github.event.pull_request.number }}"
-          echo "Branch: ${{ github.event.pull_request.head.ref }}"
-          echo "Title: ${{ github.event.pull_request.title }}"
-
-          # Run the completion script
-          ./scripts/claude-complete.sh
-
-      - name: Commit any completion improvements
-        if: success()
-        run: |
-          # Configure git
-          git config --local user.email "action@github.com"
-          git config --local user.name "Claude PR Completion"
-
-          # Check if there are any changes
-          if git diff --quiet && git diff --staged --quiet; then
-            echo "✅ No changes made - PR was already well-documented"
+            if [ -d "$ARCHIVE_PATH" ]; then
+              echo "✅ Found archived project: $ARCHIVE_PATH"
+              COMPLETION_VERIFIED=true
+            else
+              # Check if project still exists in active (not completed)
+              ACTIVE_PATH="projects/active/$PROJECT_NAME"
+              if [ -d "$ACTIVE_PATH" ]; then
+                echo "❌ Project still exists in active directory: $ACTIVE_PATH"
+                echo "Please run '/complete $PROJECT_NAME' to properly archive the project"
+              else
+                echo "⚠️ Project not found in active or completed directories"
+                echo "Checking for any completed projects this month..."
+                if [ -d "projects/completed/$CURRENT_MONTH" ] && [ "$(ls -A projects/completed/$CURRENT_MONTH 2>/dev/null)" ]; then
+                  echo "Found completed projects this month:"
+                  ls -la "projects/completed/$CURRENT_MONTH/"
+                  COMPLETION_VERIFIED=true
+                else
+                  echo "No completed projects found for $CURRENT_MONTH"
+                fi
+              fi
+            fi
           else
-            # Stage any changes
-            git add .
-
-            # Create commit if there are staged changes
-            if ! git diff --staged --quiet; then
-              echo "💾 Committing Claude completion improvements..."
-              git commit -m "docs: Enhance documentation and code quality via Claude completion
-
-Automated completion triggered by claude:complete label.
-Improvements may include:
-- Enhanced documentation
-- Code quality improvements
-- Usage examples and guides
-- Best practice recommendations
-
-🤖 Generated with [Claude Code](https://claude.ai/code) via GitHub Actions
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-              # Push changes
-              git push origin HEAD
-              echo "✅ Completion improvements pushed to branch"
+            # No specific project detected, check if any completion happened recently
+            CURRENT_MONTH=$(date +%Y-%m)
+            if [ -d "projects/completed/$CURRENT_MONTH" ] && [ "$(ls -A projects/completed/$CURRENT_MONTH 2>/dev/null)" ]; then
+              echo "✅ Found completed projects this month (no specific project detected):"
+              ls -la "projects/completed/$CURRENT_MONTH/"
+              COMPLETION_VERIFIED=true
+            else
+              echo "❌ No completed projects found for $CURRENT_MONTH"
             fi
           fi
 
-      - name: Report completion status
+          if [ "$COMPLETION_VERIFIED" = false ]; then
+            echo ""
+            echo "❌ Manual completion verification failed!"
+            echo ""
+            echo "Required: Project must be properly completed using '/complete' command"
+            echo "This ensures:"
+            echo "  • Knowledge extraction and preservation"
+            echo "  • Proper project archival"
+            echo "  • Agent capability updates"
+            echo "  • Documentation enhancements"
+            echo ""
+            echo "To resolve:"
+            if [ -n "$PROJECT_NAME" ]; then
+              echo "  1. Run: /complete $PROJECT_NAME"
+            else
+              echo "  1. Run: /complete [your-project-name]"
+            fi
+            echo "  2. Verify project moved to projects/completed/[YYYY-MM]/"
+            echo "  3. Re-add the claude:complete label"
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ Manual completion verification successful!"
+          echo "Project has been properly completed and archived."
+
+      - name: Report verification status
         if: always()
         uses: actions/github-script@v7
         with:
@@ -103,31 +120,41 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
             let message = '';
             if (conclusion === 'success') {
-              message = `## ✅ Claude Completion Successful
+              message = `## ✅ Manual Completion Verified
 
-PR #${prNumber} has been processed by Claude for completion improvements.
+PR #${prNumber} has been verified as properly completed using the \`/complete\` command.
 
-**What was analyzed:**
-- Documentation quality and completeness
-- Code patterns and best practices
-- Agent capability enhancements
-- Knowledge extraction opportunities
+**Verification confirmed:**
+- ✅ Project properly archived to \`projects/completed/[YYYY-MM]/\`
+- ✅ Knowledge extraction and preservation completed
+- ✅ Agent capability updates applied
+- ✅ Documentation enhancements preserved
 
-**Cost:** ~$0.08-0.18 | **Value:** Saves 1-3 hours of manual work
+**What this means:**
+- The developer manually ran \`/complete [project-name]\`
+- All ADLC completion benefits have been applied
+- Project is ready for final review and merge
 
 The PR is now ready for final review and merge.`;
             } else {
-              message = `## ❌ Claude Completion Failed
+              message = `## ❌ Manual Completion Required
 
-There was an issue completing PR #${prNumber}.
+PR #${prNumber} requires manual completion before merge.
 
-Please check the [action logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+**Missing:** Project has not been properly completed using the \`/complete\` command.
 
-You may need to:
-- Check API key configuration
-- Verify completion script integrity
-- Review any merge conflicts
-- Manually complete remaining improvements`;
+**To resolve:**
+1. Run: \`/complete [project-name]\` in Claude Code
+2. Verify the project moved to \`projects/completed/[YYYY-MM]/\`
+3. Re-add the \`claude:complete\` label to re-trigger verification
+
+**Benefits of manual completion:**
+- Knowledge extraction and preservation
+- Agent capability updates
+- Documentation enhancements
+- Proper project archival
+
+Please check the [action logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.`;
             }
 
             await github.rest.issues.createComment({
@@ -138,11 +165,11 @@ You may need to:
             });
 
       - name: Clean up completion label
-        if: always()
+        if: success()
         uses: actions/github-script@v7
         with:
           script: |
-            // Remove the claude:complete label after processing
+            // Remove the claude:complete label only on successful verification
             try {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
@@ -150,7 +177,7 @@ You may need to:
                 issue_number: context.issue.number,
                 name: 'claude:complete'
               });
-              console.log('✅ Removed claude:complete label');
+              console.log('✅ Removed claude:complete label after successful verification');
             } catch (error) {
               console.log('Label already removed or not found');
             }
