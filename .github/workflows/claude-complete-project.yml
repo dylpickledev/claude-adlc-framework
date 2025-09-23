@@ -106,9 +106,15 @@ jobs:
           echo "Project Name: $PROJECT_NAME"
           echo "Branch: $BRANCH_NAME"
 
-          # Use the existing claude-complete.sh script
+          # Make the script executable
           chmod +x ./scripts/claude-complete.sh
-          ./scripts/claude-complete.sh "$PROJECT_NAME"
+
+          # Run the completion script
+          if [ -n "$PROJECT_NAME" ]; then
+            ./scripts/claude-complete.sh "$PROJECT_NAME"
+          else
+            ./scripts/claude-complete.sh
+          fi
 
       - name: Commit completion changes
         if: success()
