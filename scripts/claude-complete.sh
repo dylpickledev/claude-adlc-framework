@@ -281,6 +281,8 @@ execute_claude_completion() {
         print_info "Invoking Claude API for project completion..."
 
         local api_key="${ANTHROPIC_API_KEY:-$CLAUDE_API_KEY}"
+        # Create properly escaped JSON payload
+        local content=$(cat "$temp_file" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read()))")
         local response=$(curl -s -X POST https://api.anthropic.com/v1/messages \
             -H "Content-Type: application/json" \
             -H "X-API-Key: $api_key" \
@@ -290,7 +292,7 @@ execute_claude_completion() {
                 "messages": [
                     {
                         "role": "user",
-                        "content": "'"$(cat "$temp_file" | sed 's/"/\\"/g' | tr '\n' ' ')"'"
+                        "content": '"$content"'
                     }
                 ]
             }')
