@@ -1,0 +1,156 @@
+name: Claude Complete
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  complete-pr:
+    name: Complete PR with Claude
+    runs-on: ubuntu-latest
+    if: contains(github.event.label.name, 'claude:complete')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Merge latest main for completion scripts
+        run: |
+          echo "🔄 Merging latest main to ensure latest completion scripts..."
+          git config --local user.email "action@github.com"
+          git config --local user.name "Claude PR Completion"
+          git fetch origin main
+          git merge origin/main --no-edit || echo "Merge conflict - will proceed with available files"
+
+      - name: Verify completion requirements
+        run: |
+          echo "🔧 Verifying completion requirements..."
+
+          # Check if claude-complete.sh exists
+          if [ ! -f "./scripts/claude-complete.sh" ]; then
+            echo "❌ claude-complete.sh script not found"
+            exit 1
+          fi
+
+          # Make it executable
+          chmod +x ./scripts/claude-complete.sh
+
+          # Verify dependencies
+          echo "✅ curl version: $(curl --version | head -1)"
+          echo "✅ git version: $(git --version)"
+          echo "✅ python3 version: $(python3 --version)"
+          echo "✅ Dependencies verified"
+
+      - name: Run Claude completion
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "🤖 Starting Claude PR completion..."
+          echo "PR: #${{ github.event.pull_request.number }}"
+          echo "Branch: ${{ github.event.pull_request.head.ref }}"
+          echo "Title: ${{ github.event.pull_request.title }}"
+
+          # Run the completion script
+          ./scripts/claude-complete.sh
+
+      - name: Commit any completion improvements
+        if: success()
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "Claude PR Completion"
+
+          # Check if there are any changes
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "✅ No changes made - PR was already well-documented"
+          else
+            # Stage any changes
+            git add .
+
+            # Create commit if there are staged changes
+            if ! git diff --staged --quiet; then
+              echo "💾 Committing Claude completion improvements..."
+              git commit -m "docs: Enhance documentation and code quality via Claude completion
+
+Automated completion triggered by claude:complete label.
+Improvements may include:
+- Enhanced documentation
+- Code quality improvements
+- Usage examples and guides
+- Best practice recommendations
+
+🤖 Generated with [Claude Code](https://claude.ai/code) via GitHub Actions
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+              # Push changes
+              git push origin HEAD
+              echo "✅ Completion improvements pushed to branch"
+            fi
+          fi
+
+      - name: Report completion status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const conclusion = '${{ job.status }}';
+            const prNumber = context.issue.number;
+
+            let message = '';
+            if (conclusion === 'success') {
+              message = `## ✅ Claude Completion Successful
+
+PR #${prNumber} has been processed by Claude for completion improvements.
+
+**What was analyzed:**
+- Documentation quality and completeness
+- Code patterns and best practices
+- Agent capability enhancements
+- Knowledge extraction opportunities
+
+**Cost:** ~$0.08-0.18 | **Value:** Saves 1-3 hours of manual work
+
+The PR is now ready for final review and merge.`;
+            } else {
+              message = `## ❌ Claude Completion Failed
+
+There was an issue completing PR #${prNumber}.
+
+Please check the [action logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+
+You may need to:
+- Check API key configuration
+- Verify completion script integrity
+- Review any merge conflicts
+- Manually complete remaining improvements`;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: message
+            });
+
+      - name: Clean up completion label
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Remove the claude:complete label after processing
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: 'claude:complete'
+              });
+              console.log('✅ Removed claude:complete label');
+            } catch (error) {
+              console.log('Label already removed or not found');
+            }
