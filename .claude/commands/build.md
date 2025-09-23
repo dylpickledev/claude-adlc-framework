@@ -16,32 +16,55 @@ claude /build [idea-name]
 ```
 
 ### 2. Complete Project Creation Workflow
-- **Finds organized ideas**: Searches `ideas/organized/` and `ideas/pipeline/`
-- **Promotes to pipeline**: Uses `ideate-promote.sh` for idea enhancement
+- **Option A - From existing idea**: Searches `ideas/organized/` and `ideas/pipeline/`, promotes and archives idea
+- **Option B - Ad-hoc creation**: If no matching idea found, creates project directly from provided description
 - **Creates project structure**: Integrates with `work-init.sh` for full project setup
-- **Archives idea**: Links idea to active project with traceability
+- **Idea management**: Archives source idea if found, or creates retrospective idea record if needed
 - **Provides development guidance**: Next steps for implementation
 
 ## Claude Instructions
 
-When user runs `/build [idea-name]`:
+When user runs `/build [idea-name-or-description]`:
 
-1. **Execute the script**: Run `./scripts/build.sh [idea-name]`
-2. **Monitor project creation**: Display each step of the promotion and setup
-3. **Validate structure**: Confirm project directory and files created properly
-4. **Guide development**: Explain specialist agent coordination and next steps
+1. **Search for existing idea**: Look in `ideas/organized/` and `ideas/pipeline/` for matching idea
+2. **Handle creation path**:
+   - **If idea found**: Execute `./scripts/build.sh [idea-name]` (formal process)
+   - **If no idea found**: Use `./scripts/work-init.sh` directly with description as project name
+3. **Manage idea lifecycle**:
+   - **Existing idea**: Archive source idea with project reference
+   - **Ad-hoc creation**: Optionally create retrospective idea record in archive
+4. **Validate structure**: Confirm project directory and files created properly
+5. **Guide development**: Explain specialist agent coordination and next steps
 
 ### Response Format
+
+#### Option A: From Existing Idea
 ```
 🔧 Building project for idea: [idea-name]
 📋 Found idea in organized: [path]
 📦 Promoting idea to pipeline...
 🏗️ Creating project structure...
 ✅ Project structure created
-📚 Archiving idea with project reference...
+📚 Properly archiving source idea...
+   ✅ Moved: ideas/[location]/[idea-file] → ideas/archive/
+   ✅ Updated with project reference and implementation status
 
 ✅ Idea successfully built into project!
 📁 Project location: projects/active/[project-name]/
+```
+
+#### Option B: Ad-hoc Creation
+```
+🔧 Building project: [description]
+🔍 No existing idea found - creating project directly
+🏗️ Creating project structure via work-init.sh...
+✅ Project structure created
+📝 Creating retrospective idea record (optional)...
+
+✅ Project created successfully!
+📁 Project location: projects/active/[project-name]/
+💡 Note: No source idea - ad-hoc creation
+```
 
 🎯 Next steps:
    1. Review project spec: projects/active/[project-name]/spec.md

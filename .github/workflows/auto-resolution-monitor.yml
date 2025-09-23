@@ -18,10 +18,6 @@ on:
         required: false
         type: string
         default: '0'
-  push:
-    # Only validate workflow file, don't actually run jobs
-    paths:
-      - '.github/workflows/auto-resolution-monitor.yml'
 
 jobs:
   workflow-info:

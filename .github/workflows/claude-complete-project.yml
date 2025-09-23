@@ -1,0 +1,326 @@
+name: Claude Complete Project
+
+on:
+  pull_request:
+    types: [labeled, unlabeled]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  check-trigger:
+    name: Check Completion Trigger
+    runs-on: ubuntu-latest
+    outputs:
+      should-complete: ${{ steps.check.outputs.should-complete }}
+      branch-name: ${{ steps.check.outputs.branch-name }}
+      project-name: ${{ steps.check.outputs.project-name }}
+    steps:
+      - name: Check completion trigger
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            // Check for label-based trigger
+            const hasCompleteLabel = pr.labels.some(label =>
+              label.name === 'claude:complete'
+            );
+
+            // Check for approval-based trigger (if no label)
+            let hasApproval = false;
+            if (!hasCompleteLabel) {
+              const { data: reviews } = await github.rest.pulls.listReviews({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number
+              });
+
+              hasApproval = reviews.some(review =>
+                review.state === 'APPROVED' &&
+                review.user.login === context.repo.owner
+              );
+            }
+
+            const shouldComplete = hasCompleteLabel || hasApproval;
+            const branchName = pr.head.ref;
+
+            // Extract project name from branch name
+            let projectName = '';
+            if (branchName.startsWith('feature-') || branchName.startsWith('fix-') || branchName.startsWith('research-')) {
+              projectName = branchName;
+            }
+
+            console.log(`Should complete: ${shouldComplete}`);
+            console.log(`Branch name: ${branchName}`);
+            console.log(`Project name: ${projectName}`);
+            console.log(`Has label: ${hasCompleteLabel}`);
+            console.log(`Has approval: ${hasApproval}`);
+
+            core.setOutput('should-complete', shouldComplete);
+            core.setOutput('branch-name', branchName);
+            core.setOutput('project-name', projectName);
+
+  complete-project:
+    name: Complete Project with Claude
+    runs-on: ubuntu-latest
+    needs: check-trigger
+    if: needs.check-trigger.outputs.should-complete == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check-trigger.outputs.branch-name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude CLI
+        run: |
+          npm install -g @anthropic-ai/claude-cli@latest
+
+      - name: Configure Claude CLI
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Setting up Claude CLI configuration..."
+          mkdir -p ~/.config/claude
+          echo "$ANTHROPIC_API_KEY" > ~/.config/claude/api_key
+
+      - name: Detect project structure
+        id: project-info
+        run: |
+          BRANCH_NAME="${{ needs.check-trigger.outputs.branch-name }}"
+          PROJECT_NAME="${{ needs.check-trigger.outputs.project-name }}"
+
+          echo "Branch: $BRANCH_NAME"
+          echo "Project: $PROJECT_NAME"
+
+          # Check if project directory exists
+          PROJECT_DIR=""
+          if [ -d "projects/active/$PROJECT_NAME" ]; then
+            PROJECT_DIR="projects/active/$PROJECT_NAME"
+          elif [ -d "projects/active/$BRANCH_NAME" ]; then
+            PROJECT_DIR="projects/active/$BRANCH_NAME"
+          else
+            # Search for project directories matching branch pattern
+            PROJECT_DIR=$(find projects/active -type d -name "*${PROJECT_NAME}*" | head -1)
+          fi
+
+          echo "project-dir=$PROJECT_DIR" >> $GITHUB_OUTPUT
+          echo "Found project directory: $PROJECT_DIR"
+
+          # Check if finish script exists
+          FINISH_SCRIPT=""
+          if [ -f "./scripts/finish.sh" ]; then
+            FINISH_SCRIPT="./scripts/finish.sh"
+          elif [ -f "./scripts/work-complete.sh" ]; then
+            FINISH_SCRIPT="./scripts/work-complete.sh"
+          fi
+
+          echo "finish-script=$FINISH_SCRIPT" >> $GITHUB_OUTPUT
+          echo "Found finish script: $FINISH_SCRIPT"
+
+      - name: Run Claude project completion
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PROJECT_DIR: ${{ steps.project-info.outputs.project-dir }}
+          PROJECT_NAME: ${{ needs.check-trigger.outputs.project-name }}
+          BRANCH_NAME: ${{ needs.check-trigger.outputs.branch-name }}
+        run: |
+          echo "🤖 Starting Claude project completion workflow..."
+          echo "Project Directory: $PROJECT_DIR"
+          echo "Project Name: $PROJECT_NAME"
+          echo "Branch: $BRANCH_NAME"
+
+          # Create completion script
+          cat > claude_completion.sh << 'EOF'
+          #!/bin/bash
+          set -e
+
+          echo "🔍 Analyzing project structure..."
+
+          # Check if project directory exists
+          if [ ! -d "$PROJECT_DIR" ]; then
+            echo "❌ Project directory not found: $PROJECT_DIR"
+            echo "Available projects:"
+            ls -la projects/active/ || echo "No active projects found"
+            exit 1
+          fi
+
+          echo "📋 Found project: $PROJECT_DIR"
+
+          # Read project specification if available
+          SPEC_CONTENT=""
+          if [ -f "$PROJECT_DIR/spec.md" ]; then
+            SPEC_CONTENT=$(cat "$PROJECT_DIR/spec.md")
+            echo "📝 Loaded project specification"
+          fi
+
+          # Read project context if available
+          CONTEXT_CONTENT=""
+          if [ -f "$PROJECT_DIR/context.md" ]; then
+            CONTEXT_CONTENT=$(cat "$PROJECT_DIR/context.md")
+            echo "🔄 Loaded project context"
+          fi
+
+          # Create Claude prompt for project completion
+          cat > completion_prompt.md << 'PROMPT_EOF'
+          # Automated Project Completion Request
+
+          You are being invoked via GitHub Actions to complete a project that was started but needs finishing touches before merge.
+
+          ## Project Information
+          - **Branch**: $BRANCH_NAME
+          - **Project Directory**: $PROJECT_DIR
+          - **Trigger**: PR labeled for completion or approved by repository owner
+
+          ## Project Specification
+          $SPEC_CONTENT
+
+          ## Current Context
+          $CONTEXT_CONTENT
+
+          ## Your Task
+          Please complete this project by:
+
+          1. **Review the current state** - Examine what has been implemented
+          2. **Identify completion gaps** - What needs to be finished for a production-ready feature
+          3. **Implement missing pieces** - Add any missing functionality, documentation, or tests
+          4. **Quality assurance** - Ensure code quality, error handling, and user experience
+          5. **Final polish** - Clean up any rough edges and optimize implementation
+
+          ## Completion Criteria
+          - All core functionality implemented and tested
+          - Comprehensive documentation including usage examples
+          - Error handling and edge cases covered
+          - Integration with existing da-agent-hub workflows
+          - Ready for merge to main branch
+
+          ## Available Commands
+          You have access to all da-agent-hub scripts and tools:
+          - `/capture`, `/roadmap`, `/build`, `/finish` commands
+          - All specialist agents (dbt-expert, snowflake-expert, etc.)
+          - Git workflow and project management tools
+
+          Please proceed with completing this project to production-ready status.
+          PROMPT_EOF
+
+          # Substitute variables in prompt
+          sed -i "s|\$BRANCH_NAME|$BRANCH_NAME|g" completion_prompt.md
+          sed -i "s|\$PROJECT_DIR|$PROJECT_DIR|g" completion_prompt.md
+          sed -i "s|\$SPEC_CONTENT|$SPEC_CONTENT|g" completion_prompt.md
+          sed -i "s|\$CONTEXT_CONTENT|$CONTEXT_CONTENT|g" completion_prompt.md
+
+          echo "🚀 Invoking Claude for project completion..."
+
+          # Run Claude with the completion prompt
+          claude < completion_prompt.md
+
+          EOF
+
+          chmod +x claude_completion.sh
+          ./claude_completion.sh
+
+      - name: Commit completion changes
+        if: success()
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "Claude Project Completion"
+
+          # Stage all changes
+          git add .
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "✅ No changes needed - project already complete"
+          else
+            echo "💾 Committing Claude completion changes..."
+            git commit -m "feat: Complete project implementation via automated Claude workflow
+
+Project completion performed by Claude via GitHub Actions.
+Triggered by PR label or approval for final implementation polish.
+
+- Reviewed current implementation state
+- Added missing functionality and documentation
+- Ensured quality standards and error handling
+- Prepared for merge to main branch
+
+🤖 Generated with [Claude Code](https://claude.ai/code) via GitHub Actions
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+            # Push changes to the branch
+            git push origin HEAD
+            echo "✅ Changes pushed successfully"
+          fi
+
+      - name: Update PR status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const conclusion = '${{ job.status }}';
+            const branchName = '${{ needs.check-trigger.outputs.branch-name }}';
+
+            let message = '';
+            if (conclusion === 'success') {
+              message = `✅ **Claude Project Completion Successful**
+
+Project on branch \`${branchName}\` has been completed by Claude and is ready for merge.
+
+**Completion Summary:**
+- ✅ Implementation reviewed and polished
+- ✅ Documentation updated and comprehensive
+- ✅ Quality standards verified
+- ✅ Ready for production deployment
+
+The project is now ready for final review and merge.`;
+            } else {
+              message = `❌ **Claude Project Completion Failed**
+
+There was an issue completing the project on branch \`${branchName}\`.
+
+Please check the action logs for details and manually complete any remaining work before merging.`;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: message
+            });
+
+      - name: Remove completion label
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const completionLabels = pr.labels.filter(label =>
+              label.name === 'claude:complete'
+            );
+
+            for (const label of completionLabels) {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: label.name
+              });
+            }

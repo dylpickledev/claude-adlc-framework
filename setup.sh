@@ -249,13 +249,24 @@ with open('$REPOS_CONFIG_FILE', 'r') as f:
     config = json.load(f)
 
 repos = config.get('repos', {})
+data_stack = config.get('data_stack', {})
 knowledge = config.get('knowledge', {})
 
 if repos:
-    print('  Code Repositories:')
+    print('  Legacy Code Repositories:')
     for repo_name, repo_config in repos.items():
         branch = repo_config.get('branch', 'main')
         print(f'    - {repo_name} ({branch} branch)')
+
+if data_stack:
+    print('  Data Stack Repositories (organized by layer):')
+    for layer_name, layer_repos in data_stack.items():
+        if layer_name.startswith('_'):  # Skip metadata fields
+            continue
+        print(f'    {layer_name.title()}:')
+        for repo_name, repo_config in layer_repos.items():
+            branch = repo_config.get('branch', 'main')
+            print(f'      - {repo_name} ({branch} branch)')
 
 if knowledge:
     print('  Knowledge Sources:')
@@ -265,7 +276,7 @@ if knowledge:
 "
     
     # Create directories
-    mkdir -p repos knowledge
+    mkdir -p repos/{orchestration,ingestion,transformation,serving,operations} knowledge
     
     # Parse repository configuration and clone
     GH_AVAILABLE="$gh_available" python3 -c "
@@ -290,8 +301,9 @@ def run_command(cmd, description):
 try:
     with open('$REPOS_CONFIG_FILE', 'r') as f:
         config = json.load(f)
-    
+
     repos = config.get('repos', {})
+    data_stack = config.get('data_stack', {})
     knowledge = config.get('knowledge', {})
     settings = config.get('settings', {})
     
@@ -349,7 +361,66 @@ try:
                 cloned_count += 1
             else:
                 failed_count += 1
-    
+
+    # Process data stack repositories (clone to data-stack/<layer>/)
+    for layer_name, layer_repos in data_stack.items():
+        if layer_name.startswith('_'):  # Skip metadata fields like '_comment'
+            continue
+
+        for repo_name, repo_config in layer_repos.items():
+            repo_folder = repo_config.get('folder', f'data-stack/{layer_name}')
+            repo_path = f'{repo_folder}/{repo_name}'
+
+            # Ensure the folder exists
+            os.makedirs(repo_folder, exist_ok=True)
+
+            # Skip if directory already exists and update_existing is False
+            if os.path.exists(repo_path):
+                if settings.get('update_existing', True):
+                    print(f'ℹ Updating existing data stack repository: {layer_name}/{repo_name}')
+                    if run_command(f'cd {repo_path} && git fetch --all', f'Fetch updates for {repo_name}'):
+                        branch = repo_config.get('branch', 'main')
+                        run_command(f'cd {repo_path} && git checkout {branch} && git pull origin {branch}', f'Update {repo_name} to latest {branch}')
+                        cloned_count += 1
+                    else:
+                        failed_count += 1
+                else:
+                    print(f'⏭ Skipping existing data stack repository: {layer_name}/{repo_name}')
+                    skipped_count += 1
+                continue
+
+            # Clone repository using gh CLI or git fallback
+            url = repo_config.get('url')
+            branch = repo_config.get('branch', 'main')
+
+            # Extract repo path from URL for gh CLI
+            repo_identifier = ''
+            if 'github.com' in url:
+                # Extract owner/repo from URL (e.g., https://github.com/owner/repo.git -> owner/repo)
+                parts = url.replace('https://github.com/', '').replace('git@github.com:', '').replace('.git', '')
+                repo_identifier = parts
+
+            # Use gh CLI for GitHub repositories if available
+            gh_available = os.environ.get('GH_AVAILABLE', 'false')
+            if repo_identifier and gh_available == 'true':
+                clone_cmd = f'gh repo clone {repo_identifier} {repo_path} -- --branch {branch}'
+                if run_command(clone_cmd, f'Clone {layer_name}/{repo_name} ({branch} branch) via gh CLI'):
+                    cloned_count += 1
+                else:
+                    # Fallback to git clone
+                    clone_cmd = f'git clone -b {branch} {url} {repo_path}'
+                    if run_command(clone_cmd, f'Fallback clone {layer_name}/{repo_name} ({branch} branch)'):
+                        cloned_count += 1
+                    else:
+                        failed_count += 1
+            else:
+                # Use regular git clone for non-GitHub or when gh not available
+                clone_cmd = f'git clone -b {branch} {url} {repo_path}'
+                if run_command(clone_cmd, f'Clone {layer_name}/{repo_name} ({branch} branch)'):
+                    cloned_count += 1
+                else:
+                    failed_count += 1
+
     # Process knowledge sources (clone to knowledge/)
     for kb_name, kb_config in knowledge.items():
         kb_path = f'knowledge/{kb_name}'
@@ -454,19 +525,41 @@ setup_repositories() {
     # Note: All repositories are cloned from configuration to their respective directories
     
     # Report final repository status
+    TOTAL_REPO_COUNT=0
+
     if [ -d "repos" ]; then
         REPO_COUNT=$(ls -1 repos/ 2>/dev/null | wc -l)
-        log_success "Repository workspace configured with $REPO_COUNT repositories"
-        
-        # List what's available
-        echo "Available repositories:"
-        for repo in repos/*/; do
-            if [ -d "$repo" ]; then
-                repo_name=$(basename "$repo")
-                echo "  - $repo_name (cloned)"
-            fi
-        done
+        TOTAL_REPO_COUNT=$((TOTAL_REPO_COUNT + REPO_COUNT))
+        if [ $REPO_COUNT -gt 0 ]; then
+            echo "Legacy repositories (repos/):"
+            for repo in repos/*/; do
+                if [ -d "$repo" ]; then
+                    repo_name=$(basename "$repo")
+                    echo "  - $repo_name"
+                fi
+            done
+        fi
     fi
+
+    # Show data stack organization within repos/
+    echo "Data stack organization (repos/ subfolders):"
+    for layer in repos/orchestration repos/ingestion repos/transformation repos/serving repos/operations; do
+        if [ -d "$layer" ]; then
+            layer_name=$(basename "$layer")
+            echo "  ${layer_name^}:"
+            layer_count=0
+            for repo in "$layer"*/; do
+                if [ -d "$repo" ]; then
+                    repo_name=$(basename "$repo")
+                    echo "    - $repo_name"
+                    layer_count=$((layer_count + 1))
+                fi
+            done
+            TOTAL_REPO_COUNT=$((TOTAL_REPO_COUNT + layer_count))
+        fi
+    done
+
+    log_success "Repository workspace configured with $TOTAL_REPO_COUNT total repositories"
 }
 
 # Setup technical components

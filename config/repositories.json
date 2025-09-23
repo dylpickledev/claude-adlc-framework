@@ -17,71 +17,95 @@
       "description": "Data & Analytics team Obsidian knowledge management vault - raw notes and unrefined ideas"
     }
   },
-  "repos": {
-    "dbt_cloud": {
-      "url": "https://github.com/graniterock/dbt_cloud.git",
-      "branch": "dbt_dw",
-      "description": "Main dbt transformation project"
+  "data_stack": {
+    "_comment": "Organized data stack repositories by functional layer",
+    "orchestration": {
+      "orchestra": {
+        "url": "https://github.com/graniterock/Orchestra.git",
+        "branch": "master",
+        "description": "Primary orchestration system - kicks off and manages Prefect flow executions",
+        "folder": "repos/orchestration"
+      },
+      "prefect": {
+        "url": "https://github.com/graniterock/prefect.git",
+        "branch": "master",
+        "description": "Main Prefect flows repository (airbyte-orchestrator, dbt-jobs-orchestrator, business integrations: JDE/AD sync, RockTalk employee sync)",
+        "folder": "repos/orchestration"
+      }
     },
-    "roy_kent": {
-      "url": "https://github.com/graniterock/roy_kent.git",
-      "branch": "master",
-      "description": "Roy Kent coaching system"
+    "ingestion": {
+      "plantdemand_etl": {
+        "url": "https://github.com/graniterock/plantdemand-etl.git",
+        "branch": "master",
+        "description": "PlantDemand ETL and Construction Forecasts flows",
+        "folder": "repos/ingestion"
+      },
+      "mapistry_etl": {
+        "url": "https://github.com/graniterock/mapistry-etl.git",
+        "branch": "master",
+        "description": "Mapistry ETL flows",
+        "folder": "repos/ingestion"
+      },
+      "xbe_data_ingestion": {
+        "url": "https://github.com/graniterock/xbe_data_ingestion.git",
+        "branch": "main",
+        "description": "XBE data ingestion flows",
+        "folder": "repos/ingestion"
+      },
+      "postgres_pipelines": {
+        "url": "https://github.com/graniterock/postgres_pipelines.git",
+        "branch": "master",
+        "description": "PostgreSQL data pipeline configurations",
+        "folder": "repos/ingestion"
+      },
+      "hex_pipelines": {
+        "url": "https://github.com/graniterock/hex_pipelines.git",
+        "branch": "master",
+        "description": "Hex platform data pipeline configurations",
+        "folder": "repos/ingestion"
+      }
     },
-    "sherlock": {
-      "url": "https://github.com/graniterock/sherlock-investigation-bureau.git",
-      "branch": "main",
-      "description": "Sherlock Investigation Bureau - data quality and pipeline issue investigation"
+    "transformation": {
+      "dbt_cloud": {
+        "url": "https://github.com/graniterock/dbt_cloud.git",
+        "branch": "dbt_dw",
+        "description": "Main dbt transformation project",
+        "folder": "repos/transformation"
+      },
+      "dbt_postgres": {
+        "url": "https://github.com/graniterock/dbt_postgres.git",
+        "branch": "master",
+        "description": "dbt transformations for PostgreSQL",
+        "folder": "repos/transformation"
+      }
     },
-    "orchestra": {
-      "url": "https://github.com/graniterock/Orchestra.git",
-      "branch": "master",
-      "description": "Primary orchestration system - kicks off and manages Prefect flow executions"
+    "serving": {
+      "streamlit_apps_snowflake": {
+        "url": "https://github.com/graniterock/streamlit_apps_snowflake.git",
+        "branch": "master",
+        "description": "Streamlit applications for Snowflake data visualization",
+        "folder": "repos/serving"
+      },
+      "snowflake_notebooks": {
+        "url": "https://github.com/graniterock/snowflake_notebooks.git",
+        "branch": "master",
+        "description": "Snowflake notebook collection for data analysis",
+        "folder": "repos/serving"
+      }
     },
-    "postgres_pipelines": {
-      "url": "https://github.com/graniterock/postgres_pipelines.git",
-      "branch": "master",
-      "description": "PostgreSQL data pipeline configurations"
-    },
-    "dbt_postgres": {
-      "url": "https://github.com/graniterock/dbt_postgres.git",
-      "branch": "master",
-      "description": "dbt transformations for PostgreSQL"
-    },
-    "streamlit_apps_snowflake": {
-      "url": "https://github.com/graniterock/streamlit_apps_snowflake.git",
-      "branch": "master",
-      "description": "Streamlit applications for Snowflake data visualization"
-    },
-    "snowflake_notebooks": {
-      "url": "https://github.com/graniterock/snowflake_notebooks.git",
-      "branch": "master",
-      "description": "Snowflake notebook collection for data analysis"
-    },
-    "prefect": {
-      "url": "https://github.com/graniterock/prefect.git",
-      "branch": "master",
-      "description": "Main Prefect flows repository (airbyte-orchestrator, dbt-jobs-orchestrator, business integrations: JDE/AD sync, RockTalk employee sync)"
-    },
-    "plantdemand_etl": {
-      "url": "https://github.com/graniterock/plantdemand-etl.git",
-      "branch": "master",
-      "description": "PlantDemand ETL and Construction Forecasts flows"
-    },
-    "mapistry_etl": {
-      "url": "https://github.com/graniterock/mapistry-etl.git",
-      "branch": "master",
-      "description": "Mapistry ETL flows"
-    },
-    "xbe_data_ingestion": {
-      "url": "https://github.com/graniterock/xbe_data_ingestion.git",
-      "branch": "main",
-      "description": "XBE data ingestion flows"
-    },
-    "hex_pipelines": {
-      "url": "https://github.com/graniterock/hex_pipelines.git",
-      "branch": "master",
-      "description": "Hex platform data pipeline configurations"
+    "operations": {
+      "roy_kent": {
+        "url": "https://github.com/graniterock/roy_kent.git",
+        "branch": "master",
+        "description": "Roy Kent coaching system",
+        "folder": "repos/operations"
+      },
+      "sherlock": {
+        "url": "https://github.com/graniterock/sherlock-investigation-bureau.git",
+        "branch": "main",
+        "description": "Sherlock Investigation Bureau - data quality and pipeline issue investigation",
+        "folder": "repos/operations"
+      }
     }
   },
   "prefect_context": {
