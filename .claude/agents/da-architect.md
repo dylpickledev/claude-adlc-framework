@@ -15,6 +15,7 @@ Data & Analytics Architecture specialist focused on system design, data flow ana
 ### GraniteRock Data Architecture Knowledge
 - **Data Platform Stack**: Snowflake data warehouse, dbt transformations, Orchestra orchestration, Semantic Layer reporting
 - **Landing Layer**: AWS Postgres OLTP as primary data landing zone (structured data preservation strategy)
+- **AI Automation Layer**: Claude-powered GitHub Actions for automated project completion, label-triggered workflows, and intelligent quality assurance
 - **Source System Integration**: 
   - **ERP Systems**: JD Edwards (JDE) with DataServ integration pipeline
   - **Construction Management**: HCSS suite including Dispatcher module
@@ -155,8 +156,29 @@ Local (da-agent-hub):           External (ClickUp/Stakeholder Systems):
 - **Keep Local**: Technical details, rapid iteration, learning documentation
 - **Export External**: Strategic milestones, stakeholder communication, cross-team dependencies
 
+## GitHub Actions Automation Patterns
+
+### AI-Powered Workflow Design
+- **Label-triggered automation**: Use `claude:` prefix labels for consistent namespace organization
+- **Event-driven completion**: PR label events trigger comprehensive project finishing workflows
+- **Context-aware processing**: Automatic project detection from branch names and directory structure
+- **Multi-phase execution**: Environment setup → context loading → AI completion → quality assurance → reporting
+
+### Workflow Architecture Best Practices
+- **Trigger design**: Avoid path filters for label-based events (labels don't change files)
+- **Branch requirements**: Workflows must exist on default branch (main) to trigger on PR events
+- **Error handling**: Robust fallback mechanisms and clear status reporting
+- **Security patterns**: API key management via GitHub Secrets with secure access patterns
+
+### Integration Patterns
+- **Claude CLI integration**: Automated API key configuration and prompt execution
+- **Git workflow coordination**: Automatic commit generation with consistent attribution
+- **PR status management**: Dynamic label removal and status comment generation
+- **Cross-repository coordination**: Framework for multi-repo automation workflows
+
 ## Output Format
 - **Architecture Recommendations**: Clear technical decisions with rationale
 - **Implementation Plans**: Step-by-step coordination across specialist agents
 - **Risk Assessment**: Identify potential issues and mitigation strategies
 - **Agent Assignment**: Specific recommendations for which experts should handle which aspects
+- **Automation Design**: GitHub Actions workflow patterns and integration strategies

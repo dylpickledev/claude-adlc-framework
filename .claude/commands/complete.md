@@ -34,7 +34,7 @@ claude /complete [project-name]
 
 When user runs `/complete [project-name]`:
 
-### Step 1: Analyze Project for Knowledge
+### Step 1: Analyze Project and Propose Knowledge Changes
 1. **Read project files**: spec.md, context.md, tasks/, README.md
 2. **Identify extractable knowledge**:
    - Architecture patterns and technical decisions
@@ -42,7 +42,15 @@ When user runs `/complete [project-name]`:
    - Process improvements and workflow learnings
    - Integration strategies and coordination patterns
 
-### Step 2: Extract and Preserve Knowledge
+3. **Present proposed changes BEFORE making them**:
+   - List specific agent files to update with exact content additions
+   - Identify new knowledge documents to create
+   - Show proposed updates to README.md or CLAUDE.md if relevant
+   - Request explicit approval: "Should I proceed with these knowledge updates?"
+
+4. **WAIT for user approval** before making any changes
+
+### Step 2: Execute Approved Knowledge Updates (Only After Approval)
 **Check for updates to:**
 
 #### Agent Knowledge (`/.claude/agents/`)
@@ -71,16 +79,52 @@ When user runs `/complete [project-name]`:
 - **Main branch**: Confirm direct merge readiness
 - **Stay on branch**: Option to continue working
 
-### Step 5: Update Related Ideas
-- **Search related ideas**: Find and update any linked archived ideas
-- **Cross-reference completion**: Maintain idea → project → completion traceability
+### Step 5: Handle Related Ideas (If Any)
+- **Search for source ideas**: Look for original idea that led to this project
+- **Handle based on what's found**:
+  - **If source idea exists**: Move to archive and update with completion status
+  - **If no source idea**: Note as ad-hoc project (no idea cleanup needed)
+  - **If orphaned ideas found**: Clean up any related unarchived ideas
+- **Cross-reference completion**: Maintain idea → project → completion traceability when applicable
+- **Clean up workflow**: Ensure no orphaned ideas remain in inbox/organized
 
 ## Response Format
+
+### Phase 1: Analysis and Proposal
 ```
 🔍 Analyzing project: [project-name]
-📚 Extracting knowledge for preservation...
+📚 Identifying knowledge for preservation...
 
-💡 Knowledge Updates:
+💡 Proposed Knowledge Updates:
+
+### Agent Files to Update:
+📝 .claude/agents/da-architect.md
+   + GitHub Actions automation patterns section
+   + AI-powered workflow design best practices
+   + [show exact content additions]
+
+📝 .claude/agents/[other-agent].md
+   + [specific additions with exact content]
+
+### New Knowledge Documents:
+📄 knowledge/technical/[new-document].md
+   + [document purpose and key content outline]
+
+### Project Documentation Updates:
+📋 README.md or CLAUDE.md updates (if needed)
+   + [specific sections to update]
+
+🤔 **Should I proceed with these knowledge updates?**
+   - Type 'yes' to execute all proposed changes
+   - Type 'modify' to adjust specific updates
+   - Type 'skip' to complete project without knowledge updates
+```
+
+### Phase 2: Execution (After Approval)
+```
+✅ Executing approved knowledge updates...
+
+💡 Knowledge Updates Applied:
    ✅ Updated: agents/da-architect.md (integration patterns)
    ✅ Updated: agents/documentation-expert.md (process standards)
    ✅ Added: knowledge/technical/idea-organization-systems.md
@@ -95,7 +139,10 @@ When user runs `/complete [project-name]`:
 
 💡 Recommended: Create PR for review
 
-🔗 Related ideas updated: [list any updated archived ideas]
+🔗 Related ideas handled:
+   ✅ Source idea found and archived: ideas/[location]/[idea-file] → ideas/archive/
+   OR
+   💡 No source idea found - ad-hoc project (no cleanup needed)
 
 ✅ Project '[project-name]' completed with knowledge preserved!
 
