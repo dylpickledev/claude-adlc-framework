@@ -211,10 +211,13 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - Fix branches: `fix/description`
 
 ### Standard Workflow Steps
-1. Sync with production/staging branch before creating features
-2. Create descriptive branch names
-3. Keep branches focused and atomic
-4. Test locally before pushing
+1. **Always branch from up-to-date main**: Ensure main branch is current before creating features
+   - Run `git checkout main && git pull origin main` before starting any work
+   - Critical for `/build` command and all da-agent-hub changes
+2. Sync with production/staging branch before creating features
+3. Create descriptive branch names
+4. Keep branches focused and atomic
+5. Test locally before pushing
 
 ## Cross-System Issue Analysis & Coordination
 
@@ -263,6 +266,7 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
 
 ### Development Best Practices
+- **Always start from up-to-date main branch**: Essential for `/build` command and all da-agent-hub changes
 - Git branches should be prefixed by feature/ or fix/
 - Use subagents for tasks to help optimize your context window
 - Determine if it'd be best to use defined agent, or if its general then give to a general subagent
@@ -526,3 +530,4 @@ dbt test --select <model_name>                   # Run all test types
 dbt run --select <model_name>                    # Execute implementation
 dbt test --select <model_name> --store-failures  # Validate results
 ```
+- ensure you are always branching from an up to date main branch when starting a project (i.e. @scripts/build.md) and in general when working on changes to the da-agent-hub files
