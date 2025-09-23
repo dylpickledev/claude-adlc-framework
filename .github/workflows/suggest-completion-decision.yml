@@ -1,0 +1,101 @@
+name: Suggest Completion Decision
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  suggest-completion:
+    name: Suggest Completion Decision
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Analyze PR for completion suggestion
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            // Analyze PR content for completion recommendation
+            const title = pr.title.toLowerCase();
+            const body = pr.body ? pr.body.toLowerCase() : '';
+            const fileTypes = files.map(f => f.filename);
+
+            let suggestion = 'claude:skip';
+            let reasoning = [];
+
+            // Check for agent-related changes
+            const agentFiles = fileTypes.filter(f => f.includes('.claude/agents/') || f.includes('agent'));
+            if (agentFiles.length > 0) {
+              suggestion = 'claude:complete';
+              reasoning.push('🤖 Agent files modified - completion can improve agent capabilities');
+            }
+
+            // Check for documentation changes
+            const docFiles = fileTypes.filter(f => f.includes('.md') || f.includes('docs/'));
+            if (docFiles.length > 0 && !title.includes('readme')) {
+              suggestion = 'claude:complete';
+              reasoning.push('📚 Documentation changes - completion can enhance and standardize docs');
+            }
+
+            // Check for script/workflow changes
+            const scriptFiles = fileTypes.filter(f => f.includes('scripts/') || f.includes('.yml') || f.includes('.sh'));
+            if (scriptFiles.length > 0) {
+              suggestion = 'claude:complete';
+              reasoning.push('⚙️ Scripts/workflows modified - completion can add documentation and improve patterns');
+            }
+
+            // Check for simple changes that don't need completion
+            const configOnly = fileTypes.every(f =>
+              f.includes('package.json') ||
+              f.includes('.gitignore') ||
+              f.includes('config.') ||
+              f.endsWith('.lock')
+            );
+            if (configOnly) {
+              suggestion = 'claude:no-need';
+              reasoning.push('⚙️ Configuration-only changes - no completion needed');
+            }
+
+            // Check for dependency updates
+            if (title.includes('update') && title.includes('dep')) {
+              suggestion = 'claude:no-need';
+              reasoning.push('📦 Dependency update - no completion needed');
+            }
+
+            // Check for quick fixes
+            if (title.includes('fix') && title.includes('typo')) {
+              suggestion = 'claude:no-need';
+              reasoning.push('✏️ Typo fix - no completion needed');
+            }
+
+            const comment = `## 🤖 Suggested Completion Decision: \`${suggestion}\`
+
+### 🔍 Analysis:
+${reasoning.map(r => `- ${r}`).join('\n')}
+
+### 📋 Files Changed:
+${fileTypes.slice(0, 10).map(f => `- \`${f}\``).join('\n')}
+${fileTypes.length > 10 ? `- ... and ${fileTypes.length - 10} more files` : ''}
+
+### 🎯 Next Steps:
+Please add the **\`${suggestion}\`** label if you agree with this suggestion, or choose a different completion decision based on the criteria in the PR template.
+
+**Remember:** This is just a suggestion - the final decision is yours based on the specific context and requirements of this PR.`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
