@@ -16,6 +16,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Merge latest main for completion scripts
+        run: |
+          echo "🔄 Merging latest main to get completion scripts..."
+          git config --local user.email "action@github.com"
+          git config --local user.name "Claude Project Completion"
+          git fetch origin main
+          git merge origin/main --no-edit || echo "Merge conflict - will proceed with available files"
 
       - name: Verify dependencies
         run: |
