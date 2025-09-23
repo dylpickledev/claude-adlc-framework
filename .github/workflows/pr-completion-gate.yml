@@ -2,7 +2,7 @@ name: PR Completion Gate
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
+    types: [opened, reopened, labeled, unlabeled]
 
 jobs:
   check-completion-decision:
