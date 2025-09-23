@@ -288,7 +288,7 @@ execute_claude_completion() {
             -H "X-API-Key: $api_key" \
             -H "anthropic-version: 2023-06-01" \
             -d '{
-                "model": "claude-3-5-sonnet-20241022",
+                "model": "claude-3-5-sonnet-20240620",
                 "max_tokens": 4000,
                 "messages": [
                     {
