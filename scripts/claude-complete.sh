@@ -286,6 +286,7 @@ execute_claude_completion() {
         local response=$(curl -s -X POST https://api.anthropic.com/v1/messages \
             -H "Content-Type: application/json" \
             -H "X-API-Key: $api_key" \
+            -H "anthropic-version: 2023-06-01" \
             -d '{
                 "model": "claude-3-5-sonnet-20241022",
                 "max_tokens": 4000,
