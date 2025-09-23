@@ -143,83 +143,58 @@ jobs:
           echo "Branch: $BRANCH_NAME"
 
           # Create completion script
-          cat > claude_completion.sh << 'EOF'
+          cat > claude_completion.sh << EOF
           #!/bin/bash
           set -e
 
           echo "🔍 Analyzing project structure..."
 
           # Check if project directory exists
-          if [ ! -d "$PROJECT_DIR" ]; then
-            echo "❌ Project directory not found: $PROJECT_DIR"
+          if [ ! -d "\$PROJECT_DIR" ]; then
+            echo "❌ Project directory not found: \$PROJECT_DIR"
             echo "Available projects:"
             ls -la projects/active/ || echo "No active projects found"
             exit 1
           fi
 
-          echo "📋 Found project: $PROJECT_DIR"
-
-          # Read project specification if available
-          SPEC_CONTENT=""
-          if [ -f "$PROJECT_DIR/spec.md" ]; then
-            SPEC_CONTENT=$(cat "$PROJECT_DIR/spec.md")
-            echo "📝 Loaded project specification"
-          fi
-
-          # Read project context if available
-          CONTEXT_CONTENT=""
-          if [ -f "$PROJECT_DIR/context.md" ]; then
-            CONTEXT_CONTENT=$(cat "$PROJECT_DIR/context.md")
-            echo "🔄 Loaded project context"
-          fi
+          echo "📋 Found project: \$PROJECT_DIR"
 
           # Create Claude prompt for project completion
           cat > completion_prompt.md << 'PROMPT_EOF'
-          # Automated Project Completion Request
+# Automated Project Completion Request
 
-          You are being invoked via GitHub Actions to complete a project that was started but needs finishing touches before merge.
+You are being invoked via GitHub Actions to complete a project that was started but needs finishing touches before merge.
 
-          ## Project Information
-          - **Branch**: $BRANCH_NAME
-          - **Project Directory**: $PROJECT_DIR
-          - **Trigger**: PR labeled for completion or approved by repository owner
+## Project Information
+- **Branch**: $BRANCH_NAME
+- **Project Directory**: $PROJECT_DIR
+- **Trigger**: PR labeled for completion or approved by repository owner
 
-          ## Project Specification
-          $SPEC_CONTENT
+## Your Task
+Please complete this project by:
 
-          ## Current Context
-          $CONTEXT_CONTENT
+1. **Review the current state** - Examine what has been implemented in the project directory
+2. **Load project context** - Read spec.md, context.md, and README.md if they exist
+3. **Identify completion gaps** - What needs to be finished for a production-ready feature
+4. **Implement missing pieces** - Add any missing functionality, documentation, or tests
+5. **Quality assurance** - Ensure code quality, error handling, and user experience
+6. **Final polish** - Clean up any rough edges and optimize implementation
 
-          ## Your Task
-          Please complete this project by:
+## Completion Criteria
+- All core functionality implemented and tested
+- Comprehensive documentation including usage examples
+- Error handling and edge cases covered
+- Integration with existing da-agent-hub workflows
+- Ready for merge to main branch
 
-          1. **Review the current state** - Examine what has been implemented
-          2. **Identify completion gaps** - What needs to be finished for a production-ready feature
-          3. **Implement missing pieces** - Add any missing functionality, documentation, or tests
-          4. **Quality assurance** - Ensure code quality, error handling, and user experience
-          5. **Final polish** - Clean up any rough edges and optimize implementation
+## Available Commands
+You have access to all da-agent-hub scripts and tools:
+- \`/capture\`, \`/roadmap\`, \`/build\`, \`/finish\` commands
+- All specialist agents (dbt-expert, snowflake-expert, etc.)
+- Git workflow and project management tools
 
-          ## Completion Criteria
-          - All core functionality implemented and tested
-          - Comprehensive documentation including usage examples
-          - Error handling and edge cases covered
-          - Integration with existing da-agent-hub workflows
-          - Ready for merge to main branch
-
-          ## Available Commands
-          You have access to all da-agent-hub scripts and tools:
-          - `/capture`, `/roadmap`, `/build`, `/finish` commands
-          - All specialist agents (dbt-expert, snowflake-expert, etc.)
-          - Git workflow and project management tools
-
-          Please proceed with completing this project to production-ready status.
-          PROMPT_EOF
-
-          # Substitute variables in prompt
-          sed -i "s|\$BRANCH_NAME|$BRANCH_NAME|g" completion_prompt.md
-          sed -i "s|\$PROJECT_DIR|$PROJECT_DIR|g" completion_prompt.md
-          sed -i "s|\$SPEC_CONTENT|$SPEC_CONTENT|g" completion_prompt.md
-          sed -i "s|\$CONTEXT_CONTENT|$CONTEXT_CONTENT|g" completion_prompt.md
+Please proceed with completing this project to production-ready status.
+PROMPT_EOF
 
           echo "🚀 Invoking Claude for project completion..."
 
