@@ -43,6 +43,7 @@ This PR needs a completion decision before it can be merged. Please add one of t
 - Knowledge extraction opportunities
 - Code that needs final polish/optimization
 - Cross-system integration patterns worth preserving
+- **Project work that requires manual \`/complete\` command**
 
 **⏭️ Add \`claude:skip\` if this PR:**
 - Is a simple fix/typo with no learning value
@@ -56,10 +57,17 @@ This PR needs a completion decision before it can be merged. Please add one of t
 - Is a pure deletion with no replacement logic
 - Has no documentation or agent improvement potential
 
-### 💰 **Cost Consideration**
-- Automated completion costs ~$0.08-0.18 per PR
-- Saves 1-3 hours of manual documentation/improvement work
-- Helps improve agent capabilities for future work
+### 🔍 **Verification Process**
+- \`claude:complete\` now **verifies** manual completion rather than auto-completing
+- You must run \`/complete [project-name]\` in Claude Code **before** adding the label
+- The workflow checks that the project was properly archived to \`projects/completed/[YYYY-MM]/\`
+- This ensures knowledge extraction, agent updates, and proper documentation
+
+### 💰 **Benefits**
+- Manual completion preserves all project learnings
+- Agent capability improvements for future work
+- Proper knowledge extraction and documentation
+- No automated API costs - developer controls the process
 
 **👤 Repository maintainers:** You can add the appropriate label to proceed with merge.`;
 

@@ -460,6 +460,13 @@ The DA Agent Hub now provides a streamlined approach that reduces complexity whi
 3. **`./scripts/build.sh [idea-name]`** → Execute highest priority ideas
 4. **`./scripts/finish.sh [project-name]`** → Complete and archive projects
 
+#### **Development Support Commands:**
+5. **`./scripts/switch.sh [optional-branch]`** or **`/switch [optional-branch]`** → Context switching with work preservation
+   - Zero-loss project switching
+   - Automated work preservation and remote backup
+   - Clean context preparation for new work
+   - ADLC Support: Seamless phase transitions and project context management
+
 #### **Usage Examples:**
 ```bash
 # Weekly team brainstorming
@@ -471,6 +478,10 @@ The DA Agent Hub now provides a streamlined approach that reduces complexity whi
 
 # Execute top priority
 ./scripts/build.sh "customer-churn-prediction"
+
+# Context switching during development
+./scripts/switch.sh  # Save current work, switch to main
+./scripts/switch.sh feature-urgent-fix  # Switch to urgent work
 
 # Complete project
 ./scripts/finish.sh "feature-customer-churn-prediction"

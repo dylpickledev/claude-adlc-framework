@@ -33,36 +33,38 @@
         "folder": "repos/orchestration"
       }
     },
-    "ingestion": {
+    "ingestion_operational": {
       "plantdemand_etl": {
         "url": "https://github.com/graniterock/plantdemand-etl.git",
         "branch": "master",
-        "description": "PlantDemand ETL and Construction Forecasts flows",
-        "folder": "repos/ingestion"
+        "description": "PlantDemand ETL and Construction Forecasts flows (to PostgreSQL operational data store)",
+        "folder": "repos/ingestion_operational"
       },
       "mapistry_etl": {
         "url": "https://github.com/graniterock/mapistry-etl.git",
         "branch": "master",
-        "description": "Mapistry ETL flows",
-        "folder": "repos/ingestion"
+        "description": "Mapistry ETL flows (to PostgreSQL operational data store)",
+        "folder": "repos/ingestion_operational"
       },
       "xbe_data_ingestion": {
         "url": "https://github.com/graniterock/xbe_data_ingestion.git",
         "branch": "main",
-        "description": "XBE data ingestion flows",
-        "folder": "repos/ingestion"
+        "description": "XBE data ingestion flows (to PostgreSQL operational data store)",
+        "folder": "repos/ingestion_operational"
       },
       "postgres_pipelines": {
         "url": "https://github.com/graniterock/postgres_pipelines.git",
         "branch": "master",
-        "description": "PostgreSQL data pipeline configurations",
-        "folder": "repos/ingestion"
-      },
+        "description": "PostgreSQL data pipeline configurations (operational data store)",
+        "folder": "repos/ingestion_operational"
+      }
+    },
+    "ingestion_analytics": {
       "hex_pipelines": {
         "url": "https://github.com/graniterock/hex_pipelines.git",
         "branch": "master",
-        "description": "Hex platform data pipeline configurations",
-        "folder": "repos/ingestion"
+        "description": "Hex platform data pipeline configurations (dlt-hub to Snowflake analytics data store)",
+        "folder": "repos/ingestion_analytics"
       }
     },
     "transformation": {
@@ -79,18 +81,30 @@
         "folder": "repos/transformation"
       }
     },
-    "serving": {
+    "front_end": {
       "streamlit_apps_snowflake": {
         "url": "https://github.com/graniterock/streamlit_apps_snowflake.git",
         "branch": "master",
         "description": "Streamlit applications for Snowflake data visualization",
-        "folder": "repos/serving"
+        "folder": "repos/front_end"
       },
       "snowflake_notebooks": {
         "url": "https://github.com/graniterock/snowflake_notebooks.git",
         "branch": "master",
         "description": "Snowflake notebook collection for data analysis",
-        "folder": "repos/serving"
+        "folder": "repos/front_end"
+      },
+      "tableau": {
+        "url": "local",
+        "branch": "main",
+        "description": "Tableau dashboard configurations and workbooks",
+        "folder": "repos/front_end"
+      },
+      "quarryreport": {
+        "url": "local",
+        "branch": "main",
+        "description": "Quarry reporting front-end applications",
+        "folder": "repos/front_end"
       }
     },
     "operations": {
