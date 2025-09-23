@@ -27,21 +27,20 @@ The DA Agent Hub implements all eight ADLC phases through three integrated AI la
 ```mermaid
 graph TB
     subgraph "💡 ADLC: PLAN Phase"
-        CAPTURE["./scripts/capture.sh - Business Cases"]
-        ROADMAP["./scripts/roadmap.sh - Strategic Planning"]
-        IDEAS[ideas/ - Impact Analysis]
+        CAPTURE["1. ./scripts/capture.sh<br/>Business Case Validation"]
+        ROADMAP["2. ./scripts/roadmap.sh<br/>Strategic Planning & Prioritization"]
+        IDEAS[ideas/ - Auto-Organization<br/>Impact Analysis]
     end
 
     subgraph "🔧 ADLC: DEVELOP + TEST + DEPLOY"
-        BUILD["./scripts/build.sh - Project Creation"]
-        PROJECTS[projects/ - Peer Review]
-        AGENTS[Specialist Agents - Testing]
-        CLI[Claude CLI - Deployment]
+        BUILD["3. ./scripts/build.sh<br/>Project Creation & Development"]
+        PROJECTS[projects/ - Specialist Agents<br/>Cross-Repo Coordination]
+        DEPLOY[Automated Deployment<br/>Quality Assurance]
     end
 
-    subgraph "🎯 ADLC: COMPLETE & OPERATE"
-        FINISH["./scripts/finish.sh - Archive & Cleanup"]
-        OPS[GitHub Actions - Operations]
+    subgraph "🎯 ADLC: COMPLETE & ARCHIVE"
+        FINISH["4. ./scripts/finish.sh<br/>Archive & Git Workflow"]
+        COMPLETE[Project Completion<br/>Knowledge Preservation]
     end
 
     subgraph "🤖 ADLC: OPERATE + OBSERVE + DISCOVER + ANALYZE"
@@ -58,22 +57,29 @@ graph TB
         ORCH[Orchestra]
     end
 
-    IDEATE --> IDEAS
-    IDEAS --> ORGANIZE
-    ORGANIZE --> QUARTERLY
-    QUARTERLY --> PROMOTE
-    PROMOTE --> PROJECTS
-    PROJECTS --> AGENTS
-    AGENTS --> CLI
+    %% Simplified 4-Command Flow
+    CAPTURE --> IDEAS
+    IDEAS --> ROADMAP
+    ROADMAP --> BUILD
+    BUILD --> PROJECTS
+    PROJECTS --> DEPLOY
+    DEPLOY --> FINISH
+    FINISH --> COMPLETE
 
+    %% Automated Operations Loop
     DBT -->|Errors| GHA
     GHA --> MONITOR
     MONITOR --> INVESTIGATE
     INVESTIGATE --> INSIGHTS
     INSIGHTS --> DBT
 
-    CLI -.->|"ADLC Context"| INVESTIGATE
+    %% Context Preservation
+    COMPLETE -.->|"ADLC Context"| INVESTIGATE
     PROJECTS -.->|"Lifecycle Links"| IDEAS
+    INSIGHTS -.->|"Continuous Improvement"| CAPTURE
+
+    %% Command Cycling
+    COMPLETE -.->|"Next Iteration"| CAPTURE
 ```
 
 ---
@@ -311,14 +317,6 @@ claude "tableau-expert: design executive dashboard mockups"
 - **Agent Consistency**: Same specialist expertise across all three layers
 - **Workflow Integration**: Smooth handoffs from planning → development → operations
 - **Knowledge Building**: Institutional memory grows with each cycle
-
----
-
-## 💰 Cost & ROI
-
-**Annual Operating Costs**: $0-100 (GitHub Actions free tier + existing Claude subscription)
-
-**Benefits**: 50-80% faster issue resolution, proactive detection, enhanced team efficiency
 
 ---
 
