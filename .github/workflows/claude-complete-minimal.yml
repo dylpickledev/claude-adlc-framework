@@ -17,18 +17,12 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Claude CLI
+      - name: Verify dependencies
         run: |
-          echo "🤖 Installing Claude CLI..."
-          npm install -g @anthropic-ai/claude-cli@latest
-
-      - name: Configure Claude CLI
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          echo "🔧 Configuring Claude CLI..."
-          mkdir -p ~/.config/claude
-          echo "$ANTHROPIC_API_KEY" > ~/.config/claude/api_key
+          echo "🔧 Checking dependencies..."
+          echo "curl version: $(curl --version | head -1)"
+          echo "git version: $(git --version)"
+          echo "Dependencies ready for Claude API usage"
 
       - name: Run Claude completion
         env:
