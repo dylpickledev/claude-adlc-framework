@@ -2,7 +2,7 @@ name: Suggest Completion Decision
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
 
 jobs:
   suggest-completion:
@@ -33,26 +33,72 @@ jobs:
 
             let suggestion = 'claude:skip';
             let reasoning = [];
+            let confidence = 'medium';
 
-            // Check for agent-related changes
-            const agentFiles = fileTypes.filter(f => f.includes('.claude/agents/') || f.includes('agent'));
+            // HIGH PRIORITY: Agent capability improvements (ALWAYS complete)
+            const agentFiles = fileTypes.filter(f =>
+              f.includes('.claude/agents/') ||
+              f.includes('.claude/commands/') ||
+              f.includes('agent') ||
+              f.includes('.claude/')
+            );
             if (agentFiles.length > 0) {
               suggestion = 'claude:complete';
-              reasoning.push('🤖 Agent files modified - completion can improve agent capabilities');
+              confidence = 'high';
+              reasoning.push('🤖 Agent files modified - HIGH VALUE completion for agent capabilities');
             }
 
-            // Check for documentation changes
-            const docFiles = fileTypes.filter(f => f.includes('.md') || f.includes('docs/'));
-            if (docFiles.length > 0 && !title.includes('readme')) {
+            // HIGH PRIORITY: Knowledge system files (ALWAYS complete)
+            const knowledgeFiles = fileTypes.filter(f =>
+              f.includes('knowledge/da-agent-hub/') ||
+              f.includes('knowledge/da_team_documentation/') ||
+              f.includes('CLAUDE.md') ||
+              (f.includes('README.md') && !f.includes('node_modules'))
+            );
+            if (knowledgeFiles.length > 0) {
               suggestion = 'claude:complete';
-              reasoning.push('📚 Documentation changes - completion can enhance and standardize docs');
+              confidence = 'high';
+              reasoning.push('📚 Knowledge/documentation system modified - HIGH VALUE for knowledge preservation');
             }
 
-            // Check for script/workflow changes
-            const scriptFiles = fileTypes.filter(f => f.includes('scripts/') || f.includes('.yml') || f.includes('.sh'));
-            if (scriptFiles.length > 0) {
+            // HIGH PRIORITY: Complex technical implementations
+            const complexFiles = fileTypes.filter(f =>
+              f.includes('scripts/') ||
+              f.includes('.github/workflows/') ||
+              f.includes('setup.sh') ||
+              f.endsWith('.py') ||
+              f.endsWith('.js') ||
+              f.endsWith('.sh')
+            );
+            if (complexFiles.length > 0) {
               suggestion = 'claude:complete';
-              reasoning.push('⚙️ Scripts/workflows modified - completion can add documentation and improve patterns');
+              confidence = 'high';
+              reasoning.push('⚙️ Complex implementations - completion can extract valuable patterns');
+            }
+
+            // HIGH PRIORITY: ADLC workflow files
+            const adlcFiles = fileTypes.filter(f =>
+              f.includes('capture.sh') ||
+              f.includes('roadmap.sh') ||
+              f.includes('build.sh') ||
+              f.includes('finish.sh') ||
+              f.includes('work-init.sh') ||
+              f.includes('work-complete.sh')
+            );
+            if (adlcFiles.length > 0) {
+              suggestion = 'claude:complete';
+              confidence = 'high';
+              reasoning.push('🔄 ADLC workflow files - completion can improve development lifecycle');
+            }
+
+            // MEDIUM PRIORITY: Documentation that could be enhanced
+            const docFiles = fileTypes.filter(f => f.includes('.md') && !f.includes('README.md'));
+            if (docFiles.length > 0) {
+              if (suggestion !== 'claude:complete') {
+                suggestion = 'claude:complete';
+                confidence = 'medium';
+              }
+              reasoning.push('📝 Documentation changes - completion can enhance and standardize');
             }
 
             // Check for simple changes that don't need completion
