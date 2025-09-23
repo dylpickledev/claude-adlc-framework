@@ -1,0 +1,48 @@
+name: Claude Complete Minimal
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  complete-project:
+    name: Minimal Claude Completion
+    runs-on: ubuntu-latest
+    if: contains(github.event.label.name, 'claude:complete')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Claude CLI
+        run: |
+          echo "🤖 Installing Claude CLI..."
+          npm install -g @anthropic-ai/claude-cli@latest
+
+      - name: Configure Claude CLI
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "🔧 Configuring Claude CLI..."
+          mkdir -p ~/.config/claude
+          echo "$ANTHROPIC_API_KEY" > ~/.config/claude/api_key
+
+      - name: Run Claude completion
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "🚀 Running Claude completion..."
+          echo "Branch: ${{ github.event.pull_request.head.ref }}"
+
+          # Make claude-complete.sh executable
+          chmod +x ./scripts/claude-complete.sh
+
+          # Run the script (without project name to test auto-detection)
+          ./scripts/claude-complete.sh
+
+      - name: Report completion
+        run: |
+          echo "✅ Claude completion workflow finished"
