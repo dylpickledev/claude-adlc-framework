@@ -3,6 +3,8 @@ name: Claude Completion Verification
 on:
   pull_request:
     types: [labeled]
+    branches: [main]
+    # EXPLICIT: Only run when PR labels are added/changed, never on push events
 
 jobs:
   verify-completion:

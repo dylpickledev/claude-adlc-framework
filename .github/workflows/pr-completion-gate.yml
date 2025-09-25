@@ -3,6 +3,8 @@ name: PR Completion Gate
 on:
   pull_request:
     types: [opened, reopened, labeled, unlabeled]
+    branches: [main]
+    # EXPLICIT: Only run on PR events targeting main, never on push events
 
 jobs:
   check-completion-decision:

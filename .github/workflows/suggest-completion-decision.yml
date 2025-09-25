@@ -3,6 +3,8 @@ name: Suggest Completion Decision
 on:
   pull_request:
     types: [opened]
+    branches: [main]
+    # EXPLICIT: Only run on pull requests targeting main, never on push events
 
 jobs:
   suggest-completion:
