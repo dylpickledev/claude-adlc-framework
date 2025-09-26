@@ -105,6 +105,12 @@
         "branch": "main",
         "description": "Quarry reporting front-end applications",
         "folder": "repos/front_end"
+      },
+      "react_sales_journal": {
+        "url": "https://github.com/graniterock/react-sales-journal.git",
+        "branch": "main",
+        "description": "React-based sales journal application",
+        "folder": "repos/front_end"
       }
     },
     "operations": {
