@@ -3,6 +3,16 @@
     "dbt-mcp": {
       "command": "uvx",
       "args": ["--env-file", ".env", "dbt-mcp"]
+    },
+    "snowflake-mcp": {
+      "command": "uvx",
+      "args": [
+        "snowflake-labs-mcp",
+        "--service-config-file",
+        "config/snowflake_tools_config.yaml",
+        "--connection-name",
+        "default"
+      ]
     }
   }
 }
