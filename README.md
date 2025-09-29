@@ -324,6 +324,7 @@ claude "tableau-expert: design executive dashboard mockups"
 
 - **[Detailed Setup Guide](knowledge/da-agent-hub/development/setup.md)**: Complete installation and configuration
 - **[Claude Interaction Guide](knowledge/da-agent-hub/development/claude-interactions.md)**: Command reference and best practices
+- **[Snowflake MCP Integration](docs/snowflake-mcp-integration.md)**: Direct Snowflake database access and Cortex AI integration
 - **[Agent Development](knowledge/da-agent-hub/development/agent-development.md)**: Creating custom experts
 - **[Troubleshooting](knowledge/da-agent-hub/operations/troubleshooting.md)**: Common issues and solutions
 
