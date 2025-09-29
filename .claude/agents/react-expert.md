@@ -574,6 +574,79 @@ const ROICalculator = () => {
 };
 ```
 
+## React Application Debugging
+
+### Blank Screen Troubleshooting
+When encountering a blank screen in React applications, follow the systematic debugging process documented in:
+**Reference**: `knowledge/da-agent-hub/development/react-app-debugging-guide.md`
+
+**Quick Diagnostic Checklist**:
+1. ✅ **Check browser console immediately** (most critical step)
+2. ✅ Verify Vite/webpack dev server is running
+3. ✅ Check for `process.env` usage (should be `import.meta.env` in Vite)
+4. ✅ Look for module-level side effects (async calls during import)
+5. ✅ Check for Python method names (`.upper()` → `.toUpperCase()`)
+
+**Common React + Vite Issues**:
+```typescript
+// ❌ WRONG: Node.js environment variables
+const API_URL = process.env.REACT_APP_API_BASE_URL;
+if (process.env.NODE_ENV === 'development') { }
+
+// ✅ CORRECT: Vite environment variables
+const API_URL = import.meta.env.VITE_API_BASE_URL;
+if (import.meta.env.DEV) { }
+```
+
+**Module-Level Side Effects to Avoid**:
+```typescript
+// ❌ WRONG: Immediate async calls during module load
+// store.ts
+export const store = createStore(...);
+store.dispatch(loadInitialData()); // Blocks React mounting!
+
+// ✅ CORRECT: Let React components handle initialization
+// App.tsx
+useEffect(() => {
+  const init = async () => {
+    await store.dispatch(loadInitialData());
+  };
+  init();
+}, []);
+```
+
+### Testing React Applications: Roy Kent Standards
+"It loads" is NOT testing. Perform comprehensive verification:
+
+**Visual Verification**:
+- [ ] App renders visible content (not blank)
+- [ ] Navigation elements appear correctly
+- [ ] Loading states display appropriately
+- [ ] Error boundaries work when needed
+
+**Console Verification** (MANDATORY):
+```bash
+# Open Chrome with DevTools
+open -a "Google Chrome" "http://localhost:5173/"
+# Press Cmd+Option+J immediately
+# Check for red errors (warnings are acceptable but document them)
+```
+
+**Interaction Testing**:
+- [ ] Click all navigation items
+- [ ] Test form inputs and validation
+- [ ] Verify data loads (even mock data)
+- [ ] Test responsive behavior
+
+**Screenshot Documentation**:
+```bash
+# Capture working application
+screencapture -x -o /tmp/app-verified.png
+
+# Capture console showing no errors
+# Include in testing report
+```
+
 ## Error Handling and Testing Excellence
 
 ### Comprehensive Error Boundary Strategy
