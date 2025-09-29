@@ -1,27 +1,43 @@
-# Project Specification: sales-journal-to-react
+# Project Specification: Sales Journal React Application
 
 ## End Goal
 
-sales-journal-to-react
+Modernize the existing sales journal application by migrating it to a React-based frontend with modern UI/UX patterns, enhanced user experience, and integration with GraniteRock's financial reporting infrastructure.
 
-<!-- Expand this section with specific, measurable outcomes -->
+**Specific Outcomes:**
+- Deploy a production-ready React application on AWS Amplify
+- Implement modern UI/UX design using GraniteRock brand guidelines
+- Integrate with existing financial data sources and backend systems
+- Provide enhanced user experience for sales journal entry and reporting
+- Establish foundation for future financial application development
 
 ## Success Criteria
 
-- [ ] Define specific success metrics here
-- [ ] Add measurable completion criteria
-- [ ] Include user/business value delivered
+- [ ] React application successfully deployed to AWS Amplify
+- [ ] UI/UX design implements GraniteRock brand guidelines with WCAG 2.1 AA compliance
+- [ ] Application handles journal entry workflows with >95% task completion rate
+- [ ] Integration with existing financial data sources (Snowflake, SQL Server, Postgres)
+- [ ] Performance benchmarks: LCP <2.5s, FID <100ms, CLS <0.1
+- [ ] User acceptance testing completed with finance team approval
 
 ## Scope
 
 ### Included
-- Core functionality to be delivered
-- Systems and repositories affected
-- Required integrations
+- React frontend application with modern component architecture
+- GraniteRock-branded UI/UX design system implementation
+- Journal entry forms with validation and real-time feedback
+- Financial data visualization and reporting dashboards
+- AWS Amplify deployment with CI/CD pipeline
+- Integration with existing database systems
+- Cross-browser compatibility and mobile responsiveness
+- Comprehensive testing suite (unit, integration, e2e)
 
 ### Excluded
-- Out-of-scope items to avoid scope creep
-- Future enhancements for later phases
+- Backend API modifications (use existing endpoints)
+- Data migration or transformation logic
+- Advanced analytics or machine learning features
+- Integration with external financial systems beyond current scope
+- Multi-tenant or role-based access control (Phase 2)
 
 ## Implementation Plan
 
@@ -44,28 +60,47 @@ sales-journal-to-react
 ## Technical Requirements
 
 ### Systems Involved
-- **Repositories:** (list affected repos)
-- **Data Sources:** (if applicable)
-- **Integration Points:** (APIs, databases, etc.)
+- **Repositories:**
+  - react-sales-journal (primary development)
+  - da-agent-hub (agent coordination and documentation)
+- **Data Sources:**
+  - Snowflake (financial data warehouse)
+  - SQL Server (legacy financial systems)
+  - PostgreSQL (operational data store)
+- **Integration Points:**
+  - Existing financial APIs
+  - Authentication systems
+  - File upload/export services
 
 ### Tools & Technologies
-- dbt (transformations)
-- Snowflake (data warehouse)
-- Tableau (reporting)
-- Orchestra (orchestration)
-- Other: (specify)
+- **Frontend:** React 18+, TypeScript, Styled Components
+- **State Management:** Redux Toolkit + RTK Query, Zustand
+- **UI Framework:** Custom design system with GraniteRock branding
+- **Charts/Visualization:** Chart.js, D3.js, or Recharts
+- **Testing:** Jest, React Testing Library, Playwright
+- **Deployment:** AWS Amplify, CloudFront CDN
+- **Development:** Vite, ESLint, Prettier
+- **Agent Support:** UI/UX Expert, React Expert, Business Context agents
 
 ## Acceptance Criteria
 
 ### Functional Requirements
-- [ ] Specific functional requirements
-- [ ] User experience criteria
-- [ ] Performance requirements
+- [ ] Journal entry forms with validation (debits/credits balance)
+- [ ] Real-time calculation and balance verification
+- [ ] Financial data tables with sorting, filtering, and search
+- [ ] Interactive financial charts and visualizations
+- [ ] Export functionality (PDF, Excel, CSV)
+- [ ] Responsive design for desktop, tablet, and mobile
+- [ ] Dark/light mode support with GraniteRock branding
+- [ ] Keyboard navigation and accessibility support
 
-### Non-Functional Requirements  
-- [ ] Security considerations
-- [ ] Scalability requirements
-- [ ] Maintainability standards
+### Non-Functional Requirements
+- [ ] Security: Input sanitization, XSS prevention, secure API calls
+- [ ] Performance: Core Web Vitals optimization, lazy loading
+- [ ] Scalability: Component-based architecture, code splitting
+- [ ] Maintainability: TypeScript, comprehensive testing, documentation
+- [ ] Accessibility: WCAG 2.1 AA compliance, screen reader support
+- [ ] Browser Support: Chrome, Firefox, Safari, Edge (latest 3 versions)
 
 ## Risk Assessment
 
@@ -81,10 +116,19 @@ sales-journal-to-react
 
 ## Timeline Estimate
 
-- **Analysis:** X days
-- **Implementation:** X days  
-- **Testing & Deployment:** X days
-- **Total Estimated:** X days
+- **Phase 1 Analysis & Planning:** 3-5 days
+  - Requirements gathering with finance team
+  - Technical architecture design
+  - UI/UX wireframes and design system setup
+- **Phase 2 Implementation:** 10-15 days
+  - Core React application development
+  - Component library and design system
+  - API integration and state management
+- **Phase 3 Testing & Deployment:** 5-7 days
+  - Comprehensive testing suite
+  - AWS Amplify deployment setup
+  - User acceptance testing with finance team
+- **Total Estimated:** 18-27 days
 
 ---
 
