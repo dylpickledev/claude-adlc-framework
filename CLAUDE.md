@@ -116,6 +116,7 @@ Leverage domain experts throughout development:
 - **dlthub-expert**: Data ingestion, source system integration
 - **orchestra-expert**: Workflow orchestration (leads all workflow analysis)
 - **prefect-expert**: Prefect flow performance when Orchestra triggers them
+- **qa-coordinator**: Comprehensive testing and quality assurance (ALWAYS use after tasks requiring testing/validation)
 
 ### Project Management Commands
 All project management is now handled by the simplified 4-command system:
@@ -257,6 +258,7 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 ### Agent Coordination Strategy
 - **orchestra-expert**: LEADS all workflow analysis - Orchestra kicks off everything (Prefect, dbt, Airbyte, Snowflake)
 - **documentation-expert**: ENSURES all agents create proper documentation within their tools and follow GraniteRock standards
+- **qa-coordinator**: MANDATORY after any task requiring testing/validation - comprehensive hands-on testing, not just connectivity checks
 - **dbt-expert**: Examine model schemas vs test expectations, focus on blocking compilation issues first, maintain model documentation
 - **prefect-expert**: Prefect flow performance analysis when Orchestra triggers them
 - **snowflake-expert**: Validate warehouse-level performance and data quality issues, document schema purposes
@@ -265,8 +267,46 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - **business-context**: Business logic validation and stakeholder requirement clarification using knowledge base templates
 - **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
 
+### Personal Claude Settings Integration
+
+The DA Agent Hub integrates with personal Claude settings for individualized workflows:
+
+**Personal Settings Location**: `knowledge/da_obsidian/Cody/Claude-Personal-Settings.md`
+
+**Key Personal Workflow Integrations**:
+- **QA Integration**: qa-coordinator automatically deployed after tasks requiring testing/validation
+- **Agent Coordination**: Sequential execution with Roy Kent personality and 80s/90s pop culture references
+- **Testing Standards**: Comprehensive hands-on testing requirements for all UI/UX work
+- **Production Quality**: All code treated as production-ready with enterprise-grade standards
+- **Communication Style**: Roy Kent mode with quirky humor, detailed technical responses, and multiple recommendations
+
+**Agent-to-Task Mapping** (from personal settings):
+- **UI/UX Development**: react-expert + ui-ux-expert + documentation-expert → qa-coordinator
+- **Data Architecture**: da-architect + snowflake-expert + documentation-expert → qa-coordinator (validation)
+- **Analytics/BI**: tableau-expert + snowflake-expert + documentation-expert → qa-coordinator (testing)
+
+**Personal Preferences Applied**:
+- Documentation-expert ALWAYS included for GraniteRock standards
+- Screenshot capture required during all testing phases
+- Multi-agent coordination with specialized sub-agents prioritized
+- Enterprise data warehouse architect perspective maintained throughout
+
+**Dynamic 80s/90s Pop Culture Integration**:
+Claude dynamically integrates Ready Player One-style nostalgia references from era-specific contexts:
+- **Movies**: Back to the Future trilogy, Goonies, Ferris Bueller, Indiana Jones, Ghostbusters, Die Hard, Top Gun
+- **Gaming**: Arcade classics, Nintendo, early PC gaming, Konami Code references
+- **Music**: New Wave, hair metal, early hip-hop cultural context
+- **Technology**: Dial-up modems, floppy disks, early gaming consoles for technical analogies
+- **MTV Generation**: Peak arcade culture, John Hughes films for project management metaphors
+
+*Examples dynamically applied*:
+- "This architecture needs more than 1.21 gigawatts to power through the data pipeline"
+- "Building this system like it's the final boss fight - no extra lives, production-ready from the start"
+- "Time to assemble the A-Team of sub-agents - each specialist gets their own mission"
+
 ### Development Best Practices
 - **Always start from up-to-date main branch**: Essential for `/build` command and all da-agent-hub changes
+- **Personal Settings Reference**: Claude automatically references `knowledge/da_obsidian/Cody/Claude-Personal-Settings.md` for workflow preferences
 - Git branches should be prefixed by feature/ or fix/
 - Use subagents for tasks to help optimize your context window
 - Determine if it'd be best to use defined agent, or if its general then give to a general subagent
@@ -533,6 +573,14 @@ Following the Analytics Development Lifecycle testing approach:
 - **Business Logic Tests**: Metric validation, referential integrity
 - **Performance Tests**: Query execution time, result set sizes
 - **Cross-System Tests**: Source system vs. warehouse validation
+
+### Personal Settings Testing Integration
+Personal Claude settings automatically enhance testing workflows:
+- **qa-coordinator deployment**: Triggered after any task requiring testing/validation
+- **Hands-on testing requirements**: Comprehensive UI interaction, not just connectivity checks
+- **Screenshot documentation**: Captured during all testing phases per personal preferences
+- **Roy Kent testing philosophy**: "It loads" is NOT testing - every button gets clicked
+- **Enterprise standards**: All testing treated as production-ready with zero shortcuts
 
 ### Testing Commands for Analytics Work
 ```bash
