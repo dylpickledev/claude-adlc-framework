@@ -1,7 +1,7 @@
 # /complete Command Protocol
 
 ## Purpose
-Complete and archive projects with automated knowledge extraction and dissemination. Implements prompt-first ADLC project completion with intelligent knowledge preservation.
+Complete and archive projects with automated knowledge extraction, performance metrics tracking, and intelligent knowledge dissemination. Implements prompt-first ADLC project completion with intelligent knowledge preservation.
 
 ## Usage
 ```bash
@@ -16,16 +16,20 @@ claude /complete [project-name]
 - **Agent Knowledge**: Tool-specific learnings and best practices
 - **Process Insights**: Workflow improvements and organizational patterns
 - **Integration Patterns**: Cross-system coordination strategies
+- **Performance Metrics**: Agent effectiveness and routing intelligence
 
 ### 2. Automated Knowledge Dissemination
 **Before archiving, Claude automatically:**
 - **Extracts key patterns** from project specifications and findings
 - **Updates agent knowledge bases** with tool-specific insights
+- **Tracks performance metrics** for continuous improvement
+- **Updates confidence scores** based on project outcomes
 - **Preserves technical documentation** in knowledge directory
 - **Creates cross-references** for future project reference
 
 ### 3. Complete Project Archival
 - **Archives project**: Moves to `projects/completed/YYYY-MM/[project-name]/`
+- **Extracts patterns**: Auto-populates memory system via finish.sh
 - **Git workflow guidance**: Provides PR creation and merge options
 - **Updates related ideas**: Links completion back to original archived ideas
 - **Enables operations**: Project ready for ADLC Operate phase monitoring
@@ -50,23 +54,58 @@ When user runs `/complete [project-name]`:
 
 4. **WAIT for user approval** before making any changes
 
+### Step 1.5: Extract Performance Metrics
+**Track quantitative data for continuous improvement:**
+
+1. **Agent invocation patterns**:
+   - Count agent invocations by type (dbt-expert: 3, snowflake-expert: 2, etc.)
+   - Document success/retry patterns for each agent
+   - Measure estimated execution times
+
+2. **Performance indicators**:
+   - Success rate (completed without retries vs total attempts)
+   - Task complexity indicators (simple query vs complex transformation)
+   - Cross-agent coordination effectiveness
+
+3. **Failure pattern documentation**:
+   - Common error types encountered
+   - Retry scenarios and resolution methods
+   - Knowledge gaps identified during execution
+
+4. **Confidence score updates**:
+   - Identify successful patterns that should increase agent confidence
+   - Document areas where agents struggled (decrease confidence)
+   - Calculate confidence adjustments based on task outcomes
+
 ### Step 2: Execute Approved Knowledge Updates (Only After Approval)
 **Check for updates to:**
 
 #### Agent Knowledge (`/.claude/agents/`)
-- **dbt-expert.md**: SQL patterns, model architectures, testing strategies
-- **snowflake-expert.md**: Query optimization, cost management patterns
-- **tableau-expert.md**: Dashboard design patterns, visualization strategies
-- **da-architect.md**: System design patterns, data flow architectures
-- **documentation-expert.md**: Documentation standards and templates
-- **business-context.md**: Stakeholder management and requirement patterns
-- **[other-agents].md**: Tool-specific insights and best practices
+- **dbt-expert.md**: SQL patterns, model architectures, testing strategies + confidence updates
+- **snowflake-expert.md**: Query optimization, cost management patterns + confidence updates
+- **tableau-expert.md**: Dashboard design patterns, visualization strategies + confidence updates
+- **da-architect.md**: System design patterns, data flow architectures + confidence updates
+- **documentation-expert.md**: Documentation standards and templates + confidence updates
+- **business-context.md**: Stakeholder management and requirement patterns + confidence updates
+- **[other-agents].md**: Tool-specific insights and best practices + confidence updates
+
+**Confidence Score Management:**
+- Update agent confidence levels based on project outcomes
+- Document successful patterns that warrant confidence increases (+0.05 to +0.15)
+- Identify knowledge gaps that suggest confidence decreases (-0.05 to -0.10)
+- Create routing recommendations for future similar tasks
 
 #### Technical Documentation (`/knowledge/`)
 - **Architecture patterns**: System design and integration strategies
 - **Process documentation**: Workflow improvements and organizational methods
 - **Technical guides**: Implementation patterns and troubleshooting
 - **Team documentation**: Standards and collaborative practices
+
+#### Memory System Updates (`/.claude/memory/`)
+**Note**: Pattern extraction happens automatically via `finish.sh`:
+- Extracts patterns marked with PATTERN:, SOLUTION:, ERROR-FIX:, etc.
+- Saves to `.claude/memory/recent/YYYY-MM.md`
+- No manual action needed - automatic during archival
 
 ### Step 3: Archive Project
 1. **Create archive directory**: `projects/completed/YYYY-MM/[project-name]/`
@@ -93,6 +132,20 @@ When user runs `/complete [project-name]`:
 ### Phase 1: Analysis and Proposal
 ```
 🔍 Analyzing project: [project-name]
+📊 Extracting performance metrics...
+
+📈 Project Performance Summary:
+   • Agents invoked: 5 (dbt-expert: 3, snowflake-expert: 2)
+   • Success rate: 100% (0 retries needed)
+   • Estimated execution time: 18 minutes
+   • Task complexity: Medium (cross-system integration)
+   • New patterns discovered: 3
+
+🎯 Confidence Updates:
+   ↗️ dbt-expert: +0.10 (incremental model optimization)
+   ↗️ snowflake-expert: +0.05 (query performance tuning)
+   ➡️ tableau-expert: No change (limited involvement)
+
 📚 Identifying knowledge for preservation...
 
 💡 Proposed Knowledge Updates:
@@ -101,18 +154,24 @@ When user runs `/complete [project-name]`:
 📝 .claude/agents/da-architect.md
    + GitHub Actions automation patterns section
    + AI-powered workflow design best practices
+   + Confidence: +0.08
    + [show exact content additions]
 
-📝 .claude/agents/[other-agent].md
+📝 .claude/agents/dbt-expert.md
+   + Incremental model optimization patterns
+   + Confidence: +0.10
    + [specific additions with exact content]
 
 ### New Knowledge Documents:
 📄 knowledge/technical/[new-document].md
    + [document purpose and key content outline]
 
-### Project Documentation Updates:
-📋 README.md or CLAUDE.md updates (if needed)
-   + [specific sections to update]
+### Memory Extraction (Automatic):
+🤖 finish.sh will automatically extract:
+   - 3 PATTERN markers from task findings
+   - 2 SOLUTION markers
+   - 1 ERROR-FIX marker
+   → Saved to memory/recent/YYYY-MM.md
 
 🤔 **Should I proceed with these knowledge updates?**
    - Type 'yes' to execute all proposed changes
@@ -125,12 +184,14 @@ When user runs `/complete [project-name]`:
 ✅ Executing approved knowledge updates...
 
 💡 Knowledge Updates Applied:
-   ✅ Updated: agents/da-architect.md (integration patterns)
-   ✅ Updated: agents/documentation-expert.md (process standards)
+   ✅ Updated: agents/da-architect.md (integration patterns + confidence: +0.08)
+   ✅ Updated: agents/dbt-expert.md (incremental model patterns + confidence: +0.10)
+   ✅ Updated: agents/documentation-expert.md (process standards + confidence: +0.03)
    ✅ Added: knowledge/technical/idea-organization-systems.md
 
 📦 Archiving project...
    ✅ Moved to: projects/completed/YYYY-MM/[project-name]/
+   🧹 Pattern extraction: 6 patterns saved to memory/recent/
 
 🔀 Git workflow options:
    1. Create PR: gh pr create --title "Complete [project-name]" --body "Project completion with knowledge extraction"
@@ -139,14 +200,20 @@ When user runs `/complete [project-name]`:
 
 💡 Recommended: Create PR for review
 
+🤖 Routing Recommendations for Future Projects:
+   • For incremental model work: Prefer dbt-expert (confidence: 0.92)
+   • For query optimization: dbt-expert + snowflake-expert (high coordination success)
+   • For cross-system integration: da-architect → dbt-expert → snowflake-expert (proven sequence)
+
 🔗 Related ideas handled:
    ✅ Source idea found and archived: ideas/[location]/[idea-file] → ideas/archive/
    OR
    💡 No source idea found - ad-hoc project (no cleanup needed)
 
-✅ Project '[project-name]' completed with knowledge preserved!
+✅ Project '[project-name]' completed with knowledge preserved and metrics tracked!
 
 🎉 Next steps:
+   - Review performance metrics and confidence updates
    - Review completed work and extracted knowledge
    - Create PR if on feature branch
    - Plan next project: ./scripts/build.sh [idea-name]
@@ -161,6 +228,7 @@ When user runs `/complete [project-name]`:
 - **Integration patterns**: How tools coordinate with other systems
 - **Troubleshooting insights**: Common issues and resolution patterns
 - **Performance optimizations**: Efficiency improvements and cost management
+- **Confidence adjustments**: Success/failure patterns affecting agent reliability
 
 ### Technical Documentation
 **Add to knowledge/ when project demonstrates:**
@@ -169,22 +237,36 @@ When user runs `/complete [project-name]`:
 - **Standards evolution**: Updated team practices and conventions
 - **Cross-system coordination**: Multi-tool orchestration patterns
 
-### Dissemination Decision Framework
-- **High impact**: Core system changes → Update multiple agent files
-- **Tool-specific**: Single tool insights → Update relevant agent only
-- **Process innovation**: Workflow improvements → Update knowledge/
-- **Team learning**: Collaborative insights → Update da_team_documentation/
+### Performance Metrics Documentation
+**Track and update when project reveals:**
+- **Agent effectiveness patterns**: Which agents excel at specific tasks
+- **Coordination strategies**: Successful multi-agent workflows
+- **Failure modes**: Common pitfalls and prevention strategies
+- **Routing intelligence**: Optimal agent selection for task types
 
-## Integration with ADLC
-- **ADLC Deploy Completion**: Final deployment with knowledge preservation
-- **ADLC Operate Transition**: Project ready for operations with documented patterns
-- **ADLC Observe Setup**: Knowledge base enables better monitoring and issue resolution
+### Dissemination Decision Framework
+- **High impact + high confidence**: Core system changes → Update multiple agent files + increase confidence
+- **Tool-specific + proven**: Single tool insights → Update relevant agent only + confidence boost
+- **Process innovation**: Workflow improvements → Update knowledge/ + document success patterns
+- **Team learning**: Collaborative insights → Update da_team_documentation/ + share metrics
+- **Failed experiments**: Document what didn't work → Decrease confidence + capture lessons
+
+## Integration with ADLC & Memory System
+- **ADLC Deploy Completion**: Final deployment with knowledge preservation and metrics
+- **ADLC Operate Transition**: Project ready for operations with documented patterns and performance data
+- **ADLC Observe Setup**: Knowledge base + metrics enable better monitoring and issue resolution
 - **Cross-layer context**: Full traceability from idea to operations with preserved learnings
+- **Memory System**: Automatic pattern extraction via finish.sh populates `.claude/memory/recent/`
+- **Confidence Routing**: Performance metrics inform future agent selection and coordination
 
 ## Success Criteria
 - [ ] Project knowledge automatically extracted and preserved
-- [ ] Relevant agent files updated with new insights
+- [ ] Performance metrics tracked and analyzed
+- [ ] Agent confidence scores updated based on outcomes
+- [ ] Relevant agent files updated with new insights + confidence adjustments
 - [ ] Technical documentation created when warranted
+- [ ] Memory system populated with patterns (automatic via finish.sh)
+- [ ] Routing recommendations generated for future projects
 - [ ] Project successfully archived to completed directory
 - [ ] Git workflow guidance provided based on current branch
 - [ ] Related archived ideas updated with completion status
@@ -192,4 +274,4 @@ When user runs `/complete [project-name]`:
 
 ---
 
-*ADLC project completion with intelligent knowledge preservation - from active development to operational wisdom.*
+*ADLC project completion with intelligent knowledge preservation, performance tracking, and confidence-based routing - from active development to operational wisdom with compound learning.*

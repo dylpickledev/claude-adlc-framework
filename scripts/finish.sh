@@ -80,6 +80,53 @@ if [[ "$CURRENT_BRANCH" == *"$PROJECT_NAME"* ]] || [[ "$CURRENT_BRANCH" == "feat
     echo "💡 Recommended: Create PR for review before merging"
 fi
 
+# Extract patterns and learnings to memory system
+echo "📚 Extracting reusable patterns to memory..."
+MEMORY_DIR="$REPO_ROOT/.claude/memory"
+MONTH_FILE="$MEMORY_DIR/recent/$(date +%Y-%m).md"
+
+# Ensure memory directories exist
+mkdir -p "$MEMORY_DIR/patterns" "$MEMORY_DIR/recent" "$MEMORY_DIR/templates"
+
+# Extract patterns from task findings
+if [ -d "$REPO_ROOT/.claude/tasks" ]; then
+    PATTERN_COUNT=0
+
+    # Create or append to monthly file
+    if [ ! -f "$MONTH_FILE" ]; then
+        echo "# Patterns and Learnings - $(date +%B %Y)" > "$MONTH_FILE"
+        echo "" >> "$MONTH_FILE"
+    fi
+
+    echo "" >> "$MONTH_FILE"
+    echo "## From Project: $PROJECT_NAME ($(date +%Y-%m-%d))" >> "$MONTH_FILE"
+    echo "" >> "$MONTH_FILE"
+
+    # Search for pattern markers in all task findings
+    for findings_file in $(find "$REPO_ROOT/.claude/tasks" -name "*.md" -type f 2>/dev/null); do
+        if grep -q "PATTERN:\|SOLUTION:\|ERROR-FIX:\|ARCHITECTURE:\|INTEGRATION:" "$findings_file" 2>/dev/null; then
+            echo "### $(basename $(dirname "$findings_file"))/$(basename "$findings_file")" >> "$MONTH_FILE"
+            echo "" >> "$MONTH_FILE"
+            grep "PATTERN:\|SOLUTION:\|ERROR-FIX:\|ARCHITECTURE:\|INTEGRATION:" "$findings_file" >> "$MONTH_FILE" 2>/dev/null
+            echo "" >> "$MONTH_FILE"
+            PATTERN_COUNT=$((PATTERN_COUNT + 1))
+        fi
+    done
+
+    if [ $PATTERN_COUNT -gt 0 ]; then
+        echo "   ✅ Extracted patterns from $PATTERN_COUNT files"
+        echo "   📁 Saved to: memory/recent/$(date +%Y-%m).md"
+
+        # Clean up task findings after extraction
+        echo "   🧹 Cleaning up extracted task findings..."
+        find "$REPO_ROOT/.claude/tasks" -name "*.md" -type f -delete 2>/dev/null
+    else
+        echo "   ℹ️  No patterns found to extract"
+    fi
+else
+    echo "   ℹ️  No task findings directory found"
+fi
+
 # Update any related archived ideas
 echo "🔗 Updating related archived ideas..."
 if [ -d "ideas/archive" ]; then
