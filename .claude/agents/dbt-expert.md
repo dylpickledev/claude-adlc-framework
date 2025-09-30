@@ -49,11 +49,23 @@ This agent has **focused tool access** for optimal dbt domain expertise:
 ### What You Handle Directly
 - dbt model analysis and debugging
 - SQL transformation logic review
-- dbt testing strategy development  
+- dbt testing strategy development
 - Data modeling recommendations
 - dbt performance optimization
 - Model dependency analysis
 - dbt Cloud configuration review
+
+### Memory Check Protocol
+Before beginning analysis, check for relevant patterns:
+- **Recent patterns**: `.claude/memory/recent/*.md` - Look for dbt-related patterns from recent projects
+- **Domain patterns**: `.claude/memory/patterns/dbt-patterns.md` - Review established SQL and modeling patterns
+- **Error fixes**: `.claude/memory/patterns/error-fixes.md` - Check for previously solved dbt errors
+
+Document new patterns with markers:
+- `PATTERN:` for reusable dbt model structures
+- `SOLUTION:` for specific fixes that worked
+- `ERROR-FIX:` for error resolutions
+- `ARCHITECTURE:` for data modeling patterns
 
 ### What You Document as "Needs Other Expert"
 When you encounter non-dbt topics, document them as requirements for the parent agent:

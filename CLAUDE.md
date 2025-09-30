@@ -334,6 +334,54 @@ Claude dynamically integrates Ready Player One-style nostalgia references from e
 - Determine if it'd be best to use defined agent, or if its general then give to a general subagent
 - Always preserve context links between ideas → projects → operations
 
+## Context Management & Memory System
+
+### Session Start Protocol
+When beginning any work session, Claude should check the file-based memory system:
+
+1. **Recent Patterns** (`.claude/memory/recent/`)
+   - Review monthly pattern files from the last 30 days
+   - Look for relevant solutions to similar problems
+   - Check for error fixes that might apply
+
+2. **Domain Patterns** (`.claude/memory/patterns/`)
+   - Load patterns relevant to the current work type
+   - Check for established architectural patterns
+   - Review proven solutions before investigating
+
+3. **Task Context** (`.claude/tasks/`)
+   - Check for any unfinished work or findings
+   - Review recent agent outputs
+   - Identify work that might need continuation
+
+4. **Project Templates** (`.claude/memory/templates/`)
+   - Use appropriate template based on branch type
+   - Load investigation vs. building vs. fix templates
+
+### Pattern Documentation Protocol
+When documenting findings in `.claude/tasks/*/findings.md`, use these markers for automatic extraction:
+
+```markdown
+PATTERN: [Description of reusable pattern]
+SOLUTION: [Specific solution that worked]
+ERROR-FIX: [Error message] -> [Fix that resolved it]
+ARCHITECTURE: [System design pattern]
+INTEGRATION: [Cross-system coordination approach]
+```
+
+### Memory Extraction at Project Completion
+The `/complete` command automatically:
+- Extracts marked patterns from task findings
+- Updates `.claude/memory/recent/` with new discoveries
+- Preserves valuable learnings for future sessions
+- Cleans up task findings after extraction
+
+### Context Optimization Tips
+- Reference memory patterns before starting investigations
+- Document novel solutions with pattern markers
+- Check recent memory for similar work before diving deep
+- Use templates to start branches with appropriate context
+
 ### Automatic QA Testing Protocol
 
 **MANDATORY**: Before reporting work complete, invoke qa-coordinator for comprehensive testing.

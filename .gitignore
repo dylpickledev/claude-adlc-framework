@@ -82,6 +82,9 @@ knowledge/*/*
 # Allow DA Agent Hub documentation in knowledge/da-agent-hub/
 !knowledge/da-agent-hub/
 !knowledge/da-agent-hub/**
+# Allow GraniteRock SharePoint analysis in knowledge/graniterock_sharepoint/
+!knowledge/graniterock_sharepoint/
+!knowledge/graniterock_sharepoint/**
 
 
 .claude/settings.local.json
