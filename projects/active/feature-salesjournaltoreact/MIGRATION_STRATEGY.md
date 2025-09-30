@@ -56,18 +56,19 @@
 
 ### 🔧 PARTIALLY COMPLETE
 
-#### Tab 1: Sales Journal (~60% complete)
+#### Tab 1: Sales Journal (~70% complete)
 **✅ Completed:**
 - Basic table display
 - Filter UI (Batch Type, Proof, Batch ID, Invalid Account, Account Code)
+- Filter auto-reset logic (batch_id auto-resets to max when batch_type/is_proof changes)
 - Metrics display (Total Entry Qty, Total Amount)
 - CSV export
+- Query optimization with TTL caching (5 min cache)
 
 **⚠️ Needs Work:**
-- Filter auto-reset (when batch_type/is_proof changes, reset batch_id to max)
 - Excel export functionality
 - PDF export functionality
-- Query optimization with caching
+- Query retry logic (3-retry pattern with exponential backoff)
 
 #### Dashboard Tab (✅ 100% COMPLETE)
 **✅ All Features Completed:**
@@ -524,10 +525,10 @@ const apiRequestWithRetry = async <T>(
 ## 📋 Migration Checklist by Priority
 
 ### 🔴 CRITICAL (Must Complete First)
-- [ ] Filter auto-reset implementation
+- [x] Filter auto-reset implementation ✅
 - [ ] Shared filter state persistence across tabs
-- [ ] Pipeline activity filtering verification (REFRESH + FINAL IDs)
-- [ ] Caching with TTL implementation
+- [x] Pipeline activity filtering verification (REFRESH + FINAL IDs) ✅
+- [x] Caching with TTL implementation ✅ (already implemented in financialStore with CACHE_TTL)
 - [ ] Query retry logic
 
 ### 🟡 HIGH (Core Functionality)
@@ -589,7 +590,7 @@ const apiRequestWithRetry = async <T>(
 
 ### Feature Completeness
 - **Target**: 100% of Streamlit features migrated
-- **Current**: ~30% (Dashboard + partial Sales Journal)
+- **Current**: ~45% (Dashboard ✅, Pipeline History ✅, Pipeline Control 80%, Sales Journal 70%)
 - **Goal**: All 10 tabs fully functional
 
 ### Performance
@@ -607,12 +608,15 @@ const apiRequestWithRetry = async <T>(
 
 ## 🚀 Next Immediate Steps
 
-1. **✅ Complete Todo List Setup** - Track all migration tasks
-2. **Complete Filter Auto-Reset** - Critical for UX consistency
-3. **Verify Pipeline Activity Filtering** - Ensure correct pipeline ID filtering
-4. **Implement Caching Layer** - Reduce API calls, improve performance
-5. **Complete Detail by Ticket Tab** - Next highest priority tab
-6. **Add Export Functionality** - Excel and PDF for Sales Journal
+1. ~~**✅ Complete Todo List Setup**~~ - ✅ Done
+2. ~~**✅ Pipeline Trigger Buttons**~~ - ✅ Done (Refresh + Finalize with confirmation)
+3. ~~**✅ Pipeline History Tab**~~ - ✅ Done (shared state with Dashboard)
+4. ~~**✅ Complete Filter Auto-Reset**~~ - ✅ Done (batch_id auto-resets when batch_type/is_proof changes)
+5. ~~**✅ Implement Caching Layer**~~ - ✅ Done (TTL caching in financialStore)
+6. **Implement Query Retry Logic** - 🔴 CRITICAL for reliability (3-retry pattern with exponential backoff)
+7. **Complete Detail by Ticket Tab** - 🟡 HIGH priority (next major tab)
+8. **Add Export Functionality** - 🟡 HIGH priority (Excel and PDF for Sales Journal)
+9. **Real-Time Pipeline Status Polling** - 🟢 MEDIUM priority (complete Pipeline Control to 100%)
 
 ---
 
