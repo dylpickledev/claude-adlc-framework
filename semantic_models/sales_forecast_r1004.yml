@@ -1,0 +1,361 @@
+version: 2
+
+semantic_models:
+  - name: sales_forecast_summary
+    description: >
+      Sales forecast reporting model (R1004) providing actual vs. projected vs. budgeted
+      sales performance metrics across business units, divisions, and account codes.
+      Supports month-to-date tracking with working day calculations and ASP analysis.
+
+    model: ref('rpt_sales_forecast_summary_r1004')
+
+    defaults:
+      agg_time_dimension: start_date
+
+    entities:
+      - name: account_code
+        type: primary
+        description: "Revenue account code (object.business_unit format)"
+        expr: acct_account_code
+
+      - name: business_unit
+        type: foreign
+        description: "Business unit identifier"
+        expr: business_unit
+
+      - name: branch
+        type: foreign
+        description: "Branch location identifier"
+        expr: branch_updated
+
+    dimensions:
+      - name: start_date
+        type: time
+        description: "Forecast period start date"
+        type_params:
+          time_granularity: day
+        expr: start_date
+
+      - name: end_date
+        type: time
+        description: "Forecast period end date"
+        type_params:
+          time_granularity: day
+        expr: end_date
+
+      - name: division_name
+        type: categorical
+        description: "Business division (Road Materials, Rail, etc.)"
+        expr: division_name
+
+      - name: business_unit_description
+        type: categorical
+        description: "Business unit descriptive name"
+        expr: business_unit_description
+
+      - name: branch_name
+        type: categorical
+        description: "Branch descriptive name"
+        expr: branch_name
+
+      - name: forecast_name
+        type: categorical
+        description: "Name/version of the forecast being used"
+        expr: forecast_name
+
+      - name: object_code
+        type: categorical
+        description: "Revenue object code from account structure"
+        expr: object
+
+    measures:
+      # Volume Metrics
+      - name: mtd_units
+        description: "Month-to-date actual units sold"
+        agg: sum
+        expr: mtd_units
+
+      - name: projected_units
+        description: "Projected total units for the period"
+        agg: sum
+        expr: projected_units
+
+      - name: plan_units
+        description: "Budgeted/planned units for the period"
+        agg: sum
+        expr: plan_units
+
+      - name: forecast_units
+        description: "Forecasted units for the period"
+        agg: sum
+        expr: forecast_units
+
+      # Revenue Metrics
+      - name: mtd_amounts
+        description: "Month-to-date actual revenue"
+        agg: sum
+        expr: mtd_amounts
+
+      - name: projected_sales
+        description: "Projected total sales revenue for the period"
+        agg: sum
+        expr: projected_sales
+
+      - name: plan_amounts
+        description: "Budgeted/planned revenue for the period"
+        agg: sum
+        expr: plan_amounts
+
+      - name: forecast_amounts
+        description: "Forecasted revenue for the period"
+        agg: sum
+        expr: forecast_amounts
+
+      # Pricing Metrics
+      - name: mtd_asp
+        description: "Month-to-date average selling price"
+        agg: average
+        expr: mtd_asp
+
+      - name: plan_asp
+        description: "Planned/budgeted average selling price"
+        agg: average
+        expr: plan_asp
+
+      - name: forecast_asp
+        description: "Forecasted average selling price"
+        agg: average
+        expr: forecast_asp
+
+      # Performance Metrics
+      - name: sales_by_day
+        description: "Average daily sales rate"
+        agg: sum
+        expr: sales_by_day
+
+      - name: total_working_days
+        description: "Total working days in the period"
+        agg: average
+        expr: total_working_days
+
+      - name: total_working_days_so_far
+        description: "Working days elapsed in the current period"
+        agg: average
+        expr: total_working_days_so_far
+
+      # Calculated Performance Ratios
+      - name: actual_vs_plan_revenue_percent
+        description: "Actual revenue as percentage of planned revenue"
+        agg: sum
+        expr: "case when plan_amounts != 0 then (projected_sales / plan_amounts) * 100 else null end"
+
+      - name: actual_vs_forecast_revenue_percent
+        description: "Actual revenue as percentage of forecasted revenue"
+        agg: sum
+        expr: "case when forecast_amounts != 0 then (projected_sales / forecast_amounts) * 100 else null end"
+
+      - name: period_completion_percent
+        description: "Percentage of working days completed in period"
+        agg: average
+        expr: "case when total_working_days != 0 then (total_working_days_so_far / total_working_days) * 100 else null end"
+
+  - name: sales_forecast_detail
+    description: >
+      Detailed sales forecast data (R1004) at the item/product level, providing
+      granular analysis of sales performance by individual products, UOMs, and branches.
+
+    model: ref('rpt_sales_forecast_detail_r1004')
+
+    defaults:
+      agg_time_dimension: start_date
+
+    entities:
+      - name: detail_record
+        type: primary
+        description: "Unique identifier for detail record"
+        expr: r1004_detail_primary_key
+
+      - name: account_code
+        type: foreign
+        description: "Revenue account code"
+        expr: account_code
+
+      - name: item_id
+        type: foreign
+        description: "Product/item identifier"
+        expr: item_id
+
+      - name: branch
+        type: foreign
+        description: "Branch identifier"
+        expr: branch
+
+    dimensions:
+      - name: start_date
+        type: time
+        description: "Forecast period start date"
+        type_params:
+          time_granularity: day
+        expr: start_date
+
+      - name: end_date
+        type: time
+        description: "Forecast period end date"
+        type_params:
+          time_granularity: day
+        expr: end_date
+
+      - name: product_group
+        type: categorical
+        description: "Product group classification"
+        expr: product_group
+
+      - name: item_class
+        type: categorical
+        description: "Item class (Product, Freight, etc.)"
+        expr: item_class
+
+      - name: item_name
+        type: categorical
+        description: "Product/item name"
+        expr: item_name
+
+      - name: item_uom
+        type: categorical
+        description: "Unit of measure"
+        expr: item_uom
+
+      - name: combined_item_name
+        type: categorical
+        description: "Combined item identifier with ID, name, and UOM"
+        expr: combined_item_name
+
+      - name: business_unit
+        type: categorical
+        description: "Business unit code"
+        expr: business_unit
+
+    measures:
+      - name: mtd_units_detail
+        description: "Month-to-date units sold at item level"
+        agg: sum
+        expr: mtd_units
+
+      - name: mtd_amounts_detail
+        description: "Month-to-date revenue at item level"
+        agg: sum
+        expr: mtd_amounts
+
+      - name: item_asp
+        description: "Average selling price by item"
+        agg: sum
+        expr: "case when mtd_units != 0 then mtd_amounts / mtd_units else null end"
+
+      - name: distinct_items_sold
+        description: "Count of distinct items with sales activity"
+        agg: count_distinct
+        expr: item_id
+
+metrics:
+  # Summary Level KPIs
+  - name: total_mtd_revenue
+    description: "Total month-to-date revenue across all business units"
+    type: simple
+    type_params:
+      measure: mtd_amounts
+
+  - name: total_projected_revenue
+    description: "Total projected revenue for the current period"
+    type: simple
+    type_params:
+      measure: projected_sales
+
+  - name: revenue_vs_plan_variance
+    description: "Revenue variance from plan (projected vs planned)"
+    type: derived
+    type_params:
+      expr: "projected_sales - plan_amounts"
+      metrics:
+        - projected_sales
+        - plan_amounts
+
+  - name: revenue_vs_forecast_variance
+    description: "Revenue variance from forecast (projected vs forecast)"
+    type: derived
+    type_params:
+      expr: "projected_sales - forecast_amounts"
+      metrics:
+        - projected_sales
+        - forecast_amounts
+
+  - name: average_daily_sales_rate
+    description: "Average revenue per working day"
+    type: ratio
+    type_params:
+      numerator: mtd_amounts
+      denominator: total_working_days_so_far
+
+  # Performance Ratios
+  - name: plan_achievement_rate
+    description: "Projected revenue achievement rate vs plan (percentage)"
+    type: ratio
+    type_params:
+      numerator: projected_sales
+      denominator: plan_amounts
+
+  - name: forecast_achievement_rate
+    description: "Projected revenue achievement rate vs forecast (percentage)"
+    type: ratio
+    type_params:
+      numerator: projected_sales
+      denominator: forecast_amounts
+
+# Saved Queries for Common Use Cases
+saved_queries:
+  - name: monthly_sales_performance_dashboard
+    description: "Monthly sales performance summary for executive dashboard"
+    query_params:
+      metrics:
+        - total_mtd_revenue
+        - total_projected_revenue
+        - plan_achievement_rate
+        - forecast_achievement_rate
+      group_by:
+        - dimension('division_name')
+        - dimension('start_date')
+      where:
+        - "{{ TimeDimension('start_date', 'month') }} >= '2024-01-01'"
+      order_by:
+        - metric('total_projected_revenue', descending=true)
+
+  - name: business_unit_variance_analysis
+    description: "Business unit performance vs plan analysis"
+    query_params:
+      metrics:
+        - total_mtd_revenue
+        - revenue_vs_plan_variance
+        - plan_achievement_rate
+      group_by:
+        - dimension('business_unit_description')
+        - dimension('division_name')
+      where:
+        - "{{ TimeDimension('start_date', 'month') }} = '{{ current_month() }}'"
+      order_by:
+        - metric('revenue_vs_plan_variance', descending=true)
+
+  - name: product_performance_detail
+    description: "Top performing products by revenue"
+    query_params:
+      metrics:
+        - mtd_amounts_detail
+        - mtd_units_detail
+        - item_asp
+      group_by:
+        - dimension('product_group')
+        - dimension('item_name')
+        - dimension('item_uom')
+      where:
+        - "{{ TimeDimension('start_date', 'month') }} = '{{ current_month() }}'"
+      order_by:
+        - metric('mtd_amounts_detail', descending=true)
+      limit: 100
