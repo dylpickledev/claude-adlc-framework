@@ -233,6 +233,7 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - **Orchestra-Centric**: Orchestra kicks off everything - Prefect flows, dbt jobs, Airbyte syncs, direct Snowflake operations
 - **Model Layer Impact**: Problems cascade from staging (stg_) through marts (dm_) to reports (rpt_)
 - **Source System Dependencies**: ERP, Customer, Operations, Safety systems create different data patterns
+- **Tableau Data Pipeline Analysis**: Parse TFL flows to understand published extracts, parse TWB workbooks to validate connections, trace data flow issues through XML/JSON analysis
 
 ## Complete Development Workflow
 
@@ -263,7 +264,7 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - **prefect-expert**: Prefect flow performance analysis when Orchestra triggers them
 - **snowflake-expert**: Validate warehouse-level performance and data quality issues, document schema purposes
 - **dlthub-expert**: Source system data quality for cross-system reconciliation failures
-- **tableau-expert**: Dashboard performance issues stemming from data problems, create user guides
+- **tableau-expert**: Dashboard performance AND data pipeline analysis via file parsing, extract data source configurations and trace data flow issues through XML/JSON analysis, create user guides
 - **business-context**: Business logic validation and stakeholder requirement clarification using knowledge base templates
 - **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
 
