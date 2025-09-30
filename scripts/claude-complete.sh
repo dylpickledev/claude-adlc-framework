@@ -275,7 +275,40 @@ execute_claude_completion() {
     if [ "$CLAUDE_METHOD" = "cli" ]; then
         # Use Claude CLI
         print_info "Invoking Claude CLI for project completion..."
-        claude < "$temp_file"
+        local completion_output=$(mktemp)
+        claude < "$temp_file" > "$completion_output"
+
+        # Display Claude's analysis
+        print_header "Claude Completion Analysis:"
+        cat "$completion_output"
+
+        # Create completion summary file for the project
+        local completion_file="COMPLETION_ANALYSIS.md"
+        print_info "Writing completion analysis to $completion_file"
+
+        cat > "$completion_file" << EOF
+# Claude Completion Analysis
+
+**Generated**: $(date)
+**Project**: $project_name
+**Branch**: $current_branch
+
+---
+
+$(cat "$completion_output")
+
+---
+
+**Completion Details:**
+- API Cost: ~\$0.08-0.18
+- Analysis Scope: Documentation, code quality, agent improvements
+- Trigger: claude:complete label
+
+🤖 Generated with [Claude Code](https://claude.ai/code) via automated completion workflow
+EOF
+
+        # Clean up temporary files
+        rm -f "$completion_output"
     else
         # Use Claude API directly
         print_info "Invoking Claude API for project completion..."
@@ -298,13 +331,46 @@ execute_claude_completion() {
                 ]
             }')
 
-        # Extract and display response
-        echo "$response" | python3 -c "import sys, json; print(json.load(sys.stdin)['content'][0]['text'])" 2>/dev/null || {
+        # Extract response and save to completion output file
+        local completion_output=$(mktemp)
+        echo "$response" | python3 -c "import sys, json; print(json.load(sys.stdin)['content'][0]['text'])" 2>/dev/null > "$completion_output" || {
             print_error "Failed to parse Claude API response"
             echo "Raw response: $response"
             rm -f "$temp_file"
             exit 1
         }
+
+        # Display Claude's analysis
+        print_header "Claude Completion Analysis:"
+        cat "$completion_output"
+
+        # Create completion summary file for the project
+        local completion_file="COMPLETION_ANALYSIS.md"
+        print_info "Writing completion analysis to $completion_file"
+
+        cat > "$completion_file" << EOF
+# Claude Completion Analysis
+
+**Generated**: $(date)
+**Project**: $project_name
+**Branch**: $current_branch
+
+---
+
+$(cat "$completion_output")
+
+---
+
+**Completion Details:**
+- API Cost: ~\$0.08-0.18
+- Analysis Scope: Documentation, code quality, agent improvements
+- Trigger: claude:complete label
+
+🤖 Generated with [Claude Code](https://claude.ai/code) via automated completion workflow
+EOF
+
+        # Clean up temporary files
+        rm -f "$completion_output"
     fi
 
     # Clean up

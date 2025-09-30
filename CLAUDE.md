@@ -158,13 +158,14 @@ When Claude operates via GitHub Actions, it has access to:
 
 ## Knowledge Repository Structure
 
-### D&A Team Documentation
-The `knowledge/da_team_documentation/` directory contains comprehensive Data & Analytics team documentation migrated from Confluence:
+### Team Documentation Template
+The `knowledge/da_team_documentation/` directory provides a template structure for comprehensive Data & Analytics team documentation:
 
 - **Location**: `knowledge/da_team_documentation/readme.md`
-- **Purpose**: Authoritative source for GraniteRock's Data & Analytics team documentation
+- **Purpose**: Template for organizing your team's Data & Analytics documentation
 - **Structure**: Organized by data products, architecture, integrations, and templates
 - **Navigation**: Use the readme.md as the main entry point for team documentation
+- **Note**: Replace template content with your organization's specific documentation
 
 ### DA Agent Hub Platform Documentation
 The `knowledge/da-agent-hub/` directory contains comprehensive documentation for the DA Agent Hub platform, organized by ADLC workflow phases:
