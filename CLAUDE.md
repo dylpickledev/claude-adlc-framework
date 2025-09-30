@@ -1,5 +1,79 @@
 don't look at the full .env file. Only search for the var names up to the equals sign.
 
+# Security & Branch Protection Rules
+
+## Protected Branches - NEVER Commit Directly
+**CRITICAL SECURITY RULE**: Claude must NEVER commit code directly to protected branches.
+
+### Protected Branch List
+- `main`
+- `master`
+- `production`
+- `prod`
+- Any branch matching pattern: `release/*`, `hotfix/*`
+
+### Mandatory Workflow
+1. **ALWAYS create feature branch** before making any code changes
+2. **ALWAYS create Pull Request** for code review and approval
+3. **NEVER push directly** to protected branches
+4. **NEVER merge without approval** (except for da-agent-hub documentation updates)
+
+### Pre-Commit Safety Check
+Before executing ANY git commit command, Claude MUST:
+
+```bash
+# Check current branch
+CURRENT_BRANCH=$(git branch --show-current)
+
+# Protected branches list
+PROTECTED_BRANCHES=("main" "master" "production" "prod")
+
+# Check if on protected branch
+for branch in "${PROTECTED_BRANCHES[@]}"; do
+    if [ "$CURRENT_BRANCH" = "$branch" ]; then
+        echo "❌ ERROR: Cannot commit directly to protected branch '$CURRENT_BRANCH'"
+        echo "Please create a feature branch first:"
+        echo "  git checkout -b feature/your-feature-name"
+        exit 1
+    fi
+done
+```
+
+### Enforcement Protocol
+**If user asks to commit to protected branch:**
+1. **Stop immediately** - Do not execute the commit
+2. **Explain the security policy** - Protected branches require PR workflow
+3. **Offer to create feature branch** - Suggest branch name based on work
+4. **Create PR after commit** - Ensure changes go through approval process
+
+**Example Response:**
+```
+❌ I cannot commit directly to the 'main' branch due to security policies.
+
+All code changes must go through the Pull Request approval workflow.
+
+I can:
+1. Create a feature branch: feature/[description]
+2. Commit your changes to that branch
+3. Create a PR for review and approval
+
+Would you like me to proceed with this workflow?
+```
+
+### Exceptions
+**ONLY exception**: Documentation-only changes in da-agent-hub repository
+- Changes to `*.md` files in da-agent-hub can be committed to main
+- All code changes still require feature branch + PR workflow
+- Claude should confirm: "These are documentation-only changes, proceeding with direct commit to main"
+
+### Feature Branch Naming
+When creating feature branches, use these conventions:
+- `feature/[description]` - New features
+- `fix/[description]` - Bug fixes
+- `docs/[description]` - Documentation updates (code repos only)
+- `refactor/[description]` - Code refactoring
+- `test/[description]` - Testing improvements
+
 # DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
 
 ## Overview
