@@ -188,8 +188,27 @@ EOF
 cat > "$PROJECT_DIR/context.md" << EOF
 # Working Context: $DESCRIPTION
 
-**Last Updated:** $(date '+%Y-%m-%d %H:%M:%S')  
+**Last Updated:** $(date '+%Y-%m-%d %H:%M:%S')
 **Current Focus:** Initial setup
+
+## File Sources & Working Versions
+
+### Primary Working Files (Active Development)
+- **[Component Name]**: \`projects/active/$PROJECT_NAME/[filename]\`
+  - Status: Working version with active modifications
+  - Use for: Analysis, development, testing
+  - DO NOT push directly to production repos
+
+### Reference Files (Read-Only)
+- **[Original/Production]**: \`[path to source repo]\`
+  - Status: Production/reference version
+  - Use for: Comparison, baseline reference
+  - Changes require explicit deployment request
+
+### Deployment Targets
+- **[Target Repo]**: TBD or specify path
+  - Deployment: After testing and approval
+  - Testing: Required before deployment
 
 ## Repository Status
 
