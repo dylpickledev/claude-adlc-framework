@@ -220,24 +220,51 @@ END
 
 ## Workbook Analysis Protocol
 
-### Obtaining Workbooks for Analysis
-When analyzing specific Tableau workbooks, follow this process:
+### Obtaining Files for Analysis
+When investigating Tableau issues, **ALWAYS request relevant files from the user**:
 
-1. **User Downloads Workbook**: Request user to download TWB/TWBX files from Tableau Server/Cloud
+#### Complete File Collection Protocol
+```bash
+# Request these files from the user:
+# 1. Workbook files showing the problem
+# 2. Associated Prep flow files (if data pipeline issue)
+# 3. Screenshots demonstrating the specific issues
+
+# Example user prompt:
+"To analyze this Tableau issue, I need you to provide:
+1. The .twb/.twbx workbook files that are showing problems
+2. Any .tfl Prep flow files that feed data to these workbooks
+3. Screenshots showing exactly what's wrong in the dashboards
+
+Please download these from Tableau and provide the local file paths."
+```
+
+#### File Download Instructions for Users
+**For Workbooks (.twb/.twbx):**
    - **Desktop**: File > Download > Tableau Workbook
    - **Server/Cloud**: Content menu > Download > Workbook
    - **Export Options**: Choose TWB for XML analysis, TWBX for packaged analysis
 
-2. **File Format Understanding**:
+**For Prep Flows (.tfl/.tflx):**
+   - **Prep**: File > Export Flow > Flow File (.tfl)
+   - **Server/Cloud**: Content menu > Download > Flow
+   - **Include Dependencies**: Choose .tflx for complete analysis
+
+#### File Format Understanding
    - **TWB Files**: Pure XML workbook definitions (no data)
    - **TWBX Files**: ZIP archives containing TWB + extracts + images
-   - **Analysis Approach**: Extract TWBX first, then analyze TWB XML
+   - **TFL Files**: ZIP archives containing JSON flow definitions
+   - **TFLX Files**: ZIP archives with TFL + sample data
 
-3. **Provide File Path**: User provides local file path for Read tool analysis
+#### Analysis Extraction Process
    ```bash
    # For TWBX files, extract contents:
-   unzip workbook.twbx -d extracted/
+   unzip workbook.twbx -d extracted_workbook/
    # Then analyze the TWB XML file inside
+
+   # For TFL files, extract contents:
+   unzip flow.tfl -d extracted_flow/
+   # Then parse the flow.json file inside
    ```
 
 ### Workbook XML Structure Analysis
@@ -285,10 +312,59 @@ Use these patterns to identify performance issues:
 
 ### Tableau Prep Flow Analysis
 
-#### TFL/TFLX File Structure
-- **TFL Files**: XML-based flow definitions (similar structure to TWB)
+#### TFL/TFLX File Structure & Parsing
+- **TFL Files**: JSON-based flow definitions (ZIP archives containing flow.json)
 - **TFLX Files**: Packaged flows (ZIP with TFL + local data files)
 - **Flow Components**: Input → Clean → Join → Aggregate → Output
+
+#### TFL File Parsing Methodology
+```bash
+# Extract TFL contents for analysis
+unzip "flow_name.tfl" -d extracted_flow/
+# Parse the main flow definition
+jq '.' extracted_flow/flow.json
+
+# Key JSON sections to analyze:
+# - "nodes": Flow steps and transformations
+# - "connections": Data source configurations
+# - "publishSettings": Output configurations
+# - "filterSettings": Applied filters and conditions
+```
+
+#### Critical TFL Analysis Points
+```json
+{
+  "nodes": [
+    {
+      "nodeType": "Input",
+      "name": "Source Table",
+      "connectionAttributes": {
+        "server": "server_name",
+        "table": "schema.table_name"
+      }
+    },
+    {
+      "nodeType": "Output",
+      "publishSettings": {
+        "publishedDatasourceName": "Published Extract Name",
+        "projectName": "Target Project"
+      }
+    }
+  ],
+  "filterSettings": {
+    "filters": []  // CRITICAL: Empty means no date/time filtering!
+  }
+}
+```
+
+#### Data Flow Tracing Protocol
+**CRITICAL for troubleshooting data pipeline issues:**
+
+1. **Parse Source TFL**: Identify source tables and published extract names
+2. **Parse Target TWB**: Identify consumed data source connections
+3. **Trace Connection Flow**: Verify TFL output matches TWB input
+4. **Analyze Filters**: Check for missing date filters or logic issues
+5. **Validate Transformations**: Review cleaning, joining, aggregation steps
 
 #### Prep Performance Optimization
 ```python
@@ -300,24 +376,11 @@ Use these patterns to identify performance issues:
 5. Step Consolidation: Minimize transformation steps
 ```
 
-#### Prep Flow XML Analysis
-```xml
-<!-- Example Flow Structure -->
-<flow>
-  <input-step>
-    <connection class='csv'/>              <!-- Input source -->
-  </input-step>
-  <clean-step>
-    <operation type='filter'/>             <!-- Early filtering -->
-  </clean-step>
-  <aggregate-step>
-    <field aggregation='sum'/>             <!-- Pre-join aggregation -->
-  </aggregate-step>
-  <output-step>
-    <connection class='extract'/>          <!-- Extract output -->
-  </output-step>
-</flow>
-```
+#### Common TFL Troubleshooting Patterns
+- **Missing Data Issues**: Check `filterSettings.filters` array for date restrictions
+- **Connection Problems**: Verify `publishSettings.publishedDatasourceName` matches TWB connections
+- **Performance Issues**: Review transformation complexity in `nodes` array
+- **Source Problems**: Validate `connectionAttributes` point to correct tables
 
 ## Cross-Tool Integration Patterns
 
@@ -332,11 +395,36 @@ This agent handles both Tableau Desktop and Tableau Prep as an integrated BI eco
 
 #### End-to-End Workflow Analysis
 ```mermaid
-Prep Flow → Extract/Live Connection → Desktop Workbook → Dashboard
-    ↓           ↓                      ↓               ↓
-  TFL/TFLX   Data Source            TWB/TWBX        Performance
-  Analysis   Optimization           Analysis        Optimization
+Source DB → Prep Flow → Published Extract → Desktop Workbook → Dashboard
+    ↓         ↓            ↓                ↓                ↓
+  Verify   TFL/JSON    Extract Name       TWB/XML        User Issue
+  Tables   Analysis    Matching          Analysis       Investigation
 ```
+
+#### Systematic Data Flow Tracing
+**CRITICAL methodology for troubleshooting data pipeline issues:**
+
+```bash
+# Step 1: Parse TFL to understand data sources and outputs
+unzip prep_flow.tfl -d flow_analysis/
+jq '.nodes[] | select(.nodeType=="Output") | .publishSettings.publishedDatasourceName' flow_analysis/flow.json
+
+# Step 2: Parse TWB to understand data source connections
+grep -o 'server="[^"]*".*name="[^"]*"' workbook.twb
+
+# Step 3: Trace the connection
+# Verify TFL publishedDatasourceName matches TWB data source name
+
+# Step 4: Analyze filters and date logic
+jq '.filterSettings.filters' flow_analysis/flow.json  # Flow-level filters
+grep -A5 -B5 "YEAR.*TODAY" workbook.twb  # Workbook date calculations
+```
+
+#### Pipeline Issue Classification
+- **Connection Mismatch**: TFL publishes to wrong data source name
+- **Missing Date Filters**: Empty filterSettings.filters in TFL
+- **Calculation Errors**: Incorrect date logic in TWB calculations
+- **Source Data Issues**: Problems in underlying tables (requires SQL investigation)
 
 ### Integration Scenarios
 
@@ -401,6 +489,10 @@ While this agent handles both tools, some situations require other experts:
 - **Cross-tool workflow optimization (Prep → Desktop)**
 - **TWB/TWBX file structure analysis**
 - **TFL/TFLX flow inspection and optimization**
+- **Data pipeline troubleshooting via file parsing**
+- **End-to-end data flow tracing (Source → Prep → Workbook)**
+- **Connection validation and data source matching**
+- **Filter analysis and date logic debugging**
 
 ## Research Capabilities
 - Analyze dashboard structures and performance
@@ -414,6 +506,11 @@ While this agent handles both tools, some situations require other experts:
 - **Cross-reference workbook dependencies and data lineage**
 - **Identify performance bottlenecks through XML analysis**
 - **Assess cross-tool integration patterns (Prep + Desktop)**
+- **Extract data source names and connection details from TFL files**
+- **Trace data flow from source tables through published extracts to workbooks**
+- **Validate filter logic and date calculations across pipeline**
+- **Diagnose data pipeline issues through systematic file analysis**
+- **Map complete data lineage from database to dashboard visualization**
 
 ## Communication Pattern
 1. **Receive Context**: Read task context from `.claude/tasks/current-task.md` (shared, read-only)
