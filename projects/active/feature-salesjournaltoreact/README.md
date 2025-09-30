@@ -7,7 +7,8 @@
 
 ## Quick Navigation
 
-- **🎯 [COMPREHENSIVE MIGRATION CHECKLIST](./COMPREHENSIVE_MIGRATION_CHECKLIST.md)** - Complete feature inventory
+- **🎯 [MIGRATION STRATEGY](./MIGRATION_STRATEGY.md)** - Comprehensive phased migration plan
+- **📖 [STREAMLIT REFERENCE](./STREAMLIT_REFERENCE.md)** - Complete Streamlit app analysis
 - 📋 **[Specification](./spec.md)** - Project goals, requirements, and implementation plan
 - 🔄 **[Working Context](./context.md)** - Current state, branches, PRs, and blockers
 - 🤖 **[Agent Tasks](./tasks/)** - Sub-agent coordination and findings

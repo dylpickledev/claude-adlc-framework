@@ -258,7 +258,7 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 ### Agent Coordination Strategy
 - **orchestra-expert**: LEADS all workflow analysis - Orchestra kicks off everything (Prefect, dbt, Airbyte, Snowflake)
 - **documentation-expert**: ENSURES all agents create proper documentation within their tools and follow GraniteRock standards
-- **qa-coordinator**: MANDATORY after any task requiring testing/validation - comprehensive hands-on testing, not just connectivity checks
+- **qa-coordinator**: ⚠️ CONFIGURED BUT NOT REGISTERED - Use general-purpose agent with qa-coordinator.md standards for comprehensive testing
 - **dbt-expert**: Examine model schemas vs test expectations, focus on blocking compilation issues first, maintain model documentation
 - **prefect-expert**: Prefect flow performance analysis when Orchestra triggers them
 - **snowflake-expert**: Validate warehouse-level performance and data quality issues, document schema purposes
@@ -266,6 +266,25 @@ The `knowledge/da-agent-hub/` directory contains comprehensive documentation for
 - **tableau-expert**: Dashboard performance issues stemming from data problems, create user guides
 - **business-context**: Business logic validation and stakeholder requirement clarification using knowledge base templates
 - **da-architect**: System design, data flow analysis, and strategic platform decisions across the entire data stack
+
+#### Known Agent Configuration Issues
+
+**qa-coordinator Agent - Custom Subagent Usage**
+- **Status**: `.claude/agents/qa-coordinator.md` exists as custom subagent definition
+- **Root Cause**: Claude Code Task tool only supports built-in agent types (hardcoded list)
+- **Solution**: Use `general-purpose` agent which can reference custom subagent definitions
+- **How It Works**: general-purpose agent reads `.claude/agents/qa-coordinator.md` for behavior
+- **Usage Pattern**:
+  ```
+  Task for general-purpose agent:
+  Act as qa-coordinator (read .claude/agents/qa-coordinator.md for your role)
+
+  Test requirements:
+  - Application: http://localhost:5175
+  - Changes made: [list changes]
+  - Test: [specific testing requirements]
+  - Capture screenshots and document findings
+  ```
 
 ### Personal Claude Settings Integration
 
@@ -307,10 +326,90 @@ Claude dynamically integrates Ready Player One-style nostalgia references from e
 ### Development Best Practices
 - **Always start from up-to-date main branch**: Essential for `/build` command and all da-agent-hub changes
 - **Personal Settings Reference**: Claude automatically references `knowledge/da_obsidian/Cody/Claude-Personal-Settings.md` for workflow preferences
+- **DO NOT MOVE FORWARD until you've fixed a problem**: If you encounter a blocker on step 1, DO NOT jump to step 2. Stop, identify the issue, fix it completely, then proceed. Never skip ahead when blocked.
 - Git branches should be prefixed by feature/ or fix/
 - Use subagents for tasks to help optimize your context window
 - Determine if it'd be best to use defined agent, or if its general then give to a general subagent
 - Always preserve context links between ideas → projects → operations
+
+### Automatic QA Testing Protocol
+
+**MANDATORY**: Before reporting work complete, invoke qa-coordinator for comprehensive testing.
+
+#### When to Trigger QA Testing
+Claude MUST automatically invoke qa-coordinator when:
+1. **Completing a logical set of changes** (feature addition, bug fix, refactoring)
+2. **About to report "changes complete"** or "ready for review"
+3. **After implementing UI/UX changes** (all interactive elements)
+4. **After API/backend changes** (endpoint functionality)
+5. **Before marking project milestones as complete**
+
+#### QA Testing Workflow
+```
+1. Complete code changes in sandbox
+2. BEFORE responding to user:
+   → Launch qa-coordinator agent with testing requirements
+   → Wait for comprehensive test results
+   → Document test outcomes in project findings
+3. Report to user: Changes + Test Results
+4. Fix any issues found during testing
+5. Re-test if fixes were required
+```
+
+#### What Counts as "Complete"
+Work is NOT complete until:
+- ✅ Code changes implemented
+- ✅ QA testing performed (qa-coordinator)
+- ✅ All tests passing or issues documented
+- ✅ Screenshots captured (for UI changes)
+- ✅ Test findings written to project tasks/
+
+#### QA Coordinator Testing Standards
+Per personal settings and qa-coordinator requirements:
+- **Comprehensive hands-on testing** - Not just "it loads"
+- **Every interactive element tested** - All buttons, forms, filters
+- **Screenshot documentation** - Capture during testing phases
+- **Real data validation** - No mock data, verify actual functionality
+- **Error scenario testing** - Test failure cases, not just happy paths
+
+#### Example QA Invocation
+
+Use general-purpose agent with qa-coordinator role:
+
+```markdown
+Task for general-purpose agent:
+Act as qa-coordinator (read .claude/agents/qa-coordinator.md for your role)
+
+Test the Sales Journal Dashboard changes in sandbox:
+- Application: http://localhost:5175
+- Changes made: Fixed DMS status logic, removed mock data fallbacks
+- Test Requirements:
+  ✓ Verify dashboard loads with real data (no mock fallbacks)
+  ✓ Test all Quick Action buttons functionality
+  ✓ Validate Pipeline Status card shows correct state
+  ✓ Test every interactive element (buttons, filters, tabs)
+  ✓ Capture screenshots of each major section
+  ✓ Test error scenarios and edge cases
+- Standards: Enterprise-grade, production-ready testing per qa-coordinator.md
+- Documentation: Write findings to projects/active/[project]/tasks/qa-findings.md
+```
+
+#### Reporting Format After Testing
+```
+✅ Changes Complete + QA Testing Results
+
+Changes:
+- [List changes made]
+
+QA Testing (qa-coordinator):
+- ✅ All tests passing
+- ✅ Screenshots captured
+- 🔴 [Any issues found]
+
+[Include test findings summary or link to tasks/qa-findings.md]
+```
+
+This ensures production-quality code with enterprise-grade testing before considering work "done".
 
 ## ADLC Continuous Improvement Strategy
 
@@ -487,6 +586,76 @@ This training system ensures the DA Agent Hub becomes more effective with every 
 ### Communication Patterns
 - **Project Work**: Sub-agents read requirements from `projects/<project-name>/spec.md`, receive tasks from `projects/<project-name>/tasks/current-task.md`, and write findings to `projects/<project-name>/tasks/[tool]-findings.md`
 - **Simple Tasks**: Direct TodoWrite tracking, immediate execution, no intermediate files
+
+### Context Clarity & File Reference System
+
+To prevent context confusion during development, Claude uses explicit file source indicators and maintains clear context boundaries:
+
+#### Visual File Reference Indicators
+Claude prefixes all file references with location indicators:
+- **📁 PROJECT**: Working files in `projects/active/<project-name>/`
+- **📦 REPO**: Source repository files (original/production versions)
+- **🎯 DEPLOY**: Deployment target locations
+
+**Examples:**
+- "Analyzing 📁 PROJECT `streamlit_app.py`" → Using project working file
+- "Comparing with 📦 REPO `streamlit_apps_snowflake/apex-sales-journal/`" → Referencing production
+- "Ready to deploy to 🎯 DEPLOY `production-repo/`" → Deployment target
+
+#### Workflow Signal Commands
+Users can explicitly direct Claude's context focus:
+
+| User Signal | Claude Action | Context Used |
+|-------------|--------------|--------------|
+| "Use the project version" | Analyze project working files | `projects/active/*/` |
+| "Check the repo version" | Reference production/original | Source repository |
+| "Deploy to production" | Prepare deployment from project → repo | Both, with explicit mapping |
+| "Compare project vs repo" | Side-by-side analysis | Both with clear differentiation |
+
+#### Context Declaration Protocol
+Claude proactively declares context assumptions at key decision points:
+
+**Before Analysis:**
+```
+📍 Context Check:
+- Working File: 📁 PROJECT projects/active/feature-x/app.py
+- Reference: 📦 REPO ../original-repo/app.py
+- Deploy Target: 🎯 DEPLOY production-repo/
+
+If you want different sources, please redirect me.
+```
+
+#### File Sources Section in context.md
+Every project's `context.md` includes a "File Sources & Working Versions" section that explicitly declares:
+- **Primary Working Files**: Files being actively developed in project directory
+- **Reference Files**: Read-only sources for comparison
+- **Deployment Targets**: Where changes will ultimately be deployed
+
+This prevents accidental analysis of the wrong file version and ensures both user and Claude share the same understanding of which files are authoritative for the current work.
+
+#### Sandbox Principle for Active Projects
+
+**CRITICAL RULE**: `projects/active/<project-name>/` functions as an **isolated sandbox**
+
+**All work stays in the project folder until explicit deployment:**
+- Analysis files → `projects/active/<project>/`
+- Code changes → `projects/active/<project>/`
+- Documentation → `projects/active/<project>/`
+- Testing → `projects/active/<project>/`
+- Findings → `projects/active/<project>/tasks/`
+
+**Never write to production repositories during active development** unless user explicitly requests:
+- "Deploy this to [repo]"
+- "Push to production"
+- "Create PR in [repo]"
+- Project finalized with `/finish` command
+
+**Read-only access to production repos:**
+- Reference original code for comparison
+- Check current production state
+- Verify deployment targets
+
+This sandbox approach prevents accidental production changes and keeps all work isolated until ready for deployment.
 
 ## Simplified Analytics Development Commands
 
