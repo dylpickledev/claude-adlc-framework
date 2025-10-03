@@ -179,10 +179,10 @@ Business case validation and implementation planning:
 Human-readable code, quality assurance, and automated deployment:
 
 ```bash
-# DEVELOP: Human-readable code with specialist agents
-claude "use dbt-expert to create readable customer churn models"
-claude "coordinate snowflake-expert for performance optimization"
-claude "work with tableau-expert for dashboard specifications"
+# DEVELOP: Human-readable code with role-based agents
+claude "use analytics-engineer-role to create readable customer churn models"
+claude "coordinate data-engineer-role for pipeline setup"
+claude "work with bi-developer-role for dashboard specifications"
 
 # TEST: Comprehensive testing strategy (unit, data, integration)
 claude "implement data quality tests with validation framework"
@@ -237,14 +237,20 @@ ideas/
 
 ## 🔧 ADLC DEVELOP/TEST/DEPLOY: Local Development & Project Management
 
-### Specialist Agent System
-- **dbt-expert**: SQL transformations, model optimization, test development
-- **snowflake-expert**: Query performance, cost analysis, warehouse optimization
-- **tableau-expert**: Dashboard development, report model analysis
-- **business-context**: Requirements gathering, stakeholder alignment
-- **da-architect**: System design, data flow analysis, strategic decisions
-- **dlthub-expert**: Data ingestion, source system integration
-- **orchestra-expert**: Workflow orchestration (leads all analysis)
+### Role-Based Agent System
+
+**Primary Agents** (Handle 80% of work independently):
+- **analytics-engineer-role**: Data transformations, modeling, SQL optimization (dbt + Snowflake + BI data)
+- **data-engineer-role**: Pipeline setup, ingestion, orchestration (Orchestra + dlthub + Prefect + Airbyte)
+- **bi-developer-role**: Enterprise BI dashboards, reports (Tableau + Power BI)
+- **ui-ux-developer-role**: Web applications, custom tools (Streamlit + React)
+- **data-architect-role**: System design, strategic platform decisions
+- **business-analyst-role**: Requirements gathering, stakeholder alignment
+- **qa-engineer-role**: Testing strategies, data quality validation
+- **project-manager-role**: Delivery coordination, UAT frameworks
+
+**Tool Specialists** (Consultation for complex 20% edge cases):
+- Available: dbt-expert, snowflake-expert, tableau-expert, streamlit-expert, react-expert, dlthub-expert, orchestra-expert, prefect-expert
 
 ### Project Workflow
 ```bash
@@ -309,8 +315,8 @@ projects/active/feature-data-quality-monitoring/
 ./scripts/finish.sh "feature-customer-behavior-analytics"
 # → Archives, handles git workflow, updates related ideas
 
-# 4. Specialist agent coordination
-claude "coordinate dbt-expert and tableau-expert for customer dashboard implementation"
+# 4. Role-based agent coordination
+claude "use analytics-engineer-role and bi-developer-role for customer dashboard implementation"
 
 # 5. Agent training and continuous improvement
 ./scripts/analyze-claude-chats.sh
@@ -324,13 +330,13 @@ claude "coordinate dbt-expert and tableau-expert for customer dashboard implemen
 ```bash
 # Project management
 ./scripts/work-init.sh feature "ml-customer-segmentation"
-claude "use da-architect to design the ML pipeline architecture"
+claude "use data-architect-role to design the ML pipeline architecture"
 ./scripts/work-complete.sh feature-ml-customer-segmentation
 
-# Agent specialization
-claude "dbt-expert: optimize these customer models for performance"
-claude "snowflake-expert: analyze warehouse costs for this workload"
-claude "tableau-expert: design executive dashboard mockups"
+# Role-based agent specialization
+claude "analytics-engineer-role: optimize these customer models for performance"
+claude "data-engineer-role: set up the customer data pipeline"
+claude "bi-developer-role: design executive dashboard mockups"
 ```
 
 ### 🤖 **Automated Operations**
@@ -357,7 +363,7 @@ claude "tableau-expert: design executive dashboard mockups"
 - **ClickUp Integration**: Export strategic summaries for stakeholder visibility
 
 ### **🔧 Development & Project Management**
-- **Specialist Agent System**: 7+ domain experts (dbt, Snowflake, Tableau, etc.)
+- **Role-Based Agent System**: 7 primary role agents (analytics engineer, data engineer, BI developer, etc.)
 - **Structured Projects**: Complete project lifecycle with spec, context, and coordination
 - **Cross-Repository Work**: Coordinate changes across multiple data repositories
 - **Knowledge Preservation**: Full context linking from ideas to implementation

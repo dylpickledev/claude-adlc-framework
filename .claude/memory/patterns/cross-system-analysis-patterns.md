@@ -173,90 +173,85 @@ rpt_* (Reports) - User-facing impact
 
 ## Agent Coordination Strategy
 
-### orchestra-expert: Workflow Analysis Lead
-**Role**: LEADS all workflow analysis
-**Scope**: Orchestra kicks off everything (Prefect, dbt, Airbyte, Snowflake)
+### Role-Based Primary Agents
+
+#### data-engineer-role: Pipeline & Orchestration Lead
+**Role**: LEADS all workflow and pipeline analysis
+**Scope**: Orchestra, Prefect, dbt pipelines, Airbyte, source integrations
+**Consolidates**: orchestra-expert + dlthub-expert + prefect-expert
 
 **When to Invoke**:
 - Pipeline failures or timing issues
 - Multi-system coordination problems
 - Workflow dependency analysis
 - Scheduling and orchestration questions
+- Source system integration issues
 
-### documentation-expert: Standards Enforcement
-**Role**: ENSURES proper documentation across all tools
-**Scope**: GraniteRock documentation standards
+#### analytics-engineer-role: Transformation Layer Owner
+**Role**: Owns all data modeling and transformation work
+**Scope**: dbt models, SQL optimization, business logic, semantic layer
+**Consolidates**: dbt-expert + snowflake-expert (SQL) + tableau-expert (data layer)
 
 **When to Invoke**:
-- All agent outputs need documentation
-- Creating user guides
-- Maintaining knowledge base
-- Standardizing team documentation
+- Model compilation errors
+- Performance optimization
+- Business logic implementation
+- Data quality testing
+- Metric definitions
 
-### qa-coordinator: Comprehensive Testing
+#### bi-developer-role: Consumption Layer & Documentation
+**Role**: Dashboard development and end-user documentation
+**Scope**: Tableau visualizations, UX design, user guides
+**Consolidates**: tableau-expert (viz) + ui-ux-expert + documentation-expert (end-user)
+
+**When to Invoke**:
+- Dashboard development
+- Performance optimization for BI
+- User training materials
+- Visualization best practices
+
+#### qa-engineer-role: Comprehensive Testing
 **Role**: Enterprise-grade testing and validation
-**Scope**: All user-facing changes
+**Scope**: All user-facing changes, data quality validation
 
-**Configuration**: Custom subagent via general-purpose agent
 **When to Invoke**:
 - After UI/UX changes
 - Before marking work complete
 - API/backend changes
-- Cross-system integrations
-
-### dbt-expert: Model Development & Testing
-**Role**: SQL transformations, model optimization, test development
-**Scope**: dbt models, tests, and data quality
-
-**When to Invoke**:
-- Schema compilation issues
-- Model performance problems
-- Test failures
 - Data quality validation
 
-### prefect-expert: Flow Performance
-**Role**: Prefect flow analysis when Orchestra triggers them
-**Scope**: Prefect-specific performance and debugging
+### Tool Specialists (Consultation Layer - 20% of cases)
+Available for complex edge cases requiring deep tool expertise:
+- dbt-expert, snowflake-expert, tableau-expert
+- dlthub-expert, orchestra-expert, prefect-expert
+- documentation-expert (platform-wide standards)
 
-**When to Invoke**:
-- Prefect flow failures
-- Flow performance issues
-- Task retry logic problems
-- Prefect-specific orchestration
+**When to consult**: Role agents automatically invoke for complex scenarios
+### Specialist Consultation Examples
 
-### snowflake-expert: Warehouse Operations
-**Role**: Query performance, cost analysis, warehouse optimization
-**Scope**: Snowflake warehouse and query performance
+**Example 1: Complex dbt Macro Development**
+```
+analytics-engineer-role handles most transformations
+→ Consults dbt-expert for advanced macro patterns
+→ Implements solution with expert guidance
+```
 
-**When to Invoke**:
-- Query performance problems
-- Cost optimization needs
-- Warehouse sizing issues
-- Schema design questions
+**Example 2: Advanced Prefect Flow Patterns**
+```
+data-engineer-role sets up most pipelines
+→ Consults prefect-expert for complex flow patterns
+→ Implements with specialist input
+```
 
-### dlthub-expert: Data Ingestion
-**Role**: Source system data quality, ingestion patterns
-**Scope**: Cross-system reconciliation and source data
-
-**When to Invoke**:
-- Source data quality issues
-- Ingestion pipeline problems
-- API integration failures
-- Data freshness concerns
-
-### tableau-expert: Visualization & Data Pipeline
-**Role**: Dashboard performance AND data pipeline analysis via file parsing
-**Scope**: Tableau dashboards, extracts, and data connections
-
-**When to Invoke**:
-- Dashboard performance issues
-- Extract refresh failures
-- Data connection problems
-- TFL/TWB file analysis needed
-
-### business-context: Requirements & Alignment
-**Role**: Business logic validation, stakeholder requirement clarification
-**Scope**: Business requirements and stakeholder communication
+**Example 3: Deep Snowflake Cost Optimization**
+```
+analytics-engineer-role handles query optimization
+→ Consults snowflake-expert for warehouse-level cost analysis
+→ Applies recommendations
+```
+#### business-analyst-role: Requirements & Stakeholder Alignment
+**Role**: Business logic validation, stakeholder communication
+**Scope**: Requirements gathering, metric definitions, business rules
 
 **When to Invoke**:
 - Unclear business requirements
@@ -264,7 +259,7 @@ rpt_* (Reports) - User-facing impact
 - Stakeholder alignment needed
 - Business rule validation
 
-### da-architect: System Design & Strategy
+#### data-architect-role: System Design & Strategy
 **Role**: System design, data flow analysis, strategic platform decisions
 **Scope**: Entire data stack architecture
 
