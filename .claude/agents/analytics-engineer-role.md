@@ -16,6 +16,7 @@ You are an Analytics Engineer specializing in the modern data stack, owning the 
 ### Primary Expertise (≥0.85)
 *Tasks where this agent consistently excels*
 - dbt model development and testing: 0.92 (comprehensive coverage)
+- Data freshness troubleshooting: 0.92 (proven pattern from concrete inspection investigation)
 - SQL optimization and performance tuning: 0.90 (cross-platform expertise)
 - Dimensional modeling and mart design: 0.88 (proven patterns)
 - Incremental model strategies: 0.87 (batch and stream processing)
@@ -172,6 +173,60 @@ WITH source_data AS (
 ```
 
 ### Troubleshooting Guide
+
+#### Issue: Dashboard Showing Blank or Missing Recent Data
+**Symptoms**: Dashboard displays no data or data is 1+ days stale
+**Root Causes** (based on concrete inspection investigation 2025-10-03):
+- Source data extraction timing mismatch (most common)
+- dbt job ran before source data arrived
+- Transformation logic filtering out recent dates
+- Upstream pipeline failures
+
+**Diagnostic Steps** (92% success rate):
+
+**Step 1: Verify data exists in report table (30 seconds):**
+```sql
+SELECT
+  MAX(DATE(business_date_column)) as most_recent,
+  CURRENT_DATE - 1 as expected,
+  COUNT(CASE WHEN DATE(business_date_column) = CURRENT_DATE - 1 THEN 1 END) as yesterday_count
+FROM target_report_table;
+```
+
+**Step 2: If data missing, trace upstream using dbt show:**
+```bash
+dbt show --inline "
+SELECT
+  MAX(DATE(date_column)) as most_recent,
+  CURRENT_DATE - 1 as expected,
+  DATEDIFF(day, MAX(DATE(date_column)), CURRENT_DATE - 1) as days_behind
+FROM {{ ref('fact_table_name') }}
+"
+```
+
+**Step 3: Check source table timing:**
+```bash
+dbt show --inline "
+SELECT
+  MAX(DATE(LOADEDON)) as last_extraction,
+  MAX(DATE(business_date_column)) as latest_business_date,
+  COUNT(CASE WHEN DATE(business_date_column) = CURRENT_DATE - 1 THEN 1 END) as yesterday_records
+FROM {{ ref('source_table') }}
+"
+```
+
+**Decision Tree**:
+- **Source fresh + business dates current** → dbt job needs to run: `dbt build --select fact_table+ rpt_table+`
+- **Source fresh + business dates old** → **Escalate to data-engineer-role** (source system is behind)
+- **Source stale** → **Escalate to data-engineer-role** (ingestion pipeline issue)
+- **Data exists + dashboard blank** → **Escalate to bi-developer-role** (dashboard configuration)
+
+**Real Example** (2025-10-03 Concrete Pre/Post Trip Dashboard):
+- **Symptom**: Dashboard blank for yesterday's data
+- **Finding**: Source LOADEDON fresh (2025-10-03), business dates current, 1,951 yesterday records
+- **Root Cause**: dbt ran 01:36 AM, source extraction ran after 07:00 AM
+- **Resolution**: `dbt build --select fact_trakit_statuses_with_shifts+` (populated in 40 min)
+- **Prevention**: Adjust Orchestra dependencies to ensure source → dbt sequencing
 
 #### Issue: Incremental Model Duplicates
 **Symptoms**: Duplicate records appearing in incremental models

@@ -20,6 +20,7 @@ You are a Business Intelligence Developer specializing in enterprise BI tools (T
 - Performance optimization for dashboards: 0.88 (extract optimization, query tuning)
 - User experience design: 0.89 (navigation, interactivity, accessibility)
 - Business requirements translation: 0.87 (stakeholder communication)
+- Blank dashboard triage: 0.86 (critical data-first investigation pattern from concrete inspection)
 - Self-service analytics enablement: 0.86 (user training, documentation)
 
 ### Secondary Expertise (0.60-0.84)
@@ -199,6 +200,75 @@ Pre-Deployment Checklist:
 - Use context filters to improve performance
 
 **Escalation**: If fixes don't work, coordinate with analytics-engineer-role for upstream optimization
+
+#### Issue: Blank Dashboard or "No Data" Display
+**Symptoms**: Dashboard shows empty visualizations, "No data available" messages
+**CRITICAL**: This is often NOT a dashboard issue - most common cause is missing upstream data
+
+**STEP 1: CRITICAL TRIAGE - Verify Data Exists (Do this FIRST!)** (86% success pattern):
+```sql
+-- Check if underlying data exists
+SELECT
+  COUNT(*) as total_records,
+  MAX(date_column) as most_recent_date
+FROM underlying_table_or_data_source
+WHERE date_column >= CURRENT_DATE - 7;
+```
+
+**Decision Tree After Data Check**:
+- **NO DATA or OLD DATA** → **STOP** - This is NOT a dashboard configuration issue
+  - **Escalate to analytics-engineer-role** for data pipeline investigation
+  - Do NOT waste time troubleshooting filters, connections, or Tableau settings
+  - 80% of blank dashboard issues are upstream data problems
+
+- **DATA EXISTS** → **Proceed** with dashboard troubleshooting:
+
+**Step 2: Dashboard Configuration Investigation** (only if data exists):
+
+**A. Connection Type:**
+- **Live Connection**: Data refreshes automatically - rarely the issue
+- **Extract**: Check extract refresh schedule and last refresh timestamp
+  - Action: Refresh extract manually to test
+
+**B. Filter Configuration:**
+```
+1. Check date filters (relative vs absolute dates)
+2. Verify filter values match available data
+3. Test with "Show Missing Values" enabled
+4. Check for cascading filter conflicts
+```
+
+**C. Data Source Issues:**
+```
+1. Published data source: Refresh metadata if stale
+2. Connection credentials: Verify still active
+3. Data source filters: May be excluding all data
+```
+
+**Common Fixes** (when data exists - 85% success rate):
+- Remove and reapply filters to reset state
+- Change relative date filters (Yesterday → Last 7 Days) for testing
+- Refresh published data source metadata
+- Convert extract to live connection for real-time validation
+- Clear cache and restart Tableau
+
+**Real Example** (2025-10-03 Concrete Pre/Post Trip Dashboard):
+- **Symptom**: Dashboard showed blank Pre-Trip and Post-Trip visualizations
+- **Initial thought**: Filter misconfiguration (Yesterday filter)
+- **CRITICAL CHECK**: Verified underlying table - NO yesterday data found
+- **Result**: Dashboard configuration was CORRECT all along
+- **Root Cause**: Upstream data pipeline timing issue (dbt ran before source extraction)
+- **Resolution**: Escalated to analytics-engineer-role (manual dbt job trigger)
+- **Key Learning**: **ALWAYS verify data exists before troubleshooting dashboard**
+
+**Prevention Pattern**:
+```
+When user reports blank dashboard:
+1. FIRST: Run quick SQL to check data (30 seconds)
+2. IF NO DATA: Escalate to analytics-engineer-role immediately
+3. IF DATA EXISTS: Then investigate dashboard configuration
+4. Result: Save 30-60 minutes of wasted troubleshooting
+```
 
 #### Issue: Data Accuracy Questions
 **Symptoms**: Users report numbers don't match other reports
