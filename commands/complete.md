@@ -42,17 +42,42 @@ When user runs `/complete [project-name]`:
    - Process improvements and workflow learnings
    - Integration strategies and coordination patterns
 
+### Step 1.5: Extract Performance Metrics
+**Track quantitative data for continuous improvement:**
+1. **Agent invocation patterns**:
+   - Count agent invocations by type (dbt-expert: 3, snowflake-expert: 2, etc.)
+   - Document success/retry patterns for each agent
+   - Measure estimated execution times
+2. **Performance indicators**:
+   - Success rate (completed without retries vs total attempts)
+   - Task complexity indicators (simple query vs complex transformation)
+   - Cross-agent coordination effectiveness
+3. **Failure pattern documentation**:
+   - Common error types encountered
+   - Retry scenarios and resolution methods
+   - Knowledge gaps identified during execution
+4. **Confidence score updates**:
+   - Identify successful patterns that should increase agent confidence
+   - Document areas where agents struggled (decrease confidence)
+   - Calculate confidence adjustments based on task outcomes
+
 ### Step 2: Extract and Preserve Knowledge
 **Check for updates to:**
 
 #### Agent Knowledge (`/.claude/agents/`)
-- **dbt-expert.md**: SQL patterns, model architectures, testing strategies
-- **snowflake-expert.md**: Query optimization, cost management patterns
-- **tableau-expert.md**: Dashboard design patterns, visualization strategies
-- **da-architect.md**: System design patterns, data flow architectures
-- **documentation-expert.md**: Documentation standards and templates
-- **business-context.md**: Stakeholder management and requirement patterns
-- **[other-agents].md**: Tool-specific insights and best practices
+- **dbt-expert.md**: SQL patterns, model architectures, testing strategies + confidence updates
+- **snowflake-expert.md**: Query optimization, cost management patterns + confidence updates
+- **tableau-expert.md**: Dashboard design patterns, visualization strategies + confidence updates
+- **da-architect.md**: System design patterns, data flow architectures + confidence updates
+- **documentation-expert.md**: Documentation standards and templates + confidence updates
+- **business-context.md**: Stakeholder management and requirement patterns + confidence updates
+- **[other-agents].md**: Tool-specific insights and best practices + confidence updates
+
+**Confidence Score Management:**
+- Update agent confidence levels based on project outcomes
+- Document successful patterns that warrant confidence increases (+0.05 to +0.15)
+- Identify knowledge gaps that suggest confidence decreases (-0.05 to -0.10)
+- Create routing recommendations for future similar tasks
 
 #### Technical Documentation (`/knowledge/`)
 - **Architecture patterns**: System design and integration strategies
@@ -78,11 +103,26 @@ When user runs `/complete [project-name]`:
 ## Response Format
 ```
 🔍 Analyzing project: [project-name]
+📊 Extracting performance metrics...
+
+📈 Project Performance Summary:
+   • Agents invoked: 5 (dbt-expert: 3, snowflake-expert: 2)
+   • Success rate: 100% (0 retries needed)
+   • Estimated execution time: 18 minutes
+   • Task complexity: Medium (cross-system integration)
+   • New patterns discovered: 3
+
+🎯 Confidence Updates:
+   ↗️ dbt-expert: +0.10 (incremental model optimization)
+   ↗️ snowflake-expert: +0.05 (query performance tuning)
+   ➡️ tableau-expert: No change (limited involvement)
+
 📚 Extracting knowledge for preservation...
 
 💡 Knowledge Updates:
-   ✅ Updated: agents/da-architect.md (integration patterns)
-   ✅ Updated: agents/documentation-expert.md (process standards)
+   ✅ Updated: agents/da-architect.md (integration patterns + confidence: +0.08)
+   ✅ Updated: agents/documentation-expert.md (process standards + confidence: +0.03)
+   ✅ Updated: agents/dbt-expert.md (incremental model patterns + confidence: +0.10)
    ✅ Added: knowledge/technical/idea-organization-systems.md
 
 📦 Archiving project...
@@ -95,12 +135,17 @@ When user runs `/complete [project-name]`:
 
 💡 Recommended: Create PR for review
 
+🤖 Routing Recommendations for Future Projects:
+   • For incremental model work: Prefer dbt-expert (confidence: 0.92)
+   • For query optimization: dbt-expert + snowflake-expert (high coordination success)
+   • For cross-system integration: da-architect → dbt-expert → snowflake-expert (proven sequence)
+
 🔗 Related ideas updated: [list any updated archived ideas]
 
-✅ Project '[project-name]' completed with knowledge preserved!
+✅ Project '[project-name]' completed with knowledge preserved and metrics tracked!
 
 🎉 Next steps:
-   - Review completed work and extracted knowledge
+   - Review performance metrics and confidence updates
    - Create PR if on feature branch
    - Plan next project: ./scripts/build.sh [idea-name]
 ```

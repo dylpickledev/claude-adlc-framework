@@ -1,6 +1,7 @@
 name: Cross-Repository Issue Coordination
 
 on:
+  # ONLY run via API dispatch or manual trigger - NEVER on push/PR
   repository_dispatch:
     types: [cross-repo-issue, pattern-detected, escalation-needed]
   workflow_dispatch:
@@ -53,12 +54,12 @@ jobs:
         REPOS="${{ steps.context.outputs.repositories }}"
         TIME_WINDOW="${{ steps.context.outputs.time_window }}"
 
-        # Set time filter based on window
+        # Set time filter based on window (using GNU date via GitHub Actions runner)
         case $TIME_WINDOW in
-          "24_hours") TIME_FILTER="created:>$(date -d '1 day ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
-          "7_days") TIME_FILTER="created:>$(date -d '7 days ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
-          "30_days") TIME_FILTER="created:>$(date -d '30 days ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
-          *) TIME_FILTER="created:>$(date -d '1 day ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          "24_hours") TIME_FILTER="created:>$(date --date='1 day ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          "7_days") TIME_FILTER="created:>$(date --date='7 days ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          "30_days") TIME_FILTER="created:>$(date --date='30 days ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
+          *) TIME_FILTER="created:>$(date --date='1 day ago' -u +%Y-%m-%dT%H:%M:%SZ)" ;;
         esac
 
         # Collect issues from all repositories
