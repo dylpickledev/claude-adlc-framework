@@ -85,6 +85,9 @@ knowledge/*/*
 # Allow GraniteRock SharePoint analysis in knowledge/graniterock_sharepoint/
 !knowledge/graniterock_sharepoint/
 !knowledge/graniterock_sharepoint/**
+# Allow da_obsidian knowledge base for raw notes and ideas
+!knowledge/da_obsidian/
+!knowledge/da_obsidian/**
 
 
 .claude/settings.local.json
