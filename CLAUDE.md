@@ -45,18 +45,53 @@ projects/active/<project-name>/
 - **context.md**: Dynamic state tracking - branches, PRs, blockers, current focus
 - **tasks/**: Agent coordination - task assignments and detailed findings
 
-## Specialist Agent Quick Reference
+## Role-Based Agent System
 
-**Workflow**: orchestra-expert (leads all workflow analysis - Orchestra triggers everything)
-**Documentation**: documentation-expert (ensures proper documentation and GraniteRock standards)
-**Testing**: qa-coordinator (comprehensive testing - use via general-purpose agent)
-**Models**: dbt-expert (SQL transformations, model optimization, test development)
-**Performance**: snowflake-expert (query optimization, cost analysis)
-**Visualization**: tableau-expert (dashboards AND data pipeline analysis via file parsing)
-**Ingestion**: dlthub-expert (source system integration and data quality)
-**Orchestration**: prefect-expert (Prefect flow performance when Orchestra triggers them)
-**Requirements**: business-context (stakeholder alignment, business logic validation)
-**Architecture**: da-architect (system design, strategic platform decisions)
+### Primary Agents (Use These First)
+**Analytics Engineer** (`analytics-engineer-role`) - Owns transformation layer (dbt + Snowflake + BI data)
+- SQL transformations, data modeling, performance optimization
+- Business logic implementation, metrics, semantic layer
+- Handles 80% of transformation work independently
+
+**Data Engineer** (`data-engineer-role`) - Owns ingestion layer (Orchestra + dlthub + Prefect + Airbyte)
+- Pipeline setup and orchestration (batch AND streaming)
+- Source system integration, data quality at ingestion
+- Chooses right tool (dlthub vs Prefect) based on requirements
+
+**BI Developer** (`bi-developer-role`) - Owns BI consumption layer (Tableau + Power BI)
+- Enterprise BI dashboards, reports, executive views
+- BI tool performance optimization, self-service analytics
+- Business user training and documentation
+
+**UI/UX Developer** (`ui-ux-developer-role`) - Owns web application layer (Streamlit + React)
+- Data applications, admin tools, custom web interfaces
+- User experience design, responsive applications
+- Interactive prototypes and proof-of-concepts
+
+**Data Architect** (`data-architect-role`) - Strategic platform decisions and system design
+- Architecture patterns, technology selection, cross-system integration
+- Platform roadmap, governance, standards
+
+**Business Analyst** (`business-analyst-role`) - Requirements and stakeholder alignment
+- Business logic validation, metric definitions
+- Stakeholder communication, project scoping
+
+**QA Engineer** (`qa-engineer-role`) - Testing and quality assurance
+- Comprehensive testing strategies, validation frameworks
+- Data quality validation, system integration testing
+
+**Project Manager** (`project-manager-role`) - Delivery coordination and stakeholder management
+- Project planning, UAT frameworks, milestone tracking
+- Cross-functional coordination, risk management
+
+### Tool Specialists (Consultation Layer - Use When Needed)
+Available for complex edge cases requiring deep tool expertise:
+- `dbt-expert`, `snowflake-expert`, `tableau-expert`
+- `dlthub-expert`, `orchestra-expert`, `prefect-expert`
+- `streamlit-expert`, `react-expert`, `ui-ux-expert`
+- `documentation-expert`, `github-sleuth-expert`
+
+**When to use specialists**: Role agents consult them for 20% of complex scenarios requiring deep tool knowledge
 
 *See `.claude/memory/patterns/cross-system-analysis-patterns.md` for detailed agent coordination*
 
