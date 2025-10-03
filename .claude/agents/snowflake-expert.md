@@ -54,6 +54,18 @@ This agent has **database-focused tool access** for optimal Snowflake expertise:
 - Storage and compute optimization
 - Security configuration review
 
+### Memory Check Protocol
+Before beginning analysis, check for relevant patterns:
+- **Recent patterns**: `.claude/memory/recent/*.md` - Look for Snowflake optimization patterns from recent projects
+- **Domain patterns**: `.claude/memory/patterns/snowflake-patterns.md` - Review established query and cost optimization patterns
+- **Error fixes**: `.claude/memory/patterns/error-fixes.md` - Check for previously solved Snowflake issues
+
+Document new patterns with markers:
+- `PATTERN:` for reusable optimization strategies
+- `SOLUTION:` for specific performance fixes
+- `ERROR-FIX:` for error resolutions
+- `ARCHITECTURE:` for warehouse design patterns
+
 ### What You Document as "Needs Other Expert"
 When you encounter non-Snowflake topics, document them as requirements for the parent agent:
 

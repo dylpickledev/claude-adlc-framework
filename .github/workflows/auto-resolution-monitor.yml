@@ -1,6 +1,7 @@
 name: Auto Resolution Monitor
 
 on:
+  # ONLY run via API dispatch or manual trigger - NEVER on push/PR
   repository_dispatch:
     types: [issue-created, issue-updated, check-resolution]
   workflow_dispatch:

@@ -37,6 +37,7 @@
    - ✅ Orchestra API integration (correct URL: app.getorchestra.io)
    - ✅ Pipeline status endpoint (filters for REFRESH + FINAL pipelines only)
    - ✅ Pipeline activity endpoint (filters for Sales Journal pipelines only)
+   - ✅ Pipeline trigger endpoint (POST /api/pipeline/trigger)
 
 2. **Frontend Foundation**
    - ✅ Zustand store with state management
@@ -46,6 +47,7 @@
    - ✅ Navigation system with 10 tabs
    - ✅ UI component library (styled-components)
    - ✅ Error boundaries and loading states
+   - ✅ Sidebar pipeline trigger buttons (Refresh + Finalize with confirmation)
 
 3. **Data Integration**
    - ✅ Removed all mock data fallbacks from Dashboard
@@ -69,6 +71,25 @@
 - Excel export functionality
 - PDF export functionality
 - Query retry logic (3-retry pattern with exponential backoff)
+
+#### Tab 5: Pipeline Control (~80% complete)
+**✅ Completed:**
+- Sidebar "🔄 Refresh Sales Journal" button - triggers Refresh pipeline (c468dd21-7af0-4892-9f48-d8cdf24d9b7d)
+- Sidebar "✅ Finalize Sales Journal" button - triggers Final pipeline (daa39221-b30f-4b27-a8ee-a1b98ca28d0f)
+- Confirmation dialog for Finalize with proper warnings and action details
+- Loading states (⏳ Refreshing.../⏳ Finalizing...)
+- Disabled states when pipelines are running
+- Error display for failed pipeline triggers
+- Backend POST /api/pipeline/trigger endpoint with comprehensive error handling
+- Orchestra service trigger_pipeline() method
+- Framer Motion animations for smooth UX
+
+**⚠️ Needs Work:**
+- Real-time status polling (5-second interval when pipeline is running)
+- Display current pipeline status and progress in dedicated tab
+- Stop polling when pipeline completes/fails
+- Store pipeline_run_id in state for tracking
+- Link to Pipeline History tab from active runs
 
 #### Dashboard Tab (✅ 100% COMPLETE)
 **✅ All Features Completed:**
@@ -106,12 +127,6 @@
 - Ticket number input
 - 1140 account code filtering
 - Related transactions display
-
-#### Tab 5: Pipeline Control (0%)
-- Trigger Refresh Pipeline button
-- Trigger Finalize Pipeline button (with confirmation)
-- Real-time status display
-- Pipeline run tracking
 
 #### Tab 6: Tieout Management (0%)
 - Tieout test results table
@@ -184,8 +199,8 @@
   - GET `/api/journal/out-of-balance-records` - Out of Balance table
   - GET `/api/journal/research-1140` - 1140 Research data
   - GET `/api/tieout/records` - Tieout records table
-  - POST `/api/pipeline/trigger` - Trigger pipeline execution
-  - GET `/api/pipeline/history` - Full pipeline history (verify filtering)
+  - [x] POST `/api/pipeline/trigger` - Trigger pipeline execution ✅
+  - [x] GET `/api/pipeline/history` - Full pipeline history (filtering verified) ✅
 
 ---
 
@@ -276,20 +291,23 @@
   - Results table with 1140-specific columns
   - Export functionality
 
-#### 3.2 Pipeline Control Tab
-- [ ] **Trigger Functions**
-  - Trigger Refresh Pipeline button
-  - Trigger Finalize Pipeline button
-  - Confirmation dialog for Finalize
+#### 3.2 Pipeline Control Tab (~80% Complete)
+- [x] **Trigger Functions** ✅
+  - Sidebar "🔄 Refresh Sales Journal" button
+  - Sidebar "✅ Finalize Sales Journal" button
+  - Confirmation dialog for Finalize with warnings
+  - Backend POST /api/pipeline/trigger endpoint
+  - Orchestra service trigger_pipeline() method
+  - Loading states and error handling
 
-- [ ] **Real-Time Status**
+- [ ] **Real-Time Status** ⚠️
   - Poll pipeline status every 5 seconds when running
-  - Display current status, progress
+  - Display current status, progress in dedicated tab
   - Stop polling when complete/failed
 
-- [ ] **Run Tracking**
-  - Store pipeline_run_id in state
-  - Link to Pipeline History tab
+- [ ] **Run Tracking** ⚠️
+  - Store pipeline_run_id in state after trigger
+  - Link to Pipeline History tab from active runs
 
 #### 3.3 Tieout Management Tab
 - [ ] **Backend Query**
@@ -536,7 +554,7 @@ const apiRequestWithRetry = async <T>(
 - [ ] Detail by Ticket tab (full implementation)
 - [ ] Out of Balance tab (full implementation)
 - [ ] 1140 Research tab
-- [ ] Pipeline Control tab (trigger functions)
+- [x] Pipeline Control tab - trigger functions ✅ (real-time polling remaining)
 - [ ] Tieout Management tab
 
 ### 🟢 MEDIUM (Enhanced Features)
