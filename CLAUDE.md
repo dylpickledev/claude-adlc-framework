@@ -72,6 +72,12 @@ projects/active/<project-name>/
 - Architecture patterns, technology selection, cross-system integration
 - Platform roadmap, governance, standards
 
+**Cloud Manager** (`cloud-manager-role`) - Owns cloud infrastructure (AWS + Azure)
+- Cloud resource provisioning, scaling, and cost optimization
+- Security configuration, IAM, networking, compliance
+- Direct AWS MCP access (aws-api, aws-docs, aws-knowledge), consults aws-expert for edge cases
+- Handles 80% of cloud infrastructure independently
+
 **Business Analyst** (`business-analyst-role`) - Requirements and stakeholder alignment
 - Business logic validation, metric definitions
 - Stakeholder communication, project scoping
@@ -89,9 +95,11 @@ Available for complex edge cases requiring deep tool expertise:
 - `dbt-expert`, `snowflake-expert`, `tableau-expert`
 - `dlthub-expert`, `orchestra-expert`, `prefect-expert`
 - `streamlit-expert`, `react-expert`, `ui-ux-expert`
+- `aws-expert`, `azure-expert` (cloud infrastructure specialists)
 - `documentation-expert`, `github-sleuth-expert`
 
 **When to use specialists**: Role agents consult them for 20% of complex scenarios requiring deep tool knowledge
+**Note**: cloud-manager-role uses AWS MCP tools directly (aws-api, aws-docs, aws-knowledge) for 80% of AWS work, consults aws-expert for advanced patterns (SageMaker, EKS, Step Functions, multi-account)
 
 *See `.claude/memory/patterns/cross-system-analysis-patterns.md` for detailed agent coordination*
 
