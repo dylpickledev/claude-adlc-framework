@@ -49,11 +49,11 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
-      "disabled": true,
+      "disabled": false,
       "autoApprove": [],
-      "_comment": "Week 1 Day 3 - Enable after setting GITHUB_PERSONAL_ACCESS_TOKEN. Scopes needed: repo, read:org"
+      "_comment": "Week 1 Day 3 - ENABLED with GitHub PAT from 1Password (scopes: repo, read:org, read:project)"
     },
     "slack": {
       "command": "npx",
