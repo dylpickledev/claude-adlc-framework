@@ -1,7 +1,7 @@
 # /roadmap Command Protocol
 
 ## Purpose
-Strategic planning and prioritization for ADLC Plan phase completion. Creates impact vs effort analysis with execution-ready roadmaps.
+Strategic planning and prioritization using GitHub Issues for ADLC Plan phase completion. Creates impact vs effort analysis with execution-ready roadmaps from tracked ideas.
 
 ## Usage
 ```bash
@@ -17,7 +17,8 @@ claude /roadmap [timeframe]
 ```
 
 ### 2. Strategic Planning Workflow
-- **Analyzes organized ideas**: Reviews `ideas/organized/` directory
+- **Analyzes GitHub issues**: Reviews all open issues with 'idea' label
+- **Categorizes automatically**: Groups by labels (bi-analytics, data-engineering, etc.)
 - **Creates prioritization matrix**: Impact vs effort analysis framework
 - **Generates execution plan**: Ready-to-build priorities with sequencing
 - **Stakeholder alignment**: Templates for cross-departmental coordination
@@ -33,20 +34,22 @@ When user runs `/roadmap [timeframe]`:
 
 ### Response Format
 ```
-🗺️ Creating [timeframe] roadmap...
-📊 Analyzing organized ideas...
-✅ Roadmap created: ideas/roadmaps/[timeframe]-[date].md
+🗺️  Creating [timeframe] roadmap from GitHub issues...
+📊 Found X open ideas to analyze...
+✅ Roadmap created: docs/roadmaps/[timeframe]-[date].md
 
 📋 Next steps:
    1. Review and fill in the prioritization matrix
    2. Identify top 2-3 ideas for execution
-   3. Build highest priority: ./scripts/build.sh [idea-name]
+   3. Build highest priority: ./scripts/build.sh <issue-number>
 
 💡 Tip: Open the roadmap file to complete the prioritization analysis
+🔗 View all ideas: gh issue list --label idea --state open
 ```
 
 ## Integration with ADLC
 - **ADLC Plan Phase**: Strategic planning and stakeholder feedback
+- **GitHub Issues integration**: All ideas visible and trackable by team
 - **Impact analysis**: Business value vs implementation effort
 - **Implementation planning**: Dependencies, sequencing, and resource allocation
 - **Cross-layer context**: Links planning directly to development execution
@@ -62,39 +65,91 @@ When user runs `/roadmap [timeframe]`:
 - Cross-system coordination requirements
 - Resource availability and timeline constraints
 
+## Roadmap Output Structure
+```markdown
+# [Timeframe] Roadmap - [Month Year]
+
+## Overview
+Strategic planning session for [timeframe] execution priorities.
+
+## Ideas Analysis
+
+### Available Ideas (from GitHub Issues)
+
+#### BI/Analytics Ideas
+- [#59](url): Cross-tooling lineage visualization
+- [#85](url): Executive KPI dashboard
+
+#### Data Engineering Ideas
+- [#86](url): Real-time customer data pipeline
+
+[... other categories ...]
+
+## Prioritization Framework
+[Impact vs Effort matrix to fill in]
+
+## Execution Plan
+[Ready to build items]
+
+## Quick Actions
+- View all ideas: gh issue list --label idea --state open
+- Build top priority: ./scripts/build.sh <issue-number>
+```
+
 ## Examples
 
 ### Example 1: Quarterly Planning
 ```bash
 claude /roadmap quarterly
-# → Creates comprehensive quarterly execution plan
+# → Creates comprehensive quarterly execution plan from all open idea issues
 ```
 
 ### Example 2: Sprint Planning
 ```bash
 claude /roadmap sprint
-# → Creates 2-week focused execution plan
+# → Creates 2-week focused execution plan from high-priority ideas
 ```
 
 ### Example 3: Annual Strategic Planning
 ```bash
 claude /roadmap annual
-# → Creates long-term strategic roadmap
+# → Creates long-term strategic roadmap from all ideas
 ```
 
 ## Success Criteria
-- [ ] Roadmap file created with all organized ideas analyzed
+- [ ] Roadmap file created with all GitHub idea issues analyzed
+- [ ] Ideas automatically categorized by labels
 - [ ] Prioritization matrix template provided
 - [ ] Clear execution plan with sequencing
 - [ ] Dependencies and blockers identified
-- [ ] Ready for immediate `/build` execution
+- [ ] Ready for immediate `/build <issue-number>` execution
 
 ## Follow-up Actions
 After roadmap creation, typically:
 1. **Review and prioritize**: Complete the impact vs effort analysis
-2. **Select top priorities**: Choose 1-3 ideas for immediate execution
-3. **Execute**: Use `/build [idea-name]` for highest priority items
+2. **Select top priorities**: Choose 1-3 issues for immediate execution
+3. **Execute**: Use `/build <issue-number>` for highest priority items
+4. **Update GitHub**: Comment on issues with priority decisions
+
+## Viewing and Managing Ideas
+
+### View All Ideas
+```bash
+gh issue list --label idea --state open
+```
+
+### Filter by Category
+```bash
+gh issue list --label idea --label bi-analytics
+gh issue list --label idea --label data-engineering
+gh issue list --label idea --label architecture
+```
+
+### Search Ideas
+```bash
+gh issue list --label idea --search "dashboard"
+```
 
 ---
 
-*Strategic ADLC Plan phase completion - from organized ideas to execution-ready roadmap.*
+*Strategic ADLC Plan phase completion - from GitHub-tracked ideas to execution-ready roadmap.*

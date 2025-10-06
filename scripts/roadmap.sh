@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# roadmap.sh - Strategic planning and prioritization
+# roadmap.sh - Strategic planning and prioritization using GitHub Issues
 # Usage: ./scripts/roadmap.sh [timeframe]
-# Replaces: /quarterly and manual prioritization workflows
+# Analyzes GitHub issues with 'idea' label for strategic planning
 
 set -e
 
@@ -15,24 +15,28 @@ cd "$REPO_ROOT"
 # Default to quarterly if no timeframe specified
 TIMEFRAME="${1:-quarterly}"
 
-echo "🗺️  Creating $TIMEFRAME roadmap..."
+echo "🗺️  Creating $TIMEFRAME roadmap from GitHub issues..."
 
 # Ensure roadmaps directory exists
-mkdir -p ideas/roadmaps
+mkdir -p docs/roadmaps
 
 # Get current date for filename
 DATE=$(date +%Y-%m)
-ROADMAP_FILE="ideas/roadmaps/${TIMEFRAME}-${DATE}.md"
+ROADMAP_FILE="docs/roadmaps/${TIMEFRAME}-${DATE}.md"
 
-# Check if we have organized ideas to work with
-if [ ! -d "ideas/organized" ] || [ -z "$(find ideas/organized -name "*.md" 2>/dev/null)" ]; then
-    echo "⚠️  No organized ideas found."
+# Check if we have ideas in GitHub issues
+IDEA_COUNT=$(gh issue list --label idea --state open --json number | jq '. | length')
+
+if [ "$IDEA_COUNT" -eq 0 ]; then
+    echo "⚠️  No open ideas found in GitHub issues."
     echo "💡 Try running: ./scripts/capture.sh \"[your idea]\" first"
     exit 1
 fi
 
+echo "📊 Found $IDEA_COUNT open ideas to analyze..."
+
 # Create roadmap template
-cat > "$ROADMAP_FILE" << EOF
+cat > "$ROADMAP_FILE" << 'EOF'
 # ${TIMEFRAME^} Roadmap - $(date +"%B %Y")
 
 ## Overview
@@ -40,27 +44,37 @@ Strategic planning session for ${TIMEFRAME} execution priorities.
 
 ## Ideas Analysis
 
-### Available Ideas
+### Available Ideas (from GitHub Issues)
 EOF
 
-# List organized ideas with basic analysis
-echo "Analyzing organized ideas..."
-for category_dir in ideas/organized/*/; do
-    if [ -d "$category_dir" ]; then
-        category=$(basename "$category_dir")
-        echo "" >> "$ROADMAP_FILE"
-        echo "#### $category" >> "$ROADMAP_FILE"
+# Update template variables
+sed -i '' "s/\${TIMEFRAME^}/${TIMEFRAME^}/g" "$ROADMAP_FILE"
+sed -i '' "s/\$(date +\"%B %Y\")/$(date +"%B %Y")/g" "$ROADMAP_FILE"
 
-        for idea_file in "$category_dir"*.md; do
-            if [ -f "$idea_file" ]; then
-                idea_name=$(basename "$idea_file" .md)
-                # Extract first line as summary
-                summary=$(head -n 1 "$idea_file" | sed 's/^# *//')
-                echo "- **$idea_name**: $summary" >> "$ROADMAP_FILE"
-            fi
-        done
-    fi
-done
+# Fetch and categorize ideas
+echo "" >> "$ROADMAP_FILE"
+echo "#### BI/Analytics Ideas" >> "$ROADMAP_FILE"
+gh issue list --label idea --label bi-analytics --state open --json number,title,url --jq '.[] | "- [#\(.number)](\(.url)): \(.title)"' >> "$ROADMAP_FILE" || echo "_None_" >> "$ROADMAP_FILE"
+
+echo "" >> "$ROADMAP_FILE"
+echo "#### Data Engineering Ideas" >> "$ROADMAP_FILE"
+gh issue list --label idea --label data-engineering --state open --json number,title,url --jq '.[] | "- [#\(.number)](\(.url)): \(.title)"' >> "$ROADMAP_FILE" || echo "_None_" >> "$ROADMAP_FILE"
+
+echo "" >> "$ROADMAP_FILE"
+echo "#### Analytics Engineering Ideas" >> "$ROADMAP_FILE"
+gh issue list --label idea --label analytics-engineering --state open --json number,title,url --jq '.[] | "- [#\(.number)](\(.url)): \(.title)"' >> "$ROADMAP_FILE" || echo "_None_" >> "$ROADMAP_FILE"
+
+echo "" >> "$ROADMAP_FILE"
+echo "#### Architecture Ideas" >> "$ROADMAP_FILE"
+gh issue list --label idea --label architecture --state open --json number,title,url --jq '.[] | "- [#\(.number)](\(.url)): \(.title)"' >> "$ROADMAP_FILE" || echo "_None_" >> "$ROADMAP_FILE"
+
+echo "" >> "$ROADMAP_FILE"
+echo "#### UI Development Ideas" >> "$ROADMAP_FILE"
+gh issue list --label idea --label ui-development --state open --json number,title,url --jq '.[] | "- [#\(.number)](\(.url)): \(.title)"' >> "$ROADMAP_FILE" || echo "_None_" >> "$ROADMAP_FILE"
+
+echo "" >> "$ROADMAP_FILE"
+echo "#### General Ideas" >> "$ROADMAP_FILE"
+gh issue list --label idea --label general --state open --json number,title,url --jq '.[] | "- [#\(.number)](\(.url)): \(.title)"' >> "$ROADMAP_FILE" || echo "_None_" >> "$ROADMAP_FILE"
 
 # Add prioritization framework
 cat >> "$ROADMAP_FILE" << EOF
@@ -70,9 +84,9 @@ cat >> "$ROADMAP_FILE" << EOF
 ### Impact vs Effort Analysis
 Use this matrix to evaluate each idea:
 
-| Idea | Impact (1-5) | Effort (1-5) | Priority Score | Notes |
-|------|-------------|-------------|----------------|-------|
-| [idea-name] | [rating] | [rating] | [calculated] | [reasoning] |
+| Issue # | Title | Impact (1-5) | Effort (1-5) | Priority Score | Notes |
+|---------|-------|--------------|--------------|----------------|-------|
+| #[number] | [title] | [rating] | [rating] | [calculated] | [reasoning] |
 
 ### Priority Categories
 - **High Priority**: High impact, low-medium effort (quick wins + strategic)
@@ -93,16 +107,28 @@ Use this matrix to evaluate each idea:
 
 ### Ready to Build
 Ideas that are ready for immediate execution:
-- [ ] [idea-name] - [brief description]
+- [ ] #[issue-number] - [brief description]
 
 ### Future Considerations
 Ideas for next planning cycle:
-- [ ] [idea-name] - [brief description]
+- [ ] #[issue-number] - [brief description]
 
 ## Notes
 - Planning date: $(date)
 - Review date: [set future review date]
 - Stakeholders: [list key stakeholders]
+
+## Quick Actions
+
+### View All Ideas
+\`\`\`bash
+gh issue list --label idea --state open
+\`\`\`
+
+### Build Top Priority
+\`\`\`bash
+./scripts/build.sh <issue-number>
+\`\`\`
 EOF
 
 echo "✅ Roadmap created: $ROADMAP_FILE"
@@ -110,6 +136,7 @@ echo ""
 echo "📋 Next steps:"
 echo "   1. Review and fill in the prioritization matrix"
 echo "   2. Identify top 2-3 ideas for execution"
-echo "   3. Build highest priority: ./scripts/build.sh [idea-name]"
+echo "   3. Build highest priority: ./scripts/build.sh <issue-number>"
 echo ""
 echo "💡 Tip: Open the roadmap file to complete the prioritization analysis"
+echo "🔗 View all ideas: gh issue list --label idea --state open"
