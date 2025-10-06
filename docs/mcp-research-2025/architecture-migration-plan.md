@@ -199,55 +199,119 @@ This plan outlines the migration from current DA Agent Hub architecture to a ful
 - data-engineer-role can delegate to snowflake-expert
 - cloud-manager-role uses enhanced aws-expert
 
-### 2.2 Week 2: Documentation & Communication Specialists
+### 2.2 Week 2: Context Engineering + Role Integration (ENHANCED)
 
-**Goal**: Add documentation/communication specialists + complete official MCP suite
+**Goal**: Implement Anthropic context engineering best practices + complete role delegation framework
 
-**Monday: Git MCP + Sequential Thinking MCP**
-- [ ] Add Git MCP server to `.claude/mcp.json`
-- [ ] Add Sequential Thinking MCP server
-- [ ] Test both servers
-- [ ] Update specialists to use for complex reasoning
+**NOTE**: Week 2 enhanced based on Anthropic "Effective Context Engineering for AI Agents" research.
+Original estimate: 5-10 hours. Enhanced estimate: 15-20 hours (critical foundation work).
 
-**Tuesday: Time MCP + Airbyte MCP**
-- [ ] Add Time MCP server for scheduling
-- [ ] Add Airbyte MCP server (remote)
-- [ ] Test both servers
-- [ ] Update data-engineer specialists
+**Monday-Tuesday: Context Engineering Foundations (8-10 hours)**
 
-**Wednesday: documentation-expert Revival**
-- [ ] Copy `deprecated/documentation-expert.md` to `agents/documentation-expert.md`
-- [ ] Wait for Confluence MCP (Phase 2)
-- [ ] Add Filesystem MCP, Git MCP, GitHub MCP for now
-- [ ] Update GraniteRock standards integration
-- [ ] Create test scenarios
+*Day 1 Morning: memory-mcp Integration (2 hours)* ⭐ **MOVED UP from Week 5**
+- [ ] Add memory-mcp to `.claude/mcp.json`
+- [ ] Configure memory-mcp server
+- [ ] Restart Claude Code and verify
+- [ ] Test memory persistence (create/read/search)
+- [ ] Document memory usage patterns for specialists
+- **Rationale**: Anthropic emphasizes structured note-taking outside context window
 
-**Thursday: business-context Revival**
-- [ ] Copy `deprecated/business-context.md` to `agents/business-context.md`
-- [ ] Wait for Atlassian MCP (Phase 2)
-- [ ] Add Slack MCP for communication context
-- [ ] Update business analysis patterns
-- [ ] Create test scenarios
+*Day 1 Afternoon: User Context Gathering Protocol (3 hours)* ⭐ **NEW - Anthropic best practice**
+- [ ] Create `.claude/memory/templates/context-gathering-templates.md`
+- [ ] Add "User Context Gathering Protocol" section to role-template.md
+- [ ] Update analytics-engineer-role with context gathering (enhance existing)
+- [ ] Update data-engineer-role with context gathering (enhance existing)
+- [ ] Update ui-ux-developer-role with context gathering (enhance existing)
+- **Protocol**: Roles MUST ask users for: specific target, current state, requirements, constraints
+- **Impact**: Reduces wasted specialist effort from incomplete context
 
-**Friday: Week 1-2 Validation & Metrics**
-- [ ] Run comprehensive test suite
-- [ ] Validate all specialist-MCP integrations
-- [ ] Measure success metrics
-- [ ] Adjust configurations as needed
-- [ ] Document lessons learned
-- [ ] Prepare Phase 2 plan
+*Day 2 Morning: Context Validation Checkpoints (2 hours)* ⭐ **NEW - Anthropic best practice**
+- [ ] Add "Context Validation Checklist" to delegation protocol (all roles)
+- [ ] Update role-template.md with validation step
+- [ ] Add context completeness check before delegation
+- [ ] Create validation examples for each role type
+- **Protocol**: Validate context BEFORE delegating (specific, quantified, complete)
+- **Impact**: Higher first-attempt success rate
+
+*Day 2 Afternoon: Response Format Standards (3 hours)* ⭐ **NEW - Anthropic best practice**
+- [ ] Create response format standard (Executive Summary + Key Recs + Quick Start)
+- [ ] Add to specialist-template.md
+- [ ] Update aws-expert with response format standard
+- [ ] Update dbt-expert with response format standard
+- [ ] Update snowflake-expert with response format standard
+- [ ] Add maximum length guidelines (500 words standard, 1000 complex)
+- **Protocol**: Condensed summaries to preserve context budget
+- **Impact**: Enables multi-specialist scenarios, prevents context bloat
+
+**Wednesday-Thursday: Role Delegation Updates (6-8 hours)**
+
+*Day 3: Update Remaining Roles (Part 1)*
+- [ ] Update bi-developer-role with complete delegation framework
+  - Context gathering protocol
+  - Delegation to tableau-expert (future), snowflake-expert (active)
+  - Context validation checkpoints
+- [ ] Update dba-role with complete delegation framework
+  - Context gathering protocol
+  - Delegation to snowflake-expert (active), data-quality-specialist (future)
+  - Context validation checkpoints
+- [ ] Update business-analyst-role with complete delegation framework
+  - Context gathering protocol
+  - Delegation to business-context (future), analytics-engineer-role
+  - Context validation checkpoints
+
+*Day 4: Update Remaining Roles (Part 2)*
+- [ ] Update data-architect-role with complete delegation framework
+  - Context gathering protocol
+  - Consultation patterns with ALL specialists (strategic collaborative role)
+  - Context validation checkpoints
+- [ ] Update qa-engineer-role with complete delegation framework
+  - Context gathering protocol
+  - Delegation to qa-coordinator (future), dbt-expert, snowflake-expert
+  - Context validation checkpoints
+- [ ] Update project-manager-role with complete delegation framework
+  - Context gathering protocol
+  - Delegation to github-sleuth-expert (future), documentation-expert (future)
+  - Context validation checkpoints
+
+**Friday: Week 2 Validation & Documentation (2 hours)**
+- [ ] Test context gathering protocols with real scenarios
+- [ ] Validate condensed specialist responses work
+- [ ] Test memory-mcp persistence and retrieval
+- [ ] Measure context efficiency improvements
+- [ ] Document Week 2 learnings
+- [ ] Update migration plan with actuals vs estimates
 
 **Deliverables**:
-- ✅ 2 more specialists revived (documentation, business-context)
-- ✅ 4 more MCP servers added (Git, Sequential Thinking, Time, Airbyte)
-- ✅ Total: 5 specialists operational, 12 MCP servers configured
-- ✅ Metrics baseline established
+- ✅ memory-mcp integrated (CRITICAL - moved up from Week 5)
+- ✅ All 9 role agents enhanced with:
+  - User context gathering protocols (Anthropic best practice)
+  - Context validation checkpoints (Anthropic best practice)
+  - Complete delegation frameworks
+- ✅ All 3 active specialists enhanced with:
+  - Response format standards (condensed summaries - Anthropic best practice)
+  - Maximum length guidelines
+- ✅ context-gathering-templates.md created
+- ✅ Templates updated (role, specialist) with Anthropic patterns
+- ✅ Total: 3 specialists operational, 10 MCP servers active (incl memory-mcp)
 
 **Success Criteria**:
-- All official MCP servers operational
-- Specialist delegation working smoothly
-- Measurable quality improvements
-- No critical issues
+- ✅ Roles explicitly request context from users (not assume or proceed incomplete)
+- ✅ Specialists return condensed summaries (<500-1000 words)
+- ✅ memory-mcp stores patterns for cross-session learning
+- ✅ Context validation prevents incomplete delegations
+- ✅ All 9 roles have complete delegation frameworks
+- ✅ Measurable improvement in first-attempt success rate
+
+**Time Investment**:
+- Original Week 2 plan: 5-10 hours
+- Anthropic enhancements: +8-10 hours
+- **Total Week 2**: 15-20 hours
+
+**Justification**:
+- Anthropic best practices are foundation-level
+- Context engineering critical for quality
+- memory-mcp enables learning (reduces redundant consultations)
+- ROI: Significantly better outcomes, less wasted effort
 
 ---
 
