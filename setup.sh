@@ -131,20 +131,122 @@ load_existing_env() {
 # Interactive credential collection - focus on dbt only
 collect_credentials() {
     log_step "Credential Configuration"
-    
+
+    echo -e "${BOLD}${YELLOW}🔐 Recommended: Use 1Password for secure credential management${NC}"
+    echo ""
+    echo "Options:"
+    echo "  1. Use 1Password (recommended) - Centralized, secure, syncs across machines"
+    echo "  2. Manual entry - Store in local .env file"
+    echo ""
+    echo "See SECURITY.md for complete 1Password setup guide"
+    echo ""
+
+    read -p "Do you want to use 1Password for credential management? [Y/n]: " use_1password
+
+    if [[ ! $use_1password =~ ^[Nn]$ ]]; then
+        setup_1password_integration
+        return 0
+    fi
+
+    # Fallback to manual credential entry
+    log_info "Using manual credential entry (stored in .env)"
+
     # Check if dbt credentials already exist
     if [ -n "$DBT_CLOUD_API_TOKEN" ] && [ -n "$DBT_CLOUD_ACCOUNT_ID" ]; then
         log_success "dbt Cloud credentials already configured"
         return 0
     fi
-    
+
     echo "Setting up minimal dbt configuration for D&A Agent Hub..."
-    
+
     # dbt Cloud - required for basic functionality
     prompt_required "DBT_CLOUD_API_TOKEN" "dbt Cloud API Token" "https://cloud.getdbt.com/#/profile/api/"
     prompt_required "DBT_CLOUD_ACCOUNT_ID" "dbt Cloud Account ID" "https://cloud.getdbt.com (check URL: /accounts/[ID]/)"
-    
+
     log_info "Additional integrations can be added later by re-running setup"
+}
+
+# Setup 1Password integration
+setup_1password_integration() {
+    log_info "Setting up 1Password integration..."
+
+    # Check if 1Password CLI is installed
+    if ! command -v op &> /dev/null; then
+        echo ""
+        echo "1Password CLI not found. Installing..."
+
+        if command -v brew &> /dev/null; then
+            brew install --cask 1password 1password-cli
+            log_success "1Password installed"
+        else
+            log_error "Homebrew not found. Please install 1Password manually:"
+            echo "  https://1password.com/downloads"
+            exit 1
+        fi
+    else
+        log_success "1Password CLI already installed"
+    fi
+
+    # Check if 1Password is configured
+    if ! op vault list &> /dev/null; then
+        echo ""
+        log_warning "1Password not configured or desktop app not running"
+        echo ""
+        echo "Please complete these steps:"
+        echo "  1. Open 1Password desktop app"
+        echo "  2. Sign in to your account"
+        echo "  3. Go to: Settings → Developer"
+        echo "  4. Enable: 'Connect with 1Password CLI'"
+        echo ""
+        read -p "Press Enter when ready to continue..."
+
+        # Verify again
+        if ! op vault list &> /dev/null; then
+            log_error "Still cannot access 1Password. Please complete setup and run ./setup.sh again"
+            exit 1
+        fi
+    fi
+
+    log_success "1Password is configured and accessible"
+
+    # Check if dotfiles repo exists
+    if [ ! -d "$HOME/dotfiles" ]; then
+        echo ""
+        log_info "Dotfiles repository not found. Setting it up..."
+        echo ""
+        echo "Please provide your dotfiles repository URL:"
+        echo "  Example: https://github.com/YOUR_USERNAME/dotfiles.git"
+        read -p "Dotfiles repo URL (or press Enter to skip): " dotfiles_url
+
+        if [ -n "$dotfiles_url" ]; then
+            git clone "$dotfiles_url" "$HOME/dotfiles"
+            log_success "Dotfiles repository cloned"
+        else
+            log_warning "Skipping dotfiles setup. See SECURITY.md for manual setup instructions"
+            return 0
+        fi
+    else
+        log_success "Dotfiles repository found at ~/dotfiles"
+    fi
+
+    # Check if load-secrets script exists
+    if [ -f "$HOME/dotfiles/load-secrets-from-1password.sh" ]; then
+        log_success "1Password secrets loading script found"
+
+        # Source it to load credentials
+        source "$HOME/dotfiles/load-secrets-from-1password.sh"
+
+        # Verify dbt credentials loaded
+        if [ -n "$DBT_CLOUD_API_TOKEN" ] && [ -n "$DBT_CLOUD_ACCOUNT_ID" ]; then
+            log_success "Credentials loaded from 1Password!"
+        else
+            log_warning "Credentials not found in 1Password. You may need to store them first."
+            echo "See SECURITY.md for instructions on storing secrets in 1Password"
+        fi
+    else
+        log_warning "1Password load script not found in ~/dotfiles"
+        echo "See SECURITY.md for complete setup instructions"
+    fi
 }
 
 # Test connections
@@ -868,10 +970,11 @@ main() {
     
     echo -e "\n${BOLD}${GREEN}🎉 Setup Complete!${NC}\n"
     echo -e "${BOLD}Next Steps:${NC}"
-    echo -e "  1. ${CYAN}claude restart${NC} - Restart Claude to load MCP servers"
-    echo -e "  2. ${CYAN}./setup.sh --status${NC} - Check system status"
-    echo -e "  3. ${CYAN}./developer/customize.sh${NC} - Add your personal repository paths"
-    echo -e "  4. ${CYAN}Ask me: \"What dbt models need optimization?\"${NC}\n"
+    echo -e "  1. ${CYAN}See SECURITY.md${NC} - Complete 1Password and dotfiles setup guide"
+    echo -e "  2. ${CYAN}claude restart${NC} - Restart Claude to load MCP servers"
+    echo -e "  3. ${CYAN}./setup.sh --status${NC} - Check system status"
+    echo -e "  4. ${CYAN}./developer/customize.sh${NC} - Add your personal repository paths"
+    echo -e "  5. ${CYAN}Ask me: \"What dbt models need optimization?\"${NC}\n"
     
     echo -e "${BOLD}Available Slash Commands:${NC}"
     echo -e "  ${CYAN}/setup${NC} - Run this interactive setup again"
