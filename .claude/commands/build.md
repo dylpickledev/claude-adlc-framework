@@ -1,144 +1,162 @@
 # /build Command Protocol
 
 ## Purpose
-Execute highest priority ideas as complete projects. Implements ADLC Develop + Test + Deploy phases with specialist agent coordination and full project management integration.
+Execute highest priority ideas from GitHub Issues as complete projects. Implements ADLC Develop + Test + Deploy phases with specialist agent coordination and full project management integration.
 
 ## Usage
 ```bash
-claude /build [idea-name]
+claude /build <issue-number>
 ```
 
 ## Protocol
 
 ### 1. Execute build.sh Script
 ```bash
-./scripts/build.sh [idea-name]
+./scripts/build.sh <issue-number>
 ```
 
 ### 2. Complete Project Creation Workflow
-- **Option A - From existing idea**: Searches `ideas/organized/` and `ideas/pipeline/`, promotes and archives idea
-- **Option B - Ad-hoc creation**: If no matching idea found, creates project directly from provided description
+- **Fetches GitHub issue**: Retrieves idea details from issue number
 - **Creates project structure**: Integrates with `work-init.sh` for full project setup
-- **Idea management**: Archives source idea if found, or creates retrospective idea record if needed
+- **Links issue to project**: Adds comment to issue with project location
+- **Updates issue labels**: Adds 'in-progress' label to track status
 - **Provides development guidance**: Next steps for implementation
 
 ## Claude Instructions
 
-When user runs `/build [idea-name-or-description]`:
+When user runs `/build <issue-number>`:
 
-1. **Search for existing idea**: Look in `ideas/organized/` and `ideas/pipeline/` for matching idea
-2. **Handle creation path**:
-   - **If idea found**: Execute `./scripts/build.sh [idea-name]` (formal process)
-   - **If no idea found**: Use `./scripts/work-init.sh` directly with description as project name
-3. **Manage idea lifecycle**:
-   - **Existing idea**: Archive source idea with project reference
-   - **Ad-hoc creation**: Optionally create retrospective idea record in archive
-4. **Validate structure**: Confirm project directory and files created properly
-5. **Guide development**: Explain specialist agent coordination and next steps
+1. **Validate issue exists**: Check that issue number is valid and preferably has 'idea' label
+2. **Execute the script**: Run `./scripts/build.sh <issue-number>`
+3. **Validate structure**: Confirm project directory and files created properly
+4. **Guide development**: Explain specialist agent coordination and next steps
 
 ### Response Format
-
-#### Option A: From Existing Idea
 ```
-🔧 Building project for idea: [idea-name]
-📋 Found idea in organized: [path]
-📦 Promoting idea to pipeline...
-🏗️ Creating project structure...
+🔧 Building project from GitHub issue #[number]
+📋 Issue: [title]
+🏗️  Creating project structure: [project-name]
 ✅ Project structure created
-📚 Properly archiving source idea...
-   ✅ Moved: ideas/[location]/[idea-file] → ideas/archive/
-   ✅ Updated with project reference and implementation status
+🔗 Linking project to GitHub issue...
 
-✅ Idea successfully built into project!
+✅ Project successfully created from issue #[number]!
 📁 Project location: projects/active/[project-name]/
-```
-
-#### Option B: Ad-hoc Creation
-```
-🔧 Building project: [description]
-🔍 No existing idea found - creating project directly
-🏗️ Creating project structure via work-init.sh...
-✅ Project structure created
-📝 Creating retrospective idea record (optional)...
-
-✅ Project created successfully!
-📁 Project location: projects/active/[project-name]/
-💡 Note: No source idea - ad-hoc creation
-```
+🔗 Linked to: https://github.com/[org]/[repo]/issues/[number]
 
 🎯 Next steps:
    1. Review project spec: projects/active/[project-name]/spec.md
    2. Begin development work
-   3. When complete: ./scripts/finish.sh [project-name]
+   3. Update issue #[number] with progress comments
+   4. When complete: ./scripts/finish.sh [project-name]
 ```
 
 ## Integration with ADLC
 - **ADLC Develop Phase**: Human-readable code with specialist agent guidance
 - **ADLC Test Phase**: Quality assurance through agent coordination
 - **ADLC Deploy Phase**: Integration with existing CI/CD workflows
-- **Cross-layer context**: Maintains links from planning through operations
+- **Cross-layer context**: Maintains links from GitHub issue through operations
+- **Team visibility**: All team members can track progress via GitHub issue
 
 ## Project Structure Created
 ```
-projects/active/feature-[idea-name]/
+projects/active/feature-[project-name]/
 ├── README.md           # Navigation hub with progress tracking
-├── spec.md            # Project specification from enhanced idea
+├── spec.md            # Project specification from GitHub issue
 ├── context.md         # Dynamic state tracking
 └── tasks/             # Agent coordination directory
     ├── current-task.md     # Current agent assignments
     └── [tool]-findings.md  # Detailed agent findings
 ```
 
+## GitHub Integration Features
+
+### Automatic Issue Linking
+- **Comment added to issue**: Links project location and structure
+- **Label management**: Adds 'in-progress' label automatically
+- **Bidirectional tracking**: Project spec links back to source issue
+- **Progress updates**: Team can comment on issue throughout development
+
+### Issue-to-Project Lifecycle
+```
+GitHub Issue (#[number])
+    ↓ /build <issue-number>
+Project Created (projects/active/feature-[name]/)
+    ↓ Development work
+Progress Comments on Issue
+    ↓ /finish [project-name]
+Issue Closed & Project Archived
+```
+
 ## Specialist Agent Coordination
 The build process enables access to:
-- **dbt-expert**: SQL transformations, model optimization, test development
-- **snowflake-expert**: Query performance, cost analysis, warehouse optimization
-- **tableau-expert**: Dashboard development, report model analysis
-- **business-context**: Requirements gathering, stakeholder alignment
-- **da-architect**: System design, data flow analysis, strategic decisions
-- **orchestra-expert**: Workflow orchestration leadership
-- **documentation-expert**: Consistent standards across all outputs
+- **analytics-engineer-role**: SQL transformations, model optimization, test development
+- **data-engineer-role**: Pipeline setup, orchestration, source integration
+- **bi-developer-role**: Dashboard development, report model analysis
+- **ui-ux-developer-role**: Streamlit/React applications, user experience
+- **business-analyst-role**: Requirements gathering, stakeholder alignment
+- **data-architect-role**: System design, data flow analysis, strategic decisions
+- **qa-engineer-role**: Testing strategies, data quality validation
+- **project-manager-role**: Delivery coordination, UAT frameworks
 
 ## Examples
 
-### Example 1: Analytics Model
+### Example 1: BI Dashboard from Issue
 ```bash
-claude /build customer-churn-prediction
-# → Creates: projects/active/feature-customer-churn-prediction/
+claude /build 85
+# Issue #85: "Create executive KPI dashboard with real-time metrics"
+# → Creates: projects/active/feature-create-executive-kpi-dashboard-w/
 ```
 
-### Example 2: Dashboard Project
+### Example 2: Data Pipeline from Issue
 ```bash
-claude /build executive-kpi-dashboard
-# → Creates: projects/active/feature-executive-kpi-dashboard/
+claude /build 86
+# Issue #86: "Implement real-time customer data pipeline"
+# → Creates: projects/active/feature-implement-real-time-customer-da/
 ```
 
-### Example 3: Infrastructure Optimization
+### Example 3: Architecture from Issue
 ```bash
-claude /build snowflake-cost-optimization
-# → Creates: projects/active/feature-snowflake-cost-optimization/
+claude /build 87
+# Issue #87: "Evaluate Snowflake cost optimization strategies"
+# → Creates: projects/active/feature-evaluate-snowflake-cost-optimi/
 ```
 
 ## Success Criteria
-- [ ] Idea found and promoted to pipeline successfully
+- [ ] GitHub issue fetched successfully
 - [ ] Complete project structure created with all required files
-- [ ] Idea archived with proper project references and traceability
+- [ ] Issue linked to project with comment and labels
 - [ ] Development guidance provided for next steps
 - [ ] Specialist agent coordination enabled
 
 ## Development Workflow
 After project creation:
-1. **Review spec.md**: Understand enhanced requirements and implementation plan
+1. **Review spec.md**: Understand requirements from GitHub issue
 2. **Coordinate with agents**: Use specialist agents for domain expertise
 3. **Implement iteratively**: Follow ADLC Develop/Test cycles
-4. **Deploy with quality**: Ensure testing and review before deployment
-5. **Complete project**: Use `/finish [project-name]` when done
+4. **Update GitHub issue**: Post progress comments and blockers
+5. **Deploy with quality**: Ensure testing and review before deployment
+6. **Complete project**: Use `/finish [project-name]` when done (closes issue)
+
+## Viewing Available Ideas
+
+### List All Ideas
+```bash
+gh issue list --label idea --state open
+```
+
+### Filter by Category
+```bash
+gh issue list --label idea --label bi-analytics
+gh issue list --label idea --label data-engineering
+gh issue list --label idea --label architecture
+```
 
 ## Error Handling
-- **Idea not found**: Lists available ideas with clear naming guidance
+- **Issue not found**: Clear error message with instructions to check issue number
+- **Missing 'idea' label**: Warning but proceeds anyway (any issue can become a project)
 - **Project creation fails**: Falls back to basic structure if `work-init.sh` unavailable
 - **Missing dependencies**: Provides clear error messages and resolution steps
 
 ---
 
-*Complete ADLC Develop + Test + Deploy implementation - from organized idea to production-ready project.*
+*Complete ADLC Develop + Test + Deploy implementation - from GitHub issue to production-ready project.*

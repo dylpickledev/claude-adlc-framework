@@ -127,8 +127,41 @@ else
     echo "   ℹ️  No task findings directory found"
 fi
 
-# Update any related archived ideas
-echo "🔗 Updating related archived ideas..."
+# Close related GitHub issue if it exists
+echo "🔗 Checking for linked GitHub issue..."
+SPEC_FILE="projects/completed/$PROJECT_NAME/spec.md"
+if [ -f "$SPEC_FILE" ]; then
+    # Extract issue number from spec file (looks for #[number] pattern)
+    ISSUE_NUMBER=$(grep -oE "#[0-9]+" "$SPEC_FILE" | head -1 | tr -d '#')
+
+    if [ -n "$ISSUE_NUMBER" ]; then
+        echo "   Found linked issue #$ISSUE_NUMBER"
+
+        # Close the issue with a completion comment
+        gh issue close "$ISSUE_NUMBER" --comment "✅ **Project Completed**
+
+This idea has been successfully implemented and the project is now complete.
+
+**Project**: \`$PROJECT_NAME\`
+**Completion Date**: $(date)
+**Status**: ✅ Finished
+
+The project has been moved to \`projects/completed/$PROJECT_NAME/\` and all implementation work is complete." 2>/dev/null
+
+        if [ $? -eq 0 ]; then
+            echo "   ✅ Closed GitHub issue #$ISSUE_NUMBER"
+        else
+            echo "   ⚠️  Could not close issue #$ISSUE_NUMBER (may already be closed)"
+        fi
+    else
+        echo "   ℹ️  No linked GitHub issue found"
+    fi
+else
+    echo "   ℹ️  No spec file found"
+fi
+
+# Update any related archived ideas (legacy support)
+echo "🔗 Updating related archived ideas (if any)..."
 if [ -d "ideas/archive" ]; then
     for archived_idea in ideas/archive/*.md; do
         if [ -f "$archived_idea" ] && grep -q "$PROJECT_NAME" "$archived_idea"; then

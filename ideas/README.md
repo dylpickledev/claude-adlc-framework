@@ -1,122 +1,93 @@
-# D&A Idea Management System
+# Ideas Management - Migrated to GitHub Issues
 
-## Overview
-The D&A Idea Management System is a "spaghetti organizer" that helps the team capture raw brainstorming ideas and transform them into structured, actionable projects using AI-powered organization.
+## Migration Notice
 
-## Directory Structure
+**As of October 2025**, the DA Agent Hub idea management system has migrated from file-based storage to **GitHub Issues** for improved team collaboration and tracking.
 
-```
-ideas/
-├── inbox/           # Raw idea capture (unsorted)
-├── organized/       # AI-clustered and structured ideas
-├── quarterly/       # Quarterly planning sessions
-├── pipeline/        # Ideas ready for project conversion
-├── archive/         # Completed or rejected ideas
-└── templates/       # Idea templates and formats
-```
+## New Workflow
 
-## Workflow
-
-### 1. **Rapid Idea Capture**
+### Capture Ideas
 ```bash
-claude /ideate "Implement real-time data quality monitoring dashboard"
+./scripts/capture.sh "Your idea description"
 ```
-- Brain-dump concepts in under 30 seconds
-- No structure required, just capture the core idea
-- Ideas stored in `ideas/inbox/` with timestamps
+Creates a GitHub issue with appropriate labels automatically.
 
-### 2. **AI Organization**
+### View All Ideas
 ```bash
-claude /organize
+gh issue list --label idea --state open
 ```
-- Claude analyzes all inbox ideas
-- Clusters related concepts into themes
-- Structures ideas with context and potential impact
-- Results stored in `ideas/organized/`
 
-### 3. **Quarterly Planning**
+### Filter by Category
 ```bash
-claude /quarterly Q2-2025
+gh issue list --label idea --label bi-analytics
+gh issue list --label idea --label data-engineering
+gh issue list --label idea --label architecture
 ```
-- Facilitate strategic planning sessions
-- Create roadmaps with priorities and dependencies
-- Generate quarterly goals and milestones
-- Output stored in `ideas/quarterly/`
 
-### 4. **Project Promotion**
+### Plan Roadmap
 ```bash
-claude /promote data-quality-monitoring
+./scripts/roadmap.sh quarterly
 ```
-- Transition organized ideas to active projects
-- Creates project spec in `projects/active/`
-- Links back to original idea for context
-- Moves idea to `ideas/pipeline/`
+Analyzes all GitHub issues with 'idea' label and creates prioritization framework.
 
-### 5. **ClickUp Export**
+### Build Project from Idea
 ```bash
-claude /export-clickup quarterly Q2-2025
+./scripts/build.sh <issue-number>
 ```
-- Export strategic roadmaps for stakeholder sharing
-- Generate ClickUp-ready summaries
-- Maintain links between systems
+Creates full project structure from GitHub issue, links issue to project, and adds 'in-progress' label.
 
-## Granularity Rules
+### Complete Project
+```bash
+./scripts/finish.sh <project-name>
+```
+Archives project and automatically closes linked GitHub issue.
 
-### Keep Local (da-agent-hub)
-- **Technical spikes** and proof-of-concepts
-- **Detailed project execution** (models, code, testing)
-- **Agent coordination** and technical findings
-- **Knowledge preservation** and learning documentation
+## Benefits of GitHub Issues
 
-### Export to ClickUp
-- **Strategic initiatives** requiring executive visibility
-- **Cross-departmental projects** involving other teams
-- **Budget requests** and resource allocation decisions
-- **Stakeholder communication** and milestone tracking
+- **Team Visibility**: All team members can see and comment on ideas
+- **Better Tracking**: Labels, milestones, and assignees for organization
+- **Integration**: Links directly between issues and projects
+- **Search**: Full-text search across all ideas
+- **History**: Complete audit trail of idea evolution
+- **Notifications**: Team members get notified of updates
 
-## Best Practices
+## Labels
 
-### Idea Capture
-- **Be specific but brief**: "ML-powered customer churn prediction" vs "do ML stuff"
-- **Include context**: What problem does this solve?
-- **Don't self-censor**: Capture everything, let AI organize later
-- **Use consistent timing**: Capture ideas right after meetings/brainstorms
+### Core Label
+- **idea**: All captured ideas (required for ADLC workflow)
 
-### Organization Sessions
-- **Run weekly**: Keep inbox from getting overwhelming
-- **Review themes**: Look for patterns across ideas
-- **Validate with team**: AI suggestions should make sense to humans
-- **Document decisions**: Why certain ideas were prioritized or rejected
+### Category Labels
+- **bi-analytics**: Dashboard, visualization, Tableau, Power BI projects
+- **data-engineering**: Pipeline, ETL, ingestion, orchestration work
+- **analytics-engineering**: dbt models, transformations, SQL work
+- **architecture**: Platform, infrastructure, AWS, Snowflake architecture
+- **ui-development**: Streamlit, React, frontend applications
+- **general**: Ideas not matching specific categories
 
-### Project Promotion
-- **Ensure readiness**: Idea should be well-defined before promotion
-- **Check resources**: Do we have capacity for this project?
-- **Link dependencies**: How does this relate to other work?
-- **Set success criteria**: What does "done" look like?
+### Status Label
+- **in-progress**: Ideas currently being built as projects
 
-## Templates Available
+## Legacy File Structure
 
-- `templates/idea-template.md` - Standard idea capture format
-- `templates/quarterly-planning.md` - Planning session structure
-- `templates/clickup-export.md` - Export format for stakeholders
-- `templates/project-promotion.md` - Transition checklist
+This directory structure is maintained for reference only:
 
-## Integration Points
+- **inbox/**: Historical ideas (migrated to issues)
+- **organized/**: Historical categorized ideas (migrated to issues)
+- **pipeline/**: Historical ready-to-build ideas (migrated to issues)
+- **archive/**: Completed projects (will remain for historical reference)
+- **templates/**: Documentation templates (still in use)
 
-- **Existing Projects**: Seamless transition via `/start_project`
-- **Specialist Agents**: Technical analysis from dbt-expert, snowflake-expert, etc.
-- **Git Workflow**: Full version control for idea evolution
-- **ClickUp Sync**: Strategic roadmap sharing without workflow disruption
+## Migration Strategy
 
-## Success Metrics
+Existing file-based ideas have been converted to GitHub issues with appropriate labels. The file-based system is deprecated and no new ideas should be added to the file structure.
 
-- [ ] Ideas captured in under 30 seconds
-- [ ] AI organizes 10+ raw ideas into 2-3 coherent themes
-- [ ] Smooth workflow from idea → structured concept → project spec
-- [ ] Clear decision framework for local vs. ClickUp placement
-- [ ] Quarterly planning sessions conducted entirely within system
-- [ ] Export functionality produces ClickUp-ready strategic summaries
+## Questions?
+
+See the complete ADLC workflow documentation in `CLAUDE.md` or run:
+```bash
+claude /help
+```
 
 ---
 
-*This system grows with your team - start simple with inbox capture, then add complexity as your ideation process matures.*
+*Part of the Analytics Development Lifecycle (ADLC) - Plan Phase Enhancement*

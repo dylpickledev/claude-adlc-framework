@@ -19,13 +19,20 @@ don't look at the full .env file. Only search for the var names up to the equals
 ## Simplified 4-Command Workflow
 
 ### Essential Commands
-1. **`./scripts/capture.sh "[idea]"`** → Brainstorm and collect ideas (auto-organizes at 3+ ideas)
-2. **`./scripts/roadmap.sh [timeframe]`** → Strategic planning and prioritization
-3. **`./scripts/build.sh [idea-name]`** → Execute highest priority ideas (creates full project setup)
-4. **`./scripts/finish.sh [project-name]`** → Complete and archive projects
+1. **`./scripts/capture.sh "[idea]"`** → Brainstorm and collect ideas (creates GitHub issues with auto-labeling)
+2. **`./scripts/roadmap.sh [timeframe]`** → Strategic planning and prioritization (analyzes GitHub issues)
+3. **`./scripts/build.sh <issue-number>`** → Execute highest priority ideas (creates full project from issue)
+4. **`./scripts/finish.sh [project-name]`** → Complete and archive projects (closes linked GitHub issue)
 
 ### Support Command
 5. **`./scripts/switch.sh [optional-branch]`** → Zero-loss context switching with automated backup
+
+### GitHub Issues Integration
+All ideas are managed as GitHub issues with 'idea' label:
+- **View all ideas**: `gh issue list --label idea --state open`
+- **Filter by category**: `gh issue list --label idea --label bi-analytics`
+- **Search ideas**: `gh issue list --label idea --search "dashboard"`
+- **Track progress**: Issues automatically labeled 'in-progress' when built
 
 ## Project File Structure
 
