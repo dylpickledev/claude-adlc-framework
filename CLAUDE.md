@@ -72,12 +72,6 @@ projects/active/<project-name>/
 - Architecture patterns, technology selection, cross-system integration
 - Platform roadmap, governance, standards
 
-**Cloud Manager** (`cloud-manager-role`) - Owns cloud infrastructure (AWS + Azure)
-- Cloud resource provisioning, scaling, and cost optimization
-- Security configuration, IAM, networking, compliance
-- Direct AWS MCP access (aws-api, aws-docs, aws-knowledge), consults aws-expert for edge cases
-- Handles 80% of cloud infrastructure independently
-
 **Business Analyst** (`business-analyst-role`) - Requirements and stakeholder alignment
 - Business logic validation, metric definitions
 - Stakeholder communication, project scoping
@@ -91,15 +85,36 @@ projects/active/<project-name>/
 - Cross-functional coordination, risk management
 
 ### Tool Specialists (Consultation Layer - Use When Needed)
-Available for complex edge cases requiring deep tool expertise:
-- `dbt-expert`, `snowflake-expert`, `tableau-expert`
-- `dlthub-expert`, `orchestra-expert`, `prefect-expert`
-- `streamlit-expert`, `react-expert`, `ui-ux-expert`
-- `aws-expert`, `azure-expert` (cloud infrastructure specialists)
-- `documentation-expert`, `github-sleuth-expert`
+Role agents delegate to specialists who combine deep domain expertise with MCP tool access for informed, validated recommendations.
 
-**When to use specialists**: Role agents consult them for 20% of complex scenarios requiring deep tool knowledge
-**Note**: cloud-manager-role uses AWS MCP tools directly (aws-api, aws-docs, aws-knowledge) for 80% of AWS work, consults aws-expert for advanced patterns (SageMaker, EKS, Step Functions, multi-account)
+**Cloud & Infrastructure**:
+- `aws-expert`: THE specialist for AWS infrastructure (uses aws-api, aws-docs, aws-knowledge MCP)
+- `azure-expert`: Azure infrastructure specialist (future - uses azure-mcp when available)
+
+**Data Platform**:
+- `dbt-expert`: SQL transformations, dbt patterns (uses dbt-mcp, snowflake-mcp, git-mcp)
+- `snowflake-expert`: Warehouse optimization, cost analysis (uses snowflake-mcp, dbt-mcp)
+- `orchestra-expert`: Workflow orchestration (uses orchestra-mcp custom, prefect-mcp, airbyte-mcp)
+- `prefect-expert`: Python workflows (uses prefect-mcp custom, orchestra-mcp)
+- `dlthub-expert`: Data ingestion (uses airbyte-mcp, snowflake-mcp, orchestra-mcp)
+
+**BI & Visualization**:
+- `tableau-expert`: BI optimization (uses tableau-mcp, snowflake-mcp, dbt-mcp)
+
+**Development**:
+- `react-expert`: React patterns (uses github-mcp, git-mcp)
+- `streamlit-expert`: Streamlit apps (uses github-mcp, filesystem-mcp)
+- `ui-ux-expert`: UX design (uses notion-mcp, filesystem-mcp)
+
+**Cross-Functional**:
+- `documentation-expert`: Standards and docs (uses confluence-mcp, github-mcp, dbt-mcp)
+- `github-sleuth-expert`: Repository analysis (uses github-mcp, git-mcp, filesystem-mcp)
+- `business-context`: Requirements (uses atlassian-mcp, slack-mcp, dbt-mcp)
+- `qa-coordinator`: Quality assurance (uses dbt-mcp, snowflake-mcp, github-mcp)
+
+**Pattern**: Role agents delegate when confidence <0.60 OR domain expertise needed
+**Specialists**: Use MCP tools + expertise to provide validated, correct recommendations
+**Correctness > Speed**: 15x token cost justified by significantly better outcomes (per Anthropic research)
 
 *See `.claude/memory/patterns/cross-system-analysis-patterns.md` for detailed agent coordination*
 
