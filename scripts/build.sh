@@ -123,6 +123,71 @@ fi
 
 echo "✅ Project structure created"
 
+# Worktree Integration (if configured)
+USING_WORKTREE=false
+WORKTREE_DIR=""
+
+if [ -f ".claude/config/worktree.conf" ]; then
+    source ".claude/config/worktree.conf"
+    if [ "$WORKTREE_ENABLED" = "true" ] && [ -n "$WORKTREE_BASE_PATH" ]; then
+        echo ""
+        echo "🌿 Worktree integration enabled"
+
+        # Create worktree for this project
+        WORKTREE_DIR="$WORKTREE_BASE_PATH/$PROJECT_NAME"
+
+        if [ -d "$WORKTREE_DIR" ]; then
+            echo "⚠️  Worktree already exists: $WORKTREE_DIR"
+            echo "Using existing worktree..."
+            USING_WORKTREE=true
+        else
+            echo "Creating worktree: $WORKTREE_DIR"
+            git worktree add "$WORKTREE_DIR" "$PROJECT_NAME" 2>&1
+
+            if [ $? -eq 0 ]; then
+                USING_WORKTREE=true
+                echo "✅ Worktree created successfully"
+
+                # Create VS Code workspace file
+                cat > "$WORKTREE_DIR/$PROJECT_NAME.code-workspace" << WORKSPACE_EOF
+{
+  "folders": [
+    {
+      "name": "🔧 $PROJECT_NAME",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "git.detectWorktrees": true,
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 1000,
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/.git/worktrees/**": false,
+      "**/node_modules/**": true,
+      "**/.venv/**": true
+    },
+    "terminal.integrated.cwd": "\${workspaceFolder}"
+  },
+  "extensions": {
+    "recommendations": [
+      "GitWorktrees.git-worktrees",
+      "eamodio.gitlens",
+      "mhutchie.git-graph"
+    ]
+  }
+}
+WORKSPACE_EOF
+                echo "✅ VS Code workspace file created"
+            else
+                echo "⚠️  Failed to create worktree, continuing with standard workflow"
+                USING_WORKTREE=false
+            fi
+        fi
+    fi
+fi
+
 # Add comment to GitHub issue linking to project
 echo "🔗 Linking project to GitHub issue..."
 gh issue comment "$ISSUE_NUMBER" --body "🏗️ **Project Created**
@@ -137,13 +202,47 @@ The project will remain linked to this issue. This issue will be closed when the
 # Add 'in-progress' label to issue
 gh issue edit "$ISSUE_NUMBER" --add-label "in-progress"
 
+# Optional VS Code launch for worktree
+if [ "$USING_WORKTREE" = true ]; then
+    if command -v code &> /dev/null; then
+        echo ""
+        echo "🚀 VS Code Integration:"
+        echo "   📁 Workspace: $WORKTREE_DIR/$PROJECT_NAME.code-workspace"
+        echo ""
+        read -p "Launch VS Code for this project? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            code "$WORKTREE_DIR/$PROJECT_NAME.code-workspace"
+            echo "✅ VS Code launched!"
+        fi
+    fi
+fi
+
 echo ""
 echo "✅ Project successfully created from issue #$ISSUE_NUMBER!"
-echo "📁 Project location: $PROJECT_DIR/"
+
+if [ "$USING_WORKTREE" = true ]; then
+    echo "📁 Project location (worktree): $WORKTREE_DIR/projects/active/$PROJECT_NAME/"
+    echo "🌿 Worktree: $WORKTREE_DIR"
+    echo "🎯 Branch: $PROJECT_NAME (isolated in worktree)"
+else
+    echo "📁 Project location: $PROJECT_DIR/"
+    echo "🎯 Branch: $PROJECT_NAME (standard workflow)"
+fi
+
 echo "🔗 Linked to: https://github.com/graniterock/da-agent-hub/issues/$ISSUE_NUMBER"
 echo ""
 echo "🎯 Next steps:"
-echo "   1. Review project spec: $PROJECT_DIR/spec.md"
-echo "   2. Begin development work"
-echo "   3. Update issue #$ISSUE_NUMBER with progress comments"
-echo "   4. When complete: ./scripts/finish.sh $PROJECT_NAME"
+
+if [ "$USING_WORKTREE" = true ]; then
+    echo "   1. Open VS Code workspace: $WORKTREE_DIR/$PROJECT_NAME.code-workspace"
+    echo "   2. Review project spec: projects/active/$PROJECT_NAME/spec.md"
+    echo "   3. Begin development work in isolated environment"
+    echo "   4. Update issue #$ISSUE_NUMBER with progress comments"
+    echo "   5. When complete: ./scripts/finish.sh $PROJECT_NAME"
+else
+    echo "   1. Review project spec: $PROJECT_DIR/spec.md"
+    echo "   2. Begin development work"
+    echo "   3. Update issue #$ISSUE_NUMBER with progress comments"
+    echo "   4. When complete: ./scripts/finish.sh $PROJECT_NAME"
+fi

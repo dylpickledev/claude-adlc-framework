@@ -41,6 +41,49 @@ DA Agent Hub provides:
 
 ---
 
+## 🚀 Quick Start: 4 Simple Commands
+
+**Never used this before? Here's how to go from idea to production:**
+
+### 1️⃣ **Capture Ideas** → `/capture "your idea"`
+Brainstorming with your team? Just throw ideas at Claude and they get saved automatically:
+```bash
+claude /capture "We need a real-time sales dashboard"
+```
+*That's it. No forms, no tickets. When you've captured 3+ ideas, Claude auto-organizes them into themes.*
+
+### 2️⃣ **Plan Your Quarter** → `/roadmap quarterly`
+Need to prioritize? Get an impact vs. effort analysis:
+```bash
+claude /roadmap quarterly
+```
+*Claude creates a strategic plan showing which ideas give you the biggest bang for your buck.*
+
+### 3️⃣ **Build Something** → `/build "idea-name"`
+Ready to execute? Turn your idea into a full project structure:
+```bash
+claude /build "real-time-sales-dashboard"
+```
+*Creates a complete project folder with AI agents ready to help build it. Sets up git branches, coordinates specialists, the whole nine yards.*
+
+### 4️⃣ **Ship It** → `/complete "project-name"`
+Done building? Archive the project and clean up:
+```bash
+claude /complete "feature-real-time-sales-dashboard"
+```
+*Handles git workflow, archives documentation, updates related ideas. Everything gets documented for the next person.*
+
+**That's the entire workflow.** Four commands that handle everything from "shower thought" to "running in production."
+
+### 💡 Optional: Better Context Switching
+Working on multiple projects? Set up isolated VS Code workspaces:
+```bash
+claude /setup-worktrees
+```
+*One-time setup. Now each `/build` creates a dedicated VS Code window with zero context contamination.*
+
+---
+
 ## 🔄 Analytics Development Lifecycle Integration
 
 The DA Agent Hub implements all eight ADLC phases through three integrated AI layers:
@@ -297,33 +340,47 @@ projects/active/feature-data-quality-monitoring/
 
 ### 💡 **Simplified: Ideation to Production Workflow**
 ```bash
+# 0. One-time setup: VS Code worktree integration (optional but recommended)
+claude /setup-worktrees
+# → Configures VS Code for dedicated project instances
+
 # 1. Team brainstorming session (< 30 seconds each)
-./scripts/capture.sh "Create real-time customer behavior analytics dashboard"
-./scripts/capture.sh "Implement automated data freshness alerts"
-./scripts/capture.sh "Build customer segment prediction model"
+claude /capture "Create real-time customer behavior analytics dashboard"
+claude /capture "Implement automated data freshness alerts"
+claude /capture "Build customer segment prediction model"
 # → Auto-organizes into themes when 3+ ideas captured
 
 # 2. Strategic planning and prioritization
-./scripts/roadmap.sh quarterly
+claude /roadmap quarterly
 # → Creates impact vs effort analysis and execution plan
 
 # 3. Execute highest priority idea
-./scripts/build.sh "customer-behavior-analytics"
+claude /build "customer-behavior-analytics"
 # → Creates: projects/active/feature-customer-behavior-analytics/
+# → Creates worktree with dedicated VS Code workspace (if setup complete)
+# → Prompts to launch isolated VS Code instance
 
 # 4. Complete project
-./scripts/finish.sh "feature-customer-behavior-analytics"
+claude /complete "feature-customer-behavior-analytics"
 # → Archives, handles git workflow, updates related ideas
+# → Cleans up worktree and VS Code workspace
 
-# 4. Role-based agent coordination
+# 5. Role-based agent coordination
 claude "use analytics-engineer-role and bi-developer-role for customer dashboard implementation"
 
-# 5. Agent training and continuous improvement
+# 6. Agent training and continuous improvement
 ./scripts/analyze-claude-chats.sh
 # → Analyzes conversation patterns → Generates improvement recommendations → Enhanced agents
 
-# 6. Automated monitoring catches issues
+# 7. Automated monitoring catches issues
 # GitHub Actions detect errors → Claude investigates → Cross-repo PRs created
+
+# Note: All slash commands use underlying .sh scripts:
+# /capture → ./scripts/capture.sh
+# /roadmap → ./scripts/roadmap.sh
+# /build → ./scripts/build.sh
+# /complete → ./scripts/finish.sh
+# /setup-worktrees → ./scripts/setup-worktrees.sh
 ```
 
 ### 🔧 **Development Workflows**
