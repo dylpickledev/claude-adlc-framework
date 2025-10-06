@@ -316,4 +316,3 @@ Create separate improvement PRs for:
 **VS Code Worktrees**: `knowledge/da-agent-hub/development/vscode-worktree-integration.md`
 **Agent Definitions**: `.claude/agents/`
 **Platform Documentation**: `knowledge/da-agent-hub/README.md`
-**Personal Settings**: `knowledge/da_obsidian/Cody/Claude-Personal-Settings.md` (if available)
