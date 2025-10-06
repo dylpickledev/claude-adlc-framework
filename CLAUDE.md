@@ -47,6 +47,17 @@ projects/active/<project-name>/
 
 ## Role-Based Agent System
 
+### Agent Creation Guidelines
+
+**ALWAYS use templates when creating new agents**:
+- **New role agent**: Copy `.claude/agents/roles/role-template.md`
+- **New specialist agent**: Copy `.claude/agents/specialists/specialist-template.md`
+
+Templates encode correct architecture patterns:
+- Roles delegate to specialists (80% independent, 20% consultation)
+- Specialists use MCP tools + expertise (correctness-first)
+- Both include quality standards, validation protocols, /complete integration
+
 ### Primary Agents (Use These First)
 **Analytics Engineer** (`analytics-engineer-role`) - Owns transformation layer (dbt + Snowflake + BI data)
 - SQL transformations, data modeling, performance optimization
