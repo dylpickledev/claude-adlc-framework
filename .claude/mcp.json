@@ -59,12 +59,12 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-slack"],
       "env": {
-        "SLACK_BOT_TOKEN": "",
-        "SLACK_TEAM_ID": ""
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
       },
-      "disabled": true,
+      "disabled": false,
       "autoApprove": [],
-      "_comment": "Week 1 Day 4 - Enable after setting SLACK_BOT_TOKEN and SLACK_TEAM_ID"
+      "_comment": "Week 1 Day 4 - ENABLED with Slack bot token from 1Password (scopes: channels:read, chat:write, users:read)"
     },
     "git": {
       "command": "npx",
