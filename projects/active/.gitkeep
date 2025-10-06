@@ -1,2 +1,3 @@
 # This file keeps the active/ directory in git
-# Individual project folders will be tracked via README.md only
+# Project folders are fully tracked for team collaboration and session continuity
+# All project files (README.md, spec.md, context.md, tasks/, etc.) are committed
