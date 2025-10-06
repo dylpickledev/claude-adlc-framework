@@ -18,14 +18,25 @@ don't look at the full .env file. Only search for the var names up to the equals
 
 ## Simplified 4-Command Workflow
 
-### Essential Commands
-1. **`./scripts/capture.sh "[idea]"`** → Brainstorm and collect ideas (creates GitHub issues with auto-labeling)
-2. **`./scripts/roadmap.sh [timeframe]`** → Strategic planning and prioritization (analyzes GitHub issues)
-3. **`./scripts/build.sh <issue-number>`** → Execute highest priority ideas (creates full project from issue)
-4. **`./scripts/finish.sh [project-name]`** → Complete and archive projects (closes linked GitHub issue)
+### Essential Commands (Use Slash Commands)
+1. **`/capture "[idea]"`** → Brainstorm and collect ideas (creates GitHub issues with auto-labeling)
+2. **`/roadmap [timeframe]`** → Strategic planning and prioritization (analyzes GitHub issues)
+3. **`/build <issue-number>`** → Execute highest priority ideas (creates full project from issue + worktree)
+4. **`/complete [project-name]`** → Complete and archive projects (closes GitHub issue + cleans up worktree)
 
-### Support Command
-5. **`./scripts/switch.sh [optional-branch]`** → Zero-loss context switching with automated backup
+### Support Commands
+5. **`/switch [optional-branch]`** → Zero-loss context switching with automated backup
+6. **`/setup-worktrees`** → One-time VS Code worktree integration setup
+
+### Underlying Scripts (Called by Slash Commands)
+- `/capture` → `./scripts/capture.sh`
+- `/roadmap` → `./scripts/roadmap.sh`
+- `/build` → `./scripts/build.sh`
+- `/complete` → `./scripts/finish.sh`
+- `/switch` → `./scripts/switch.sh`
+- `/setup-worktrees` → `./scripts/setup-worktrees.sh`
+
+**Note**: Prefer slash commands for better Claude integration. Scripts can be run directly if needed.
 
 ### GitHub Issues Integration
 All ideas are managed as GitHub issues with 'idea' label:
@@ -286,13 +297,13 @@ Create separate improvement PRs for:
 ## Complete Development Workflow
 
 ```
-💡 CAPTURE: ./scripts/capture.sh → auto-organize → roadmap planning
+💡 CAPTURE: /capture → GitHub issue creation → auto-labeling → roadmap planning
     ↓ Strategic prioritization
-🗺️ ROADMAP: ./scripts/roadmap.sh → impact/effort analysis → execution planning
+🗺️ ROADMAP: /roadmap → impact/effort analysis → GitHub issue analysis → execution planning
     ↓ Priority selection
-🔧 BUILD: ./scripts/build.sh → project setup → specialist agents → development
+🔧 BUILD: /build <issue#> → project setup → worktree creation → specialist agents → development
     ↓ Deploy to production
-🎯 FINISH: ./scripts/finish.sh → archive → git workflow → next iteration
+🎯 COMPLETE: /complete → archive → worktree cleanup → close GitHub issue → next iteration
     ↓ Operations monitoring
 🤖 OPERATIONS: GitHub Actions → Error detection → AI investigation → Cross-repo PRs
 ```
@@ -302,6 +313,7 @@ Create separate improvement PRs for:
 **Git Workflows**: `.claude/memory/patterns/git-workflow-patterns.md`
 **Testing Patterns**: `.claude/memory/patterns/testing-patterns.md`
 **Cross-System Analysis**: `.claude/memory/patterns/cross-system-analysis-patterns.md`
+**VS Code Worktrees**: `knowledge/da-agent-hub/development/vscode-worktree-integration.md`
 **Agent Definitions**: `.claude/agents/`
 **Platform Documentation**: `knowledge/da-agent-hub/README.md`
 **Personal Settings**: `knowledge/da_obsidian/Cody/Claude-Personal-Settings.md` (if available)
