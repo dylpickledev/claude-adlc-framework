@@ -23,18 +23,30 @@
 - ✅ github-mcp enabled (disabled: false)
 - ✅ Scopes: repo, read:org, read:project
 
-### 📍 Week 1 Day 4-5: CURRENT TASKS
-**Day 4 (1 hour)**:
-- [ ] Create Slack bot app
-- [ ] Get Slack bot token (xoxb-...)
-- [ ] Get Slack team ID (T...)
-- [ ] Enable slack-mcp in .claude/mcp.json
-- [ ] Test slack-mcp connection
+### ✅ Week 1 Day 4: Environment Setup & Slack MCP (COMPLETE)
+- ✅ Identified MCP startup timing issue (env vars not available to GUI-launched apps)
+- ✅ Implemented solution: Created `~/.zshenv` to load 1Password secrets system-wide
+- ✅ Fixed SLACK_TEAM_ID loading bug (added --reveal flag)
+- ✅ Added 24-hour caching to reduce 1Password API calls (~500ms improvement)
+- ✅ Slack bot token & team ID configured in .claude/mcp.json
+- ✅ slack-mcp enabled (disabled: false)
+- ✅ All environment variables verified (SLACK_BOT_TOKEN, SLACK_TEAM_ID, GITHUB_PAT, AWS, Snowflake, dbt)
+- ✅ Created comprehensive troubleshooting documentation
+- ✅ Committed dotfiles improvements (caching + credential management docs)
 
-**Day 5 (1.5-2 hours)**:
-- [ ] Comprehensive testing (all specialists)
-- [ ] Validate delegation patterns
-- [ ] Document Week 1 learnings
+### 📍 Week 1 Day 5: CURRENT TASKS (Pending Claude Restart)
+**Prerequisites**:
+- ⏳ **RESTART CLAUDE CODE** - Required to load new .zshenv environment
+  - Quit Claude Code completely
+  - Relaunch from Dock/Spotlight
+  - Verify MCP servers initialize with credentials
+
+**After Restart (1.5-2 hours)**:
+- [ ] Verify `claude mcp list` shows all 10 servers successfully
+- [ ] Test specialist agents (dbt-expert, snowflake-expert, aws-expert)
+- [ ] Validate delegation patterns work end-to-end
+- [ ] Document Week 1 complete learnings
+- [ ] Prepare Week 2 planning (memory-mcp + role integration)
 
 ## File Sources & Working Versions
 
