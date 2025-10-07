@@ -177,7 +177,7 @@ jobs:
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     - name: Create Cross-Repository Coordination Issue
-      if: steps.analysis.outputs.response contains 'escalation_needed' || steps.context.outputs.analysis_type == 'system_health'
+      if: contains(steps.analysis.outputs.response, 'escalation_needed') || steps.context.outputs.analysis_type == 'system_health'
       run: |
         # Create a coordination issue in da-agent-hub for cross-repository concerns
         ISSUE_TITLE="Cross-Repository Coordination: ${{ steps.context.outputs.analysis_type }} - $(date '+%Y-%m-%d')"
