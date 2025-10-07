@@ -1,0 +1,441 @@
+2025-10-03T17:30:06.111Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-10-03T17:30:06.779Z [INFO]: # Cloning repository: git@github.com:graniterock/react-sales-journal.git
+2025-10-03T17:30:08.244Z [INFO]: 
+2025-10-03T17:30:08.244Z [INFO]: Cloning into 'react-sales-journal'...
+2025-10-03T17:30:08.245Z [INFO]: # Switching to commit: 33fd3cf42b3a69968b815be3f7443b069f56fa33
+2025-10-03T17:30:08.264Z [INFO]: Note: switching to '33fd3cf42b3a69968b815be3f7443b069f56fa33'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at 33fd3cf fix: Remove relative imports from config.py to resolve circular import in Lambda
+2025-10-03T17:30:08.308Z [INFO]: Successfully cleaned up Git credentials
+2025-10-03T17:30:08.309Z [INFO]: # Checking for Git submodules at: /codebuild/output/src584703501/src/react-sales-journal/.gitmodules
+2025-10-03T17:30:08.317Z [INFO]: # Retrieving environment cache...
+2025-10-03T17:30:08.381Z [INFO]: # Retrieved environment cache
+2025-10-03T17:30:08.382Z [INFO]: ---- Setting Up SSM Secrets ----
+2025-10-03T17:30:08.382Z [INFO]: SSM params {"Path":"/amplify/dwau7b1q9q1iw/master/","WithDecryption":true}
+2025-10-03T17:30:08.445Z [INFO]: # No package override configuration found.
+2025-10-03T17:30:08.449Z [INFO]: # Retrieving cache...
+2025-10-03T17:30:22.644Z [INFO]: # Extracting cache...
+2025-10-03T17:31:09.735Z [INFO]: # Extraction completed
+2025-10-03T17:31:09.971Z [INFO]: # Retrieved cache
+2025-10-03T17:31:11.048Z [INFO]: ## Starting Backend Build
+                                 # Starting phase: build
+                                 # Executing command: npm install
+2025-10-03T17:31:15.896Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:31:58.596Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.601Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'glob@11.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'glob@11.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'glob@11.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.601Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'jackspeak@4.1.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.601Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.602Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'path-scurry@2.0.0',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.602Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'lru-cache@11.2.2',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.602Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: '@isaacs/brace-expansion@5.0.0',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.602Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: '@isaacs/balanced-match@4.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.602Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:31:58.603Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:33:29.000Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2025-10-03T17:33:31.274Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-03T17:33:31.689Z [WARNING]: npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+2025-10-03T17:33:32.039Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-03T17:33:41.964Z [WARNING]: npm warn deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+2025-10-03T17:33:49.467Z [INFO]: added 113 packages, removed 112 packages, and changed 1108 packages in 3m
+2025-10-03T17:33:49.505Z [INFO]: # Executing command: pip3 install -r api/requirements.txt -t api/ --platform manylinux2014_x86_64 --only-binary=":all:" --python-version 3.12
+2025-10-03T17:33:58.732Z [INFO]: Collecting fastapi==0.115.6 (from -r api/requirements.txt (line 1))
+2025-10-03T17:33:58.802Z [INFO]: Downloading fastapi-0.115.6-py3-none-any.whl.metadata (27 kB)
+2025-10-03T17:33:58.849Z [INFO]: Collecting uvicorn==0.32.1 (from uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:33:58.859Z [INFO]: Downloading uvicorn-0.32.1-py3-none-any.whl.metadata (6.6 kB)
+2025-10-03T17:33:58.969Z [INFO]: Collecting psycopg2-binary==2.9.10 (from -r api/requirements.txt (line 3))
+2025-10-03T17:33:59.012Z [INFO]: Downloading psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-03T17:33:59.116Z [INFO]: Collecting python-dotenv==1.0.1 (from -r api/requirements.txt (line 4))
+2025-10-03T17:33:59.126Z [INFO]: Downloading python_dotenv-1.0.1-py3-none-any.whl.metadata (23 kB)
+2025-10-03T17:33:59.285Z [INFO]: Collecting pydantic==2.10.6 (from -r api/requirements.txt (line 5))
+2025-10-03T17:33:59.295Z [INFO]: Downloading pydantic-2.10.6-py3-none-any.whl.metadata (30 kB)
+2025-10-03T17:33:59.328Z [INFO]: Collecting httpx==0.28.1 (from -r api/requirements.txt (line 6))
+2025-10-03T17:33:59.337Z [INFO]: Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2025-10-03T17:33:59.402Z [INFO]: Collecting pydantic-settings==2.7.1 (from -r api/requirements.txt (line 7))
+2025-10-03T17:33:59.413Z [INFO]: Downloading pydantic_settings-2.7.1-py3-none-any.whl.metadata (3.5 kB)
+2025-10-03T17:33:59.765Z [INFO]: Collecting boto3==1.35.94 (from -r api/requirements.txt (line 8))
+2025-10-03T17:33:59.775Z [INFO]: Downloading boto3-1.35.94-py3-none-any.whl.metadata (6.7 kB)
+2025-10-03T17:33:59.868Z [INFO]: Collecting mangum==0.19.0 (from -r api/requirements.txt (line 9))
+2025-10-03T17:33:59.919Z [INFO]: Downloading mangum-0.19.0-py3-none-any.whl.metadata (3.6 kB)
+2025-10-03T17:33:59.958Z [INFO]: Collecting starlette<0.42.0,>=0.40.0 (from fastapi==0.115.6->-r api/requirements.txt (line 1))
+2025-10-03T17:33:59.968Z [INFO]: Downloading starlette-0.41.3-py3-none-any.whl.metadata (6.0 kB)
+2025-10-03T17:34:00.017Z [INFO]: Collecting typing-extensions>=4.8.0 (from fastapi==0.115.6->-r api/requirements.txt (line 1))
+2025-10-03T17:34:00.029Z [INFO]: Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-03T17:34:00.052Z [INFO]: Collecting annotated-types>=0.6.0 (from pydantic==2.10.6->-r api/requirements.txt (line 5))
+2025-10-03T17:34:00.062Z [INFO]: Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2025-10-03T17:34:00.927Z [INFO]: Collecting pydantic-core==2.27.2 (from pydantic==2.10.6->-r api/requirements.txt (line 5))
+2025-10-03T17:34:00.937Z [INFO]: Downloading pydantic_core-2.27.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2025-10-03T17:34:00.972Z [INFO]: Collecting click>=7.0 (from uvicorn==0.32.1->uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:01.135Z [INFO]: Downloading click-8.3.0-py3-none-any.whl.metadata (2.6 kB)
+2025-10-03T17:34:01.158Z [INFO]: Collecting h11>=0.8 (from uvicorn==0.32.1->uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:01.168Z [INFO]: Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2025-10-03T17:34:01.201Z [INFO]: Collecting anyio (from httpx==0.28.1->-r api/requirements.txt (line 6))
+2025-10-03T17:34:01.211Z [INFO]: Downloading anyio-4.11.0-py3-none-any.whl.metadata (4.1 kB)
+2025-10-03T17:34:01.243Z [INFO]: Collecting certifi (from httpx==0.28.1->-r api/requirements.txt (line 6))
+2025-10-03T17:34:01.253Z [INFO]: Downloading certifi-2025.8.3-py3-none-any.whl.metadata (2.4 kB)
+2025-10-03T17:34:01.283Z [INFO]: Collecting httpcore==1.* (from httpx==0.28.1->-r api/requirements.txt (line 6))
+2025-10-03T17:34:01.293Z [INFO]: Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2025-10-03T17:34:01.319Z [INFO]: Collecting idna (from httpx==0.28.1->-r api/requirements.txt (line 6))
+2025-10-03T17:34:01.328Z [INFO]: Downloading idna-3.10-py3-none-any.whl.metadata (10 kB)
+2025-10-03T17:34:01.741Z [INFO]: Collecting botocore<1.36.0,>=1.35.94 (from boto3==1.35.94->-r api/requirements.txt (line 8))
+2025-10-03T17:34:01.751Z [INFO]: Downloading botocore-1.35.99-py3-none-any.whl.metadata (5.7 kB)
+2025-10-03T17:34:01.775Z [INFO]: Collecting jmespath<2.0.0,>=0.7.1 (from boto3==1.35.94->-r api/requirements.txt (line 8))
+2025-10-03T17:34:01.785Z [INFO]: Downloading jmespath-1.0.1-py3-none-any.whl.metadata (7.6 kB)
+2025-10-03T17:34:01.813Z [INFO]: Collecting s3transfer<0.11.0,>=0.10.0 (from boto3==1.35.94->-r api/requirements.txt (line 8))
+2025-10-03T17:34:01.824Z [INFO]: Downloading s3transfer-0.10.4-py3-none-any.whl.metadata (1.7 kB)
+2025-10-03T17:34:01.875Z [INFO]: Collecting httptools>=0.6.3 (from uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:01.885Z [INFO]: Downloading httptools-0.6.4-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.6 kB)
+2025-10-03T17:34:02.081Z [INFO]: Collecting pyyaml>=5.1 (from uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:02.091Z [INFO]: Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2025-10-03T17:34:02.142Z [INFO]: Collecting uvloop!=0.15.0,!=0.15.1,>=0.14.0 (from uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:02.152Z [INFO]: Downloading uvloop-0.21.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-03T17:34:02.248Z [INFO]: Collecting watchfiles>=0.13 (from uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:02.258Z [INFO]: Downloading watchfiles-1.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-03T17:34:02.371Z [INFO]: Collecting websockets>=10.4 (from uvicorn[standard]==0.32.1->-r api/requirements.txt (line 2))
+2025-10-03T17:34:02.381Z [INFO]: Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2025-10-03T17:34:02.407Z [INFO]: Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.36.0,>=1.35.94->boto3==1.35.94->-r api/requirements.txt (line 8))
+2025-10-03T17:34:02.417Z [INFO]: Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2025-10-03T17:34:02.454Z [INFO]: Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.36.0,>=1.35.94->boto3==1.35.94->-r api/requirements.txt (line 8))
+2025-10-03T17:34:02.465Z [INFO]: Downloading urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+2025-10-03T17:34:02.494Z [INFO]: Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.36.0,>=1.35.94->boto3==1.35.94->-r api/requirements.txt (line 8))
+2025-10-03T17:34:02.504Z [INFO]: Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2025-10-03T17:34:02.637Z [INFO]: Collecting sniffio>=1.1 (from anyio->httpx==0.28.1->-r api/requirements.txt (line 6))
+2025-10-03T17:34:02.647Z [INFO]: Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+2025-10-03T17:34:02.688Z [INFO]: Downloading fastapi-0.115.6-py3-none-any.whl (94 kB)
+2025-10-03T17:34:02.749Z [INFO]: Downloading pydantic-2.10.6-py3-none-any.whl (431 kB)
+2025-10-03T17:34:02.775Z [INFO]: Downloading uvicorn-0.32.1-py3-none-any.whl (63 kB)
+2025-10-03T17:34:02.791Z [INFO]: Downloading psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
+2025-10-03T17:34:02.822Z [INFO]: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 98.3 MB/s eta 0:00:00
+2025-10-03T17:34:02.823Z [INFO]: 
+2025-10-03T17:34:02.833Z [INFO]: Downloading python_dotenv-1.0.1-py3-none-any.whl (19 kB)
+2025-10-03T17:34:02.847Z [INFO]: Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2025-10-03T17:34:02.863Z [INFO]: Downloading pydantic_settings-2.7.1-py3-none-any.whl (29 kB)
+2025-10-03T17:34:02.879Z [INFO]: Downloading boto3-1.35.94-py3-none-any.whl (139 kB)
+2025-10-03T17:34:02.894Z [INFO]: Downloading mangum-0.19.0-py3-none-any.whl (17 kB)
+2025-10-03T17:34:02.909Z [INFO]: Downloading pydantic_core-2.27.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+2025-10-03T17:34:02.927Z [INFO]: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 115.8 MB/s eta 0:00:00
+2025-10-03T17:34:02.928Z [INFO]: 
+2025-10-03T17:34:02.937Z [INFO]: Downloading botocore-1.35.99-py3-none-any.whl (13.3 MB)
+2025-10-03T17:34:03.000Z [INFO]: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.3/13.3 MB 219.6 MB/s eta 0:00:00
+2025-10-03T17:34:03.000Z [INFO]: 
+2025-10-03T17:34:03.010Z [INFO]: Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2025-10-03T17:34:03.024Z [INFO]: Downloading jmespath-1.0.1-py3-none-any.whl (20 kB)
+2025-10-03T17:34:03.037Z [INFO]: Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2025-10-03T17:34:03.052Z [INFO]: Downloading s3transfer-0.10.4-py3-none-any.whl (83 kB)
+2025-10-03T17:34:03.065Z [INFO]: Downloading starlette-0.41.3-py3-none-any.whl (73 kB)
+2025-10-03T17:34:03.079Z [INFO]: Downloading anyio-4.11.0-py3-none-any.whl (109 kB)
+2025-10-03T17:34:03.093Z [INFO]: Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+2025-10-03T17:34:03.107Z [INFO]: Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2025-10-03T17:34:03.121Z [INFO]: Downloading click-8.3.0-py3-none-any.whl (107 kB)
+2025-10-03T17:34:03.136Z [INFO]: Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2025-10-03T17:34:03.150Z [INFO]: Downloading httptools-0.6.4-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (510 kB)
+2025-10-03T17:34:03.167Z [INFO]: Downloading idna-3.10-py3-none-any.whl (70 kB)
+2025-10-03T17:34:03.185Z [INFO]: Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+2025-10-03T17:34:03.197Z [INFO]: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 64.4 MB/s eta 0:00:00
+2025-10-03T17:34:03.197Z [INFO]: 
+2025-10-03T17:34:03.206Z [INFO]: Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2025-10-03T17:34:03.220Z [INFO]: Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+2025-10-03T17:34:03.235Z [INFO]: Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2025-10-03T17:34:03.250Z [INFO]: Downloading uvloop-0.21.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.7 MB)
+2025-10-03T17:34:03.279Z [INFO]: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 171.6 MB/s eta 0:00:00
+2025-10-03T17:34:03.279Z [INFO]: 
+2025-10-03T17:34:03.289Z [INFO]: Downloading watchfiles-1.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (452 kB)
+2025-10-03T17:34:03.307Z [INFO]: Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2025-10-03T17:34:03.323Z [INFO]: Downloading certifi-2025.8.3-py3-none-any.whl (161 kB)
+2025-10-03T17:34:04.199Z [INFO]: Installing collected packages: websockets, uvloop, urllib3, typing-extensions, sniffio, six, pyyaml, python-dotenv, psycopg2-binary, jmespath, idna, httptools, h11, click, certifi, annotated-types, uvicorn, python-dateutil, pydantic-core, mangum, httpcore, anyio, watchfiles, starlette, pydantic, httpx, botocore, s3transfer, pydantic-settings, fastapi, boto3
+2025-10-03T17:34:06.410Z [INFO]: 
+2025-10-03T17:34:06.415Z [INFO]: Successfully installed annotated-types-0.7.0 anyio-4.11.0 boto3-1.35.94 botocore-1.35.99 certifi-2025.8.3 click-8.3.0 fastapi-0.115.6 h11-0.16.0 httpcore-1.0.9 httptools-0.6.4 httpx-0.28.1 idna-3.10 jmespath-1.0.1 mangum-0.19.0 psycopg2-binary-2.9.10 pydantic-2.10.6 pydantic-core-2.27.2 pydantic-settings-2.7.1 python-dateutil-2.9.0.post0 python-dotenv-1.0.1 pyyaml-6.0.3 s3transfer-0.10.4 six-1.17.0 sniffio-1.3.1 starlette-0.41.3 typing-extensions-4.15.0 urllib3-2.5.0 uvicorn-0.32.1 uvloop-0.21.0 watchfiles-1.1.0 websockets-15.0.1
+2025-10-03T17:34:06.861Z [WARNING]: WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2025-10-03T17:34:07.284Z [WARNING]: [notice] A new release of pip is available: 25.1.1 -> 25.2
+                                    [notice] To update, run: pip install --upgrade pip
+2025-10-03T17:34:07.932Z [INFO]: # Executing command: npx cdk bootstrap aws://129515616776/us-west-2 || echo "Bootstrap failed or already complete - continuing"
+2025-10-03T17:34:08.034Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:34:11.839Z [WARNING]: npm warn exec The following package was not found and will be installed: cdk@2.1029.4
+2025-10-03T17:34:13.493Z [WARNING]: ⏳  Bootstrapping environment aws://129515616776/us-west-2...
+2025-10-03T17:34:13.686Z [WARNING]: Trusted accounts for deployment: (none)
+2025-10-03T17:34:13.686Z [WARNING]: Trusted accounts for lookup: (none)
+                                    Using default execution policy of 'arn:aws:iam::aws:policy/AdministratorAccess'. Pass '--cloudformation-execution-policies' to customize.
+2025-10-03T17:34:13.919Z [WARNING]: ✅  Environment aws://129515616776/us-west-2 bootstrapped (no changes).
+2025-10-03T17:34:13.931Z [WARNING]: NOTICES         (What's this? https://github.com/aws/aws-cdk/wiki/CLI-Notices)
+2025-10-03T17:34:13.931Z [WARNING]: 34635	Support for this Node.js version will end soon
+                                    Overview: Support for Node.js v18.20.8 ends on November 30,
+                                    2025. Please upgrade to a recent LTS version.
+                                    Affected versions: node: >=18.0.0 <20.0.0
+                                    More information at: https://github.com/aws/aws-cdk/issues/34635
+2025-10-03T17:34:13.931Z [WARNING]: If you don’t want to see a notice anymore, use "cdk acknowledge <id>". For example, "cdk acknowledge 34635".
+2025-10-03T17:34:13.963Z [INFO]: # Executing command: npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+2025-10-03T17:34:14.065Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:34:18.284Z [INFO]: 5:34:17 PM Synthesizing backend...
+2025-10-03T17:34:18.289Z [INFO]: 
+2025-10-03T17:34:19.372Z [WARNING]: Bundling asset amplify-dwau7b1q9q1iw-master-branch-dd897520e5/AmplifyBranchLinker/CustomResourceLambda/Code/Stage...
+2025-10-03T17:34:19.482Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:34:19.832Z [WARNING]: ...6a0099d02abb570bc45bfbbdf6a7a3f1dfb18e1aa27646-building/index.js  961.8kb
+                                    ⚡ Done in 82ms
+2025-10-03T17:34:20.163Z [WARNING]: WARNING: Schema is using an @auth directive with deprecated provider 'iam'. Replace 'iam' provider with 'identityPool' provider.
+2025-10-03T17:34:20.684Z [WARNING]: Bundling asset amplify-dwau7b1q9q1iw-master-branch-dd897520e5/SalesJournalApiStack/SalesJournalApiFunction/Code/Stage...
+2025-10-03T17:34:21.298Z [INFO]: 5:34:21 PM ✔ Backend synthesized in 3.45 seconds
+2025-10-03T17:34:21.299Z [INFO]: 5:34:21 PM Running type checks...
+2025-10-03T17:34:28.619Z [INFO]: 5:34:28 PM ✔ Type checks completed in 7.32 seconds
+2025-10-03T17:34:28.635Z [INFO]: 5:34:28 PM Building and publishing assets...
+2025-10-03T17:34:34.193Z [INFO]: 5:34:34 PM ✔ Built and published assets
+2025-10-03T17:34:37.106Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   0 | 5:34:34 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5 User Initiated
+2025-10-03T17:34:39.241Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   0 | 5:34:38 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | SalesJournalApiStack.NestedStack/SalesJournalApiStack.NestedStackResource (SalesJournalApiStack1BCFB681)
+2025-10-03T17:34:39.245Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   0 | 5:34:38 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+                                 amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04 |   0 | 5:34:38 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04 User Initiated
+2025-10-03T17:34:41.464Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   1 | 5:34:39 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2025-10-03T17:34:41.464Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   1 | 5:34:39 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data.NestedStack/data.NestedStackResource (data7552DF31)
+                                 amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   1 | 5:34:40 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D User Initiated
+2025-10-03T17:34:43.664Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04 |   1 | 5:34:42 PM | UPDATE_IN_PROGRESS | AWS::Lambda::Function | SalesJournalApiStack/SalesJournalApiFunction (SalesJournalApiFunctionF9161A7E)
+2025-10-03T17:34:45.910Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   1 | 5:34:45 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource (amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833)
+2025-10-03T17:34:48.201Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   2 | 5:34:45 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource (amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833)
+2025-10-03T17:34:48.205Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   2 | 5:34:46 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/Todo.NestedStack/Todo.NestedStackResource (amplifyDataTodoNestedStackTodoNestedStackResource551CEA56)
+                                 amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   3 | 5:34:47 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/Todo.NestedStack/Todo.NestedStackResource (amplifyDataTodoNestedStackTodoNestedStackResource551CEA56)
+2025-10-03T17:34:50.493Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   4 | 5:34:49 PM | UPDATE_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D
+2025-10-03T17:34:52.795Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   5 | 5:34:50 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data.NestedStack/data.NestedStackResource (data7552DF31)
+2025-10-03T17:34:52.799Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04 |   6 | 5:34:51 PM | UPDATE_COMPLETE | AWS::Lambda::Function | SalesJournalApiStack/SalesJournalApiFunction (SalesJournalApiFunctionF9161A7E)
+2025-10-03T17:34:55.057Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04 |   7 | 5:34:53 PM | UPDATE_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04
+2025-10-03T17:35:02.188Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   8 | 5:35:00 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | SalesJournalApiStack.NestedStack/SalesJournalApiStack.NestedStackResource (SalesJournalApiStack1BCFB681)
+2025-10-03T17:35:02.194Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   9 | 5:35:01 PM | UPDATE_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5
+2025-10-03T17:35:04.486Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04 |  10 | 5:35:03 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5-SalesJournalApiStack1BCFB681-AJ980Y12LN04
+2025-10-03T17:35:06.732Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   9 | 5:35:04 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/Todo.NestedStack/Todo.NestedStackResource (amplifyDataTodoNestedStackTodoNestedStackResource551CEA56)
+2025-10-03T17:35:06.736Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   8 | 5:35:05 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource (amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833)
+                                 amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D |   9 | 5:35:05 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5-data7552DF31-1U93QMIOUQL0D
+2025-10-03T17:35:15.093Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   8 | 5:35:13 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data.NestedStack/data.NestedStackResource (data7552DF31)
+2025-10-03T17:35:15.097Z [INFO]: amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   7 | 5:35:13 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | SalesJournalApiStack.NestedStack/SalesJournalApiStack.NestedStackResource (SalesJournalApiStack1BCFB681)
+                                 amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   6 | 5:35:13 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+                                 amplify-dwau7b1q9q1iw-master-branch-dd897520e5 |   7 | 5:35:13 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | amplify-dwau7b1q9q1iw-master-branch-dd897520e5
+2025-10-03T17:35:15.433Z [INFO]: 5:35:15 PM ✔ Deployment completed in 41.241 seconds
+2025-10-03T17:35:15.434Z [INFO]: 5:35:15 PM AppSync API endpoint = https://4kmsl7w2h5brbiedve7egijeom.appsync-api.us-west-2.amazonaws.com/graphql
+2025-10-03T17:35:15.718Z [INFO]: 5:35:15 PM File written: amplify_outputs.json
+2025-10-03T17:35:16.373Z [INFO]: # Completed phase: build
+                                 ## Completed Backend Build
+2025-10-03T17:35:16.376Z [INFO]: ## Starting Frontend Build
+                                 # Starting phase: preBuild
+2025-10-03T17:35:16.376Z [INFO]: # Executing command: rm -rf node_modules package-lock.json
+2025-10-03T17:35:19.544Z [INFO]: # Executing command: npm install --legacy-peer-deps --no-optional
+2025-10-03T17:35:19.652Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:35:19.652Z [WARNING]: npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+                                    npm warn config `--include=optional` to include them.
+                                    npm warn config
+                                    npm warn config       Default value does install optional deps unless otherwise omitted.
+2025-10-03T17:35:45.895Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.900Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'glob@11.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.900Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'jackspeak@4.1.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.900Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.901Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'path-scurry@2.0.0',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.902Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'lru-cache@11.2.2',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.903Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: '@isaacs/brace-expansion@5.0.0',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:35:45.904Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: '@isaacs/balanced-match@4.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:39:02.484Z [WARNING]: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-10-03T17:39:02.592Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2025-10-03T17:39:03.235Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-03T17:39:03.265Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-10-03T17:39:03.274Z [WARNING]: npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+2025-10-03T17:39:04.936Z [WARNING]: npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+2025-10-03T17:39:05.217Z [WARNING]: npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+2025-10-03T17:39:05.802Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2025-10-03T17:39:06.120Z [WARNING]: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-10-03T17:39:12.875Z [WARNING]: npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-10-03T17:39:14.476Z [WARNING]: npm warn deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+2025-10-03T17:39:19.042Z [INFO]: added 1507 packages in 4m
+2025-10-03T17:39:19.109Z [INFO]: # Executing command: npm install --legacy-peer-deps
+2025-10-03T17:39:19.216Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:39:25.612Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: '@isaacs/balanced-match@4.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:39:25.616Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: '@isaacs/brace-expansion@5.0.0',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'glob@11.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.3',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'jackspeak@4.1.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+                                    npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'minimatch@10.0.1',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:39:25.617Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'path-scurry@2.0.0',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:39:25.617Z [WARNING]: npm warn EBADENGINE Unsupported engine {
+                                    npm warn EBADENGINE   package: 'lru-cache@11.2.2',
+                                    npm warn EBADENGINE   required: { node: '20 || >=22' },
+                                    npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '11.4.2' }
+                                    npm warn EBADENGINE }
+2025-10-03T17:39:28.448Z [INFO]: added 129 packages in 9s
+2025-10-03T17:39:28.465Z [INFO]: # Completed phase: preBuild
+                                 # Starting phase: build
+                                 # Executing command: npm run build
+2025-10-03T17:39:28.569Z [WARNING]: npm warn cli npm v11.4.2 does not support Node.js v18.20.8. This version of npm supports the following node versions: `^20.17.0 || >=22.9.0`. You can find the latest version at https://nodejs.org/.
+2025-10-03T17:39:28.597Z [INFO]: > graniterock-sales-journal@1.0.0 build
+                                 > vite build
+2025-10-03T17:39:28.895Z [INFO]: vite v5.4.20 building for production...
+2025-10-03T17:39:28.957Z [INFO]: transforming...
+2025-10-03T17:39:29.196Z [WARNING]: [plugin:vite:esbuild] [plugin vite:esbuild] src/components/pages/Dashboard.tsx: Duplicate "transition" attribute in JSX element
+                                    424|            initial={{ opacity: 0, y: 20 }}
+                                    425|            animate={{ opacity: 1, y: 0 }}
+                                    426|            transition={{ delay: 0.1, duration: 0.3 }}
+                                    |            ^
+                                    427|          >
+                                    428|            {isLoading ? (
+2025-10-03T17:39:29.196Z [WARNING]: [plugin:vite:esbuild] [plugin vite:esbuild] src/components/pages/Dashboard.tsx: Duplicate "transition" attribute in JSX element
+                                    449|            initial={{ opacity: 0, y: 20 }}
+                                    450|            animate={{ opacity: 1, y: 0 }}
+                                    451|            transition={{ delay: 0.2, duration: 0.3 }}
+                                    |            ^
+                                    452|          >
+                                    453|            {isLoading ? (
+2025-10-03T17:39:29.196Z [WARNING]: [plugin:vite:esbuild] [plugin vite:esbuild] src/components/pages/Dashboard.tsx: Duplicate "transition" attribute in JSX element
+                                    474|            initial={{ opacity: 0, y: 20 }}
+                                    475|            animate={{ opacity: 1, y: 0 }}
+                                    476|            transition={{ delay: 0.3, duration: 0.3 }}
+                                    |            ^
+                                    477|          >
+                                    478|            {isLoading ? (
+2025-10-03T17:39:29.197Z [WARNING]: [plugin:vite:esbuild] [plugin vite:esbuild] src/components/pages/Dashboard.tsx: Duplicate "transition" attribute in JSX element
+                                    499|            initial={{ opacity: 0, y: 20 }}
+                                    500|            animate={{ opacity: 1, y: 0 }}
+                                    501|            transition={{ delay: 0.4, duration: 0.3 }}
+                                    |            ^
+                                    502|          >
+                                    503|            {isLoading ? (
+2025-10-03T17:39:32.259Z [INFO]: ✓ 2019 modules transformed.
+2025-10-03T17:39:32.589Z [INFO]: rendering chunks...
+2025-10-03T17:39:32.600Z [INFO]: computing gzip size...
+2025-10-03T17:39:32.616Z [INFO]: dist/index.html                  0.40 kB │ gzip:   0.28 kB
+2025-10-03T17:39:32.616Z [INFO]: dist/assets/index-BPudD2Xi.js  482.32 kB │ gzip: 141.92 kB
+                                 ✓ built in 3.69s
+2025-10-03T17:39:32.660Z [INFO]: # Completed phase: build
+                                 ## Completed Frontend Build
+2025-10-03T17:39:32.790Z [INFO]: ## Build completed successfully
+2025-10-03T17:39:32.791Z [INFO]: # Starting caching...
+2025-10-03T17:39:32.801Z [INFO]: # Creating cache artifact...
+2025-10-03T17:40:07.903Z [INFO]: # Created cache artifact
+2025-10-03T17:40:08.004Z [INFO]: # Uploading cache artifact...
+2025-10-03T17:40:20.488Z [INFO]: # Uploaded cache artifact
+2025-10-03T17:40:20.577Z [INFO]: # Caching completed
+2025-10-03T17:40:20.626Z [INFO]: # Starting build artifact upload process...
+2025-10-03T17:40:20.713Z [INFO]: # Uploading build artifact '__artifacts.zip'...
+2025-10-03T17:40:20.825Z [INFO]: # Build artifact upload completed
+2025-10-03T17:40:20.826Z [INFO]: # Starting environment caching...
+2025-10-03T17:40:20.826Z [INFO]: # Uploading environment cache artifact...
+2025-10-03T17:40:20.894Z [INFO]: # Uploaded environment cache artifact
+2025-10-03T17:40:20.894Z [INFO]: # Environment caching completed
+
