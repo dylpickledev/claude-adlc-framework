@@ -273,6 +273,49 @@ All specialist agents working with GitHub should:
 - **Development Layer** (`development/`): Local development and agent coordination
 - **Operations Layer** (`operations/`): Automated operations and cross-repo coordination
 
+### Production Applications Documentation
+`knowledge/applications/` - Comprehensive documentation for deployed applications
+
+**Three-Tier Documentation Architecture**:
+
+**Tier 1: Repository README** (Lightweight, Developer-Focused)
+- **Location**: `<repo>/README.md` (e.g., `react-sales-journal/README.md`)
+- **Purpose**: Get developers productive fast
+- **Contains**: App purpose, local dev setup, npm commands, link to knowledge base
+- **Audience**: Human developers, AI doing code-level work
+- **Size**: < 200 lines
+
+**Tier 2: Knowledge Base** (Comprehensive, Cross-System)
+- **Location**: `knowledge/applications/<app-name>/`
+- **Purpose**: Complete reference for deployment, operations, architecture
+- **Structure**:
+  - `architecture/` - System design, data flows, infrastructure
+  - `deployment/` - Deployment runbooks, Docker builds, AWS config
+  - `operations/` - Monitoring, troubleshooting, incident response
+- **Audience**: AI agents coordinating deployments/operations
+- **Size**: Unlimited - source of truth
+
+**Tier 3: Agent Pattern Index** (Pointers + Confidence)
+- **Location**: `.claude/agents/specialists/<agent>.md` (e.g., `aws-expert.md`)
+- **Purpose**: Help agents find proven patterns quickly
+- **Contains**: Pattern name, confidence score, link to Tier 2, when to use
+- **Audience**: AI agents deciding what pattern to apply
+- **Size**: Index only, not full content
+
+**Key Principles**:
+- **Single Source of Truth**: Each piece of info lives in ONE canonical location
+- **Cross-Reference, Don't Duplicate**: Use links instead of copying content
+- **Task-Aware Discovery**: Agents read what they need, when they need it
+- **Layer-Appropriate Detail**: Match detail level to audience needs
+
+**Example Flow**:
+```
+Agent Task: "Deploy Sales Journal update"
+1. Check ui-ux-developer-role.md → Known Applications → Find knowledge/applications/sales-journal/
+2. Read knowledge/applications/sales-journal/deployment/production-deploy.md → Complete runbook
+3. Delegate AWS work → aws-expert reads same knowledge base docs + applies patterns
+```
+
 ## Repository Branch Structures
 
 **dbt_cloud**: master (prod), dbt_dw (staging) - Branch from dbt_dw
@@ -290,6 +333,38 @@ Actively identify and capture:
 - **Agent File Updates**: Novel patterns for specialist agents (`.claude/agents/`)
 - **Knowledge Base Enhancement**: System architecture patterns, process improvements (`knowledge/`)
 
+### Knowledge Extraction Locations
+
+When completing projects, extract learnings to appropriate locations based on content type:
+
+**Production Application Knowledge** → `knowledge/applications/<app-name>/`
+- **When**: Deploying new apps or major app updates
+- **Structure**: Three-tier pattern (Tier 2 - comprehensive docs)
+  - `architecture/` - System design, data flows, infrastructure details
+  - `deployment/` - Complete deployment runbooks, Docker builds, AWS configuration
+  - `operations/` - Monitoring, troubleshooting guides, incident response
+- **Examples**: ALB OIDC authentication, ECS deployment patterns, multi-service Docker
+- **Updates Required**:
+  1. Create/update knowledge base docs for the application
+  2. Update agent pattern index (e.g., aws-expert.md with confidence scores)
+  3. Add to "Known Applications" in relevant role agents (e.g., ui-ux-developer-role.md)
+  4. Create lightweight README in actual repo (Tier 1) linking to knowledge base
+
+**Platform/Tool Patterns** → `knowledge/da-agent-hub/`
+- **When**: Discovering reusable patterns for ADLC workflow
+- **Structure**: Organized by ADLC phase (planning/, development/, operations/)
+- **Examples**: Testing frameworks, git workflows, cross-system analysis patterns
+
+**Agent Expertise** → `.claude/agents/specialists/<agent>.md`
+- **When**: Validating patterns in production, improving confidence scores
+- **Updates**: Add production-validated patterns section, update confidence levels
+- **Reference**: Link to knowledge base (Tier 2) for full implementation
+
+**Role Agent Applications** → `.claude/agents/roles/<role>.md`
+- **When**: New applications deployed that role will work on
+- **Updates**: Add to "Known Applications" section with stack, patterns, key learnings
+- **Purpose**: Help agents quickly find context when tasked with app work
+
 ### Improvement PR Decision Framework
 Create separate improvement PRs for:
 - **HIGH IMPACT**: Agent updates benefiting multiple future projects
@@ -299,9 +374,9 @@ Create separate improvement PRs for:
 - **ADLC METHODOLOGY**: Core system workflow refinements
 
 **Examples**:
-- "feat: Enhance dbt-expert with incremental model optimization patterns"
-- "docs: Add Snowflake cost optimization playbook to knowledge base"
-- "feat: Create tableau-performance-expert agent for dashboard optimization"
+- "feat: Enhance aws-expert with ALB OIDC production patterns from sales-journal deployment"
+- "docs: Add React + FastAPI application architecture to knowledge/applications/"
+- "feat: Document three-tier documentation pattern for future app deployments"
 
 ## Agent Training & Learning System
 
