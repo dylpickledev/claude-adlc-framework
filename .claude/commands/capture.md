@@ -1,6 +1,14 @@
 # /capture Command Protocol
 
+⚠️ **DEPRECATED**: This command has been renamed to `/idea` for better semantics. Please use `/idea` instead.
+
+This command still works but will redirect to `/idea`.
+
+---
+
 ## Purpose
+**Use `/idea` instead - clearer, more intuitive naming.**
+
 Simplified idea capture using GitHub Issues for ADLC Plan phase. Replaces file-based idea management with integrated issue tracking that connects ideation directly to project execution.
 
 ## Usage

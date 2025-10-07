@@ -96,10 +96,29 @@ When user runs `/complete [project-name]`:
 - Create routing recommendations for future similar tasks
 
 #### Technical Documentation (`/knowledge/`)
-- **Architecture patterns**: System design and integration strategies
-- **Process documentation**: Workflow improvements and organizational methods
-- **Technical guides**: Implementation patterns and troubleshooting
-- **Team documentation**: Standards and collaborative practices
+
+**Production Application Knowledge** → `knowledge/applications/<app-name>/`
+- **When**: Deploying new apps or major app updates
+- **Structure**: Three-tier pattern (Tier 2 - comprehensive docs)
+  - `architecture/` - System design, data flows, infrastructure details
+  - `deployment/` - Complete deployment runbooks, Docker builds, AWS configuration
+  - `operations/` - Monitoring, troubleshooting guides, incident response
+- **Examples**: ALB OIDC authentication, ECS deployment patterns, multi-service Docker
+- **Updates Required**:
+  1. Create/update knowledge base docs for the application
+  2. Update agent pattern index (e.g., aws-expert.md with confidence scores)
+  3. Add to "Known Applications" in relevant role agents (e.g., ui-ux-developer-role.md)
+  4. Create lightweight README in actual repo (Tier 1) linking to knowledge base
+
+**Platform/Tool Patterns** → `knowledge/da-agent-hub/`
+- **When**: Discovering reusable patterns for ADLC workflow
+- **Structure**: Organized by ADLC phase (planning/, development/, operations/)
+- **Examples**: Testing frameworks, git workflows, cross-system analysis patterns
+
+**Three-Tier Documentation Principle**:
+- **Tier 1**: Repository README (lightweight, < 200 lines, developer-focused)
+- **Tier 2**: Knowledge base (comprehensive source of truth, unlimited size)
+- **Tier 3**: Agent pattern index (pointers with confidence scores)
 
 #### Memory System Updates (`/.claude/memory/`)
 **Note**: Pattern extraction happens automatically via `finish.sh`:
@@ -163,7 +182,16 @@ When user runs `/complete [project-name]`:
    + [specific additions with exact content]
 
 ### New Knowledge Documents:
-📄 knowledge/technical/[new-document].md
+📄 knowledge/applications/[app-name]/ (if deploying new app)
+   + architecture/system-design.md - System architecture and data flows
+   + deployment/production-deploy.md - Complete deployment runbook
+   + operations/troubleshooting.md - Monitoring and incident response
+   + Three-tier pattern integration:
+     - Update aws-expert.md pattern index (Tier 3) with confidence scores
+     - Add to ui-ux-developer-role.md Known Applications section
+     - Create lightweight README in app repo (Tier 1) linking to knowledge base
+
+📄 knowledge/da-agent-hub/[new-pattern].md (if platform improvement)
    + [document purpose and key content outline]
 
 ### Memory Extraction (Automatic):
@@ -187,7 +215,10 @@ When user runs `/complete [project-name]`:
    ✅ Updated: agents/da-architect.md (integration patterns + confidence: +0.08)
    ✅ Updated: agents/dbt-expert.md (incremental model patterns + confidence: +0.10)
    ✅ Updated: agents/documentation-expert.md (process standards + confidence: +0.03)
-   ✅ Added: knowledge/technical/idea-organization-systems.md
+   ✅ Added: knowledge/applications/[app-name]/ (three-tier docs for production app)
+      - architecture/system-design.md, deployment/production-deploy.md, operations/troubleshooting.md
+      - Updated aws-expert.md pattern index + ui-ux-developer-role.md Known Applications
+   ✅ Added: knowledge/da-agent-hub/[new-pattern].md (platform improvement)
 
 📦 Archiving project...
    ✅ Moved to: projects/completed/YYYY-MM/[project-name]/
@@ -232,6 +263,10 @@ When user runs `/complete [project-name]`:
 
 ### Technical Documentation
 **Add to knowledge/ when project demonstrates:**
+- **Production applications** (`knowledge/applications/<app-name>/`): New deployments or major app updates
+  - Follow three-tier pattern: Tier 2 comprehensive docs (architecture/, deployment/, operations/)
+  - Update agent pattern indexes (Tier 3) and Known Applications in role agents
+  - Create lightweight repo README (Tier 1) linking to knowledge base
 - **System architecture**: Novel integration or design patterns
 - **Process improvements**: Workflow enhancements worth preserving
 - **Standards evolution**: Updated team practices and conventions

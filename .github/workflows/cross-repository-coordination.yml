@@ -96,7 +96,7 @@ jobs:
       id: analysis
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         claude_args: |
           --model claude-3-5-sonnet-20250114
           --agent github-sleuth-expert
@@ -173,9 +173,11 @@ jobs:
           - Cross-system integration health
 
           Provide actionable insights that can improve our overall data infrastructure reliability.
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     - name: Create Cross-Repository Coordination Issue
-      if: steps.analysis.outputs.response contains 'escalation_needed' || steps.context.outputs.analysis_type == 'system_health'
+      if: contains(steps.analysis.outputs.response, 'escalation_needed') || steps.context.outputs.analysis_type == 'system_health'
       run: |
         # Create a coordination issue in da-agent-hub for cross-repository concerns
         ISSUE_TITLE="Cross-Repository Coordination: ${{ steps.context.outputs.analysis_type }} - $(date '+%Y-%m-%d')"
@@ -276,6 +278,7 @@ jobs:
     - name: Review Automation Rule Updates
       uses: anthropics/claude-code-action@v1
       with:
+        anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         claude_args: "--agent issue-lifecycle-expert"
         prompt: |
           # Automation Rule Optimization
@@ -295,6 +298,8 @@ jobs:
           - Enhance escalation criteria
 
           Please provide specific rule updates that can be implemented in our GitHub Actions workflows.
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     - name: Apply Rule Updates
       run: |

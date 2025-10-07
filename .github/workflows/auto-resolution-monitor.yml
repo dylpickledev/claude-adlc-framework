@@ -92,7 +92,7 @@ jobs:
       uses: anthropics/claude-code-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         claude_args: |
           --model claude-3-5-sonnet-20250114
           --agent issue-lifecycle-expert
@@ -151,6 +151,8 @@ jobs:
           3. **Escalate if recurring** beyond expected patterns
 
           Please provide specific GitHub CLI commands or API calls needed to take these actions.
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     - name: Generate Resolution Report
       if: always()
@@ -184,7 +186,7 @@ jobs:
       uses: anthropics/claude-code-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         claude_args: |
           --model claude-3-5-sonnet-20250114
           --agent github-sleuth-expert
@@ -221,6 +223,8 @@ jobs:
              - Expert assignment optimizations
 
           Please provide actionable insights and specific recommendations for improving the issue tracking system.
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     - name: Update Monitoring Rules
       run: |

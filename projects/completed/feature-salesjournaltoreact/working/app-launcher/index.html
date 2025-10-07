@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraniteRock Applications</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f4c38 0%, #2d8a5f 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px 80px;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .app-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 35px 30px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-card:hover::before {
+            opacity: 1;
+        }
+
+        .app-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .app-card.disabled:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        .app-card.disabled::before {
+            display: none;
+        }
+
+        .app-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .app-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        .user-info {
+            text-align: center;
+            opacity: 0.8;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px 30px;
+            }
+
+            .logo {
+                font-size: 3.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .app-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .container {
+                padding: 20px 20px 60px;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-card {
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .app-card:nth-child(1) { animation-delay: 0.1s; }
+        .app-card:nth-child(2) { animation-delay: 0.2s; }
+        .app-card:nth-child(3) { animation-delay: 0.3s; }
+        .app-card:nth-child(4) { animation-delay: 0.4s; }
+        .app-card:nth-child(5) { animation-delay: 0.5s; }
+        .app-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🏔️</div>
+        <h1>GraniteRock Applications</h1>
+        <p class="subtitle">Select an application to continue</p>
+        <div class="user-info" id="userInfo"></div>
+    </div>
+
+    <div class="container">
+        <div class="app-grid">
+            <!-- Sales Journal App - ACTIVE -->
+            <a href="/sales-journal/" class="app-card">
+                <div class="app-icon">📊</div>
+                <h3 class="app-name">Sales Journal</h3>
+                <p class="app-description">
+                    Financial data analysis and reporting. View sales transactions,
+                    batch processing, out-of-balance detection, and tieout management.
+                </p>
+            </a>
+
+            <!-- Future Apps - COMING SOON -->
+            <div class="app-card disabled">
+                <div class="app-icon">📈</div>
+                <h3 class="app-name">Analytics Dashboard</h3>
+                <p class="app-description">
+                    Real-time business intelligence and performance metrics across all operations.
+                </p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <div class="app-card disabled">
+                <div class="app-icon">🔧</div>
+                <h3 class="app-name">Operations Portal</h3>
+                <p class="app-description">
+                    Centralized operations management, resource tracking, and workflow coordination.
+                </p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <div class="app-card disabled">
+                <div class="app-icon">📱</div>
+                <h3 class="app-name">Mobile Access</h3>
+                <p class="app-description">
+                    Field operations mobile interface for on-site data entry and reporting.
+                </p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <div class="app-card disabled">
+                <div class="app-icon">🎯</div>
+                <h3 class="app-name">Project Tracker</h3>
+                <p class="app-description">
+                    Comprehensive project management, timeline tracking, and resource allocation.
+                </p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <div class="app-card disabled">
+                <div class="app-icon">💼</div>
+                <h3 class="app-name">Resource Manager</h3>
+                <p class="app-description">
+                    Equipment, personnel, and asset management system with scheduling capabilities.
+                </p>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 GraniteRock. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Read ALB authentication headers (injected by nginx as meta tags)
+        const identityMeta = document.querySelector('meta[name="x-amzn-oidc-identity"]');
+        const dataMeta = document.querySelector('meta[name="x-amzn-oidc-data"]');
+
+        if (dataMeta) {
+            try {
+                // Parse JWT to extract user info
+                const jwt = dataMeta.getAttribute('content');
+                if (jwt) {
+                    const payload = JSON.parse(atob(jwt.split('.')[1]));
+                    const userName = payload.name || payload.email.split('@')[0];
+
+                    // Display welcome message
+                    const userInfoDiv = document.getElementById('userInfo');
+                    if (userInfoDiv) {
+                        userInfoDiv.textContent = `Welcome, ${userName}`;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to parse user data:', error);
+            }
+        }
+    </script>
+</body>
+</html>

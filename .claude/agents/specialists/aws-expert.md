@@ -32,13 +32,16 @@ AWS cloud infrastructure specialist providing expert guidance across all AWS ser
 
 ### Secondary Expertise (0.60-0.84)
 *Tasks where agent is competent but may benefit from collaboration*
+- ALB OIDC authentication patterns: 0.92 → **PROMOTED to Primary** (last updated: feature-salesjournaltoreact, production-validated)
+- ECS/Fargate container orchestration: 0.75 → 0.88 (multi-stage Docker, supervisor pattern, production-validated)
+- ALB path-based routing and priority rules: 0.89 (production-validated with app-portal + sales-journal)
+- Multi-service Docker containers: 0.87 (nginx + Python + supervisor pattern, production-validated)
 - S3 storage architecture and lifecycle policies: 0.78 (needs real-world project validation)
 - VPC networking and security groups: 0.76 (needs real-world project validation)
-- ECS/Fargate container orchestration: 0.75 (needs real-world project validation)
 - EC2 instance management and optimization: 0.75 (needs real-world project validation)
 - RDS database configuration and optimization: 0.72 (consult dba-role for complex tuning)
 - CloudWatch monitoring and alerting: 0.74 (needs real-world project validation)
-- Cognito authentication and authorization: 0.70 (needs integration testing)
+- Cognito authentication and authorization: 0.70 (deprecated - use ALB OIDC instead)
 - Redshift data warehouse infrastructure: 0.70 (consult snowflake-expert for optimization patterns)
 
 ### Developing Areas (<0.60)
@@ -472,7 +475,8 @@ When MCP tools are available, certain tasks gain enhanced confidence:
 ### Networking & Security
 - **VPC**: 0.76 - Subnet design, route tables, peering, Transit Gateway
 - **IAM**: 0.82 - Policies, roles, service principals, permission boundaries
-- **Cognito**: 0.70 - User pools, identity pools, federation
+- **ALB OIDC**: 0.92 - ALB-level OIDC authentication, HTTP-only cookie logout, Azure AD integration (production-validated)
+- **Cognito**: 0.70 - User pools, identity pools, federation (deprecated - use ALB OIDC for new apps)
 - **WAF**: 0.65 - Web ACLs, rate limiting, bot control
 
 ### Developer Tools
@@ -547,3 +551,100 @@ Amplify Hosting (React) → API Gateway → Lambda → External Services
 ---
 
 *This agent specializes in AWS cloud architecture with proven expertise in serverless deployments. Continuously updated through project completions to reflect real-world AWS implementation patterns.*
+
+## Production-Validated Architecture Patterns
+
+### ALB OIDC Authentication Pattern (Confidence: 0.92)
+**Production Status**: ✅ Validated (app-portal + sales-journal in production)
+**Reference**: `knowledge/applications/app-portal/architecture/alb-oidc-authentication.md`
+
+**Pattern**: Infrastructure-level authentication using ALB OIDC with Azure AD
+
+**Benefits**:
+- No client-side auth libraries (eliminates Amplify/Cognito complexity)
+- Consistent auth across all apps on same ALB
+- Simplified application code (zero auth logic in React)
+- Centralized auth management at infrastructure layer
+
+**Key Implementation Details**:
+```
+ALB Rule Actions:
+1. authenticate-oidc (Order 1) → Azure AD authentication
+2. forward (Order 2) → Target group
+
+Backend API reads ALB headers:
+- x-amzn-oidc-data (JWT with user claims)
+- x-amzn-oidc-identity (unique user ID)
+```
+
+**Critical Gotcha - HTTP-Only Cookie Logout**:
+```python
+# ALB cookies are HTTP-only - can't be cleared client-side
+# Solution: Backend endpoint that:
+# 1. Sets expired cookies (AWSELBAuthSessionCookie-0 through -3)
+# 2. Redirects to IdP logout (Azure AD)
+# 3. IdP redirects back to app (requires re-auth)
+
+@app.get("/api/logout")
+async def logout():
+    response = RedirectResponse(
+        url=f"https://login.microsoftonline.com/{tenant}/oauth2/v2.0/logout?post_logout_redirect_uri={app_url}"
+    )
+    for i in range(4):
+        response.set_cookie(
+            key=f"AWSELBAuthSessionCookie-{i}",
+            value="", max_age=0,
+            expires="Thu, 01 Jan 1970 00:00:00 GMT",
+            secure=True, httponly=True
+        )
+    return response
+```
+
+**When to use**: React apps requiring Azure AD SSO, multiple apps sharing authentication
+
+### Multi-Service Docker Pattern (Confidence: 0.87)
+**Production Status**: ✅ Validated (app-portal in production)
+**Pattern**: Single container running nginx + Python API via supervisor
+
+**When to use**: React + Python API apps, simple multi-service deployments, ECS Fargate
+
+### ALB Path-Based Routing Pattern (Confidence: 0.89)
+**Production Status**: ✅ Validated (app-portal + sales-journal routing)
+
+**Critical Rule**: Lower priority numbers execute FIRST (counterintuitive!)
+
+**Example**:
+```
+Priority 5: /sales-journal/api/* → Lambda (OIDC auth required)
+Priority 6: /sales-journal/* → ECS service (OIDC auth required)
+Priority 7: /* (catch-all) → App portal ECS (OIDC auth required)
+```
+
+**Common Pitfall**: Catch-all rule with lower priority number than specific paths
+**Solution**: Specific paths MUST have lower priority numbers
+
+### Common AWS Deployment Pitfalls
+
+**1. Missing OIDC Auth on API Paths**
+- Symptom: Lambda receives no `x-amzn-oidc-data` headers
+- Cause: ALB rule has `forward` action only, no `authenticate-oidc`
+- Fix: Add OIDC auth action (Order 1) before forward action (Order 2)
+
+**2. ALB Rule Priority Confusion**
+- Symptom: Requests route to wrong target group
+- Cause: Catch-all rule executes before specific path rule
+- Fix: Specific paths need LOWER priority numbers (e.g., 6 < 7)
+
+**3. ECS Force-New-Deployment with Digests**
+- Symptom: New image deployed but old code running
+- Cause: Task definition uses pinned digest, force-new-deployment doesn't pull new image
+- Fix: Either use `:latest` tag OR register new task definition after each push
+
+**4. HTTP-Only Cookie Logout**
+- Symptom: Logout redirects but user stays authenticated
+- Cause: Client can't clear HTTP-only ALB cookies
+- Fix: Backend endpoint sets expired cookies + redirects to IdP logout
+
+---
+
+*This agent specializes in AWS cloud architecture with production-validated patterns. Updated 2025-10-07 with ALB OIDC, multi-service Docker, and ECS deployment patterns from feature-salesjournaltoreact project.*

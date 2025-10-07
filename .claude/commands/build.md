@@ -1,7 +1,15 @@
 # /build Command Protocol
 
+⚠️ **DEPRECATED**: This command has been renamed to `/start` for better semantics. Please use `/start` instead.
+
+This command still works but will redirect to `/start`.
+
+---
+
 ## Purpose
-Execute highest priority ideas from GitHub Issues as complete projects. Implements ADLC Develop + Test + Deploy phases with specialist agent coordination and full project management integration.
+Begin development on ideas from GitHub Issues as complete projects. **Use `/start` instead - action-oriented, clearer intent.**
+
+Implements ADLC Develop + Test + Deploy phases with specialist agent coordination and full project management integration.
 
 ## Usage
 ```bash

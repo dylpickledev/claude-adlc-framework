@@ -85,7 +85,7 @@ jobs:
       id: classification
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         claude_args: |
           --model claude-3-5-sonnet-20250114
           --agent github-sleuth-expert
@@ -166,6 +166,8 @@ jobs:
           - Prioritize agent coordination issues
 
           Please provide your analysis with specific focus on the repository context and actionable recommendations.
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     - name: Parse Classification Results
       id: results

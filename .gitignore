@@ -54,6 +54,10 @@ developer/
 .claude/tasks/
 !.claude/tasks/.gitkeep
 
+# Paused conversation contexts (local work only)
+.claude/paused-contexts/*
+!.claude/paused-contexts/README.md
+
 # Logs
 *.log
 logs/
@@ -88,6 +92,9 @@ knowledge/*/*
 # Allow da_obsidian knowledge base for raw notes and ideas
 !knowledge/da_obsidian/
 !knowledge/da_obsidian/**
+# Allow production applications documentation
+!knowledge/applications/
+!knowledge/applications/**
 
 
 .claude/settings.local.json

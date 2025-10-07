@@ -41,7 +41,7 @@ jobs:
       uses: anthropics/claude-code-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+        anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         claude_args: |
           --model claude-3-5-sonnet-20250114
         prompt: |
@@ -99,6 +99,7 @@ jobs:
           I'm here to help collaboratively resolve dbt issues!
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
         DBT_CLOUD_ACCOUNT_ID: ${{ secrets.DBT_CLOUD_ACCOUNT_ID }}
 
