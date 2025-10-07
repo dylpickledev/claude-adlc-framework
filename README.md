@@ -41,6 +41,51 @@ DA Agent Hub provides:
 
 ---
 
+## 🏗️ MCP Architecture Status (Week 1 COMPLETE ✅)
+
+The DA Agent Hub is undergoing a **12-week transformation** to integrate Model Context Protocol (MCP) servers with specialist agents for data-driven, expert-validated decision-making.
+
+### ✅ Week 1: Foundation & Testing (COMPLETE)
+
+**MCP Servers Operational (8/8 - 100%)**
+- ✅ **dbt-mcp**: Transformation layer access
+- ✅ **snowflake-mcp**: Data warehouse operations
+- ✅ **aws-api**: AWS infrastructure management
+- ✅ **aws-docs**: AWS documentation search
+- ✅ **github**: Repository operations
+- ✅ **slack**: Team communication
+- ✅ **filesystem**: Local file access
+- ✅ **sequential-thinking**: Complex reasoning
+
+**Specialists Operational (4)**
+- ✅ **aws-expert**: AWS infrastructure (aws-api + aws-docs + aws-knowledge MCP)
+- ✅ **dbt-expert**: SQL transformations (dbt-mcp + snowflake-mcp + github-mcp)
+- ✅ **snowflake-expert**: Warehouse optimization (snowflake-mcp + dbt-mcp)
+- ✅ **github-sleuth-expert**: Issue investigation (github-mcp + context resolution)
+
+**Key Achievements**
+- ✅ All MCP servers authenticated via 1Password
+- ✅ Smart repository context resolution (13+ repos)
+- ✅ GitHub Sleuth Expert revived with MCP integration
+- ✅ Comprehensive testing and validation complete
+- ✅ Pattern documentation for future specialists
+
+**Architecture Pattern**
+```
+Role Agent (primary)
+    ↓ Delegates when confidence <0.60 OR expertise needed
+Specialist (expert)
+    ├─ Uses MCP tools (data access)
+    ├─ Applies domain expertise (synthesis, validation)
+    └─ Returns validated recommendation
+Role Agent
+    └─ Executes with confidence
+```
+
+**See**: Issue #88 for complete 12-week transformation roadmap
+
+---
+
 ## 🚀 Quick Start: 4 Simple Commands
 
 **Never used this before? Here's how to go from idea to production:**
