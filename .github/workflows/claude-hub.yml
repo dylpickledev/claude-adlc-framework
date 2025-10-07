@@ -166,7 +166,7 @@ jobs:
       - name: Execute Claude with Full Context
         uses: anthropics/claude-code-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
             # Claude Central Hub Task Execution
 
@@ -248,6 +248,7 @@ jobs:
             Please execute the appropriate task based on the context above.
         env:
           GITHUB_TOKEN: ${{ secrets.DA_AGENT_HUB_PAT }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
           DBT_CLOUD_ACCOUNT_ID: ${{ secrets.DBT_CLOUD_ACCOUNT_ID }}
 
@@ -308,6 +309,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.DA_AGENT_HUB_PAT }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
           DBT_CLOUD_ACCOUNT_ID: ${{ secrets.DBT_CLOUD_ACCOUNT_ID }}
 

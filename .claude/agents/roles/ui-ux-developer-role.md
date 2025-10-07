@@ -297,6 +297,32 @@ For development patterns:
 
 ## Knowledge Base
 
+### Known Production Applications
+
+**Purpose**: Quick reference to deployed applications for context when working on updates or similar projects
+
+**App Portal** (`knowledge/applications/app-portal/`):
+- **Stack**: React + TypeScript + Python FastAPI + nginx + supervisor
+- **Deployment**: AWS ECS Fargate (multi-service container)
+- **Auth**: ALB OIDC with Azure AD (infrastructure-level)
+- **Pattern**: Application launcher with centralized SSO
+- **Production**: https://apps.grc-ops.com
+- **Key Learning**: Multi-service Docker container pattern, HTTP-only cookie logout
+
+**Sales Journal** (`knowledge/applications/sales-journal/`):
+- **Stack**: React + TypeScript + Zustand + FastAPI (Lambda) + PostgreSQL
+- **Deployment**: AWS ECS Fargate (frontend) + Lambda (API)
+- **Auth**: ALB OIDC with Azure AD (infrastructure-level)
+- **Pattern**: Real-time dashboard with external API integration (Orchestra)
+- **Production**: https://apps.grc-ops.com/sales-journal/
+- **Key Learning**: Zustand state management, filter persistence, auto-reset logic
+
+**When starting work on these apps**:
+1. Read application README in knowledge base for architecture
+2. Read deployment docs for infrastructure details
+3. Read operations docs for troubleshooting context
+4. Check actual repo README only for local dev setup
+
 ### Best Practices
 
 #### Streamlit Development
