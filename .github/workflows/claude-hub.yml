@@ -166,6 +166,7 @@ jobs:
       - name: Execute Claude with Full Context
         uses: anthropics/claude-code-action@v1
         with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
             # Claude Central Hub Task Execution
 
