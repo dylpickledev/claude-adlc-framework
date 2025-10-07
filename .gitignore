@@ -54,6 +54,10 @@ developer/
 .claude/tasks/
 !.claude/tasks/.gitkeep
 
+# Paused conversation contexts (local work only)
+.claude/paused-contexts/*
+!.claude/paused-contexts/README.md
+
 # Logs
 *.log
 logs/

@@ -16,24 +16,32 @@ don't look at the full .env file. Only search for the var names up to the equals
 🤖 LAYER 3: OPERATE + OBSERVE + DISCOVER + ANALYZE → Automated operations
 ```
 
-## Simplified 4-Command Workflow
+## Simplified Workflow Commands
 
 ### Essential Commands (Use Slash Commands)
-1. **`/capture "[idea]"`** → Brainstorm and collect ideas (creates GitHub issues with auto-labeling)
-2. **`/roadmap [timeframe]`** → Strategic planning and prioritization (analyzes GitHub issues)
-3. **`/build <issue-number>`** → Execute highest priority ideas (creates full project from issue + worktree)
-4. **`/complete [project-name]`** → Complete and archive projects (closes GitHub issue + cleans up worktree)
+1. **`/idea "[idea]"`** → Quick idea capture (creates GitHub issues with auto-labeling)
+2. **`/research [text|issue#]`** → Deep exploration and analysis (pre-capture or issue analysis)
+3. **`/roadmap [timeframe]`** → Strategic planning and prioritization (analyzes GitHub issues)
+4. **`/start [issue#|"text"]`** → Begin development (from issue OR creates issue from text + starts)
+5. **`/complete [project]`** → Complete and archive projects (closes GitHub issue + cleans up worktree)
 
 ### Support Commands
-5. **`/switch [optional-branch]`** → Zero-loss context switching with automated backup
-6. **`/setup-worktrees`** → One-time VS Code worktree integration setup
+6. **`/switch [optional-branch]`** → Zero-loss context switching with automated backup
+7. **`/pause [description]`** → Save conversation context for seamless resumption
+8. **`/setup-worktrees`** → One-time VS Code worktree integration setup
+
+### Deprecated (Still Work, But Use New Names)
+- **`/capture`** → Use `/idea` instead
+- **`/build`** → Use `/start` instead
 
 ### Underlying Scripts (Called by Slash Commands)
-- `/capture` → `./scripts/capture.sh`
+- `/idea` → `./scripts/idea.sh`
+- `/research` → `./scripts/research.sh`
 - `/roadmap` → `./scripts/roadmap.sh`
-- `/build` → `./scripts/build.sh`
+- `/start` → `./scripts/start.sh`
 - `/complete` → `./scripts/finish.sh`
 - `/switch` → `./scripts/switch.sh`
+- `/pause` → (Claude-native, no script)
 - `/setup-worktrees` → `./scripts/setup-worktrees.sh`
 
 **Note**: Prefer slash commands for better Claude integration. Scripts can be run directly if needed.
@@ -400,13 +408,15 @@ Create separate improvement PRs for:
 ## Complete Development Workflow
 
 ```
-💡 CAPTURE: /capture → GitHub issue creation → auto-labeling → roadmap planning
-    ↓ Strategic prioritization
+💡 IDEA: /idea → GitHub issue creation → auto-labeling → roadmap planning
+    ↓ Strategic prioritization (optional deep analysis)
+🔬 RESEARCH: /research [text|issue#] → Deep exploration → Feasibility → Technical approach
+    ↓ Informed decision-making
 🗺️ ROADMAP: /roadmap → impact/effort analysis → GitHub issue analysis → execution planning
     ↓ Priority selection
-🔧 BUILD: /build <issue#> → project setup → worktree creation → specialist agents → development
+🚀 START: /start [issue#|"text"] → project setup → worktree creation → specialist agents → development
     ↓ Deploy to production
-🎯 COMPLETE: /complete → archive → worktree cleanup → close GitHub issue → next iteration
+✅ COMPLETE: /complete → archive → worktree cleanup → close GitHub issue → next iteration
     ↓ Operations monitoring
 🤖 OPERATIONS: GitHub Actions → Error detection → AI investigation → Cross-repo PRs
 ```
