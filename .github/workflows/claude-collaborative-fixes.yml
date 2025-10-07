@@ -22,6 +22,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
+        submodules: false
 
     - name: Detect Action Type and Context
       id: action

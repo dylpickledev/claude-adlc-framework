@@ -116,6 +116,12 @@
         "branch": "main",
         "description": "React-based sales journal application",
         "folder": "repos/front_end"
+      },
+      "da_app_portal": {
+        "url": "https://github.com/graniterock/da-app-portal.git",
+        "branch": "main",
+        "description": "React-based home page / portal for all d&a apps",
+        "folder": "repos/front_end"
       }
     },
     "operations": {
