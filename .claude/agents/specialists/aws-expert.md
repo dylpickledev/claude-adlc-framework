@@ -32,13 +32,16 @@ AWS cloud infrastructure specialist providing expert guidance across all AWS ser
 
 ### Secondary Expertise (0.60-0.84)
 *Tasks where agent is competent but may benefit from collaboration*
+- ALB OIDC authentication patterns: 0.92 → **PROMOTED to Primary** (last updated: feature-salesjournaltoreact, production-validated)
+- ECS/Fargate container orchestration: 0.75 → 0.88 (multi-stage Docker, supervisor pattern, production-validated)
+- ALB path-based routing and priority rules: 0.89 (production-validated with app-portal + sales-journal)
+- Multi-service Docker containers: 0.87 (nginx + Python + supervisor pattern, production-validated)
 - S3 storage architecture and lifecycle policies: 0.78 (needs real-world project validation)
 - VPC networking and security groups: 0.76 (needs real-world project validation)
-- ECS/Fargate container orchestration: 0.75 (needs real-world project validation)
 - EC2 instance management and optimization: 0.75 (needs real-world project validation)
 - RDS database configuration and optimization: 0.72 (consult dba-role for complex tuning)
 - CloudWatch monitoring and alerting: 0.74 (needs real-world project validation)
-- Cognito authentication and authorization: 0.70 (needs integration testing)
+- Cognito authentication and authorization: 0.70 (deprecated - use ALB OIDC instead)
 - Redshift data warehouse infrastructure: 0.70 (consult snowflake-expert for optimization patterns)
 
 ### Developing Areas (<0.60)
@@ -472,7 +475,8 @@ When MCP tools are available, certain tasks gain enhanced confidence:
 ### Networking & Security
 - **VPC**: 0.76 - Subnet design, route tables, peering, Transit Gateway
 - **IAM**: 0.82 - Policies, roles, service principals, permission boundaries
-- **Cognito**: 0.70 - User pools, identity pools, federation
+- **ALB OIDC**: 0.92 - ALB-level OIDC authentication, HTTP-only cookie logout, Azure AD integration (production-validated)
+- **Cognito**: 0.70 - User pools, identity pools, federation (deprecated - use ALB OIDC for new apps)
 - **WAF**: 0.65 - Web ACLs, rate limiting, bot control
 
 ### Developer Tools
