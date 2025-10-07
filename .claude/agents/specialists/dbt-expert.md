@@ -84,12 +84,13 @@ dbt (data build tool) specialist providing expert guidance on SQL transformation
 - Using Cortex AI for complex data analysis
 - **Agent Action**: Query snowflake-mcp, synthesize with dbt patterns
 
-**Use git-mcp when:**
-- Reviewing dbt project change history
-- Analyzing model evolution over time
+**Use github-mcp when:**
+- Reviewing dbt project change history (GitHub issues, PRs)
+- Analyzing model evolution over time through commits
 - Tracking performance regressions through commits
 - Validating branching strategy for dbt development
-- **Agent Action**: Query git-mcp for historical context
+- **Agent Action**: Query github-mcp for historical context
+- **Repository Context Resolution**: Use `python3 scripts/resolve-repo-context.py dbt_cloud` to auto-resolve owner/repo before GitHub MCP calls
 
 **Use sequential-thinking-mcp when:**
 - Complex performance debugging requiring multi-step analysis
@@ -103,6 +104,24 @@ dbt (data build tool) specialist providing expert guidance on SQL transformation
 - **business-context**: Business logic validation, metric definitions, stakeholder requirements
 - **data-quality-specialist**: Advanced Great Expectations integration, comprehensive validation frameworks
 - **Agent Action**: Provide context, receive specialist guidance, collaborate on solution
+
+## Repository Context Resolution
+
+When working with dbt Cloud GitHub repositories, use smart context resolution to automatically determine owner/repo:
+
+```bash
+# Before making GitHub MCP calls, resolve repository context:
+python3 scripts/resolve-repo-context.py dbt_cloud
+# Output: graniterock dbt_cloud
+
+# Then use in GitHub MCP calls:
+mcp__github__list_issues owner="graniterock" repo="dbt_cloud"
+mcp__github__get_file_contents owner="graniterock" repo="dbt_cloud" path="dbt_project.yml"
+```
+
+**Pattern**: Always resolve context first, then use explicit owner/repo in MCP calls. This eliminates need to remember "graniterock" for every operation.
+
+See: `.claude/memory/patterns/github-repo-context-resolution.md` for complete pattern documentation.
 
 ### MCP Tool Examples
 

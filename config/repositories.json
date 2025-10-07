@@ -6,6 +6,11 @@
     "check_git_access": true
   },
   "knowledge": {
+    "da_agent_hub": {
+      "url": "https://github.com/graniterock/da-agent-hub.git",
+      "branch": "main",
+      "description": "DA Agent Hub - Analytics Development Lifecycle (ADLC) AI Platform"
+    },
     "da_team_documentation": {
       "url": "https://github.com/graniterock/da-team-documentation.git",
       "branch": "main",

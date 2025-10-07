@@ -1022,12 +1022,73 @@ dotfiles/
 
 ---
 
+## MCP (Model Context Protocol) Integration
+
+### What are MCP Servers?
+
+MCP servers provide Claude with access to external tools and data sources. The DA Agent Hub uses MCP servers for:
+- **GitHub integration** - Repository operations, issue management
+- **dbt Cloud** - Transformation layer access
+- **Snowflake** - Data warehouse operations
+- **AWS** - Cloud infrastructure management
+- **Slack** - Team communication
+
+### MCP Server Authentication
+
+MCP servers authenticate using environment variables loaded from 1Password:
+
+```bash
+# GitHub MCP
+GITHUB_PERSONAL_ACCESS_TOKEN=<from 1Password>
+
+# dbt MCP
+DBT_HOST=<from 1Password>
+DBT_TOKEN=<from 1Password>
+DBT_PROD_ENV_ID=<from 1Password>
+
+# Snowflake MCP
+SNOWFLAKE_PASSWORD=<from 1Password>
+
+# AWS MCP
+AWS_ACCESS_KEY_ID=<from 1Password>
+AWS_SECRET_ACCESS_KEY=<from 1Password>
+
+# Slack MCP
+SLACK_BOT_TOKEN=<from 1Password>
+SLACK_TEAM_ID=<from 1Password>
+```
+
+All credentials are stored in 1Password and loaded automatically via `load-secrets-from-1password.sh`.
+
+### Repository Context Resolution
+
+The DA Agent Hub includes smart repository context resolution to automatically determine GitHub owner/repo from `config/repositories.json`:
+
+```bash
+# Resolve repository context
+python3 scripts/resolve-repo-context.py dbt_cloud
+# Output: graniterock dbt_cloud
+
+# Use in MCP operations without manual owner specification
+```
+
+This eliminates cognitive overhead and prevents typos in owner names across all GitHub operations.
+
+**See**: `CLAUDE.md` section "Smart Repository Context Resolution" for complete usage guide.
+
+---
+
 ## Support
 
 **Issues with this dotfiles setup?**
 - Check `SECRETS_INVENTORY.md` for what's stored
 - Check `1PASSWORD_SETUP.md` for detailed 1Password guide
 - Check `TROUBLESHOOTING` section above
+
+**MCP Server issues?**
+- Check `.mcp.json` for server configuration
+- Run `claude mcp list` to verify server connectivity
+- Check `.claude/memory/patterns/github-repo-context-resolution.md` for context resolution patterns
 
 **1Password support:**
 - Documentation: https://support.1password.com

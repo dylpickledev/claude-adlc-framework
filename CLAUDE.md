@@ -234,6 +234,34 @@ Before analysis, declare context assumptions:
 If you want different sources, please redirect me.
 ```
 
+## Smart Repository Context Resolution
+
+### Automatic Owner/Repo Detection
+When working with GitHub repositories, use smart context resolution to avoid specifying owner repeatedly:
+
+```bash
+# Resolve repository context from config/repositories.json
+python3 scripts/resolve-repo-context.py dbt_cloud
+# Output: graniterock dbt_cloud
+
+# Use resolved context in GitHub MCP operations
+mcp__github__list_issues owner="graniterock" repo="dbt_cloud"
+```
+
+### Available Commands
+- `python3 scripts/resolve-repo-context.py <repo_name>` - Get owner and repo
+- `python3 scripts/resolve-repo-context.py --json <repo_name>` - Get full context as JSON
+- `python3 scripts/resolve-repo-context.py --list` - List all resolvable repositories
+- `./scripts/get-repo-owner.sh <repo_name>` - Get just the owner (bash helper)
+
+### Agent Integration
+All specialist agents working with GitHub should:
+1. Resolve repository context before GitHub MCP calls
+2. Use explicit owner/repo parameters in all GitHub MCP operations
+3. Reference pattern documentation: `.claude/memory/patterns/github-repo-context-resolution.md`
+
+**Benefit**: Eliminates cognitive overhead of remembering "graniterock" for every GitHub operation while maintaining explicit, correct MCP calls.
+
 ## Knowledge Repository Structure
 
 ### Team Documentation Template
