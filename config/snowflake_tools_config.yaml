@@ -14,7 +14,8 @@ connections:
     user: "${SNOWFLAKE_USER}"
 
     # Password (only required if auth_method is 'password')
-    password: "${SNOWFLAKE_PASSWORD}"
+    # PLACEHOLDER_REPLACED_AT_RUNTIME will be replaced by wrapper script
+    password: "PLACEHOLDER_REPLACED_AT_RUNTIME"
 
     # Private key path (only required if auth_method is 'private_key')
     private_key_path: "${SNOWFLAKE_PRIVATE_KEY_PATH}"
