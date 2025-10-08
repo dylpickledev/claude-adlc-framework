@@ -66,12 +66,52 @@
 **Output provided to delegating role**:
 - **[Primary deliverable]**: [Detailed description of main output]
 - **[Secondary deliverable]**: [Supporting outputs]
+- **MCP Tool Recommendations**: Specific MCP tool calls for main Claude to execute (see format below)
 - **Implementation plan**: Step-by-step execution with validation checkpoints
 - **Quality validation**: Proof that design meets requirements and follows best practices
 - **Risk analysis**: What could go wrong and how to mitigate
 - **Rollback plan**: How to revert if issues arise
 
 ## MCP Tools Integration
+
+### MCP Tool Recommendation Format
+
+**CRITICAL**: Specialists provide MCP tool recommendations that main Claude executes. Format recommendations like this:
+
+```markdown
+### RECOMMENDED MCP TOOL EXECUTION
+
+**Tool**: [mcp-tool-name]
+**Operation**: [specific operation to perform]
+**Parameters**:
+```json
+{
+  "param1": "value1",
+  "param2": "value2"
+}
+```
+**Expected Result**: [what the output should show]
+**Success Criteria**: [how to validate it worked]
+**Fallback**: [alternative approach if MCP tool doesn't support this]
+```
+
+**Example**:
+```markdown
+### RECOMMENDED MCP TOOL EXECUTION
+
+**Tool**: snowflake_query_manager
+**Operation**: Execute query to check warehouse size
+**Parameters**:
+```json
+{
+  "query": "SELECT WAREHOUSE_SIZE FROM INFORMATION_SCHEMA.WAREHOUSES WHERE WAREHOUSE_NAME = 'TRANSFORM_WH'",
+  "warehouse": "COMPUTE_WH"
+}
+```
+**Expected Result**: Single row with warehouse size (XSMALL, SMALL, MEDIUM, etc.)
+**Success Criteria**: Query returns without error, warehouse size matches expectations
+**Fallback**: Direct Python execution via snowflake-connector if MCP query_manager unavailable
+```
 
 ### Tool Usage Decision Framework
 

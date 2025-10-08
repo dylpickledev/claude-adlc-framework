@@ -153,6 +153,31 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
 **Specialists**: Use MCP tools + expertise to provide validated, correct recommendations
 **Correctness > Speed**: 15x token cost justified by significantly better outcomes (per Anthropic research)
 
+### MCP Tool Execution Pattern
+
+**Specialist agents provide MCP tool recommendations, main Claude executes them**:
+
+1. **Specialist creates recommendation**:
+   ```markdown
+   ### RECOMMENDED MCP TOOL EXECUTION
+   **Tool**: snowflake_query_manager
+   **Query**: SELECT * FROM TASK_HISTORY WHERE STATE = 'FAILED'
+   **Expected Result**: List of failed tasks
+   **Fallback**: Direct Python execution if MCP unavailable
+   ```
+
+2. **Main Claude executes**:
+   - Reads specialist recommendation
+   - Executes MCP tool call or fallback approach
+   - Returns results to specialist (if needed for analysis)
+   - Implements specialist recommendations
+
+3. **Why this pattern**:
+   - Specialists focus on expertise (what to do, which tools to use)
+   - Main Claude handles execution (MCP calls, Python scripts, Bash commands)
+   - Specialists can't execute directly (research-only by design)
+   - Clear separation of concerns: planning vs execution
+
 *See `.claude/memory/patterns/cross-system-analysis-patterns.md` for detailed agent coordination*
 
 ## Context Management & Memory System

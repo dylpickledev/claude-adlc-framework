@@ -1,102 +1,59 @@
-# Snowflake MCP Server Configuration
-# This file configures the Snowflake MCP server for DA Agent Hub integration
+# Snowflake MCP Server Service Configuration
+# This file defines which Cortex services and tools are enabled
+# Authentication credentials are passed via CLI arguments
 
-# Connection Configuration
-connections:
-  default:
-    # Authentication method: 'password', 'private_key', or 'browser'
-    auth_method: "${SNOWFLAKE_AUTH_METHOD}"
+# Connection Settings
+connection:
+  database: ANALYTICS_DW
+  schema: PROD_SALES_DM
+  warehouse: TABLEAU_WH
+  role: DEVELOPER
 
-    # Snowflake account identifier
-    account: "${SNOWFLAKE_ACCOUNT}"
+# Cortex Agent Services
+agent_services: []
+  # Example:
+  # - service_name: my_agent
+  #   description: Agent that helps with sales data
+  #   database_name: ANALYTICS_DW
+  #   schema_name: PROD_SALES_DM
 
-    # Username for authentication
-    user: "${SNOWFLAKE_USER}"
+# Cortex Search Services
+search_services: []
+  # Example:
+  # - service_name: my_search
+  #   description: Search service for customer documents
+  #   database_name: ANALYTICS_DW
+  #   schema_name: PROD_SALES_DM
 
-    # Password (only required if auth_method is 'password')
-    # PLACEHOLDER_REPLACED_AT_RUNTIME will be replaced by wrapper script
-    password: "PLACEHOLDER_REPLACED_AT_RUNTIME"
+# Cortex Analyst Services
+analyst_services: []
+  # Example:
+  # - service_name: sales_analyst
+  #   semantic_model: ANALYTICS_DW.PROD_SALES_DM.SALES_SEMANTIC_VIEW
+  #   description: Analyst for sales metrics and trends
 
-    # Private key path (only required if auth_method is 'private_key')
-    private_key_path: "${SNOWFLAKE_PRIVATE_KEY_PATH}"
+# Enable/Disable Tool Groups
+other_services:
+  object_manager: true    # Database, schema, table, view management
+  query_manager: true     # SQL execution capabilities
+  semantic_manager: true  # Semantic view discovery and querying
 
-    # Private key passphrase (optional, for encrypted private keys)
-    private_key_passphrase: "${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}"
-
-    # Default database to connect to
-    database: "${SNOWFLAKE_DATABASE}"
-
-    # Default schema to use
-    schema: "${SNOWFLAKE_SCHEMA}"
-
-    # Default warehouse to use
-    warehouse: "${SNOWFLAKE_WAREHOUSE}"
-
-    # Default role to use
-    role: "${SNOWFLAKE_ROLE}"
-
-# Tool Configuration
-tools:
-  # Enable Cortex Search functionality
-  cortex_search:
-    enabled: true
-    # Maximum number of search results to return
-    max_results: 100
-
-  # Enable Cortex Analyst functionality
-  cortex_analyst:
-    enabled: true
-    # Semantic models to include
-    semantic_models: []
-
-  # Enable Cortex Agent functionality
-  cortex_agent:
-    enabled: true
-
-  # Enable SQL execution
-  sql_execution:
-    enabled: true
-    # Automatically add LIMIT clause to prevent large result sets
-    auto_limit: 1000
-    # Allow only read-only operations
-    read_only: true
-
-  # Enable object management (databases, schemas, tables, views)
-  object_management:
-    enabled: true
-    # Read-only access to object metadata
-    read_only: true
-
-# Security Settings
-security:
-  # Enforce read-only operations across all tools
-  enforce_read_only: true
-
-  # Maximum query execution time in seconds
-  query_timeout: 300
-
-  # Allow list of SQL statement patterns (regex)
-  allowed_sql_patterns:
-    - "^SELECT\\s+"
-    - "^WITH\\s+"
-    - "^SHOW\\s+"
-    - "^DESCRIBE\\s+"
-    - "^DESC\\s+"
-
-  # Block list of SQL statement patterns (regex)
-  blocked_sql_patterns:
-    - "^DROP\\s+"
-    - "^DELETE\\s+"
-    - "^UPDATE\\s+"
-    - "^INSERT\\s+"
-    - "^CREATE\\s+"
-    - "^ALTER\\s+"
-    - "^TRUNCATE\\s+"
-
-# Logging Configuration
-logging:
-  level: "INFO"
-  # Log SQL statements for audit purposes
-  log_sql: true
-  # Log query results (be careful with sensitive data)
-  log_results: false
+# SQL Statement Permissions
+sql_statement_permissions:
+  - Alter: false
+  - Command: true
+  - Comment: false
+  - Commit: false
+  - Create: false
+  - Delete: false
+  - Describe: true
+  - Drop: false
+  - Insert: false
+  - Merge: false
+  - Rollback: false
+  - Select: true
+  - Transaction: false
+  - TruncateTable: false
+  - Unknown: false  # Block unknown SQL statement types
+  - Update: false
+  - Use: true
