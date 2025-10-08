@@ -6,10 +6,10 @@
     },
     "snowflake-mcp": {
       "command": "bash",
-      "args": ["scripts/launch-snowflake-mcp.sh"],
+      "args": ["scripts/debug-snowflake-mcp.sh"],
       "disabled": false,
       "autoApprove": [],
-      "_comment": "Week 1 Day 5 - Uses wrapper script to inject password at runtime (fixes ${VAR} expansion issue)"
+      "_comment": "Week 1 Day 5 - TEMPORARILY using debug wrapper to diagnose connection failure"
     },
     "aws-api": {
       "command": "uvx",
