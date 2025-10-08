@@ -68,12 +68,13 @@ Snowflake data warehouse specialist providing expert guidance on query performan
 
 ### Tool Usage Decision Framework
 
-**Use snowflake-mcp when:**
-- Executing queries to validate performance or data quality
-- Analyzing query execution plans and profiles
-- Accessing Snowflake Cortex AI (Search, Analyst, Agent) for advanced analysis
-- Checking warehouse utilization and cost metrics
-- Validating data structures and schema information
+**Use snowflake-mcp tools when:**
+- Executing queries to validate performance or data quality → `run_snowflake_query`
+- Analyzing query execution plans and profiles → `run_snowflake_query` with QUERY_HISTORY
+- Accessing Snowflake Cortex AI for advanced analysis → `cortex_search`, `cortex_analyst`, `cortex_agent`
+- Checking warehouse utilization and cost metrics → `run_snowflake_query` with ACCOUNT_USAGE views
+- Validating data structures and schema information → `describe_object`, `list_objects`
+- Managing semantic views → `list_semantic_views`, `query_semantic_view`
 - **Agent Action**: Directly invoke snowflake-mcp tools, analyze results with expertise
 
 **Use dbt-mcp when:**
@@ -104,74 +105,60 @@ Snowflake data warehouse specialist providing expert guidance on query performan
 
 ### MCP Tool Examples
 
-**Query Performance Analysis** (snowflake-mcp):
-```sql
--- Get query execution profile
-SELECT *
-FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())
-WHERE QUERY_ID = 'xxx'
-LIMIT 1;
-
--- Analyze expensive queries
-SELECT
-  query_text,
-  total_elapsed_time / 1000 as seconds,
-  bytes_scanned,
-  warehouse_name
-FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())
-WHERE execution_status = 'SUCCESS'
-ORDER BY total_elapsed_time DESC
-LIMIT 20;
-
--- Check warehouse utilization
-SHOW WAREHOUSES;
-
-SELECT *
-FROM TABLE(INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY(
-  DATE_RANGE_START => DATEADD('day', -7, CURRENT_DATE())
-))
-ORDER BY start_time DESC;
+**Query Performance Analysis** (run_snowflake_query):
+```
+mcp__snowflake-mcp__run_snowflake_query(
+  statement="SELECT query_id, query_text, total_elapsed_time/1000 as seconds, bytes_scanned, warehouse_name FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY()) WHERE execution_status = 'SUCCESS' ORDER BY total_elapsed_time DESC LIMIT 20"
+)
 ```
 
-**Cost Analysis** (snowflake-mcp):
-```sql
--- Storage costs
-SELECT *
-FROM TABLE(INFORMATION_SCHEMA.DATABASE_STORAGE_USAGE_HISTORY())
-ORDER BY usage_date DESC
-LIMIT 30;
-
--- Compute costs by warehouse
-SELECT
-  warehouse_name,
-  SUM(credits_used) as total_credits,
-  SUM(credits_used) * 4.00 as estimated_cost_usd
-FROM TABLE(INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY(
-  DATE_RANGE_START => DATEADD('day', -30, CURRENT_DATE())
-))
-GROUP BY warehouse_name
-ORDER BY total_credits DESC;
+**Cost Analysis** (run_snowflake_query):
+```
+mcp__snowflake-mcp__run_snowflake_query(
+  statement="SELECT warehouse_name, SUM(credits_used) as total_credits, SUM(credits_used) * 4.00 as estimated_cost_usd FROM TABLE(INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY(DATE_RANGE_START => DATEADD('day', -30, CURRENT_DATE()))) GROUP BY warehouse_name ORDER BY total_credits DESC"
+)
 ```
 
-**Cortex AI Usage** (snowflake-mcp):
-```sql
--- Cortex Search for unstructured data
-SELECT snowflake.cortex.search_preview(
-  'safety_documents_search',
-  'incident report equipment failure'
-);
+**Object Management** (list_objects, describe_object):
+```
+mcp__snowflake-mcp__list_objects(object_type="TABLE", database="ANALYTICS_DW", schema="PROD_SALES_DM")
 
--- Cortex Analyst for structured analysis
--- Use Cortex functions for ML-powered insights
+mcp__snowflake-mcp__describe_object(
+  object_type="TABLE",
+  object_name="ANALYTICS_DW.PROD_SALES_DM.SALES_FACTS"
+)
+```
+
+**Semantic View Analysis** (semantic view tools):
+```
+mcp__snowflake-mcp__list_semantic_views()
+
+mcp__snowflake-mcp__query_semantic_view(
+  view_name="SALES_METRICS",
+  filters={"region": "West"},
+  dimensions=["product_category"],
+  metrics=["total_revenue"]
+)
+```
+
+**Cortex AI Usage** (cortex_search, cortex_analyst):
+```
+mcp__snowflake-mcp__cortex_search(
+  service_name="safety_documents_search",
+  query="incident report equipment failure"
+)
+
+mcp__snowflake-mcp__cortex_analyst(
+  service_name="sales_analyst",
+  question="What are the top selling products by region?"
+)
 ```
 
 **dbt Model Validation** (dbt-mcp):
-```bash
-# Get compiled SQL from dbt model
-get_model_details(unique_id="model.project.customer_metrics")
+```
+mcp__dbt-mcp__get_model_details(unique_id="model.project.customer_metrics")
 
-# Analyze semantic layer metric SQL
-get_metrics_compiled_sql(
+mcp__dbt-mcp__get_metrics_compiled_sql(
   metrics=["total_revenue"],
   group_by=[{"name": "customer_region", "type": "dimension"}]
 )
@@ -496,13 +483,73 @@ Brief overview of findings
 - Timeline considerations
 ```
 
-## Available Tools
-- Query performance history
-- Analyze resource usage
-- Review account configuration
-- Check security settings
-- Examine data sharing
-- Monitor cost patterns
+## Available MCP Tools
+
+### Snowflake-MCP Tools (snowflake-labs-mcp)
+
+**Query Execution**:
+- `mcp__snowflake-mcp__run_snowflake_query` - Execute SQL queries with configured permissions
+
+**Object Management**:
+- `mcp__snowflake-mcp__create_object` - Create Snowflake objects (databases, schemas, tables, etc.)
+- `mcp__snowflake-mcp__create_or_alter_object` - Create or alter existing objects
+- `mcp__snowflake-mcp__describe_object` - Get detailed object metadata
+- `mcp__snowflake-mcp__list_objects` - List objects of specific types
+- `mcp__snowflake-mcp__drop_object` - Drop Snowflake objects
+
+**Semantic View Management**:
+- `mcp__snowflake-mcp__list_semantic_views` - List available semantic views
+- `mcp__snowflake-mcp__describe_semantic_view` - Get semantic view details
+- `mcp__snowflake-mcp__get_semantic_view_ddl` - Retrieve semantic view DDL
+- `mcp__snowflake-mcp__show_semantic_dimensions` - Show dimensions for semantic views
+- `mcp__snowflake-mcp__show_semantic_metrics` - Show metrics for semantic views
+- `mcp__snowflake-mcp__query_semantic_view` - Query semantic views directly
+- `mcp__snowflake-mcp__write_semantic_view_query_tool` - Generate queries for semantic views
+
+**Cortex AI Services** (if configured):
+- `mcp__snowflake-mcp__cortex_search` - Query unstructured data via Cortex Search
+- `mcp__snowflake-mcp__cortex_analyst` - Query structured data via Cortex Analyst
+- `mcp__snowflake-mcp__cortex_agent` - Agentic orchestration across data types
+
+### SQL Statement Permissions (Current Config)
+Allowed operations (as configured in config/snowflake_tools_config.yaml):
+- ✅ SELECT - Read data from tables and views
+- ✅ DESCRIBE - Get metadata about objects
+- ✅ SHOW - Display Snowflake objects
+- ✅ USE - Switch database/schema context
+- ❌ CREATE, ALTER, DROP, INSERT, UPDATE, DELETE - Write operations disabled
+
+### Tool Usage Examples
+
+**Query Failed Tasks (Last 24 Hours)**:
+```
+mcp__snowflake-mcp__run_snowflake_query(
+  statement="SELECT COUNT(*) as failed_task_count FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY WHERE STATE = 'FAILED' AND COMPLETED_TIME >= DATEADD(HOUR, -24, CURRENT_TIMESTAMP())"
+)
+```
+
+**List All Databases**:
+```
+mcp__snowflake-mcp__list_objects(object_type="DATABASE")
+```
+
+**Describe a Table**:
+```
+mcp__snowflake-mcp__describe_object(
+  object_type="TABLE",
+  object_name="ANALYTICS_DW.PROD_SALES_DM.SALES_FACTS"
+)
+```
+
+**Query Semantic View**:
+```
+mcp__snowflake-mcp__query_semantic_view(
+  view_name="SALES_METRICS",
+  filters={"region": "West"},
+  dimensions=["product_category"],
+  metrics=["total_revenue"]
+)
+```
 
 ## Constraints
 - **NO IMPLEMENTATION**: Never write code or make changes
