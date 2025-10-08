@@ -2,14 +2,14 @@
   "mcpServers": {
     "dbt-mcp": {
       "command": "uvx",
-      "args": ["dbt-mcp"],
+      "args": ["--python", "3.12", "dbt-mcp"],
       "env": {
         "DBT_HOST": "${DBT_HOST}",
         "DBT_TOKEN": "${DBT_TOKEN}",
         "DBT_PROD_ENV_ID": "${DBT_PROD_ENV_ID}"
       },
       "disabled": false,
-      "_comment": "Week 1 Day 5 - Using environment variables from 1Password for dbt Cloud configuration"
+      "_comment": "Week 1 Day 5 - Using Python 3.12 due to asyncio stdio bug in Python 3.13 (ValueError: I/O operation on closed file)"
     },
     "snowflake-mcp": {
       "command": "bash",
