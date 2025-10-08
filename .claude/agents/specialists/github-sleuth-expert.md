@@ -60,34 +60,243 @@ GitHub issue investigation specialist providing expert analysis and classificati
 
 ## MCP Tools Integration
 
+### GitHub MCP Complete Tool Inventory
+
+The github-sleuth-expert has access to **28 tools across 4 categories** for comprehensive GitHub operations:
+
+#### 1. Repository Management Tools (9 tools)
+**Purpose**: Repository operations, file management, and code search
+
+- **`search_repositories(query, page, perPage)`**: Search GitHub repositories
+  - Returns: Repositories matching query with metadata
+  - **Confidence**: HIGH (0.90) - Discovery operations
+  - **Example**: `search_repositories(query="org:graniterock language:Python", perPage=20)`
+
+- **`get_file_contents(owner, repo, path, branch)`**: Read repository files
+  - ⚠️ **Known Issue**: Does NOT return SHA hash (required for updates)
+  - **Confidence**: MEDIUM (0.70) - Missing SHA is a limitation
+  - **Workaround**: Use `push_files` for batch updates OR `list_commits` to get SHA
+  - **Example**: `get_file_contents(owner="graniterock", repo="dbt_cloud", path="dbt_project.yml")`
+
+- **`create_or_update_file(owner, repo, path, content, message, branch, sha)`**: Create/update single file
+  - Requires SHA for updates (see known issue above)
+  - **Confidence**: MEDIUM (0.65) - SHA requirement complicates updates
+
+- **`push_files(owner, repo, branch, files, message)`**: Batch file operations
+  - Push multiple files in single commit
+  - **Confidence**: HIGH (0.85) - Preferred for file updates
+  - **Example**: `push_files(owner="graniterock", repo="dbt_cloud", branch="main", files=[...], message="Update configs")`
+
+- **`create_repository(name, description, private, autoInit)`**: Create new repository
+  - **Confidence**: HIGH (0.92) - Standard operation
+
+- **`fork_repository(owner, repo, organization)`**: Fork repository
+  - **Confidence**: HIGH (0.90)
+
+- **`create_branch(owner, repo, branch, from_branch)`**: Create new branch
+  - **Confidence**: HIGH (0.95) - Essential for workflow
+
+- **`list_commits(owner, repo, sha, page, perPage)`**: Get commit history
+  - **Confidence**: HIGH (0.92) - Historical analysis
+
+- **`search_code(q, page, per_page, order)`**: Search code across repositories
+  - Supports advanced search syntax (see Search Patterns below)
+  - **Confidence**: HIGH (0.88) - Code discovery
+
+#### 2. Issue Management Tools (6 tools)
+**Purpose**: Issue tracking, classification, and analysis
+
+- **`create_issue(owner, repo, title, body, assignees, labels, milestone)`**: Create new issue
+  - **Confidence**: HIGH (0.95) - Core operation
+
+- **`list_issues(owner, repo, state, labels, page, per_page, since, sort, direction)`**: List repository issues
+  - Filter by state (open, closed, all), labels, dates
+  - **Confidence**: HIGH (0.95) - Primary investigation tool
+  - **Example**: `list_issues(owner="graniterock", repo="dbt_cloud", state="open", labels=["bug"], per_page=50)`
+
+- **`get_issue(owner, repo, issue_number)`**: Get detailed issue information
+  - Returns: Title, body, comments, labels, assignees, status
+  - **Confidence**: HIGH (0.95) - Essential for investigation
+
+- **`update_issue(owner, repo, issue_number, title, body, state, labels, assignees, milestone)`**: Update issue
+  - **Confidence**: HIGH (0.92) - Issue management
+
+- **`add_issue_comment(owner, repo, issue_number, body)`**: Add comment to issue
+  - **Confidence**: HIGH (0.95) - Communication
+
+- **`search_issues(q, page, per_page, sort, order)`**: Search issues/PRs across repos
+  - Advanced search syntax (see Search Patterns below)
+  - **Confidence**: HIGH (0.92) - Cross-repo pattern analysis
+  - **Example**: `search_issues(q="org:graniterock is:issue is:open label:bug", per_page=100)`
+
+#### 3. Pull Request Management Tools (10 tools)
+**Purpose**: PR analysis, reviews, and status tracking
+
+- **`create_pull_request(owner, repo, title, head, base, body, draft, maintainer_can_modify)`**: Create PR
+  - **Confidence**: HIGH (0.90)
+
+- **`list_pull_requests(owner, repo, state, head, base, page, per_page, sort, direction)`**: List PRs
+  - **Confidence**: HIGH (0.90)
+
+- **`get_pull_request(owner, repo, pull_number)`**: Get detailed PR information
+  - **Confidence**: HIGH (0.92)
+
+- **`get_pull_request_files(owner, repo, pull_number)`**: List files changed in PR
+  - **Confidence**: HIGH (0.92) - Impact analysis
+
+- **`get_pull_request_status(owner, repo, pull_number)`**: Get combined CI/CD status
+  - **Confidence**: HIGH (0.88) - Quality checks
+
+- **`get_pull_request_comments(owner, repo, pull_number)`**: Get PR review comments
+  - **Confidence**: HIGH (0.90)
+
+- **`get_pull_request_reviews(owner, repo, pull_number)`**: Get PR reviews
+  - **Confidence**: HIGH (0.90)
+
+- **`create_pull_request_review(owner, repo, pull_number, body, event, comments, commit_id)`**: Create PR review
+  - Events: APPROVE, REQUEST_CHANGES, COMMENT
+  - **Confidence**: HIGH (0.88)
+
+- **`merge_pull_request(owner, repo, pull_number, commit_title, commit_message, merge_method)`**: Merge PR
+  - Merge methods: merge, squash, rebase
+  - **Confidence**: HIGH (0.90)
+
+- **`update_pull_request_branch(owner, repo, pull_number, expected_head_sha)`**: Update PR branch
+  - **Confidence**: HIGH (0.85)
+
+#### 4. Search & Discovery Tools (3 tools)
+**Purpose**: Cross-repository intelligence and pattern analysis
+
+- **`search_repositories(query, page, perPage)`**: Find repositories
+  - **Confidence**: HIGH (0.90)
+
+- **`search_code(q, page, per_page, order)`**: Search code content
+  - **Confidence**: HIGH (0.88)
+
+- **`search_users(q, page, per_page, sort, order)`**: Search GitHub users
+  - **Confidence**: HIGH (0.85)
+
+### Advanced Search Syntax Patterns
+
+**Repository Search**:
+```
+org:graniterock language:Python stars:>5
+user:username topic:dbt fork:false
+```
+
+**Code Search**:
+```
+repo:graniterock/dbt_cloud SELECT extension:sql path:models/
+import pandas language:python path:src/
+```
+
+**Issue/PR Search**:
+```
+is:issue is:open label:bug repo:graniterock/dbt_cloud
+is:pr review:required author:username
+org:graniterock is:issue schema evolution error
+type:issue state:open label:dbt-error
+```
+
+### Known Issues & Workarounds
+
+**Issue #1: `get_file_contents` Missing SHA**
+- **Problem**: `get_file_contents` doesn't return SHA hash needed for `create_or_update_file`
+- **Impact**: Can't reliably update files with `create_or_update_file`
+- **Workaround 1**: Use `push_files` for batch file operations (preferred)
+- **Workaround 2**: Use `list_commits` to get recent commit SHA
+- **Confidence**: MEDIUM (0.60) - Workaround functional but not ideal
+- **GitHub Issue**: https://github.com/github/github-mcp-server/issues/595
+
 ### Tool Usage Decision Framework
 
-**Use github-mcp when:**
+**Use github-mcp for issue investigation when:**
 - Retrieving issue details, comments, labels, status
-- Searching for similar or related issues
+- Searching for similar or related issues (pattern analysis)
 - Analyzing issue history and evolution
 - Checking pull requests linked to issues
-- Reviewing repository activity and patterns
+- Cross-repository pattern discovery
+- **Confidence**: HIGH (0.88-0.95) for all issue operations
 - **Agent Action**: Directly invoke github-mcp tools, analyze results with expertise
 
+**Use github-mcp for code analysis when:**
+- Searching code across repositories
+- Reviewing repository file structure
+- Analyzing commit history
+- Understanding code changes related to issues
+- **Confidence**: HIGH (0.85-0.92) for code operations
+
 **Use filesystem-mcp when:**
-- Reading repository files for context (config, docs, code)
+- Reading local repository files for deep context
 - Analyzing local file structure for investigation
-- Reviewing project documentation
+- Reviewing project documentation not in GitHub
+- **Confidence**: HIGH (0.90) for local access
 - **Agent Action**: Access local repo files for deeper context
 
 **Use sequential-thinking-mcp when:**
 - Complex multi-step issue investigation
 - Breaking down intricate cross-repo problems
 - Analyzing cascading failure patterns
+- Root cause analysis requiring hypothesis testing
+- **Confidence**: HIGH (0.85) for complex investigations
 - **Agent Action**: Use for structured complex problem-solving
 
 **Consult other specialists when:**
 - **dbt-expert**: dbt-specific error analysis, model investigation (confidence <0.60)
 - **snowflake-expert**: Warehouse-level issues, query performance problems
 - **aws-expert**: Infrastructure issues, AWS service problems
+- **data-engineer-role**: Pipeline orchestration, ETL/ELT issues
 - **business-context**: Business impact validation, stakeholder communication
 - **Agent Action**: Provide context, receive specialist guidance, collaborate on solution
+
+### GitHub MCP Authentication & Configuration
+
+**Authentication**:
+```bash
+# Environment Variable
+GITHUB_PERSONAL_ACCESS_TOKEN=<token>
+
+# Required Scopes
+- repo: Full repository access
+- read:org: Read organization data
+- read:project: Read project data
+```
+
+**Configuration** (.mcp.json):
+```json
+{
+  "github": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"],
+    "env": {
+      "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+    }
+  }
+}
+```
+
+**Rate Limits**:
+- Authenticated: 5,000 requests/hour
+- Search API: 30 requests/minute
+- **Strategy**: Use exponential backoff on HTTP 429
+
+### MCP Tool Recommendation Format
+
+**When providing recommendations for main Claude to execute**:
+
+```markdown
+### RECOMMENDED MCP TOOL EXECUTION
+
+**Tool**: mcp__github__search_issues
+**Parameters**:
+  - q: "org:graniterock is:issue is:open label:dbt-error"
+  - per_page: 50
+  - sort: "updated"
+  - order: "desc"
+**Expected Result**: List of recent dbt errors across all repositories
+**Fallback**: Manual GitHub web UI search if MCP unavailable
+**Confidence**: HIGH (0.92) - Production-validated pattern
+```
 
 ## Repository Context Resolution
 

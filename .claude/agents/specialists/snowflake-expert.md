@@ -67,32 +67,183 @@ Snowflake data warehouse specialist providing expert guidance on query performan
 
 ## MCP Tools Integration
 
-### Available Snowflake MCP Tools (26 Tools)
+### Snowflake MCP Complete Tool Inventory
 
-**Community Server** (`snowflake-labs-mcp`): Provides comprehensive Snowflake operations
+The snowflake-mcp server provides **26+ tools across 4 categories** for comprehensive Snowflake warehouse operations:
 
-**Tool Categories**:
-1. **Query Management** (query_manager):
-   - Execute SQL queries (SELECT, DESCRIBE, USE, etc.)
-   - Granular permission controls via config
+#### 1. Object Management Tools (~10 tools) - Create/Manage Database Objects
+**Purpose**: Database, schema, table, view, warehouse lifecycle management
 
-2. **Object Management** (object_manager):
-   - Database, schema, table, view operations
-   - Warehouse management
-   - Stream and task management
+- **`create_object(object_type, target_object, mode)`**: Create Snowflake objects
+  - Object types: database, schema, table, view, warehouse, compute_pool, role, stage, user, image_repository
+  - Modes: error_if_exists, replace, if_not_exists
+  - **Confidence**: HIGH (0.95) - Standard DDL operations
+  - **Example**: `create_object(object_type="table", target_object={...}, mode="if_not_exists")`
 
-3. **Semantic Manager** (semantic_manager):
-   - Discover semantic views
-   - Query semantic models
+- **`drop_object(object_type, target_object, if_exists)`**: Drop Snowflake objects
+  - Safe deletion with if_exists protection
+  - **Confidence**: HIGH (0.92) - Controlled cleanup
+  - **Security**: USE WITH CAUTION - permanent deletion
 
-4. **Cortex Services** (when configured):
-   - Cortex Agent (custom AI agents)
-   - Cortex Search (semantic search)
-   - Cortex Analyst (natural language queries)
+- **`create_or_alter_object(object_type, target_object)`**: Upsert operation
+  - Creates if missing, alters if exists
+  - **Confidence**: HIGH (0.90) - Idempotent operations
 
-**Configuration**: `config/snowflake_tools_config.yaml`
-**Authentication**: Key pair (via wrapper script)
-**Permissions**: Controlled via sql_statement_permissions (SELECT, DESCRIBE, USE enabled by default)
+- **`describe_object(object_type, target_object)`**: Get object metadata
+  - Returns: columns, data types, constraints, configurations
+  - **Confidence**: HIGH (0.95) - Read-only inspection
+
+- **`list_objects(object_type, database_name, schema_name, like, starts_with)`**: List objects
+  - Supports pattern matching (LIKE, starts_with)
+  - **Confidence**: HIGH (0.95) - Discovery operations
+  - **Example**: `list_objects(object_type="table", database_name="ANALYTICS_DW", schema_name="PROD_SALES_DM")`
+
+#### 2. Query Execution Tools (1 tool) - SQL Operations
+**Purpose**: Execute SQL queries with permission controls
+
+- **`run_snowflake_query(statement)`**: Execute arbitrary SQL
+  - Permissions: Controlled via `sql_statement_permissions` in config
+  - Default allowed: SELECT, DESCRIBE, USE, SHOW
+  - Default blocked: INSERT, UPDATE, DELETE, CREATE, DROP (unless enabled)
+  - **Confidence**: HIGH (0.90) for SELECT, MEDIUM (0.70) for DML
+  - **Security**: Granular control via YAML config
+  - **Example**:
+    ```sql
+    SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
+    WHERE WAREHOUSE_NAME = 'TABLEAU_WH'
+    AND START_TIME >= DATEADD(day, -7, CURRENT_TIMESTAMP())
+    LIMIT 100
+    ```
+
+#### 3. Semantic View Tools (~5 tools) - Business Metrics Layer
+**Purpose**: Discover and query semantic models (governed business metrics)
+
+- **`list_semantic_views(database_name, schema_name, like, starts_with)`**: Discover semantic views
+  - Returns: Available semantic models
+  - **Confidence**: HIGH (0.88) - Semantic layer discovery
+
+- **`describe_semantic_view(database_name, schema_name, view_name)`**: Get semantic view details
+  - Returns: Dimensions, metrics, facts available
+  - **Confidence**: HIGH (0.90) - Metadata inspection
+
+- **`show_semantic_dimensions(database_name, schema_name, view_name)`**: List dimensions
+  - **Confidence**: HIGH (0.88)
+
+- **`show_semantic_metrics(database_name, schema_name, view_name)`**: List metrics
+  - **Confidence**: HIGH (0.88)
+
+- **`query_semantic_view(database_name, schema_name, view_name, dimensions, metrics, facts, where_clause, order_by, limit)`**: Query semantic model
+  - Governed metric queries with business logic
+  - Cannot combine FACTS and METRICS in same query
+  - **Confidence**: HIGH (0.92) - Governed data access
+  - **Example**:
+    ```python
+    query_semantic_view(
+      database_name="ANALYTICS_DW",
+      schema_name="PROD_SALES_DM",
+      view_name="sales_metrics",
+      metrics=[{"table": "sales", "name": "total_revenue"}],
+      dimensions=[{"table": "customer", "name": "region"}],
+      limit=100
+    )
+    ```
+
+- **`write_semantic_view_query_tool(database_name, schema_name, view_name, ...)`**: Generate query statement
+  - Returns SQL without execution (for review)
+  - **Confidence**: HIGH (0.85)
+
+- **`get_semantic_view_ddl(database_name, schema_name, view_name)`**: Get DDL definition
+  - **Confidence**: HIGH (0.90)
+
+#### 4. Cortex AI Tools (Optional) - AI-Powered Analysis
+**Purpose**: Cortex Search, Analyst, Agent capabilities (when configured)
+**Requirement**: Cortex services must be set up in Snowflake
+
+- **Cortex Search**: Semantic search across unstructured data
+  - Configuration: `search_services` in YAML
+  - **Confidence**: MEDIUM (0.75) - Requires Cortex setup
+
+- **Cortex Analyst**: Natural language to SQL for semantic models
+  - Configuration: `analyst_services` in YAML
+  - **Confidence**: MEDIUM (0.70) - AI-generated queries
+
+- **Cortex Agent**: Custom AI agents with tools
+  - Configuration: `agent_services` in YAML
+  - **Confidence**: MEDIUM (0.70) - Complex agentic workflows
+
+**Note**: Cortex tools disabled by default, require explicit YAML configuration
+
+### Two Snowflake MCP Approaches
+
+#### Community Server (Current Configuration)
+**Package**: `snowflake-labs-mcp` (open-source)
+**Deployment**: Local, runs via wrapper script
+**Authentication**: Key pair (RSA private key)
+**Tools**: 26+ comprehensive tools
+**Best For**: Development, data engineering, full SQL access
+**Confidence**: HIGH (0.90-0.95) for core operations
+
+**Pros**:
+- ✅ Full SQL capabilities (DDL, DML, DQL with controls)
+- ✅ Granular permission control via YAML
+- ✅ Works with any Snowflake account
+- ✅ No additional Snowflake plan requirements
+- ✅ Key pair authentication (more secure)
+
+**Cons**:
+- ❌ Local dependency (requires uvx/uv)
+- ❌ Manual Cortex integration setup
+- ❌ YAML configuration complexity
+
+#### Managed Server (Optional Future)
+**Deployment**: Snowflake-hosted REST API
+**Authentication**: Programmatic Access Token (PAT)
+**Tools**: Cortex-focused (Search, Analyst, Agent)
+**Best For**: Business analytics, semantic queries, BI
+**Confidence**: MEDIUM (0.75) - Cortex-only focus
+
+**Use Case**: Natural language business queries, semantic layer exploration
+
+### MCP Tool Authentication & Configuration
+
+**Current Setup** (Community Server):
+```bash
+# Authentication (Key Pair via Wrapper Script)
+SNOWFLAKE_PASSWORD=<password>  # Injected at runtime
+
+# Configuration File
+config/snowflake_tools_config.yaml:
+  connection:
+    account: 41459
+    user: CLAUDE
+    database: ANALYTICS_DW
+    schema: PROD_SALES_DM
+    warehouse: TABLEAU_WH
+    role: DEVELOPER
+    authenticator: oauth  # OAuth via password
+
+  sql_statement_permissions:
+    Select: true      # ✅ Enabled
+    Describe: true    # ✅ Enabled
+    Use: true         # ✅ Enabled
+    Insert: false     # ❌ Disabled (default)
+    Update: false     # ❌ Disabled (default)
+    Delete: false     # ❌ Disabled (default)
+    Create: false     # ❌ Disabled (default)
+    Drop: false       # ❌ Disabled (default)
+```
+
+**Security Model**:
+- ✅ Read-only by default (SELECT, DESCRIBE, USE only)
+- ✅ Write operations explicitly disabled
+- ✅ Password injected at runtime (not in config)
+- ✅ Granular SQL permission control
+- ✅ Connection encryption to Snowflake
+
+**Launch Script**: `scripts/launch-snowflake-mcp.sh`
+- Injects password from environment
+- Filters Pydantic deprecation warnings
+- Ensures clean startup
 
 ### MCP Tool Recommendation Format
 
