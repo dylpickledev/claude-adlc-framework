@@ -7,19 +7,9 @@
     "snowflake-mcp": {
       "command": "bash",
       "args": ["scripts/launch-snowflake-mcp.sh"],
-      "env": {
-        "SNOWFLAKE_ACCOUNT": "${SNOWFLAKE_ACCOUNT}",
-        "SNOWFLAKE_USER": "${SNOWFLAKE_USER}",
-        "SNOWFLAKE_PASSWORD": "${SNOWFLAKE_PASSWORD}",
-        "SNOWFLAKE_DATABASE": "${SNOWFLAKE_DATABASE}",
-        "SNOWFLAKE_SCHEMA": "${SNOWFLAKE_SCHEMA}",
-        "SNOWFLAKE_WAREHOUSE": "${SNOWFLAKE_WAREHOUSE}",
-        "SNOWFLAKE_ROLE": "${SNOWFLAKE_ROLE}",
-        "SNOWFLAKE_AUTH_METHOD": "${SNOWFLAKE_AUTH_METHOD}"
-      },
       "disabled": false,
       "autoApprove": [],
-      "_comment": "Week 1 Day 5 - Standalone Snowflake MCP for snowflake-expert and role agents (uses production launcher with env var injection)"
+      "_comment": "Week 1 Day 5 - Standalone Snowflake MCP for snowflake-expert and role agents (launcher script inherits env vars from shell via secrets system)"
     },
     "aws-api": {
       "command": "uvx",
