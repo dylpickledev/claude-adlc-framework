@@ -9,6 +9,8 @@ This folder contains documentation for the ADLC Develop/Test/Deploy phases:
 - **[Claude Interactions](claude-interactions.md)**: Command reference and best practices
 - **[Setup Guide](setup.md)**: Complete installation and configuration
 - **[Workflow Configuration](workflow-config.md)**: Development workflow setup
+- **[Filesystem MCP Capabilities](filesystem-mcp-server-capabilities.md)**: Complete reference for filesystem MCP server tools and security
+- **[Filesystem MCP Quick Reference](filesystem-mcp-quick-reference.md)**: Quick lookup for filesystem MCP tools and patterns
 
 ## Key Workflows
 - **Project Execution**: `./scripts/build.sh` and `/build` command
