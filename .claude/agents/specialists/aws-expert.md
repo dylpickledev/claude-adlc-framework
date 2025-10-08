@@ -342,37 +342,250 @@ AWS cloud infrastructure specialist providing expert guidance across all AWS ser
 
 ## MCP Tools Integration
 
+### AWS MCP Complete Tool Inventory
+
+The aws-expert has access to **TWO complementary MCP servers** for AWS operations:
+
+#### AWS API MCP Server (3 core tools)
+**Purpose**: Execute AWS CLI commands and discover AWS operations
+**Package**: `awslabs.aws-api-mcp-server` (official AWS Labs)
+**Authentication**: AWS credentials (IAM, SSO, named profiles)
+**Security**: READ_OPERATIONS_ONLY mode enabled by default
+
+---
+
+**1. `call_aws(cli_command, max_results)`** - PRIMARY EXECUTION TOOL
+**Description**: Execute AWS CLI commands with validation and error handling
+**Parameters**:
+- `cli_command` (required): Complete AWS CLI command starting with "aws"
+- `max_results` (optional): Pagination limit
+
+**Key Features**:
+- Validates commands before execution
+- Default region: us-west-2
+- Strict command restrictions (no pipes, shell operators)
+- Absolute paths only
+- Returns detailed error messages
+
+**Confidence**: HIGH (0.92) - Production AWS operations
+**Use Cases**:
+- List running EC2 instances
+- Get Lambda function configuration
+- Describe ECS services and tasks
+- Query CloudWatch logs
+- List S3 buckets and objects
+- Describe RDS instances
+
+**Example**:
+```bash
+call_aws(cli_command="aws ecs describe-services --cluster my-cluster --services my-service --region us-west-2")
+call_aws(cli_command="aws lambda list-functions --region us-west-2", max_results=10)
+```
+
+---
+
+**2. `suggest_aws_commands(query)`** - DISCOVERY TOOL
+**Description**: Natural language to AWS CLI command suggestions using RAG
+**Parameters**:
+- `query` (required): Natural language description (max 2000 chars)
+
+**How It Works**:
+- Uses RAG (Retrieval-Augmented Generation) with M3 embeddings
+- FAISS for nearest neighbor search
+- Returns up to 10 command suggestions with confidence scores
+
+**Confidence**: MEDIUM (0.75) - AI suggestions require validation
+**Key Principle**: One query = one CLI command (break complex requests into multiple queries)
+
+**Use Cases**:
+- "List all running EC2 instances in us-east-1 region"
+- "Get the size of my S3 bucket named 'my-backup-bucket'"
+- "Create a new S3 bucket with versioning enabled"
+
+**Example**:
+```python
+suggest_aws_commands(query="List all Lambda functions with Python runtime")
+# Returns suggested AWS CLI commands with confidence scores
+# Then execute best suggestion with call_aws
+```
+
+---
+
+**3. `get_execution_plan(task_description)`** - EXPERIMENTAL
+**Description**: Structured guidance for complex multi-step AWS tasks
+**Status**: Experimental - requires `EXPERIMENTAL_AGENT_SCRIPTS="true"`
+**Confidence**: MEDIUM (0.70) - Experimental feature
+
+**Use Cases**:
+- Complex workflows (multi-service coordination)
+- Reusable automation patterns
+- Multi-step AWS operations
+
+---
+
+#### AWS Documentation MCP Server (3 tools)
+**Purpose**: Access current AWS documentation (post-training cutoff)
+**Package**: `awslabs.aws-documentation-mcp-server` (official AWS Labs)
+**Authentication**: None required (public AWS docs)
+**Key Value**: **CURRENT** AWS documentation (not just training data from January 2025)
+
+---
+
+**1. `read_documentation(url, max_length, start_index)`** - READ AWS DOCS
+**Description**: Fetch and convert AWS documentation pages to markdown
+**Parameters**:
+- `url` (required): AWS docs URL (must be docs.aws.amazon.com/*.html)
+- `max_length` (optional): Maximum characters to return (default: 5000)
+- `start_index` (optional): Starting character index (for chunked reading)
+
+**Confidence**: HIGH (0.95) - Official AWS documentation
+**Use Cases**:
+- Read specific service documentation when you have URL
+- Chunked reading for long documents (>5000 chars)
+- Verify exact API parameters and syntax
+
+**Example**:
+```python
+read_documentation(url="https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html")
+# For long docs, make multiple calls:
+read_documentation(url="...", start_index=5000, max_length=5000)
+```
+
+---
+
+**2. `search_documentation(search_phrase, limit)`** - SEARCH AWS DOCS
+**Description**: Search all AWS documentation using official AWS search API
+**Parameters**:
+- `search_phrase` (required): Search query
+- `limit` (optional): Max results to return (default: 10, max: 50)
+
+**Confidence**: HIGH (0.92) - Official search results with ranking
+**Returns**: Ranked results with URLs, titles, query ID, and excerpts
+
+**Search Tips**:
+- Use specific technical terms ("S3 bucket versioning" not just "versioning")
+- Include service names to narrow results
+- Use quotes for exact phrase matching
+- Include abbreviations and alternative terms
+
+**Example**:
+```python
+search_documentation(search_phrase="ECS Fargate task definition CPU memory limits", limit=5)
+```
+
+---
+
+**3. `recommend(url)`** - DISCOVER RELATED CONTENT
+**Description**: Get content recommendations for an AWS documentation page
+**Parameters**:
+- `url` (required): AWS docs URL to get recommendations for
+
+**Confidence**: HIGH (0.88) - Discovers related and new content
+**Returns**: 4 categories of recommendations:
+1. **Highly Rated**: Popular pages within same AWS service
+2. **New**: Recently added pages (great for finding new features!)
+3. **Similar**: Pages covering similar topics
+4. **Journey**: Pages commonly viewed next by other users
+
+**Use Cases**:
+- Find related content after reading a doc page
+- Discover important pages for a service
+- **Find newly released features** by checking "New" recommendations
+- Explore alternative explanations of complex concepts
+
+**Example**:
+```python
+# To find new Lambda features:
+recommend(url="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html")
+# Check the "New" section in results
+```
+
+---
+
 ### Tool Usage Decision Framework
 
-**Use aws-api MCP when:**
+**Use aws-api MCP `call_aws` when:**
+- You know the exact AWS CLI command needed
 - Querying current infrastructure state
 - Listing resources across AWS accounts
 - Gathering configuration details for existing services
-- Building inventory or audit documentation
-- Validating actual deployed configurations vs. expected state
-- **Agent Action**: Directly invoke aws-api MCP tools, analyze results
+- Validating actual deployed configurations
+- **Confidence**: HIGH (0.92) for known commands
+- **Agent Action**: Execute aws-api MCP, analyze results
+
+**Use aws-api MCP `suggest_aws_commands` when:**
+- You're uncertain about the exact AWS CLI command
+- Exploring available AWS CLI operations
+- Need to discover the right service/operation for a task
+- **Confidence**: MEDIUM (0.75) - Suggestions require validation
+- **Agent Action**: Get suggestions, then use `call_aws` to execute
 
 **Use aws-docs MCP when:**
-- Latest API syntax or parameters needed (confidence < 0.85 on specific service)
-- Official code examples required
-- Verifying current best practices for unfamiliar services
-- Service-specific configuration options need validation
-- **Agent Action**: Query aws-docs MCP, incorporate into recommendations
-
-**Use aws-knowledge MCP when:**
-- Governance patterns for services with confidence < 0.85
-- AWS Well-Architected Framework guidance
-- Compliance and security best practices
-- Multi-service integration patterns
-- Architecture decision validation
-- **Agent Action**: Query aws-knowledge MCP, synthesize with agent's patterns
+- Service limits/quotas needed (change frequently - must be current)
+- New AWS features released after January 2025 training cutoff
+- Best practices verification (evolve over time)
+- Security recommendations (must be current)
+- Exact API parameters and syntax (must be accurate)
+- Confidence < 0.85 on specific service details
+- **Confidence**: HIGH (0.92-0.95) for current documentation
+- **Agent Action**: Query aws-docs, incorporate into recommendations
 
 **Use agent's existing knowledge when:**
 - Confidence ≥ 0.85 on the service/pattern
-- Proven patterns from successful projects
-- Cost optimization recommendations
+- Proven patterns from successful projects (ALB OIDC, ECS deployment, etc.)
+- Cost optimization recommendations (well-established patterns)
 - Architecture decision frameworks already documented
-- **Agent Action**: Apply proven patterns directly, optionally validate with MCP
+- **Confidence**: HIGH (0.85-0.92) for proven patterns
+- **Agent Action**: Apply proven patterns, optionally validate with MCP
+
+### AWS MCP Authentication & Configuration
+
+**AWS API MCP**:
+```bash
+# Environment Variables in .mcp.json
+AWS_REGION=us-west-2
+AWS_PROFILE=default
+READ_OPERATIONS_ONLY=true  # ✅ Enabled for safety
+FASTMCP_LOG_LEVEL=ERROR
+
+# Authentication Methods
+- Named AWS profiles (recommended)
+- IAM credentials
+- AWS SSO
+```
+
+**Security Controls**:
+- ✅ `READ_OPERATIONS_ONLY=true` restricts to read-only operations
+- ✅ No shell operators (pipes, redirection, etc.)
+- ✅ Absolute paths only (no relative paths)
+- ✅ Command validation before execution
+
+**AWS Docs MCP**:
+- No authentication required (public AWS documentation)
+- No configuration needed beyond enabling the MCP server
+
+### Critical Use Case: Documentation Currency
+
+**Why aws-docs MCP is critical for aws-expert:**
+
+AWS documentation changes frequently. Using **current documentation** (not just training data from January 2025) is essential for:
+
+1. **Service Limits/Quotas**: Change frequently, must be current
+2. **New AWS Features**: Released after training cutoff
+3. **Best Practices**: Evolve over time
+4. **Security Recommendations**: Must be current
+5. **Exact API Parameters**: Syntax must be accurate
+
+**Pattern**: Verify before recommend
+```
+User Question → aws-expert checks training → Verifies with aws-docs MCP → Provides current recommendation
+```
+
+**Source Attribution Standard**:
+Every aws-expert recommendation should include:
+- **Recommendation Based On**: Current AWS Docs (MCP) vs Training Knowledge
+- **Verification Status**: Verified vs Recommend Verification
+- **AWS Documentation Reference**: URL from MCP results
 
 ### MCP Tool Examples
 

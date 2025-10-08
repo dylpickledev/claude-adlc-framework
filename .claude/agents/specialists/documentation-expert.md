@@ -52,6 +52,192 @@ This agent has **documentation-focused tool access** for optimal content creatio
 
 **Rationale**: Documentation excellence requires comprehensive access to analyze existing documentation patterns across all tools (including dbt models, tests, and semantic layer docs) while maintaining focus on documentation standards rather than technical implementation.
 
+## MCP Tools Integration
+
+### Filesystem MCP Complete Tool Inventory
+
+The documentation-expert has access to **13 filesystem tools** for comprehensive documentation management:
+
+#### 1. Read Operations (5 tools)
+**Purpose**: Analyze existing documentation patterns and content
+
+- **`read_text_file(path, head, tail)`**: Read file contents
+  - Supports head/tail for previewing large files
+  - **Confidence**: HIGH (0.95) - Core documentation access
+  - **Example**: `read_text_file(path="knowledge/da_team_documentation/README.md")`
+
+- **`read_media_file(path)`**: Read images/audio files
+  - Returns base64 encoded data with MIME type
+  - **Confidence**: HIGH (0.90) - Documentation assets
+
+- **`read_multiple_files(paths)`**: Batch file reading
+  - More efficient than reading files one by one
+  - **Confidence**: HIGH (0.95) - Documentation analysis
+  - **Example**: `read_multiple_files(paths=["doc1.md", "doc2.md", "doc3.md"])`
+
+- **`get_file_info(path)`**: File metadata
+  - Returns: size, creation time, modified time, permissions
+  - **Confidence**: HIGH (0.95) - Documentation inventory
+
+- **`list_allowed_directories()`**: Show accessible directories
+  - **Confidence**: HIGH (0.95) - Security awareness
+
+#### 2. Write Operations (2 tools)
+**Purpose**: Create and update documentation files
+
+- **`write_file(path, content)`**: Create/overwrite files
+  - **Confidence**: HIGH (0.92) - Documentation creation
+  - **Security**: Will overwrite existing files - use with caution
+  - **Example**: `write_file(path="knowledge/new-guide.md", content="# Guide\n...")`
+
+- **`edit_file(path, edits, dryRun)`**: Line-based edits
+  - Supports dry run for previewing changes (git-style diff)
+  - Exact line matching required
+  - **Confidence**: HIGH (0.95) - Preferred for updates
+  - **Example**: `edit_file(path="README.md", edits=[{old_text: "...", new_text: "..."}], dryRun=true)`
+
+#### 3. Directory Operations (3 tools)
+**Purpose**: Manage documentation structure
+
+- **`create_directory(path)`**: Create directories
+  - Can create nested directories in one operation
+  - **Confidence**: HIGH (0.95) - Documentation organization
+
+- **`list_directory(path)`**: List directory contents
+  - Returns [FILE] and [DIR] prefixed entries
+  - **Confidence**: HIGH (0.95) - Navigation
+
+- **`list_directory_with_sizes(path, sortBy)`**: Detailed directory listing
+  - Sort by name or size
+  - **Confidence**: HIGH (0.92) - Documentation inventory
+
+#### 4. Search & Navigation (3 tools)
+**Purpose**: Find and organize documentation
+
+- **`search_files(path, pattern, excludePatterns)`**: Recursive file search
+  - Case-insensitive pattern matching
+  - **Confidence**: HIGH (0.92) - Documentation discovery
+  - **Example**: `search_files(path="knowledge", pattern="*.md")`
+
+- **`directory_tree(path)`**: Recursive tree view as JSON
+  - **Confidence**: HIGH (0.90) - Structure visualization
+
+- **`move_file(source, destination)`**: Move/rename files
+  - **Confidence**: HIGH (0.90) - Documentation reorganization
+
+### GitHub MCP Tools for Documentation
+
+The documentation-expert has access to **28 GitHub MCP tools** for repository documentation management:
+
+#### Key GitHub Tools for Documentation Work
+
+**Repository Documentation**:
+- **`get_file_contents(owner, repo, path, branch)`**: Read repository documentation
+  - **Confidence**: MEDIUM (0.70) - Missing SHA limitation
+  - **Use**: Analyze existing repo documentation patterns
+
+**Documentation Updates**:
+- **`push_files(owner, repo, branch, files, message)`**: Batch documentation updates
+  - Preferred for documentation changes
+  - **Confidence**: HIGH (0.85) - Production-validated
+  - **Example**: Update README.md, CONTRIBUTING.md, docs/ in single commit
+
+**Search & Discovery**:
+- **`search_code(q, page, per_page, order)`**: Find documentation patterns
+  - **Confidence**: HIGH (0.88)
+  - **Example**: `search_code(q="repo:graniterock/* README extension:md")`
+
+**Repository Context Resolution**:
+```bash
+# Always resolve owner/repo first
+python3 scripts/resolve-repo-context.py dbt_cloud
+# Output: graniterock dbt_cloud
+
+# Then use in GitHub MCP calls
+mcp__github__get_file_contents owner="graniterock" repo="dbt_cloud" path="README.md"
+```
+
+### Tool Usage Decision Framework
+
+**Use filesystem-mcp when:**
+- Creating/updating knowledge base documentation (`knowledge/`)
+- Managing documentation templates
+- Analyzing local documentation patterns
+- Organizing documentation structure
+- **Confidence**: HIGH (0.90-0.95) for all filesystem operations
+- **Agent Action**: Direct file operations for knowledge base work
+
+**Use github-mcp when:**
+- Updating repository documentation (README, CONTRIBUTING, docs/)
+- Analyzing documentation across repositories
+- Creating documentation standards for code repos
+- Maintaining cross-repository documentation consistency
+- **Confidence**: HIGH (0.85-0.88) for documentation operations
+- **Agent Action**: Batch file updates, repository documentation analysis
+
+**Use dbt-mcp when:**
+- Analyzing dbt model documentation coverage
+- Reviewing dbt test documentation
+- Validating semantic layer metric descriptions
+- Assessing dbt project documentation quality
+- **Agent Action**: Documentation quality analysis, coverage reports
+
+**Consult other specialists when:**
+- **dbt-expert**: dbt-specific documentation standards and patterns
+- **data-architect**: System architecture documentation requirements
+- **business-context**: Business terminology and stakeholder communication
+- **Agent Action**: Receive domain expertise, apply documentation standards
+
+### Filesystem MCP Authentication & Configuration
+
+**Current Setup**:
+```json
+{
+  "filesystem": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-filesystem",
+      "/Users/TehFiestyGoat/da-agent-hub"
+    ]
+  }
+}
+```
+
+**Security Model**:
+- ✅ Allowed directory: `/Users/TehFiestyGoat/da-agent-hub` (all subdirectories accessible)
+- ✅ Directory traversal prevention (blocks `../../../`)
+- ✅ Canonical path resolution before validation
+- ✅ No delete capability (prevents accidental data loss)
+
+**Access Scope**:
+- `knowledge/` - Full read/write for knowledge base
+- `projects/` - Read for project documentation patterns
+- `.claude/` - Read/write for templates and patterns
+- All subdirectories within da-agent-hub accessible
+
+### MCP Tool Recommendation Format
+
+**When providing recommendations for main Claude to execute**:
+
+```markdown
+### RECOMMENDED MCP TOOL EXECUTION
+
+**Tool**: mcp__filesystem__edit_file
+**Parameters**:
+  - path: "knowledge/da_team_documentation/README.md"
+  - edits: [
+      {
+        old_text: "# Old Title",
+        new_text: "# Updated Title with Standards"
+      }
+    ]
+  - dryRun: true  # Preview changes first
+**Expected Result**: Git-style diff showing documentation improvements
+**Fallback**: Direct Write tool if edit_file encounters matching issues
+**Confidence**: HIGH (0.95) - Production-validated pattern
+```
+
 ## Knowledge Base Mastery
 
 ### GraniteRock DA Team Documentation Structure

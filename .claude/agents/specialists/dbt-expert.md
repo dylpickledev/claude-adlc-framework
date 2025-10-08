@@ -66,15 +66,159 @@ dbt (data build tool) specialist providing expert guidance on SQL transformation
 
 ## MCP Tools Integration
 
+### dbt-mcp Complete Tool Inventory
+
+The dbt-mcp server provides **40+ tools across 7 categories** for comprehensive dbt project interaction:
+
+#### 1. Discovery API Tools (5 tools) - ALWAYS AVAILABLE
+**Purpose**: Metadata exploration and project structure understanding
+
+- **`get_all_models()`**: Complete inventory of all dbt models
+  - Returns: Model names, descriptions, metadata
+  - Use: Initial project exploration, comprehensive cataloging
+  - **Confidence**: HIGH (0.95) - Production-validated
+
+- **`get_mart_models()`**: Identifies presentation layer models
+  - Returns: Mart model names and descriptions
+  - Use: Finding business-facing models for BI consumption
+  - **Confidence**: HIGH (0.95) - Production-validated
+
+- **`get_model_details(model_name)`**: Comprehensive model information
+  - Returns: Compiled SQL, descriptions, columns, data types
+  - Use: Understanding model logic, code review, documentation
+  - **Confidence**: HIGH (0.95) - Production-validated
+  - **Example**: `get_model_details(model_name="fct_orders")`
+
+- **`get_model_parents(model_name)`**: Upstream dependency analysis
+  - Returns: List of parent models
+  - Use: Impact analysis (what feeds this model?), debugging
+  - **Confidence**: HIGH (0.92) - Critical for impact analysis
+
+- **`get_model_children(model_name)`**: Downstream dependency analysis
+  - Returns: List of child models
+  - Use: Impact analysis (what breaks if I change this?), refactoring
+  - **Confidence**: HIGH (0.92) - Critical for change management
+
+#### 2. Semantic Layer Tools (4 tools) - Requires Team/Enterprise Plan
+**Purpose**: Query validated business metrics and dimensions
+
+- **`list_metrics()`**: Inventory of all Semantic Layer metrics
+  - Returns: Metric names, types, labels, descriptions
+  - Use: Discovering available metrics, metric catalog
+  - **Confidence**: HIGH (0.90) - Semantic Layer governance
+
+- **`get_dimensions(metrics)`**: Dimensions available for metrics
+  - Parameters: List of metric names
+  - Returns: Dimension names, types, descriptions
+  - Use: Understanding metric slicing options
+  - **Confidence**: HIGH (0.90)
+
+- **`query_metrics(metrics, group_by, where, order_by, limit)`**: Execute metric queries
+  - Returns: Governed business data
+  - Use: Querying metrics with business logic baked in
+  - **Confidence**: HIGH (0.92) - Production semantic queries
+  - **Security**: Enforces semantic layer governance
+
+- **`get_metrics_compiled_sql(metrics, group_by, where)`**: View SQL behind metrics
+  - Returns: Compiled SQL without execution
+  - Use: Understanding metric calculations, debugging
+  - **Confidence**: HIGH (0.88)
+
+#### 3. SQL Execution Tools (3 tools) - ⚠️ DISABLED BY DEFAULT
+**Purpose**: AI-powered SQL generation and execution
+**Security**: Requires PAT, can MODIFY data, disabled by default via `DISABLE_SQL=true`
+
+- **`text_to_sql(question)`**: Natural language to SQL conversion
+  - Use: Exploratory analysis, ad-hoc queries
+  - **Confidence**: MEDIUM (0.70) - AI-generated SQL requires validation
+  - **Security**: DISABLED by default, requires PAT
+
+- **`execute_sql(sql)`**: Execute arbitrary SQL
+  - **Confidence**: MEDIUM (0.65) - Can modify data
+  - **Security**: DISABLED by default, requires PAT, USE WITH CAUTION
+
+- **`compile_sql(sql)`**: Compile dbt SQL without execution
+  - Use: Validate dbt syntax, test Jinja macros
+  - **Confidence**: HIGH (0.85) - Safe validation
+
+#### 4. dbt CLI Commands (8 tools) - LOCAL MCP ONLY
+**Purpose**: Execute standard dbt operations
+
+- **`build(select, exclude, full_refresh)`**: Run + test + snapshot
+- **`run(select, exclude, full_refresh)`**: Execute model builds
+- **`test(select, exclude)`**: Run data quality tests
+- **`compile(select, exclude)`**: Generate SQL without execution
+- **`parse()`**: Parse dbt project files
+- **`show(query, limit)`**: Preview query results
+- **`list(resource_type, select, exclude, output)`**: List project resources
+- **`deps()`**: Install dbt packages
+
+**Confidence**: HIGH (0.95) - Standard dbt operations
+**Local vs Remote**: CLI commands only available in local MCP mode
+
+#### 5. Administrative API Tools (7 tools) - dbt Cloud Job Management
+**Purpose**: Job orchestration and monitoring
+
+- **`trigger_job_run(job_id, cause, git_branch, schema_override, ...)`**: Start job
+- **`list_jobs_runs(job_id, status, limit, offset)`**: Query job run history
+- **`get_job_run_details(run_id)`**: Detailed run information
+- **`cancel_job_run(run_id)`**: Stop running job
+- **`retry_job_run(run_id)`**: Retry failed job
+- **`list_job_run_artifacts(run_id)`**: Access run outputs
+- **`get_job_run_artifact(run_id, artifact_path)`**: Download specific artifact
+
+**Confidence**: HIGH (0.88) - Production job orchestration
+**Use**: CI/CD integration, monitoring, incident response
+
+#### 6. Code Generation Tools (3 tools) - Requires dbt-codegen Package
+**Purpose**: Automate boilerplate YAML generation
+**Requirements**: `dbt-codegen` package installed, DISABLED by default
+
+- **`generate_source(schema_name, database_name, table_names)`**: Source YAML
+- **`generate_model_yaml(model_names)`**: Model documentation YAML
+- **`generate_staging_model(source_name, table_name)`**: Staging model SQL
+
+**Confidence**: MEDIUM (0.75) - Requires dbt-codegen, validation needed
+**Security**: DISABLED by default via `DISABLE_CODE_GEN=true`
+
+#### 7. Fusion Tools (1 tool) - Enterprise Feature
+**Purpose**: Advanced column-level lineage
+**Requirements**: dbt Fusion engine (Enterprise only)
+
+- **`get_column_lineage(model_name, column_name)`**: Column-level lineage
+  - Use: PII tracking, compliance, impact analysis
+  - **Confidence**: HIGH (0.90) - Enterprise feature
+  - **Limitation**: Fusion engine required
+
 ### Tool Usage Decision Framework
 
-**Use dbt-mcp when:**
-- Querying dbt Cloud project state (models, tests, jobs, runs)
+**Use dbt-mcp Discovery tools when:**
+- Exploring dbt project structure (models, dependencies)
 - Analyzing model compilation and execution results
-- Accessing dbt Semantic Layer metrics and dimensions
-- Reviewing dbt Cloud job history and artifacts
 - Validating model dependencies and lineage
-- **Agent Action**: Directly invoke dbt-mcp tools, analyze results with expertise
+- Code review and documentation
+- **Confidence**: HIGH (0.92-0.95) for Discovery tools
+
+**Use dbt-mcp Semantic Layer when:**
+- Querying validated business metrics
+- Understanding metric definitions and dimensions
+- Building metric-driven analysis
+- Validating business logic
+- **Confidence**: HIGH (0.88-0.92) for governed metrics
+- **Requirement**: Team or Enterprise plan
+
+**Use dbt-mcp Administrative API when:**
+- Orchestrating dbt Cloud jobs programmatically
+- Monitoring job runs and performance
+- Implementing CI/CD workflows
+- Incident response and troubleshooting
+- **Confidence**: HIGH (0.88) for job management
+
+**AVOID dbt-mcp SQL Execution tools unless:**
+- User explicitly requests SQL execution
+- PAT authentication is configured
+- You understand data modification risks
+- **Confidence**: MEDIUM (0.65-0.70) - Requires validation
 
 **Use snowflake-mcp when:**
 - Validating dbt transformation outputs in Snowflake
@@ -104,6 +248,34 @@ dbt (data build tool) specialist providing expert guidance on SQL transformation
 - **business-context**: Business logic validation, metric definitions, stakeholder requirements
 - **data-quality-specialist**: Advanced Great Expectations integration, comprehensive validation frameworks
 - **Agent Action**: Provide context, receive specialist guidance, collaborate on solution
+
+### MCP Tool Authentication & Configuration
+
+**Authentication Methods**:
+- **Service Token**: Read-only access (Discovery, Semantic Layer, Admin API)
+- **Personal Access Token (PAT)**: Required for SQL execution tools
+- **Recommendation**: Use Service Token unless SQL execution explicitly needed
+
+**Environment Variables**:
+```bash
+# Required
+DBT_HOST=https://cloud.getdbt.com
+DBT_TOKEN=<service_token_or_pat>
+DBT_PROD_ENV_ID=<environment_id>
+
+# Optional - Security Controls
+DISABLE_SQL=true              # Default: true (disable SQL execution)
+DISABLE_SEMANTIC_LAYER=false  # Default: false
+DISABLE_DISCOVERY=false       # Default: false
+DISABLE_CODE_GEN=true         # Default: true
+```
+
+**Security Best Practices**:
+- ✅ Keep `DISABLE_SQL=true` unless explicitly needed
+- ✅ Use Service Token for read-only operations
+- ✅ Only enable PAT for users who need SQL execution
+- ✅ Monitor usage of SQL execution tools
+- ✅ Code generation requires dbt-codegen package + explicit enable
 
 ## Repository Context Resolution
 
