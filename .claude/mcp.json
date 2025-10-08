@@ -6,10 +6,20 @@
     },
     "snowflake-mcp": {
       "command": "bash",
-      "args": ["scripts/debug-snowflake-mcp.sh"],
+      "args": ["scripts/launch-snowflake-mcp.sh"],
+      "env": {
+        "SNOWFLAKE_ACCOUNT": "${SNOWFLAKE_ACCOUNT}",
+        "SNOWFLAKE_USER": "${SNOWFLAKE_USER}",
+        "SNOWFLAKE_PASSWORD": "${SNOWFLAKE_PASSWORD}",
+        "SNOWFLAKE_DATABASE": "${SNOWFLAKE_DATABASE}",
+        "SNOWFLAKE_SCHEMA": "${SNOWFLAKE_SCHEMA}",
+        "SNOWFLAKE_WAREHOUSE": "${SNOWFLAKE_WAREHOUSE}",
+        "SNOWFLAKE_ROLE": "${SNOWFLAKE_ROLE}",
+        "SNOWFLAKE_AUTH_METHOD": "${SNOWFLAKE_AUTH_METHOD}"
+      },
       "disabled": false,
       "autoApprove": [],
-      "_comment": "Week 1 Day 5 - TEMPORARILY using debug wrapper to diagnose connection failure (script self-locates project root)"
+      "_comment": "Week 1 Day 5 - Standalone Snowflake MCP for snowflake-expert and role agents (uses production launcher with env var injection)"
     },
     "aws-api": {
       "command": "uvx",
