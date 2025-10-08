@@ -2,12 +2,19 @@
 # Debug wrapper for snowflake-mcp to see what's failing
 # Week 1 Day 5 diagnostics
 
+# Get the directory where this script lives, then navigate to project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_ROOT"
+
 # Log to file since MCP uses stdio
 LOG_FILE="/tmp/snowflake-mcp-debug.log"
 echo "=== Snowflake MCP Debug Log ===" > "$LOG_FILE"
 echo "Started at: $(date)" >> "$LOG_FILE"
 
 # Check environment
+echo "Script dir: $SCRIPT_DIR" >> "$LOG_FILE"
+echo "Project root: $PROJECT_ROOT" >> "$LOG_FILE"
 echo "Working directory: $(pwd)" >> "$LOG_FILE"
 echo "SNOWFLAKE_PASSWORD set: ${SNOWFLAKE_PASSWORD:+YES}" >> "$LOG_FILE"
 echo "Config file exists: $(test -f config/snowflake_tools_config.yaml && echo YES || echo NO)" >> "$LOG_FILE"

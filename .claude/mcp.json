@@ -9,7 +9,7 @@
       "args": ["scripts/debug-snowflake-mcp.sh"],
       "disabled": false,
       "autoApprove": [],
-      "_comment": "Week 1 Day 5 - TEMPORARILY using debug wrapper to diagnose connection failure"
+      "_comment": "Week 1 Day 5 - TEMPORARILY using debug wrapper to diagnose connection failure (script self-locates project root)"
     },
     "aws-api": {
       "command": "uvx",
