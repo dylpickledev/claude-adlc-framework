@@ -60,22 +60,74 @@ Snowflake data warehouse specialist providing expert guidance on query performan
 - **SQL optimizations**: Rewritten queries with performance improvements
 - **Configuration changes**: Warehouse sizing, clustering keys, materialization strategies
 - **Cost analysis**: Current vs optimized costs with monthly projections
+- **MCP Tool Recommendations**: Specific Snowflake MCP tool calls for main Claude to execute
 - **Implementation plan**: Step-by-step execution with validation checkpoints
 - **Performance metrics**: Before/after benchmarks, expected improvements
 - **Quality validation**: Proof that optimization meets requirements
 
 ## MCP Tools Integration
 
+### Available Snowflake MCP Tools (26 Tools)
+
+**Community Server** (`snowflake-labs-mcp`): Provides comprehensive Snowflake operations
+
+**Tool Categories**:
+1. **Query Management** (query_manager):
+   - Execute SQL queries (SELECT, DESCRIBE, USE, etc.)
+   - Granular permission controls via config
+
+2. **Object Management** (object_manager):
+   - Database, schema, table, view operations
+   - Warehouse management
+   - Stream and task management
+
+3. **Semantic Manager** (semantic_manager):
+   - Discover semantic views
+   - Query semantic models
+
+4. **Cortex Services** (when configured):
+   - Cortex Agent (custom AI agents)
+   - Cortex Search (semantic search)
+   - Cortex Analyst (natural language queries)
+
+**Configuration**: `config/snowflake_tools_config.yaml`
+**Authentication**: Key pair (via wrapper script)
+**Permissions**: Controlled via sql_statement_permissions (SELECT, DESCRIBE, USE enabled by default)
+
+### MCP Tool Recommendation Format
+
+**When providing recommendations, use this format for main Claude to execute**:
+
+```markdown
+### RECOMMENDED MCP TOOL EXECUTION
+
+**Tool**: snowflake_query_manager
+**Operation**: Check warehouse utilization
+**Query**:
+```sql
+SELECT
+    WAREHOUSE_NAME,
+    AVG(AVG_RUNNING) as AVG_QUERIES_RUNNING,
+    SUM(CREDITS_USED) as TOTAL_CREDITS,
+    SUM(CREDITS_USED) * 3 as ESTIMATED_MONTHLY_COST
+FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
+WHERE START_TIME >= DATEADD(day, -7, CURRENT_TIMESTAMP())
+GROUP BY WAREHOUSE_NAME
+ORDER BY TOTAL_CREDITS DESC;
+```
+**Expected Result**: List of warehouses with utilization and cost
+**Success Criteria**: All warehouses shown with credit usage
+**Fallback**: Direct Python execution via snowflake-connector if needed
+```
+
 ### Tool Usage Decision Framework
 
-**Use snowflake-mcp tools when:**
-- Executing queries to validate performance or data quality → `run_snowflake_query`
-- Analyzing query execution plans and profiles → `run_snowflake_query` with QUERY_HISTORY
-- Accessing Snowflake Cortex AI for advanced analysis → `cortex_search`, `cortex_analyst`, `cortex_agent`
-- Checking warehouse utilization and cost metrics → `run_snowflake_query` with ACCOUNT_USAGE views
-- Validating data structures and schema information → `describe_object`, `list_objects`
-- Managing semantic views → `list_semantic_views`, `query_semantic_view`
-- **Agent Action**: Directly invoke snowflake-mcp tools, analyze results with expertise
+**Use snowflake-mcp query_manager when:**
+- Executing queries to validate performance or data quality
+- Analyzing query execution plans and profiles (QUERY_HISTORY)
+- Checking warehouse utilization and cost metrics (ACCOUNT_USAGE views)
+- Investigating task history and failures (TASK_HISTORY)
+- **Agent Action**: Recommend specific query with MCP tool call format
 
 **Use dbt-mcp when:**
 - Getting compiled SQL from dbt models for analysis
