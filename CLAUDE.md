@@ -8,6 +8,12 @@ don't look at the full .env file. Only search for the var names up to the equals
 **Testing**: See `.claude/memory/patterns/testing-patterns.md` for ADLC testing framework
 **Cross-System Analysis**: See `.claude/memory/patterns/cross-system-analysis-patterns.md` for multi-tool coordination
 
+### Mandatory Workflow (CRITICAL - Never Violate)
+1. **ALWAYS create feature branch** before making any code changes
+2. **ALWAYS create Pull Request** for code review and approval
+3. **NEVER push directly** to protected branches
+4. **NEVER merge without approval** (except for da-agent-hub documentation updates)
+
 ## Three-Layer Architecture
 
 ```
@@ -297,8 +303,11 @@ All specialist agents working with GitHub should:
 
 ## Knowledge Repository Structure
 
-### Team Documentation Template
-`knowledge/da_team_documentation/` - Template for organizing your team's D&A documentation
+### Team Documentation
+`knowledge/da_team_documentation/` - Data & Analytics team structured documentation (data architecture, integrations, products, templates)
+
+### Team Knowledge Vault
+`knowledge/da_obsidian/` - Data & Analytics team Obsidian vault for raw notes and unrefined ideas before ADLC planning
 
 ### DA Agent Hub Platform Documentation
 `knowledge/da-agent-hub/` - Complete platform documentation organized by ADLC phases:
