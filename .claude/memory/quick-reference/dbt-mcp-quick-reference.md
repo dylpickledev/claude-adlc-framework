@@ -214,6 +214,26 @@ ORDER BY order_day DESC
 
 ## ⚠️ Important Notes
 
+### Environment Prerequisites
+
+**Semantic Layer Tools Require**:
+- ✅ Semantic models defined in dbt project (`.yml` files with `semantic_models:`)
+- ⚠️ **If empty semantic manifest**: `list_metrics`, `get_dimensions`, `query_metrics` will fail with "Empty semantic manifest" error
+- **Workaround**: Configure semantic models in your dbt project OR skip semantic layer operations
+- **Validation**: Test with `mcp__dbt-mcp__list_metrics` before using in workflows
+
+**Large Project Considerations**:
+- ⚠️ `get_mart_models` may exceed 25K token limit (43K+ tokens observed in large projects)
+- **Symptom**: "MCP tool response exceeds maximum allowed tokens" error
+- **Workaround**: Use `get_model_details` for specific models instead of listing all
+- **Alternative**: Use dbt CLI: `dbt ls --resource-type model --select marts.*`
+
+**Job Management Requires**:
+- ✅ dbt Cloud API token with appropriate permissions
+- ✅ Correct environment ID configured in dbt setup
+- ⚠️ **If empty response from `list_jobs`**: Verify API token permissions and environment access
+- **Troubleshooting**: Check token scopes include job read/write access
+
 ### Security & Permissions
 
 **SQL Execution Tools** (DISABLED by default):
