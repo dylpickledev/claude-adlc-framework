@@ -346,18 +346,19 @@
 
 ## Next Actions
 
-**Week 9 (NEXT): Deploy Issue #105 Optimizations** - $949K+ Business Value
-1. ⏳ Tableau extract conversion: $384K/year (conservative: $192K)
-2. ⏳ dbt incremental models: $191K/year (dbt-MCP now enables this!)
-3. ⏳ Orchestra parallelization: Productivity gains
-4. ⏳ AWS PrivateLink: $7K/year
-
-**Week 10: Remaining Specialists** (10-12 specialists):
+**Week 9-10 (NEXT): Remaining Specialists** (10-12 specialists):
 1. ⏳ Revive: orchestra-expert, prefect-expert, tableau-expert, dlthub-expert
 2. ⏳ Evaluate custom MCP necessity (Orchestra, Prefect)
-3. ⏳ Complete 17+ specialist goal
+3. ⏳ Create any additional specialists needed
+4. ⏳ Complete 17+ specialist goal
 
 **Weeks 11-12: Polish & Final Validation**:
+1. ⏳ Production validation of MCP patterns
+2. ⏳ Performance tuning and optimization
+3. ⏳ Final documentation and knowledge capture
+4. ⏳ Project completion and close GitHub Issue #88
+
+**Note**: Issue #105 optimizations ($949K+ value) being handled outside this project scope
 
 ---
 

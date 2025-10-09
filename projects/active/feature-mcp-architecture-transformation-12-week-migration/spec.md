@@ -213,8 +213,7 @@ Transform DA Agent Hub from role-only architecture to **Role → Specialist (wit
 - **Expansion (Weeks 5-6):** 10 days ✅ COMPLETE
 - **MCP Integration (Week 7):** 5 days ✅ COMPLETE
 - **Role Completion (Week 8):** <1 day ✅ COMPLETE
-- **Business Value (Week 9):** 5-7 days ⏳ NEXT - Deploy Issue #105
-- **Specialists (Week 10):** 5-7 days (remaining specialists)
+- **Remaining Specialists (Week 9-10):** 5-7 days ⏳ NEXT
 - **Polish (Weeks 11-12):** 20 days (optimization, documentation, validation)
 - **Total Estimated:** 12 weeks (60 days)
 
@@ -222,8 +221,10 @@ Transform DA Agent Hub from role-only architecture to **Role → Specialist (wit
 - Week 0-6: ✅ COMPLETE (foundation + validation + expansion)
 - Week 7: 5 days ✅ COMPLETE (MCP integration)
 - Week 8: <1 day ✅ COMPLETE (role agents)
-- Week 9: Deploy Issue #105 optimizations ($949K+ value)
+- Week 9-10: Create/revive remaining specialists (10-12 specialists)
 - **Status**: 8 weeks complete, 4 weeks remaining
+
+**Note**: Issue #105 optimizations ($949K+ value) handled outside this project
 
 ---
 
