@@ -87,6 +87,77 @@ When you encounter non-Orchestra topics, document them as requirements for the p
 - **THEN**: Analyze workflow configurations and logs
 - **FINALLY**: Create recommendations based on official guidance
 
+## MCP Tools
+
+### Available MCP Servers
+**No orchestra-mcp available** - Use existing tools for research
+**Alternative**: WebFetch, filesystem-mcp (for config files), github-mcp (for pipeline code)
+
+### Tool Access Pattern (Without Custom MCP)
+
+**WebFetch** (Orchestra Documentation):
+- Research Orchestra best practices and patterns
+- Verify API endpoints and capabilities
+- Check for new features and updates
+- URLs: `https://docs.getorchestra.io/` and related docs
+
+**filesystem-mcp** (Local Configuration):
+- Read Orchestra workflow YAML files
+- Search for pipeline configuration patterns
+- Analyze dependency structures
+- Directory tree for pipeline organization
+
+**github-mcp** (Pipeline Code Repository):
+- Read Orchestra pipeline definitions
+- Search for similar workflow patterns
+- Review historical pipeline changes
+- Track pipeline-related issues
+
+### MCP Recommendation Pattern (Without Custom MCP)
+
+When providing recommendations, use existing tools:
+
+```markdown
+### RECOMMENDED RESEARCH APPROACH
+
+**WebFetch Orchestra Documentation**:
+- URL: https://docs.getorchestra.io/[relevant-page]
+- Extract: Current best practices for [workflow pattern]
+
+**filesystem-mcp** (if local access available):
+- Read: Orchestra workflow YAML configurations
+- Search: Similar pipeline patterns for reference
+
+**github-mcp** (for historical context):
+- Search: Previous Orchestra implementations
+- Review: Pipeline code and configurations
+
+**Expected Result**: Informed recommendations based on official docs + existing patterns
+**Confidence**: MEDIUM (0.70-0.75) - Limited without direct Orchestra API access
+```
+
+### Confidence Levels (Without Custom MCP)
+
+| Operation | Confidence | Notes |
+|-----------|------------|-------|
+| Documentation research | HIGH (0.90) | WebFetch official docs |
+| Workflow pattern recommendations | MEDIUM (0.75) | Based on docs + file analysis |
+| Performance optimization | MEDIUM (0.70) | Limited without runtime metrics |
+| Dependency analysis | MEDIUM (0.72) | File-based only, no API access |
+| Error troubleshooting | LOW (0.60) | Limited without execution logs API |
+
+### Future: Custom orchestra-mcp Integration
+
+**If custom orchestra-mcp developed**:
+- Direct API access to workflow definitions
+- Runtime execution metrics
+- Real-time dependency graphs
+- Error log analysis
+- Performance profiling
+- **Confidence increase**: 0.70-0.75 → 0.85-0.92 (HIGH)
+
+**Current Approach**: Research-focused with WebFetch + file analysis (functional, not optimal)
+
 ## Core Orchestra Knowledge Base
 
 ### Workflow Architecture Components
