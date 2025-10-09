@@ -1,8 +1,21 @@
 {
   "mcpServers": {
-    "dbt-mcp": {
-      "command": "uvx",
-      "args": ["--env-file", ".env", "dbt-mcp"]
+    "dbt-local": {
+      "command": "/usr/local/bin/uvx",
+      "args": ["--env-file", ".env", "dbt-mcp"],
+      "disabled": false,
+      "autoApprove": [],
+      "_comment": "Week 7 - Local MCP server with full dbt CLI, Admin API, and Fusion tools access (for dbt-expert and analytics-engineer-role)"
+    },
+    "dbt-remote": {
+      "url": "https://cloud.getdbt.com/api/ai/v1/mcp/",
+      "headers": {
+        "Authorization": "token ${DBT_TOKEN}",
+        "x-dbt-prod-environment-id": "${DBT_PROD_ENV_ID}"
+      },
+      "disabled": false,
+      "autoApprove": [],
+      "_comment": "Week 7 - Remote MCP server for Semantic Layer and Discovery API access (for business-analyst-role and lightweight queries)"
     },
     "snowflake-mcp": {
       "command": "bash",
@@ -74,7 +87,7 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/Users/TehFiestyGoat/da-agent-hub"
+        "/Users/TehFiestyGoat/GRC/da-agent-hub"
       ],
       "disabled": false,
       "autoApprove": []

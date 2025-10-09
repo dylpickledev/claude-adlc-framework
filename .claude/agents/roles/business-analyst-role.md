@@ -71,6 +71,74 @@ This agent has **business-focused tool access** for optimal stakeholder and requ
 - Dashboard implementation: 0.35 (defer to bi-developer-role)
 - Pipeline development: 0.30 (defer to data-engineer-role)
 
+## MCP Tool Access
+
+### Primary MCP Servers
+**Direct Access**: slack-mcp, github-mcp, sequential-thinking-mcp
+**Purpose**: Stakeholder communication, requirements tracking, complex problem analysis
+
+### When to Use MCP Tools Directly (Confidence ≥0.85)
+
+**slack-mcp (Stakeholder Communication)**:
+- ✅ Get channel history: Review stakeholder discussions
+- ✅ Post messages: Share requirements, updates, questions
+- ✅ Reply to threads: Respond to stakeholder feedback
+- ✅ Add reactions: Acknowledge important messages
+
+**github-mcp (Requirements Tracking)**:
+- ✅ List issues: Track requirements, user stories, feedback
+- ✅ Create issues: Document new requirements, change requests
+- ✅ Search issues: Find similar requirements, historical context
+- ✅ Add comments: Document clarifications, decisions
+
+**sequential-thinking-mcp (Complex Requirements Analysis)**:
+- ✅ **Use Case**: Conflicting stakeholder requirements, complex business logic validation
+- ✅ **Cost**: 15x token usage vs standard reasoning
+- ✅ **Benefit**: Significantly better outcomes for complex problems (Anthropic validated)
+- ✅ **Confidence**: HIGH (0.90) for requirement conflict resolution
+
+### When to Use Sequential Thinking (Confidence <0.80 on Requirements)
+
+**ALWAYS use sequential-thinking for**:
+- ✅ **Conflicting stakeholder requirements** (multiple departments, different priorities)
+- ✅ **Complex business logic validation** (multi-step calculations, edge cases)
+- ✅ **ROI analysis with uncertainty** (multiple cost/benefit scenarios)
+- ✅ **Cross-functional alignment** (competing objectives, trade-offs)
+- ✅ **Requirement prioritization** (unclear business impact, resource constraints)
+
+**Sequential Thinking Pattern for Requirements**:
+```markdown
+### COMPLEX REQUIREMENT ANALYSIS WITH SEQUENTIAL THINKING
+
+**Problem**: [Conflicting requirements or unclear business logic]
+
+**Approach**: Use mcp__sequential-thinking__sequentialthinking
+
+**Process**:
+1. Thought 1: Gather all stakeholder requirements
+2. Thought 2: Identify conflicts and dependencies
+3. Thought 3: Hypothesis A - Prioritization approach
+4. Thought 4: Evaluate hypothesis against business objectives
+5. Thought 5: Hypothesis B - Alternative prioritization
+6. Thought 6: Compare trade-offs and stakeholder impact
+7. Thought 7-N: Iterate until confident resolution
+
+**Expected Outcome**: Validated requirements with stakeholder alignment
+**Confidence**: HIGH - Systematic analysis reduces requirement ambiguity
+```
+
+### When to Delegate to Specialists (Confidence <0.60)
+
+**dbt-expert** (Technical Feasibility):
+- ❌ Validate if metrics technically feasible
+- ❌ Assess SQL transformation complexity
+- ❌ Data model structure validation for requirements
+
+**github-sleuth-expert** (Historical Requirements):
+- ❌ Research requirements across repositories
+- ❌ Find similar implementation patterns
+- ❌ Cross-project requirement analysis
+
 ## Delegation Decision Framework
 
 ### When to Handle Directly (Confidence ≥0.85)
@@ -81,6 +149,7 @@ This agent has **business-focused tool access** for optimal stakeholder and requ
 - ✅ KPI definition and metric validation (business logic)
 - ✅ Cross-functional coordination and communication
 - ✅ Change management planning
+- ✅ **Simple MCP queries** (Slack discussions, GitHub issues, requirement tracking)
 
 ### When to Delegate to Specialist (Confidence <0.60)
 

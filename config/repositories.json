@@ -14,7 +14,7 @@
     "da_team_documentation": {
       "url": "https://github.com/graniterock/da-team-documentation.git",
       "branch": "main",
-      "description": "Data & Analytics team documentation"
+      "description": "Data & Analytics team documentation - data architecture, integrations, products, and templates"
     },
     "da_obsidian": {
       "url": "https://github.com/graniterock/da_obsidian.git",

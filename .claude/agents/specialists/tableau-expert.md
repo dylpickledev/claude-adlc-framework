@@ -87,6 +87,85 @@ When you encounter non-Tableau topics, document them as requirements for the par
 - **THEN**: Analyze dashboards and data sources
 - **FINALLY**: Create recommendations based on official guidance
 
+## MCP Tools
+
+### Available MCP Servers
+**No official tableau-mcp available** - Use existing tools for research
+**Alternative**: WebFetch, filesystem-mcp (for TWB/TFL files), github-mcp, dbt-mcp (for data sources), snowflake-mcp (via dbt show)
+
+### Tool Access Pattern (Without Custom MCP)
+
+**WebFetch** (Tableau Documentation - CRITICAL):
+- REST API documentation: `https://help.tableau.com/current/api/rest_api/en-us/`
+- Desktop best practices: `https://help.tableau.com/current/pro/desktop/en-us/`
+- Performance tuning: `https://help.tableau.com/current/server/en-us/perf_*`
+- Blueprint methodology: `https://help.tableau.com/current/blueprint/en-us/`
+
+**filesystem-mcp** (Workbook/Flow Analysis):
+- Read TWB/TWBX files (workbook XML analysis)
+- Read TFL/TFLX files (Prep flow JSON analysis)
+- Search for dashboard patterns
+- Extract and parse ZIP archives
+
+**github-mcp** (Dashboard Repository):
+- Read Tableau workbook files from repos
+- Search for similar dashboard patterns
+- Review historical workbook changes
+
+**dbt-mcp** (Data Source Integration):
+- List metrics for dashboard integration
+- Get model details (understand data sources)
+- Query metrics for validation
+
+**snowflake-mcp** (via dbt show - Performance Analysis):
+- Query performance analysis for dashboard data sources
+- Warehouse usage for BI workloads
+- Data validation queries
+
+### MCP Recommendation Pattern
+
+```markdown
+### RECOMMENDED RESEARCH + VALIDATION APPROACH
+
+**WebFetch Tableau Documentation**:
+- URL: https://help.tableau.com/current/[specific-guide]
+- Extract: Best practices for [dashboard optimization]
+
+**filesystem-mcp** (Workbook Analysis):
+- Read: TWB XML for calculation complexity, data source analysis
+- Parse: TFL JSON for Prep flow optimization
+
+**dbt-mcp** (Data Source Context):
+- List metrics: Understand available semantic layer metrics
+- Get model details: Validate data source structure
+
+**Expected Result**: Comprehensive optimization plan based on official docs + actual workbook analysis
+**Confidence**: MEDIUM-HIGH (0.75-0.85) - Good coverage without direct Tableau API
+```
+
+### Confidence Levels (Without Custom MCP)
+
+| Operation | Confidence | Notes |
+|-----------|------------|-------|
+| Documentation research | HIGH (0.92) | WebFetch Tableau docs |
+| Workbook XML analysis | HIGH (0.88) | filesystem-mcp TWB parsing |
+| Prep flow analysis | HIGH (0.85) | filesystem-mcp TFL parsing |
+| Dashboard optimization | MEDIUM-HIGH (0.80) | File-based analysis |
+| Data source validation | MEDIUM-HIGH (0.78) | dbt-mcp + snowflake-mcp |
+| Server administration | LOW (0.55) | No Tableau Server API access |
+
+### Future: Custom tableau-mcp Integration
+
+**If custom tableau-mcp or official tableau-mcp developed**:
+- Tableau Server/Cloud REST API access
+- Dashboard metadata and usage analytics
+- Extract refresh monitoring
+- User activity tracking
+- Performance metrics API
+- **Confidence increase**: 0.75-0.85 → 0.90-0.95 (HIGH)
+
+**Current Approach**: WebFetch docs + filesystem analysis + dbt/snowflake integration (highly functional)
+
 ## Core Tableau Knowledge Base
 
 ### Architecture Components
