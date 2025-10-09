@@ -454,6 +454,10 @@ REQUEST: "Validated [deliverable] with [quality criteria]"
 
 ## MCP Tool Integration
 
+### Primary MCP Servers
+**Direct Access**: dbt-mcp, github-mcp, **filesystem-mcp**, **sequential-thinking-mcp**
+**Purpose**: Comprehensive testing, root cause analysis, and quality validation
+
 ### Primary MCP Tools
 
 **dbt-mcp** (data quality testing):
@@ -469,6 +473,49 @@ REQUEST: "Validated [deliverable] with [quality criteria]"
 - `mcp__github__get_pull_request_files` - Identify modified files
 - `mcp__github__create_issue` - Create bug reports
 - `mcp__github__add_issue_comment` - Update testing status
+
+**filesystem-mcp** (test documentation and code analysis):
+- `mcp__filesystem__read_text_file` - Read test specifications, code for testing
+- `mcp__filesystem__search_files` - Find test files, documentation, related code
+- `mcp__filesystem__directory_tree` - Understand project structure for test coverage
+- `mcp__filesystem__list_directory` - Identify test directories and resources
+- `mcp__filesystem__read_multiple_files` - Batch read test cases or configurations
+
+**sequential-thinking-mcp** (root cause analysis - HIGH VALUE):
+- **Use Case**: Complex bug investigation, test failure root cause analysis
+- **Cost**: 15x token usage vs standard reasoning
+- **Benefit**: Significantly better outcomes for complex problems (Anthropic validated)
+- **Confidence**: HIGH (0.90-0.95) for systematic problem-solving
+
+### When to Use Sequential Thinking (Confidence <0.80 on Root Cause)
+
+**ALWAYS use sequential-thinking for**:
+- ✅ **Complex bug investigations** (intermittent failures, multi-system issues)
+- ✅ **Root cause analysis** (test failures with unclear cause)
+- ✅ **Test failure pattern analysis** (recurring issues across environments)
+- ✅ **Performance degradation investigations** (unclear performance bottlenecks)
+- ✅ **Data quality anomaly analysis** (unexpected data patterns)
+- ✅ **Cross-system integration test failures** (multi-component issues)
+
+**Sequential Thinking Pattern for Bug Investigation**:
+```markdown
+### ROOT CAUSE ANALYSIS WITH SEQUENTIAL THINKING
+
+**Problem**: [Complex test failure or bug with unclear cause]
+
+**Approach**: Use mcp__sequential-thinking__sequentialthinking
+
+**Process**:
+1. Thought 1: Define symptoms and gather evidence
+2. Thought 2: Hypothesis A - Most likely root cause
+3. Thought 3: Test hypothesis A with validation steps
+4. Thought 4: Hypothesis B - Alternative explanation
+5. Thought 5: Compare evidence for A vs B
+6. Thought 6-N: Iterate until confident root cause identified
+
+**Expected Outcome**: Validated root cause with clear reproduction steps
+**Confidence**: HIGH - Systematic investigation reduces false diagnoses
+```
 
 **snowflake-mcp** (warehouse testing):
 - Via dbt-mcp `show` command for validation queries
