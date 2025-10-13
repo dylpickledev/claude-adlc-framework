@@ -26,6 +26,23 @@ The DA Agent Hub implements the complete [dbt Analytics Development Lifecycle](h
 - **[Issue Tracking Deployment](operations/enhanced-issue-tracking-deployment.md)**: Automated issue resolution
 - **[Troubleshooting Guide](operations/troubleshooting.md)**: Operations problem-solving
 
+## 📖 Additional Documentation
+
+### 🏗️ [Architecture](architecture/)
+**System Design & Agent Architecture**
+- **[Agent Capability Summary](architecture/agent-capability-summary.md)**: Complete overview of all agents, specialists, and MCP integrations
+- **[Confidence Routing](architecture/confidence-routing.md)**: How agents decide when to delegate to specialists
+
+### 👥 [Specialists](specialists/)
+**Tool Specialist Documentation**
+- **[Specialists Overview](specialists/)**: Index of all specialist agent documentation
+- **[Azure Expert](specialists/azure-expert.md)**: Comprehensive Azure infrastructure and cross-cloud integration
+- **[Azure Quick Reference](specialists/azure-quick-reference.md)**: Fast lookup guide for Azure patterns
+
+### 🔌 [MCP Servers](mcp-servers/)
+**Model Context Protocol Integrations**
+- Documentation for MCP server integrations (AWS, Snowflake, dbt, GitHub, Slack, etc.)
+
 ## 🚀 Quick Navigation
 
 ### For New Users
