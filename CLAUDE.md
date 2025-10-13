@@ -52,6 +52,13 @@ don't look at the full .env file. Only search for the var names up to the equals
 
 **Note**: Prefer slash commands for better Claude integration. Scripts can be run directly if needed.
 
+### Repository Management
+- **`./scripts/pull-all-repos.sh`** → Pull latest from all repos defined in `config/repositories.json`
+  - Updates all knowledge repos (da_obsidian, da_team_documentation)
+  - Updates all data stack repos (orchestration, ingestion, transformation, front_end, operations)
+  - Uses correct branch for each repo (main, master, dbt_dw, etc.)
+  - Organized output by category with color coding
+
 ### GitHub Issues Integration
 All ideas are managed as GitHub issues with 'idea' label:
 - **View all ideas**: `gh issue list --label idea --state open`
