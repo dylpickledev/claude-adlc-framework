@@ -119,7 +119,7 @@
       },
       "da_app_portal": {
         "url": "https://github.com/graniterock/da-app-portal.git",
-        "branch": "main",
+        "branch": "master",
         "description": "React-based home page / portal for all d&a apps",
         "folder": "repos/front_end"
       }
