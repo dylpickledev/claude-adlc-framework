@@ -113,7 +113,7 @@
       },
       "react_sales_journal": {
         "url": "https://github.com/graniterock/react-sales-journal.git",
-        "branch": "main",
+        "branch": "master",
         "description": "React-based sales journal application",
         "folder": "repos/front_end"
       },
