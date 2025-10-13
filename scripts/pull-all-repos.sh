@@ -131,16 +131,23 @@ if [ -d "$REPO_ROOT/repos/front_end" ]; then
         fi
     done
 
-    # React apps use main branch
-    for repo in react-sales-journal da-app-portal; do
-        if [ -d "$REPO_ROOT/repos/front_end/$repo" ]; then
-            cd "$REPO_ROOT/repos/front_end/$repo"
-            echo -e "${GREEN}📦 $repo${NC}"
-            git checkout main
-            git pull origin main
-            echo ""
-        fi
-    done
+    # react-sales-journal uses master branch
+    if [ -d "$REPO_ROOT/repos/front_end/react-sales-journal" ]; then
+        cd "$REPO_ROOT/repos/front_end/react-sales-journal"
+        echo -e "${GREEN}📦 react-sales-journal${NC}"
+        git checkout master
+        git pull origin master
+        echo ""
+    fi
+
+    # da-app-portal uses master branch
+    if [ -d "$REPO_ROOT/repos/front_end/da-app-portal" ]; then
+        cd "$REPO_ROOT/repos/front_end/da-app-portal"
+        echo -e "${GREEN}📦 da-app-portal${NC}"
+        git checkout master
+        git pull origin master
+        echo ""
+    fi
 fi
 
 # Operations repos
