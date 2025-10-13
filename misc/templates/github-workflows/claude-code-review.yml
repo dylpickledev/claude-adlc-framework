@@ -1,0 +1,112 @@
+name: Claude Code Review
+
+on:
+  # Trigger 1: Automatic review when PR has "claude" label
+  pull_request:
+    types: [opened, synchronize, labeled]
+
+  # Trigger 2: Manual review when @claude is mentioned in comments
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    # Run if EITHER:
+    # 1. PR has "claude" label, OR
+    # 2. Comment mentions @claude
+    if: |
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'claude')) ||
+      ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
+       (github.event.issue.pull_request || github.event.pull_request) &&
+       contains(github.event.comment.body, '@claude'))
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let prNumber, prRef;
+
+            if (context.eventName === 'pull_request') {
+              prNumber = context.payload.pull_request.number;
+              prRef = context.payload.pull_request.head.ref;
+            } else {
+              // For comment triggers, fetch PR details
+              prNumber = context.issue.number;
+              const { data: pr } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+              prRef = pr.head.ref;
+            }
+
+            core.setOutput('number', prNumber);
+            core.setOutput('ref', prRef);
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.pr.outputs.ref }}
+          fetch-depth: 0
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@beta
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          # Optional: Specify model (defaults to Claude Sonnet 4)
+          # model: "claude-opus-4-1-20250805"
+
+          # Direct prompt for automated review
+          direct_prompt: |
+            Please review this pull request and provide feedback on:
+            - Code quality and best practices
+            - Potential bugs or issues
+            - Performance considerations
+            - Security concerns
+            - Test coverage
+
+            ${{ github.event_name == 'issue_comment' && format('User comment: {0}', github.event.comment.body) || github.event_name == 'pull_request_review_comment' && format('User comment: {0}', github.event.comment.body) || '' }}
+
+            Be constructive and helpful in your feedback.
+
+          # Use sticky comments to update the same comment on subsequent runs
+          use_sticky_comment: true
+
+      - name: Comment review completion
+        if: success() && (github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `✅ @claude code review complete! Check the conversation for feedback.`;
+            github.rest.issues.createComment({
+              issue_number: ${{ steps.pr.outputs.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Comment on failure
+        if: failure() && (github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `❌ @claude code review failed. Please check the [workflow logs](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.`;
+            github.rest.issues.createComment({
+              issue_number: ${{ steps.pr.outputs.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
