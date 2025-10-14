@@ -11,6 +11,23 @@
 [![GitHub](https://img.shields.io/badge/GitHub-Actions-black?logo=github)](https://github.com/features/actions)
 [![Snowflake](https://img.shields.io/badge/Snowflake-Data-lightblue?logo=snowflake)](https://snowflake.com/)
 
+---
+
+## 🧭 Quick Navigation
+
+**🎯 Start Here:**
+- [**SHOWCASE.md**](SHOWCASE.md) - Why I built this, technical deep-dive, real-world impact
+- [**4-Command Workflow**](#-quick-start-4-simple-commands) - Get started in 60 seconds
+- [**Architecture Diagrams**](#-adlc-implementation-architecture) - Visual system overview
+
+**🔍 Explore by Interest:**
+- **For Recruiters/Managers:** [SHOWCASE.md](SHOWCASE.md) → [Real-World Impact](#-real-world-impact) → [Key Innovations](SHOWCASE.md#-key-innovations-im-proud-of)
+- **For Data Engineers:** [Role-Based Agents](#-adlc-developtestdeploy-local-development--project-management) → [MCP Architecture](#️-mcp-architecture-status-week-1-complete-) → [Agent Definitions](.claude/agents/)
+- **For AI Enthusiasts:** [Specialist Architecture](SHOWCASE.md#1️⃣-role-based-ai-specialist-system) → [MCP Integration](#️-mcp-architecture-status-week-1-complete-) → [Prompt Engineering](.claude/agents/specialists/)
+- **Want to Fork This:** [Installation](#-getting-started) → [Security Guide](FORK_MAINTENANCE.md) → [Customization](#framework-customization)
+
+---
+
 ## 🌟 Framework Overview
 
 The DA Agent Hub is an open-source framework that transforms how data teams approach analytics development. It combines the industry-standard dbt Analytics Development Lifecycle with AI-powered automation to create a seamless workflow from ideation to production operations.
@@ -148,62 +165,60 @@ The DA Agent Hub implements all eight ADLC phases through three integrated AI la
 
 ## 📊 ADLC Implementation Architecture
 
+### High-Level: The 4-Command Workflow
+
+```mermaid
+graph LR
+    A[💡 /idea<br/>Capture] --> B[🗺️ /roadmap<br/>Prioritize]
+    B --> C[🚀 /start<br/>Build]
+    C --> D[✅ /complete<br/>Ship]
+    D -.->|Next Project| B
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#f3e5f5
+```
+
+**That's it.** Four commands handle your entire analytics development lifecycle.
+
+### Detailed: Three-Layer Architecture
+
 ```mermaid
 graph TB
-    subgraph "💡 ADLC: PLAN Phase"
-        CAPTURE["1. ./scripts/capture.sh<br/>Business Case Validation"]
-        ROADMAP["2. ./scripts/roadmap.sh<br/>Strategic Planning & Prioritization"]
-        IDEAS[ideas/ - Auto-Organization<br/>Impact Analysis]
+    subgraph "💡 Layer 1: PLAN"
+        IDEA["/idea → GitHub Issue<br/>Auto-labeled & organized"]
+        ROADMAP["/roadmap → Impact Analysis<br/>Prioritization matrix"]
     end
 
-    subgraph "🔧 ADLC: DEVELOP + TEST + DEPLOY"
-        BUILD["3. ./scripts/build.sh<br/>Project Creation & Development"]
-        PROJECTS[projects/ - Specialist Agents<br/>Cross-Repo Coordination]
-        DEPLOY[Automated Deployment<br/>Quality Assurance]
+    subgraph "🔧 Layer 2: DEVELOP"
+        START["/start → Project Setup<br/>Git worktree + specialists"]
+        AGENTS["Role Agents<br/>analytics-engineer, data-engineer, bi-developer"]
+        MCP["MCP Specialists<br/>dbt-expert, snowflake-expert, aws-expert"]
     end
 
-    subgraph "🎯 ADLC: COMPLETE & ARCHIVE"
-        FINISH["4. ./scripts/finish.sh<br/>Archive & Git Workflow"]
-        COMPLETE[Project Completion<br/>Knowledge Preservation]
+    subgraph "🤖 Layer 3: OPERATE"
+        MONITOR["GitHub Actions<br/>Daily monitoring"]
+        INVESTIGATE["AI Investigation<br/>Root cause analysis"]
+        FIX["Automated PRs<br/>Cross-repo fixes"]
     end
 
-    subgraph "🤖 ADLC: OPERATE + OBSERVE + DISCOVER + ANALYZE"
-        GHA[GitHub Actions - Operate]
-        MONITOR[Performance Monitor - Observe]
-        INVESTIGATE[AI Investigation - Discover]
-        INSIGHTS[Business Insights - Analyze]
-    end
-
-    subgraph "Data Infrastructure"
-        DBT[dbt Cloud]
-        SF[Snowflake]
-        TB[Tableau]
-        ORCH[Orchestra]
-    end
-
-    %% Simplified 4-Command Flow
-    CAPTURE --> IDEAS
-    IDEAS --> ROADMAP
-    ROADMAP --> BUILD
-    BUILD --> PROJECTS
-    PROJECTS --> DEPLOY
-    DEPLOY --> FINISH
-    FINISH --> COMPLETE
-
-    %% Automated Operations Loop
-    DBT -->|Errors| GHA
-    GHA --> MONITOR
+    IDEA --> ROADMAP
+    ROADMAP --> START
+    START --> AGENTS
+    AGENTS --> MCP
+    MCP -.-> MONITOR
     MONITOR --> INVESTIGATE
-    INVESTIGATE --> INSIGHTS
-    INSIGHTS --> DBT
+    INVESTIGATE --> FIX
 
-    %% Context Preservation
-    COMPLETE -.->|"ADLC Context"| INVESTIGATE
-    PROJECTS -.->|"Lifecycle Links"| IDEAS
-    INSIGHTS -.->|"Continuous Improvement"| CAPTURE
-
-    %% Command Cycling
-    COMPLETE -.->|"Next Iteration"| CAPTURE
+    style IDEA fill:#e1f5ff
+    style ROADMAP fill:#e1f5ff
+    style START fill:#e8f5e9
+    style AGENTS fill:#e8f5e9
+    style MCP fill:#e8f5e9
+    style MONITOR fill:#fff3e0
+    style INVESTIGATE fill:#fff3e0
+    style FIX fill:#fff3e0
 ```
 
 ---
