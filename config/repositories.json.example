@@ -1,0 +1,74 @@
+{
+  "_comment": "Repository configuration for D&A Agent Hub. Copy to repositories.json and customize for your organization.",
+  "settings": {
+    "clone_method": "https",
+    "update_existing": true,
+    "check_git_access": true
+  },
+  "knowledge": {
+    "da_agent_hub": {
+      "url": "https://github.com/YOUR_ORG/da-agent-hub.git",
+      "branch": "main",
+      "description": "DA Agent Hub - Analytics Development Lifecycle (ADLC) AI Platform"
+    },
+    "da_team_documentation": {
+      "url": "https://github.com/YOUR_ORG/da-team-documentation.git",
+      "branch": "main",
+      "description": "Data & Analytics team documentation - data architecture, integrations, products, and templates"
+    },
+    "da_obsidian": {
+      "url": "https://github.com/YOUR_ORG/da_obsidian.git",
+      "branch": "master",
+      "description": "Data & Analytics team Obsidian knowledge management vault - raw notes and unrefined ideas"
+    }
+  },
+  "data_stack": {
+    "_comment": "Organized data stack repositories by functional layer",
+    "orchestration": {
+      "orchestra": {
+        "url": "https://github.com/YOUR_ORG/Orchestra.git",
+        "branch": "master",
+        "description": "Primary orchestration system",
+        "folder": "repos/orchestration"
+      },
+      "prefect": {
+        "url": "https://github.com/YOUR_ORG/prefect.git",
+        "branch": "master",
+        "description": "Prefect flows repository",
+        "folder": "repos/orchestration"
+      }
+    },
+    "transformation": {
+      "dbt_cloud": {
+        "url": "https://github.com/YOUR_ORG/dbt_cloud.git",
+        "branch": "main",
+        "description": "Main dbt transformation project",
+        "folder": "repos/transformation"
+      }
+    },
+    "front_end": {
+      "streamlit_apps": {
+        "url": "https://github.com/YOUR_ORG/streamlit_apps.git",
+        "branch": "master",
+        "description": "Streamlit applications for data visualization",
+        "folder": "repos/front_end"
+      }
+    }
+  },
+  "prefect_context": {
+    "_comment": "Prefect Cloud workspace context - customize for your organization",
+    "workspace": "YOUR_ORG/YOUR_WORKSPACE",
+    "environment": "production",
+    "source_repositories": [
+      "orchestra",
+      "prefect"
+    ],
+    "work_pools": [
+      "production"
+    ],
+    "key_flows": [
+      "dbt-jobs-orchestrator-flow",
+      "airbyte-orchestrator"
+    ]
+  }
+}
