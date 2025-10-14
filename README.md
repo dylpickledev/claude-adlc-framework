@@ -1,5 +1,9 @@
 # 🤖 DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
 
+> 🎯 **Showcase Portfolio Project** - See [SHOWCASE.md](SHOWCASE.md) for detailed value demonstration and technical highlights.
+>
+> This fork demonstrates an AI-powered Analytics Development Lifecycle platform. Original work developed at GraniteRock, sanitized for public sharing.
+
 **Complete implementation of the [dbt Analytics Development Lifecycle](https://www.getdbt.com/resources/the-analytics-development-lifecycle) with AI-powered automation across all eight phases.**
 
 [![dbt](https://img.shields.io/badge/dbt-Cloud-orange?logo=dbt)](https://cloud.getdbt.com/)

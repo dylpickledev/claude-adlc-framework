@@ -1,6 +1,7 @@
-# Environment files
+# Environment files (CRITICAL - Never commit credentials)
 .env
 *.env
+!.env.template
 
 # Python
 venv/
@@ -61,6 +62,19 @@ developer/
 # Logs
 *.log
 logs/
+
+# Sensitive configuration (CRITICAL - Company-specific)
+config/repositories.json.local
+**/secrets/
+**/*secret*
+**/*credential*
+**/*password*
+**/*token*
+.ssh/
+*.pem
+*.key
+*.p12
+*.pfx
 
 # Temporary files
 tmp/
