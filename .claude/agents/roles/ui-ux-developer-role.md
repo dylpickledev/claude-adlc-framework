@@ -355,7 +355,8 @@ For development patterns:
 - **Auth**: ALB OIDC with Azure AD (infrastructure-level)
 - **Pattern**: Real-time dashboard with external API integration (Orchestra)
 - **Production**: https://apps.grc-ops.com/sales-journal/
-- **Key Learning**: Zustand state management, filter persistence, auto-reset logic
+- **Key Learning**: Zustand state management, filter persistence, auto-reset logic, generic export functions
+- **Recent Work**: Generic export pattern for CSV/PDF (Issue #36, PR #37)
 
 **When starting work on these apps**:
 1. Read application README in knowledge base for architecture
