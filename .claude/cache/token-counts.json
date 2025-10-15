@@ -374,5 +374,77 @@
     "size_bytes": 12598,
     "cached": false,
     "counted_at": "2025-10-14T18:32:17.329216"
+  },
+  ".claude/memory/README.md": {
+    "path": ".claude/memory/README.md",
+    "token_count": 460,
+    "content_hash": "ff3af19ad9f8c318edf51af02c5803f7",
+    "size_bytes": 2182,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.571479"
+  },
+  ".claude/memory/research/github-sleuth-expert-enhancement.md": {
+    "path": ".claude/memory/research/github-sleuth-expert-enhancement.md",
+    "token_count": 4532,
+    "content_hash": "a57794610209723767040cdd946e95bc",
+    "size_bytes": 18164,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.576786"
+  },
+  ".claude/memory/research/github-mcp-server-capabilities.md": {
+    "path": ".claude/memory/research/github-mcp-server-capabilities.md",
+    "token_count": 5895,
+    "content_hash": "586f0dd73e867c6a3a6028cf6a1fc119",
+    "size_bytes": 24856,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.583567"
+  },
+  ".claude/memory/research/github-mcp-quick-reference.md": {
+    "path": ".claude/memory/research/github-mcp-quick-reference.md",
+    "token_count": 906,
+    "content_hash": "dccd2e68ccc92d0936999e64afdb7e7c",
+    "size_bytes": 3235,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.585878"
+  },
+  ".claude/memory/research/GITHUB_MCP_RESEARCH_SUMMARY.md": {
+    "path": ".claude/memory/research/GITHUB_MCP_RESEARCH_SUMMARY.md",
+    "token_count": 3376,
+    "content_hash": "8eab29c99da7a2e1c8ae549e4ffbf9e6",
+    "size_bytes": 13986,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.589996"
+  },
+  ".claude/memory/quick-reference/aws-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/aws-mcp-quick-reference.md",
+    "token_count": 3197,
+    "content_hash": "6dd2c85fc1049a8c141f027f33e420f3",
+    "size_bytes": 12510,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.601346"
+  },
+  ".claude/memory/quick-reference/dbt-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/dbt-mcp-quick-reference.md",
+    "token_count": 2556,
+    "content_hash": "87000f37fcd0301843e3592ccc74478c",
+    "size_bytes": 9090,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.604623"
+  },
+  ".claude/memory/quick-reference/github-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/github-mcp-quick-reference.md",
+    "token_count": 4008,
+    "content_hash": "523d92426643368e3ae7bfe1a411e6c1",
+    "size_bytes": 14408,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.609555"
+  },
+  ".claude/memory/quick-reference/snowflake-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/snowflake-mcp-quick-reference.md",
+    "token_count": 3558,
+    "content_hash": "6ff59667762b85b757ced6ec440c6ae0",
+    "size_bytes": 12926,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.613917"
   }
 }
