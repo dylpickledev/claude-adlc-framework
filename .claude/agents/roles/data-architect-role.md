@@ -387,43 +387,46 @@ Changes        Message       Remotely      Locally        New Work
 - **Clean State Management**: Consistent main branch state reduces merge conflicts
 - **Review Readiness**: All work automatically committed and available for PR creation
 
-## Memory System Architecture (Confidence: 0.95)
+## AI Memory System Architecture Patterns
 
-**From**: AI Memory System Improvements Project (Jan-Oct 2025)
+### Multi-Tiered Memory Architecture (Production-Validated)
+**From**: AI Memory System Improvements Project (2025-10-14)
+**Confidence**: 0.92 (9-month production validation)
 
-**Achievement**: 91.7% context reduction (232K → 19K tokens) through token-aware memory loading with agent-specific scopes
+**Architecture Pattern**: Three-tier memory hierarchy with agent-specific scoping
+```
+Global Memory:                     Agent-Specific Memory (26 agents):
+recent/ (0-30d, full detail)      specialists/roles → agent-name → 4 tiers
+intermediate/ (30-90d, summarized)    recent/ (agent-specific patterns <30d)
+patterns/ (permanent, high-value)      intermediate/ (30-90d, summarized)
+archive/ (low-value, searchable)       patterns/ (permanent, validated)
+                                       archive/ (low-value, agent-specific)
+```
 
-**Architecture Components**:
-1. **Token-Aware Loading** (Phase 1):
-   - tiktoken (cl100k_base) for Claude token counting
-   - 20K token budget with 96.9% utilization
-   - Relevance scoring: recency (30%), usage (30%), context (40%)
+**Key Results**:
+- **Token reduction**: 91.7% (232K → 19K tokens) - exceeded 40-60% target
+- **Memory stability**: 46K tokens (23% of 200K capacity) after 9 months
+- **Agent relevance**: 50-100% improvement with scoped patterns
+- **Automation**: Daily/weekly/monthly consolidation via cron jobs
 
-2. **Three-Tier Memory Hierarchy** (Phase 2):
-   - `recent/`: <30 days, full detail
-   - `intermediate/`: 30-90 days, summarized (97.4% reduction)
-   - `patterns/`: Permanent, high-value (confidence ≥0.85 OR use_count ≥3)
-   - `archive/`: Low-value, searchable storage
+**Design Decisions**:
+1. **Defer semantic search until >150K tokens** (Anthropic guidance: prompt caching > retrieval for <200K)
+2. **Agent-specific scopes**: 104 directories (26 agents × 4 tiers) for specialist prioritization
+3. **Budget profiles**: 4 profile types (specialist-narrow/broad, role-coordinator/architect)
+4. **Complexity detection**: Auto-detect simple/medium/complex/multi-system tasks for dynamic budgeting
 
-3. **Agent-Specific Scopes** (Phase 4):
-   - 26 agents (16 specialists, 10 roles)
-   - 104 directories (4 tiers × 26 agents)
-   - 609K tokens across 183 agent-specific patterns
-   - 30% relevance bonus for scoped patterns
+**When to Apply This Pattern**:
+- AI/LLM systems approaching context window limits
+- Memory optimization for multi-agent systems
+- Knowledge base management with growing pattern libraries
+- Context-aware loading with relevance prioritization
 
-4. **Automated Lifecycle** (Phase 5):
-   - Daily: Promotion candidate scanning
-   - Weekly: Duplicate detection
-   - Monthly: Archival candidate scanning
-   - 80% reduction in manual curation time
+**Implementation Reference**:
+- **Scripts**: `scripts/memory-budget-scoped.py`, `scripts/run-phase5-automation.sh`
+- **Config**: `.claude/memory/budget-profiles.json`
+- **Documentation**: `projects/completed/2025-10/ai-memory-system-improvements/`
 
-**Key Insight**: Following Anthropic guidance to defer semantic search until 200K tokens saved massive implementation complexity. Current memory (46K tokens) is only 23% of threshold. Prompt caching + scope-aware loading achieved better results without embeddings.
-
-**Phase 3 Deferred**: BM25 semantic search documented for future trigger at 150K tokens (warning) or 180K (critical). Use lightweight bm25s library (55MB vs 2GB PyTorch) when needed.
-
-**Scripts**: 20 implementation scripts in `scripts/` covering token counting, budget management, consolidation, scoping, automation.
-
-**Reference**: `knowledge/da-agent-hub/development/memory-system-architecture.md`
+**Cost Impact**: Avoided semantic search overhead (BM25 deferred), automated maintenance reduces manual curation by 80%
 
 ## Output Format
 - **Architecture Recommendations**: Clear technical decisions with rationale
@@ -432,3 +435,4 @@ Changes        Message       Remotely      Locally        New Work
 - **Agent Assignment**: Specific recommendations for which experts should handle which aspects
 - **Automation Design**: GitHub Actions workflow patterns and integration strategies
 - **Context Switching Solutions**: Work preservation and project transition strategies
+- **Memory Architecture**: Multi-tier patterns for AI/LLM system optimization
