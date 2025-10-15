@@ -196,10 +196,29 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
 ## Context Management & Memory System
 
 ### Session Start Protocol
-1. **Recent Patterns** (`.claude/memory/recent/`) → Review last 30 days for similar solutions
-2. **Domain Patterns** (`.claude/memory/patterns/`) → Load relevant architectural patterns
-3. **Task Context** (`.claude/tasks/`) → Check for unfinished work
-4. **Project Templates** (`.claude/memory/templates/`) → Use appropriate template
+**CRITICAL: Run these checks at the start of EVERY Claude session**
+
+1. **Memory Health Check** → Verify memory system within healthy thresholds
+   ```bash
+   source projects/active/ai-memory-system-improvements/.venv/bin/activate && \
+   python3 scripts/check-memory-health.py
+   ```
+   - Current status: 46,012 tokens (23% of 200K limit)
+   - Alerts if approaching 150K tokens (Phase 3 trigger)
+   - Monthly checks recommended, automated via cron jobs
+
+2. **Recent Patterns** (`.claude/memory/recent/`) → Review last 30 days for similar solutions
+
+3. **Domain Patterns** (`.claude/memory/patterns/`) → Load relevant architectural patterns
+
+4. **Task Context** (`.claude/tasks/`) → Check for unfinished work
+
+5. **Project Templates** (`.claude/memory/templates/`) → Use appropriate template
+
+**Memory System Status**:
+- ✅ Phase 1 & 2 deployed (91.7% token reduction achieved)
+- ✅ Automated consolidation running (daily/weekly/monthly)
+- ⏸️ Phase 3 deferred (semantic search not needed until >150K tokens)
 
 ### Pattern Documentation Protocol
 Use these markers in `.claude/tasks/*/findings.md` for automatic extraction:
