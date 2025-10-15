@@ -387,6 +387,47 @@ Changes        Message       Remotely      Locally        New Work
 - **Clean State Management**: Consistent main branch state reduces merge conflicts
 - **Review Readiness**: All work automatically committed and available for PR creation
 
+## AI Memory System Architecture Patterns
+
+### Multi-Tiered Memory Architecture (Production-Validated)
+**From**: AI Memory System Improvements Project (2025-10-14)
+**Confidence**: 0.92 (9-month production validation)
+
+**Architecture Pattern**: Three-tier memory hierarchy with agent-specific scoping
+```
+Global Memory:                     Agent-Specific Memory (26 agents):
+recent/ (0-30d, full detail)      specialists/roles → agent-name → 4 tiers
+intermediate/ (30-90d, summarized)    recent/ (agent-specific patterns <30d)
+patterns/ (permanent, high-value)      intermediate/ (30-90d, summarized)
+archive/ (low-value, searchable)       patterns/ (permanent, validated)
+                                       archive/ (low-value, agent-specific)
+```
+
+**Key Results**:
+- **Token reduction**: 91.7% (232K → 19K tokens) - exceeded 40-60% target
+- **Memory stability**: 46K tokens (23% of 200K capacity) after 9 months
+- **Agent relevance**: 50-100% improvement with scoped patterns
+- **Automation**: Daily/weekly/monthly consolidation via cron jobs
+
+**Design Decisions**:
+1. **Defer semantic search until >150K tokens** (Anthropic guidance: prompt caching > retrieval for <200K)
+2. **Agent-specific scopes**: 104 directories (26 agents × 4 tiers) for specialist prioritization
+3. **Budget profiles**: 4 profile types (specialist-narrow/broad, role-coordinator/architect)
+4. **Complexity detection**: Auto-detect simple/medium/complex/multi-system tasks for dynamic budgeting
+
+**When to Apply This Pattern**:
+- AI/LLM systems approaching context window limits
+- Memory optimization for multi-agent systems
+- Knowledge base management with growing pattern libraries
+- Context-aware loading with relevance prioritization
+
+**Implementation Reference**:
+- **Scripts**: `scripts/memory-budget-scoped.py`, `scripts/run-phase5-automation.sh`
+- **Config**: `.claude/memory/budget-profiles.json`
+- **Documentation**: `projects/completed/2025-10/ai-memory-system-improvements/`
+
+**Cost Impact**: Avoided semantic search overhead (BM25 deferred), automated maintenance reduces manual curation by 80%
+
 ## Output Format
 - **Architecture Recommendations**: Clear technical decisions with rationale
 - **Implementation Plans**: Step-by-step coordination across specialist agents
@@ -394,3 +435,4 @@ Changes        Message       Remotely      Locally        New Work
 - **Agent Assignment**: Specific recommendations for which experts should handle which aspects
 - **Automation Design**: GitHub Actions workflow patterns and integration strategies
 - **Context Switching Solutions**: Work preservation and project transition strategies
+- **Memory Architecture**: Multi-tier patterns for AI/LLM system optimization
