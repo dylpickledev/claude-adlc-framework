@@ -446,5 +446,1469 @@
     "size_bytes": 12926,
     "cached": false,
     "counted_at": "2025-10-14T18:36:40.613917"
+  },
+  ".claude/memory/specialists/project-delivery-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/project-delivery-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.658912"
+  },
+  ".claude/memory/specialists/project-delivery-expert/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/project-delivery-expert/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.665279"
+  },
+  ".claude/memory/specialists/project-delivery-expert/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/project-delivery-expert/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.667937"
+  },
+  ".claude/memory/specialists/project-delivery-expert/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/project-delivery-expert/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.672292"
+  },
+  ".claude/memory/specialists/aws-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/aws-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.680190"
+  },
+  ".claude/memory/specialists/aws-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/aws-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.685061"
+  },
+  ".claude/memory/specialists/aws-expert/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/aws-expert/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.690544"
+  },
+  ".claude/memory/specialists/aws-expert/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/specialists/aws-expert/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.693142"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.695999"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.703698"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.706443"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/git-workflow-patterns.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/git-workflow-patterns.md",
+    "token_count": 1212,
+    "content_hash": "6a26fa6d4cbc192607207fe8a3a176d8",
+    "size_bytes": 5188,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.708190"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.714198"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.718753"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.724267"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.729069"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.733667"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.736395"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.740407"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.743259"
+  },
+  ".claude/memory/specialists/data-quality-specialist/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/data-quality-specialist/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.746915"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.750472"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.758660"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.760991"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/git-workflow-patterns.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/git-workflow-patterns.md",
+    "token_count": 1212,
+    "content_hash": "6a26fa6d4cbc192607207fe8a3a176d8",
+    "size_bytes": 5188,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.763075"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.764985"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.770331"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.774197"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.779461"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.783827"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/example-patterns.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/example-patterns.md",
+    "token_count": 311,
+    "content_hash": "86bbcaa336df74903ddeeacae7bc6b6e",
+    "size_bytes": 1407,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.785082"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.787958"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.790130"
+  },
+  ".claude/memory/specialists/dbt-expert/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/dbt-expert/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.792720"
+  },
+  ".claude/memory/specialists/documentation-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/documentation-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.799736"
+  },
+  ".claude/memory/specialists/documentation-expert/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/documentation-expert/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.806052"
+  },
+  ".claude/memory/specialists/documentation-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/documentation-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.811207"
+  },
+  ".claude/memory/specialists/documentation-expert/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/documentation-expert/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.818248"
+  },
+  ".claude/memory/specialists/documentation-expert/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/specialists/documentation-expert/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.823813"
+  },
+  ".claude/memory/specialists/documentation-expert/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/documentation-expert/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.827417"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.831513"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.839602"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/git-workflow-patterns.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/git-workflow-patterns.md",
+    "token_count": 1212,
+    "content_hash": "6a26fa6d4cbc192607207fe8a3a176d8",
+    "size_bytes": 5188,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.841406"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.843347"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.848623"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.854881"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.859060"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.862186"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.864607"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.867516"
+  },
+  ".claude/memory/specialists/github-sleuth-expert/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/github-sleuth-expert/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.871433"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.874673"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.881641"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.884630"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.886790"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.890501"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.896048"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.901408"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.907228"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.910094"
+  },
+  ".claude/memory/specialists/orchestra-expert/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/orchestra-expert/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.912616"
+  },
+  ".claude/memory/specialists/tableau-expert/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/tableau-expert/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.915766"
+  },
+  ".claude/memory/specialists/tableau-expert/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/tableau-expert/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.919202"
+  },
+  ".claude/memory/specialists/tableau-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/tableau-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.924192"
+  },
+  ".claude/memory/specialists/tableau-expert/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/tableau-expert/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.927153"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.930914"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.938803"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.943148"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.948202"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.953595"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.957292"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.960471"
+  },
+  ".claude/memory/specialists/prefect-expert/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/prefect-expert/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.963115"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.966861"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.974005"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.976882"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.982454"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.987869"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.992544"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/example-patterns.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/example-patterns.md",
+    "token_count": 311,
+    "content_hash": "86bbcaa336df74903ddeeacae7bc6b6e",
+    "size_bytes": 1407,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.993593"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.996052"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:37.998969"
+  },
+  ".claude/memory/specialists/snowflake-expert/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/snowflake-expert/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.002136"
+  },
+  ".claude/memory/specialists/business-context/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.009972"
+  },
+  ".claude/memory/specialists/business-context/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.012835"
+  },
+  ".claude/memory/specialists/business-context/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.017643"
+  },
+  ".claude/memory/specialists/business-context/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.022824"
+  },
+  ".claude/memory/specialists/business-context/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.026726"
+  },
+  ".claude/memory/specialists/business-context/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.029458"
+  },
+  ".claude/memory/specialists/business-context/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.032156"
+  },
+  ".claude/memory/specialists/business-context/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.034587"
+  },
+  ".claude/memory/specialists/business-context/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/specialists/business-context/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.038184"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.041618"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.047993"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.050685"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.052582"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.057472"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.060356"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.065408"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.069301"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.073391"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.075874"
+  },
+  ".claude/memory/specialists/dlthub-expert/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/dlthub-expert/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.078071"
+  },
+  ".claude/memory/specialists/cost-optimization-specialist/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/specialists/cost-optimization-specialist/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.081670"
+  },
+  ".claude/memory/specialists/cost-optimization-specialist/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/specialists/cost-optimization-specialist/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.089501"
+  },
+  ".claude/memory/specialists/cost-optimization-specialist/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/specialists/cost-optimization-specialist/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.092899"
+  },
+  ".claude/memory/specialists/cost-optimization-specialist/patterns/testing-patterns.md": {
+    "path": ".claude/memory/specialists/cost-optimization-specialist/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.095356"
+  },
+  ".claude/memory/specialists/ui-ux-expert/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/specialists/ui-ux-expert/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.098421"
+  },
+  ".claude/memory/specialists/ui-ux-expert/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/specialists/ui-ux-expert/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.103109"
+  },
+  ".claude/memory/specialists/ui-ux-expert/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/specialists/ui-ux-expert/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.108647"
+  },
+  ".claude/memory/specialists/ui-ux-expert/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/specialists/ui-ux-expert/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.111710"
+  },
+  ".claude/memory/specialists/ui-ux-expert/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/specialists/ui-ux-expert/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.114634"
+  },
+  ".claude/memory/roles/research-role/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/roles/research-role/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.118719"
+  },
+  ".claude/memory/roles/research-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/research-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.128049"
+  },
+  ".claude/memory/roles/research-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/research-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.131257"
+  },
+  ".claude/memory/roles/research-role/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/roles/research-role/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.139903"
+  },
+  ".claude/memory/roles/research-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/research-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.145371"
+  },
+  ".claude/memory/roles/research-role/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/roles/research-role/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.151243"
+  },
+  ".claude/memory/roles/research-role/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/roles/research-role/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.156423"
+  },
+  ".claude/memory/roles/research-role/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/roles/research-role/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.159135"
+  },
+  ".claude/memory/roles/research-role/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/roles/research-role/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.163142"
+  },
+  ".claude/memory/roles/ui-ux-developer-role/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/roles/ui-ux-developer-role/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.167476"
+  },
+  ".claude/memory/roles/ui-ux-developer-role/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/roles/ui-ux-developer-role/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.169614"
+  },
+  ".claude/memory/roles/ui-ux-developer-role/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/roles/ui-ux-developer-role/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.175528"
+  },
+  ".claude/memory/roles/ui-ux-developer-role/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/roles/ui-ux-developer-role/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.178843"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.182879"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.190602"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.193108"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.198310"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.205045"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.207871"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/example-patterns.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/example-patterns.md",
+    "token_count": 311,
+    "content_hash": "86bbcaa336df74903ddeeacae7bc6b6e",
+    "size_bytes": 1407,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.209355"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.212483"
+  },
+  ".claude/memory/roles/data-architect-role/patterns/testing-patterns.md": {
+    "path": ".claude/memory/roles/data-architect-role/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.216184"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.225886"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.228786"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.234629"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.240429"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.244054"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.246336"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.249418"
+  },
+  ".claude/memory/roles/business-analyst-role/patterns/testing-patterns.md": {
+    "path": ".claude/memory/roles/business-analyst-role/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.252188"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.258154"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.265247"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.268195"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.274507"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.278709"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.283967"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.288847"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.291264"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.294688"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/testing-patterns.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.298004"
+  },
+  ".claude/memory/roles/qa-engineer-role/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/roles/qa-engineer-role/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.301750"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.309237"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.316145"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.322349"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.327052"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.329540"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/testing-patterns.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.332401"
+  },
+  ".claude/memory/roles/project-manager-role/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/roles/project-manager-role/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.336270"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.340168"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.347058"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.350700"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/github-investigation-pattern.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.356978"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.360617"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.365518"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.370668"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.374130"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.376570"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/testing-patterns.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.379105"
+  },
+  ".claude/memory/roles/analytics-engineer-role/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/roles/analytics-engineer-role/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.382846"
+  },
+  ".claude/memory/roles/data-engineer-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/data-engineer-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.385979"
+  },
+  ".claude/memory/roles/data-engineer-role/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/roles/data-engineer-role/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.389188"
+  },
+  ".claude/memory/roles/data-engineer-role/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/roles/data-engineer-role/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.392077"
+  },
+  ".claude/memory/roles/data-engineer-role/patterns/testing-patterns.md": {
+    "path": ".claude/memory/roles/data-engineer-role/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.395483"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.399736"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.409552"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.413617"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.416377"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.420822"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.427331"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.431667"
+  },
+  ".claude/memory/roles/bi-developer-role/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/roles/bi-developer-role/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T19:48:38.435983"
   }
 }

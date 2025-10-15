@@ -74,6 +74,33 @@ class MemoryHealthChecker:
             "avg_tokens": int(avg_tokens)
         }
 
+    def get_scope_breakdown(self) -> Dict:
+        """Get breakdown by agent scopes (Phase 4)"""
+        scope_stats = {
+            "global": {
+                "patterns": self.count_directory_tokens(self.base_dir / "patterns"),
+                "recent": self.count_directory_tokens(self.base_dir / "recent")
+            },
+            "specialists": {},
+            "roles": {}
+        }
+
+        # Count specialist scopes
+        specialists_dir = self.base_dir / "specialists"
+        if specialists_dir.exists():
+            for agent_dir in specialists_dir.iterdir():
+                if agent_dir.is_dir():
+                    scope_stats["specialists"][agent_dir.name] = self.count_directory_tokens(agent_dir / "patterns")
+
+        # Count role scopes
+        roles_dir = self.base_dir / "roles"
+        if roles_dir.exists():
+            for role_dir in roles_dir.iterdir():
+                if role_dir.is_dir():
+                    scope_stats["roles"][role_dir.name] = self.count_directory_tokens(role_dir / "patterns")
+
+        return scope_stats
+
     def get_memory_status(self) -> Dict:
         """Get current memory system status"""
         # Count tokens in each directory
@@ -81,6 +108,9 @@ class MemoryHealthChecker:
         intermediate = self.count_directory_tokens(self.base_dir / "intermediate")
         patterns = self.count_directory_tokens(self.base_dir / "patterns")
         archive = self.count_directory_tokens(self.base_dir / "archive")
+
+        # Get scope breakdown (Phase 4)
+        scopes = self.get_scope_breakdown()
 
         # Total
         total_tokens = (recent["total_tokens"] + intermediate["total_tokens"] +
@@ -249,6 +279,73 @@ class MemoryHealthChecker:
         archive = breakdown["archive"]
         if archive["file_count"] > 0:
             print(f"\n  {'archive':15s}: {archive['total_tokens']:>8,} tokens ({archive['file_count']:>3} files) [not counted in active]")
+
+        # Phase 4: Scope breakdown
+        print("\n" + "=" * 70)
+        print("PHASE 4: AGENT-SPECIFIC SCOPE BREAKDOWN")
+        print("=" * 70)
+
+        scope_stats = self.get_scope_breakdown()
+
+        # Global scope
+        global_patterns = scope_stats["global"]["patterns"]["total_tokens"]
+        global_recent = scope_stats["global"]["recent"]["total_tokens"]
+        global_total = global_patterns + global_recent
+        global_files = scope_stats["global"]["patterns"]["file_count"] + scope_stats["global"]["recent"]["file_count"]
+
+        print(f"\n🌍 Global Scope:")
+        print(f"  Total:    {global_total:>8,} tokens ({global_files:>3} files)")
+        print(f"  Patterns: {global_patterns:>8,} tokens ({scope_stats['global']['patterns']['file_count']:>3} files)")
+        print(f"  Recent:   {global_recent:>8,} tokens ({scope_stats['global']['recent']['file_count']:>3} files)")
+
+        # Specialists scope
+        specialist_total_tokens = sum(data["total_tokens"] for data in scope_stats["specialists"].values())
+        specialist_total_files = sum(data["file_count"] for data in scope_stats["specialists"].values())
+        specialist_count = len(scope_stats["specialists"])
+
+        print(f"\n🎯 Specialists Scope ({specialist_count} agents):")
+        print(f"  Total:    {specialist_total_tokens:>8,} tokens ({specialist_total_files:>3} files)")
+
+        if scope_stats["specialists"]:
+            # Show top 5 specialists by token count
+            top_specialists = sorted(
+                scope_stats["specialists"].items(),
+                key=lambda x: x[1]["total_tokens"],
+                reverse=True
+            )[:5]
+
+            print(f"\n  Top 5 Specialists by Token Count:")
+            for i, (agent, data) in enumerate(top_specialists, 1):
+                print(f"    {i}. {agent:30s} {data['total_tokens']:>8,} tokens ({data['file_count']:>3} files)")
+
+        # Roles scope
+        role_total_tokens = sum(data["total_tokens"] for data in scope_stats["roles"].values())
+        role_total_files = sum(data["file_count"] for data in scope_stats["roles"].values())
+        role_count = len(scope_stats["roles"])
+
+        print(f"\n👥 Roles Scope ({role_count} agents):")
+        print(f"  Total:    {role_total_tokens:>8,} tokens ({role_total_files:>3} files)")
+
+        if scope_stats["roles"]:
+            # Show top 5 roles by token count
+            top_roles = sorted(
+                scope_stats["roles"].items(),
+                key=lambda x: x[1]["total_tokens"],
+                reverse=True
+            )[:5]
+
+            print(f"\n  Top 5 Roles by Token Count:")
+            for i, (role, data) in enumerate(top_roles, 1):
+                print(f"    {i}. {role:30s} {data['total_tokens']:>8,} tokens ({data['file_count']:>3} files)")
+
+        # Total scope stats
+        total_scope_tokens = specialist_total_tokens + role_total_tokens
+        total_scope_files = specialist_total_files + role_total_files
+
+        print(f"\n📊 Scope Summary:")
+        print(f"  Global:      {global_total:>8,} tokens ({global_files:>3} files)")
+        print(f"  Agent-Specific: {total_scope_tokens:>8,} tokens ({total_scope_files:>3} files)")
+        print(f"  TOTAL:       {global_total + total_scope_tokens:>8,} tokens ({global_files + total_scope_files:>3} files)")
 
         if detailed:
             print("\n" + "=" * 70)
