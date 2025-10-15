@@ -1,0 +1,15 @@
+{
+  "pattern_file": "example-patterns.md",
+  "token_count": 311,
+  "content_hash": "86bbcaa336df74903ddeeacae7bc6b6e",
+  "use_count": 0,
+  "last_used": null,
+  "created_at": "2025-10-07T10:08:42.645510",
+  "modified_at": "2025-10-07T10:08:42.645510",
+  "confidence": null,
+  "tags": [],
+  "original_token_count": 311,
+  "summary_token_count": 153,
+  "summarized_at": "2025-10-14T18:44:51.756770",
+  "is_summary": true
+}
