@@ -1,0 +1,2827 @@
+{
+  "dbt-expert": [
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test",
+        "macro",
+        "run"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test",
+        "manifest",
+        "run"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test",
+        "run"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test",
+        "run"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test",
+        "run"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test",
+        "run"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "example-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "macro"
+      ],
+      "path": "patterns/example-patterns.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "dbt",
+        "model",
+        "test",
+        "run"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "model",
+        "test"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "git-workflow-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "dbt",
+        "model",
+        "test"
+      ],
+      "path": "patterns/git-workflow-patterns.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "dbt",
+        "test",
+        "run"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "dbt",
+        "model",
+        "test"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "test",
+        "run"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "model",
+        "test"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "test",
+        "run"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "snowflake-expert": [
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 7,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "database",
+        "query",
+        "performance",
+        "storage",
+        "clustering"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "database",
+        "query",
+        "performance",
+        "clustering"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "example-patterns.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "snowflake",
+        "database",
+        "query",
+        "performance",
+        "compute",
+        "clustering"
+      ],
+      "path": "patterns/example-patterns.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "database",
+        "query",
+        "performance"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "query",
+        "performance"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "query",
+        "performance"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "query",
+        "performance"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "snowflake",
+        "warehouse",
+        "query"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "snowflake",
+        "query",
+        "performance"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "snowflake",
+        "query",
+        "performance"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "snowflake",
+        "performance"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "snowflake",
+        "query"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    }
+  ],
+  "aws-expert": [
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 8,
+      "matched_keywords": [
+        "aws",
+        "ec2",
+        "ecs",
+        "cloudformation",
+        "alb",
+        "vpc",
+        "iam",
+        "cloudwatch"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "aws",
+        "ecs",
+        "alb",
+        "cloudwatch"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "aws",
+        "ecs",
+        "alb"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "aws",
+        "ecs",
+        "iam"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "aws",
+        "ecs"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    }
+  ],
+  "tableau-expert": [
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "tableau",
+        "dashboard",
+        "visualization",
+        "workbook",
+        "viz"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "tableau",
+        "dashboard",
+        "visualization"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "tableau",
+        "dashboard",
+        "parameter"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "tableau",
+        "dashboard",
+        "parameter"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "tableau",
+        "dashboard"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "tableau",
+        "dashboard"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "example-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "tableau",
+        "dashboard"
+      ],
+      "path": "patterns/example-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "dashboard",
+        "parameter"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    }
+  ],
+  "github-sleuth-expert": [
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 8,
+      "matched_keywords": [
+        "github",
+        "repository",
+        "pr",
+        "pull request",
+        "issue",
+        "commit",
+        "branch",
+        "merge"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 7,
+      "matched_keywords": [
+        "github",
+        "repository",
+        "pr",
+        "issue",
+        "commit",
+        "branch",
+        "merge"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "git-workflow-patterns.md",
+      "relevance_score": 7,
+      "matched_keywords": [
+        "repository",
+        "pr",
+        "pull request",
+        "issue",
+        "commit",
+        "branch",
+        "merge"
+      ],
+      "path": "patterns/git-workflow-patterns.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "repository",
+        "pr",
+        "issue",
+        "commit",
+        "branch",
+        "merge"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "github",
+        "repository",
+        "pr",
+        "issue",
+        "branch",
+        "merge"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "github",
+        "repository",
+        "pr",
+        "issue",
+        "branch"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "repository",
+        "pr",
+        "issue",
+        "commit",
+        "branch"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "pr",
+        "issue",
+        "merge"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "pr",
+        "issue",
+        "branch"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "github",
+        "pr",
+        "issue"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "pr",
+        "issue",
+        "merge"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pr",
+        "issue"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pr",
+        "issue"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pr",
+        "issue"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "repository",
+        "pr"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "streamlit-expert": [
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "streamlit",
+        "app.py"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    }
+  ],
+  "orchestra-expert": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "task",
+        "dependency",
+        "schedule"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "workflow",
+        "dependency",
+        "schedule"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "workflow",
+        "task",
+        "dependency"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "workflow",
+        "task",
+        "dependency"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "workflow",
+        "task",
+        "dependency"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "workflow",
+        "task"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "pipeline",
+        "workflow",
+        "task",
+        "schedule"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "orchestra",
+        "pipeline",
+        "task"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "pipeline",
+        "workflow",
+        "task"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "workflow",
+        "task",
+        "dependency"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "workflow",
+        "task"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "orchestra",
+        "task"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pipeline",
+        "workflow"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    }
+  ],
+  "prefect-expert": [
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "prefect",
+        "flow",
+        "task",
+        "deployment"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "prefect",
+        "flow",
+        "task"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "prefect",
+        "task",
+        "deployment"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "prefect",
+        "flow",
+        "task"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "flow",
+        "task",
+        "deployment"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "flow",
+        "task",
+        "deployment"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "flow",
+        "task",
+        "deployment"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "flow",
+        "task",
+        "deployment"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "prefect",
+        "flow"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "prefect",
+        "task"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "prefect",
+        "task"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "flow",
+        "deployment"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "flow",
+        "deployment"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "flow",
+        "task"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    }
+  ],
+  "dlthub-expert": [
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "dlt",
+        "dlthub",
+        "source",
+        "pipeline",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "dlt",
+        "dlthub",
+        "source",
+        "pipeline",
+        "extract"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "dlt",
+        "dlthub",
+        "pipeline",
+        "load"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "source",
+        "pipeline",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "source",
+        "pipeline",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "source",
+        "pipeline",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "source",
+        "destination",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "source",
+        "pipeline",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "source",
+        "pipeline",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "source",
+        "pipeline",
+        "extract"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "source",
+        "extract",
+        "load"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "source",
+        "pipeline"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    }
+  ],
+  "data-quality-specialist": [
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality",
+        "accuracy"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality",
+        "accuracy"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "data quality"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check",
+        "accuracy"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "quality",
+        "validation",
+        "test",
+        "check"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "git-workflow-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "quality",
+        "test",
+        "check"
+      ],
+      "path": "patterns/git-workflow-patterns.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "test",
+        "check"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "test",
+        "check"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    }
+  ],
+  "cost-optimization-specialist": [
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "cost",
+        "optimization",
+        "savings",
+        "efficiency"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "cost",
+        "optimization",
+        "budget",
+        "savings"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "cost",
+        "optimization",
+        "efficiency"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "cost",
+        "optimization",
+        "savings"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "cost",
+        "optimization"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "savings",
+        "efficiency"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "cost",
+        "optimization"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "cost",
+        "optimization"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "cost",
+        "optimization"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "ui-ux-expert": [
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "ui",
+        "ux",
+        "design",
+        "interface"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "ui",
+        "ux",
+        "design"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "ui",
+        "ux",
+        "design"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "ui",
+        "ux",
+        "design"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "ui",
+        "ux",
+        "usability"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "ui",
+        "design"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "ui",
+        "design"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "ui",
+        "design"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "ui",
+        "ux"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "ui",
+        "ux"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "ui",
+        "design"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    }
+  ],
+  "analytics-engineer-role": [
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "data model",
+        "transformation"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "transformation",
+        "metrics"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "transformation",
+        "metrics"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "metrics"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "transformation"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "metrics"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "transformation",
+        "metrics"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "sql",
+        "metrics"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "dbt",
+        "sql",
+        "transformation"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "analytics",
+        "data model",
+        "transformation"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "analytics",
+        "dbt",
+        "metrics"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "dbt",
+        "transformation"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "example-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "dbt",
+        "sql"
+      ],
+      "path": "patterns/example-patterns.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "analytics",
+        "metrics"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "data-engineer-role": [
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "pipeline",
+        "etl",
+        "ingestion",
+        "orchestration",
+        "data flow"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "pipeline",
+        "etl",
+        "ingestion",
+        "orchestration"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "pipeline",
+        "ingestion",
+        "orchestration",
+        "data flow"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "pipeline",
+        "ingestion",
+        "data flow"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pipeline",
+        "ingestion"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pipeline",
+        "orchestration"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "pipeline",
+        "ingestion"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "bi-developer-role": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "dashboard",
+        "report"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "dashboard",
+        "report"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "dashboard",
+        "report"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "dashboard",
+        "report"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "dashboard",
+        "report"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "dashboard"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "bi",
+        "tableau",
+        "report"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "bi",
+        "dashboard",
+        "report"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "example-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "tableau",
+        "dashboard"
+      ],
+      "path": "patterns/example-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "bi",
+        "dashboard"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "bi",
+        "tableau"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "bi",
+        "dashboard"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "bi",
+        "report"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    }
+  ],
+  "ui-ux-developer-role": [
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "react",
+        "streamlit",
+        "app"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "react",
+        "streamlit",
+        "app"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "react",
+        "app",
+        "frontend"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "react",
+        "app",
+        "interface"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "data-architect-role": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "architecture",
+        "design",
+        "platform",
+        "infrastructure",
+        "integration"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "architecture",
+        "design",
+        "platform",
+        "infrastructure",
+        "integration"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "architecture",
+        "design",
+        "platform",
+        "integration"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "architecture",
+        "design",
+        "platform",
+        "integration"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "architecture",
+        "design",
+        "infrastructure"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "design",
+        "infrastructure",
+        "integration"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "example-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "architecture",
+        "design",
+        "integration"
+      ],
+      "path": "patterns/example-patterns.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "architecture",
+        "infrastructure",
+        "integration"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "design",
+        "infrastructure",
+        "integration"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "architecture",
+        "integration"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "architecture",
+        "integration"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "architecture",
+        "integration"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "infrastructure",
+        "integration"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "platform",
+        "integration"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "design",
+        "integration"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    }
+  ],
+  "business-analyst-role": [
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "analysis",
+        "stakeholder",
+        "scope"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "analysis",
+        "stakeholder",
+        "scope"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "analysis",
+        "stakeholder"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "analysis",
+        "scope"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "analysis"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "stakeholder"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "analysis",
+        "scope"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "analysis"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "requirement",
+        "analysis"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "business",
+        "analysis"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    }
+  ],
+  "qa-engineer-role": [
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "qa",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "quality",
+        "validation",
+        "test case"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "qa",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "qa",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "qa",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "qa",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "testing",
+        "qa",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "testing",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "testing",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "testing",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "testing",
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "git-workflow-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "testing",
+        "quality"
+      ],
+      "path": "patterns/git-workflow-patterns.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "quality",
+        "validation"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "research-role": [
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "research",
+        "analysis",
+        "investigation",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "research",
+        "analysis",
+        "investigation",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "research",
+        "analysis",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analysis",
+        "investigation",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "research",
+        "analysis",
+        "investigation",
+        "recommendation"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "analysis",
+        "investigation",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "mcp-delegation-enforcement.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "analysis",
+        "investigation",
+        "findings"
+      ],
+      "path": "patterns/mcp-delegation-enforcement.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "research",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "analysis",
+        "findings",
+        "recommendation"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "investigation",
+        "findings"
+      ],
+      "path": "patterns/testing-patterns.md"
+    }
+  ],
+  "react-expert": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "component",
+        "state"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "git-workflow-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "component",
+        "state"
+      ],
+      "path": "patterns/git-workflow-patterns.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "react",
+        "state"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "react",
+        "state"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "documentation-expert": [
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "documentation",
+        "readme",
+        "guide",
+        "markdown",
+        "confluence"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "documentation",
+        "readme",
+        "guide",
+        "markdown"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "documentation",
+        "guide",
+        "markdown"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "documentation",
+        "guide",
+        "markdown"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "documentation",
+        "guide",
+        "markdown"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "documentation",
+        "guide",
+        "markdown"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "documentation",
+        "guide"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "git-workflow-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "documentation",
+        "guide"
+      ],
+      "path": "patterns/git-workflow-patterns.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "documentation",
+        "markdown"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "documentation",
+        "guide"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "documentation",
+        "guide"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "documentation",
+        "markdown"
+      ],
+      "path": "patterns/testing-patterns.md"
+    }
+  ],
+  "business-context": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "business",
+        "stakeholder",
+        "requirement",
+        "metric",
+        "report"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "business",
+        "stakeholder",
+        "requirement",
+        "metric",
+        "report"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "business",
+        "stakeholder",
+        "requirement",
+        "metric",
+        "kpi"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "business",
+        "stakeholder",
+        "requirement",
+        "metric"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "metric",
+        "report"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "metric",
+        "report"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "requirement",
+        "metric"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "metric",
+        "report"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "business",
+        "metric",
+        "report"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "business",
+        "report"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "requirement",
+        "metric"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "project-delivery-expert": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 5,
+      "matched_keywords": [
+        "project",
+        "delivery",
+        "uat",
+        "deployment",
+        "stakeholder"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "project",
+        "deployment",
+        "stakeholder"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "project",
+        "milestone",
+        "deployment"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "project",
+        "uat",
+        "deployment"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "project",
+        "deployment"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "project",
+        "deployment"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "uat",
+        "stakeholder"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "project",
+        "deployment"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "uat",
+        "deployment"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    }
+  ],
+  "project-manager-role": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 6,
+      "matched_keywords": [
+        "project",
+        "plan",
+        "schedule",
+        "risk",
+        "delivery",
+        "coordination"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "project",
+        "plan",
+        "risk",
+        "coordination"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    },
+    {
+      "pattern": "github-investigation-pattern.md",
+      "relevance_score": 4,
+      "matched_keywords": [
+        "project",
+        "plan",
+        "risk",
+        "coordination"
+      ],
+      "path": "patterns/cross-tool-integration/github-investigation-pattern.md"
+    },
+    {
+      "pattern": "sequential-thinking-usage-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "plan",
+        "risk",
+        "coordination"
+      ],
+      "path": "patterns/sequential-thinking-usage-pattern.md"
+    },
+    {
+      "pattern": "testing-patterns.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "project",
+        "plan",
+        "coordination"
+      ],
+      "path": "patterns/testing-patterns.md"
+    },
+    {
+      "pattern": "mcp-server-addition-protocol.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "project",
+        "risk",
+        "coordination"
+      ],
+      "path": "patterns/mcp-server-addition-protocol.md"
+    },
+    {
+      "pattern": "aws-docs-deployment-pattern.md",
+      "relevance_score": 3,
+      "matched_keywords": [
+        "plan",
+        "schedule",
+        "coordination"
+      ],
+      "path": "patterns/cross-tool-integration/aws-docs-deployment-pattern.md"
+    },
+    {
+      "pattern": "cross-system-analysis-patterns.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "schedule",
+        "coordination"
+      ],
+      "path": "patterns/cross-system-analysis-patterns.md"
+    },
+    {
+      "pattern": "github-repo-context-resolution.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "project",
+        "plan"
+      ],
+      "path": "patterns/github-repo-context-resolution.md"
+    },
+    {
+      "pattern": "data-freshness-investigation-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "plan",
+        "coordination"
+      ],
+      "path": "patterns/data-freshness-investigation-pattern.md"
+    },
+    {
+      "pattern": "project-completion-knowledge-extraction.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "project",
+        "coordination"
+      ],
+      "path": "patterns/project-completion-knowledge-extraction.md"
+    },
+    {
+      "pattern": "OPTIMIZATION_SUMMARY.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "project",
+        "coordination"
+      ],
+      "path": "patterns/OPTIMIZATION_SUMMARY.md"
+    },
+    {
+      "pattern": "dbt-snowflake-optimization-pattern.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "plan",
+        "coordination"
+      ],
+      "path": "patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md"
+    }
+  ],
+  "dba-role": [
+    {
+      "pattern": "delegation-best-practices.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "database",
+        "recovery"
+      ],
+      "path": "patterns/delegation-best-practices.md"
+    },
+    {
+      "pattern": "agent-mcp-integration-guide.md",
+      "relevance_score": 2,
+      "matched_keywords": [
+        "database",
+        "admin"
+      ],
+      "path": "patterns/agent-mcp-integration-guide.md"
+    }
+  ]
+}
