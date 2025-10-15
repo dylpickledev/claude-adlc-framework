@@ -1,15 +1,10 @@
 {
   "mcpServers": {
     "dbt-mcp": {
-      "command": "uvx",
-      "args": ["--python", "3.12", "dbt-mcp"],
-      "env": {
-        "DBT_HOST": "${DBT_HOST}",
-        "DBT_TOKEN": "${DBT_TOKEN}",
-        "DBT_PROD_ENV_ID": "${DBT_PROD_ENV_ID}"
-      },
+      "command": "bash",
+      "args": ["scripts/launch-dbt-mcp.sh"],
       "disabled": false,
-      "_comment": "Week 1 Day 5 - Using Python 3.12 due to asyncio stdio bug in Python 3.13 (ValueError: I/O operation on closed file)"
+      "_comment": "Week 1 Day 5 - Using wrapper script to inherit 1Password env vars. Python 3.12 due to asyncio stdio bug in Python 3.13."
     },
     "snowflake-mcp": {
       "command": "bash",
