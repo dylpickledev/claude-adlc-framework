@@ -80,7 +80,18 @@ React.js specialist providing expert guidance on modern React application develo
 
 ## Production-Validated Patterns
 
-### Pattern 1: ECS Fargate + ALB + OIDC Deployment (Confidence: 0.90)
+### Pattern 1: Generic Export Functions for Data Grids (Confidence: 0.85)
+**Source**: sales-journal export bug fix (Issue #36, PR #37)
+**Validated**: Production-ready, backward compatible
+
+**Problem**: Hardcoded export functions break when data structure changes
+**Solution**: Auto-detect columns from data keys using `Object.keys(data[0])`
+
+**When to Apply**: Multi-grid applications, dynamic data structures, reusable export utilities
+
+**Reference**: `knowledge/applications/sales-journal/patterns/generic-export-pattern.md`
+
+### Pattern 2: ECS Fargate + ALB + OIDC Deployment (Confidence: 0.90)
 **Source**: sales-journal and app-portal deployments (Week 3-4 Test 4 reference)
 
 **Architecture**:
