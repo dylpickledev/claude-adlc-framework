@@ -1,0 +1,450 @@
+{
+  "CLAUDE.md": {
+    "path": "CLAUDE.md",
+    "token_count": 4944,
+    "content_hash": "ca1d6ea5782c9672867fae04ec9827f1",
+    "size_bytes": 21986,
+    "cached": false,
+    "counted_at": "2025-10-14T18:31:58.184486"
+  },
+  ".claude/memory/patterns/mcp-delegation-enforcement.md": {
+    "path": ".claude/memory/patterns/mcp-delegation-enforcement.md",
+    "token_count": 2867,
+    "content_hash": "32e58d93a52eb90d419baaca9e75339b",
+    "size_bytes": 11955,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.809298"
+  },
+  ".claude/memory/patterns/delegation-best-practices.md": {
+    "path": ".claude/memory/patterns/delegation-best-practices.md",
+    "token_count": 6782,
+    "content_hash": "9c762492096eec15396ebf7ba8d5f7b4",
+    "size_bytes": 30160,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.815891"
+  },
+  ".claude/memory/patterns/cross-system-analysis-patterns.md": {
+    "path": ".claude/memory/patterns/cross-system-analysis-patterns.md",
+    "token_count": 1965,
+    "content_hash": "9906ed298934919c62493a76231d0f50",
+    "size_bytes": 9290,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.818739"
+  },
+  ".claude/memory/patterns/git-workflow-patterns.md": {
+    "path": ".claude/memory/patterns/git-workflow-patterns.md",
+    "token_count": 1212,
+    "content_hash": "6a26fa6d4cbc192607207fe8a3a176d8",
+    "size_bytes": 5188,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.820729"
+  },
+  ".claude/memory/patterns/github-repo-context-resolution.md": {
+    "path": ".claude/memory/patterns/github-repo-context-resolution.md",
+    "token_count": 1443,
+    "content_hash": "bc80ab68f6907b9133639856e17ecd6c",
+    "size_bytes": 6043,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.822690"
+  },
+  ".claude/memory/patterns/data-freshness-investigation-pattern.md": {
+    "path": ".claude/memory/patterns/data-freshness-investigation-pattern.md",
+    "token_count": 2416,
+    "content_hash": "6fa2be7936fbc5e6cd98382be44e9532",
+    "size_bytes": 10163,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.825412"
+  },
+  ".claude/memory/patterns/agent-mcp-integration-guide.md": {
+    "path": ".claude/memory/patterns/agent-mcp-integration-guide.md",
+    "token_count": 4685,
+    "content_hash": "ec779882803c0e6a4f5477ae2d0275f8",
+    "size_bytes": 19335,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.830490"
+  },
+  ".claude/memory/patterns/project-completion-knowledge-extraction.md": {
+    "path": ".claude/memory/patterns/project-completion-knowledge-extraction.md",
+    "token_count": 2554,
+    "content_hash": "9b6c3b77b90f56cda4fa0b81a654f1d8",
+    "size_bytes": 10550,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.833774"
+  },
+  ".claude/memory/patterns/example-patterns.md": {
+    "path": ".claude/memory/patterns/example-patterns.md",
+    "token_count": 311,
+    "content_hash": "86bbcaa336df74903ddeeacae7bc6b6e",
+    "size_bytes": 1407,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.834855"
+  },
+  ".claude/memory/patterns/sequential-thinking-usage-pattern.md": {
+    "path": ".claude/memory/patterns/sequential-thinking-usage-pattern.md",
+    "token_count": 1531,
+    "content_hash": "d7ff1ed9d947b460c022d28224701ecc",
+    "size_bytes": 6640,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.837402"
+  },
+  ".claude/memory/patterns/OPTIMIZATION_SUMMARY.md": {
+    "path": ".claude/memory/patterns/OPTIMIZATION_SUMMARY.md",
+    "token_count": 2047,
+    "content_hash": "944b94a2b344c84659a26884efc15817",
+    "size_bytes": 9204,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.839893"
+  },
+  ".claude/memory/patterns/testing-patterns.md": {
+    "path": ".claude/memory/patterns/testing-patterns.md",
+    "token_count": 1876,
+    "content_hash": "8832cd747f60aa9521365877f5aac9ce",
+    "size_bytes": 8013,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.841933"
+  },
+  ".claude/memory/patterns/mcp-server-addition-protocol.md": {
+    "path": ".claude/memory/patterns/mcp-server-addition-protocol.md",
+    "token_count": 2895,
+    "content_hash": "b275815bbe46173d33aa15cfa419b997",
+    "size_bytes": 12245,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.845478"
+  },
+  ".claude/memory/patterns/cross-tool-integration/github-investigation-pattern.md": {
+    "path": ".claude/memory/patterns/cross-tool-integration/github-investigation-pattern.md",
+    "token_count": 5037,
+    "content_hash": "d595328c489a320cda71c262560bf5c6",
+    "size_bytes": 20989,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.850203"
+  },
+  ".claude/memory/patterns/cross-tool-integration/aws-docs-deployment-pattern.md": {
+    "path": ".claude/memory/patterns/cross-tool-integration/aws-docs-deployment-pattern.md",
+    "token_count": 4781,
+    "content_hash": "94cb7b9e872c22ed3c95b8a4534d9354",
+    "size_bytes": 19060,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.855629"
+  },
+  ".claude/memory/patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md": {
+    "path": ".claude/memory/patterns/cross-tool-integration/dbt-snowflake-optimization-pattern.md",
+    "token_count": 3497,
+    "content_hash": "a5496d629fb52ed45cc0564ca3a48c2e",
+    "size_bytes": 14048,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:04.859703"
+  },
+  ".claude/memory/recent/2025-09.md": {
+    "path": ".claude/memory/recent/2025-09.md",
+    "token_count": 113,
+    "content_hash": "b7135d4a0486ebd49a163fe61a6f601c",
+    "size_bytes": 472,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:11.277439"
+  },
+  ".claude/agents/README.md": {
+    "path": ".claude/agents/README.md",
+    "token_count": 7508,
+    "content_hash": "cb1e9ab45f529094cd4ed798ffbb7f49",
+    "size_bytes": 33213,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.163309"
+  },
+  ".claude/agents/roles/role-template.md": {
+    "path": ".claude/agents/roles/role-template.md",
+    "token_count": 2265,
+    "content_hash": "0982e2cbd723635ba92d1684116279f1",
+    "size_bytes": 9894,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.166035"
+  },
+  ".claude/agents/roles/data-engineer-role.md": {
+    "path": ".claude/agents/roles/data-engineer-role.md",
+    "token_count": 7388,
+    "content_hash": "450ef060bf0ded09774f03527578234a",
+    "size_bytes": 33513,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.173582"
+  },
+  ".claude/agents/roles/business-analyst-role.md": {
+    "path": ".claude/agents/roles/business-analyst-role.md",
+    "token_count": 4904,
+    "content_hash": "b5afddd881ea9ff30721d8f3277ae96c",
+    "size_bytes": 24722,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.178702"
+  },
+  ".claude/agents/roles/research-role.md": {
+    "path": ".claude/agents/roles/research-role.md",
+    "token_count": 2164,
+    "content_hash": "c07f6ab9a501a15be0668aa4f449eff8",
+    "size_bytes": 10385,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.181117"
+  },
+  ".claude/agents/roles/dba-role.md": {
+    "path": ".claude/agents/roles/dba-role.md",
+    "token_count": 7124,
+    "content_hash": "eae8d9dff321e7205e429c1809e67f98",
+    "size_bytes": 31932,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.189173"
+  },
+  ".claude/agents/roles/bi-developer-role.md": {
+    "path": ".claude/agents/roles/bi-developer-role.md",
+    "token_count": 6524,
+    "content_hash": "d8fa8e34b12630d8230f40148c41edec",
+    "size_bytes": 29733,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.196889"
+  },
+  ".claude/agents/roles/data-architect-role.md": {
+    "path": ".claude/agents/roles/data-architect-role.md",
+    "token_count": 3868,
+    "content_hash": "e8f4aacd281c60a193611b0f83f32399",
+    "size_bytes": 19825,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.201524"
+  },
+  ".claude/agents/roles/qa-engineer-role.md": {
+    "path": ".claude/agents/roles/qa-engineer-role.md",
+    "token_count": 6863,
+    "content_hash": "8170b03dd71564fb1d5ce522dbcdb5c9",
+    "size_bytes": 34159,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.208329"
+  },
+  ".claude/agents/roles/ui-ux-developer-role.md": {
+    "path": ".claude/agents/roles/ui-ux-developer-role.md",
+    "token_count": 6995,
+    "content_hash": "bd7bbdf923c28c0d46cd9a933a3a1a38",
+    "size_bytes": 31038,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.215222"
+  },
+  ".claude/agents/roles/analytics-engineer-role.md": {
+    "path": ".claude/agents/roles/analytics-engineer-role.md",
+    "token_count": 5577,
+    "content_hash": "261b9161bc3e0cadbd18cd7cb4aed987",
+    "size_bytes": 24846,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.222487"
+  },
+  ".claude/agents/roles/project-manager-role.md": {
+    "path": ".claude/agents/roles/project-manager-role.md",
+    "token_count": 7381,
+    "content_hash": "1f5cca60cdd5e6e37bb1c528f837bafe",
+    "size_bytes": 39429,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.231442"
+  },
+  ".claude/agents/specialists/github-sleuth-expert.md": {
+    "path": ".claude/agents/specialists/github-sleuth-expert.md",
+    "token_count": 5881,
+    "content_hash": "aab1fd945f328ed7fbedd6376dc81d20",
+    "size_bytes": 25576,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.238094"
+  },
+  ".claude/agents/specialists/dbt-expert.md": {
+    "path": ".claude/agents/specialists/dbt-expert.md",
+    "token_count": 8928,
+    "content_hash": "86bd75d54e2e10594be5da84c5b940b6",
+    "size_bytes": 39358,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.246209"
+  },
+  ".claude/agents/specialists/documentation-expert.md": {
+    "path": ".claude/agents/specialists/documentation-expert.md",
+    "token_count": 6229,
+    "content_hash": "1b8e09cb6ce751286469cba59c9ed45d",
+    "size_bytes": 31086,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.252770"
+  },
+  ".claude/agents/specialists/react-expert.md": {
+    "path": ".claude/agents/specialists/react-expert.md",
+    "token_count": 6590,
+    "content_hash": "9814c1f76154227a1cc6fddcf3967e47",
+    "size_bytes": 29363,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.259947"
+  },
+  ".claude/agents/specialists/cost-optimization-specialist.md": {
+    "path": ".claude/agents/specialists/cost-optimization-specialist.md",
+    "token_count": 7917,
+    "content_hash": "908c9764cc171ec9c5d4a1977ba26f5b",
+    "size_bytes": 36277,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.268339"
+  },
+  ".claude/agents/specialists/data-quality-specialist.md": {
+    "path": ".claude/agents/specialists/data-quality-specialist.md",
+    "token_count": 7392,
+    "content_hash": "9d4bdb944532349627c8a0e31eb4d963",
+    "size_bytes": 35149,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.274865"
+  },
+  ".claude/agents/specialists/streamlit-expert.md": {
+    "path": ".claude/agents/specialists/streamlit-expert.md",
+    "token_count": 4737,
+    "content_hash": "4d47485bf39c033bffba94080ab1a7cc",
+    "size_bytes": 22685,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.280461"
+  },
+  ".claude/agents/specialists/ui-ux-expert.md": {
+    "path": ".claude/agents/specialists/ui-ux-expert.md",
+    "token_count": 1543,
+    "content_hash": "a63d67ca12d56fcb1d3c0faae3abe42e",
+    "size_bytes": 7863,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.282649"
+  },
+  ".claude/agents/specialists/orchestra-expert.md": {
+    "path": ".claude/agents/specialists/orchestra-expert.md",
+    "token_count": 3888,
+    "content_hash": "8ec3ec951b3ac5cd7f392781c79eaf8d",
+    "size_bytes": 18454,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.287361"
+  },
+  ".claude/agents/specialists/business-context.md": {
+    "path": ".claude/agents/specialists/business-context.md",
+    "token_count": 2678,
+    "content_hash": "5adfa83d0eb3b86130881a552e8d5e13",
+    "size_bytes": 14600,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.290722"
+  },
+  ".claude/agents/specialists/snowflake-expert.md": {
+    "path": ".claude/agents/specialists/snowflake-expert.md",
+    "token_count": 7312,
+    "content_hash": "275514412affd153bfecc1c12480a364",
+    "size_bytes": 31688,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.298065"
+  },
+  ".claude/agents/specialists/dlthub-expert.md": {
+    "path": ".claude/agents/specialists/dlthub-expert.md",
+    "token_count": 3762,
+    "content_hash": "6c8a8aa8c67df3cc7741e0bead6872c0",
+    "size_bytes": 17413,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.303185"
+  },
+  ".claude/agents/specialists/specialist-template.md": {
+    "path": ".claude/agents/specialists/specialist-template.md",
+    "token_count": 3095,
+    "content_hash": "8473fd93d5f1fa0cd307382be7dbc1f0",
+    "size_bytes": 12710,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.306712"
+  },
+  ".claude/agents/specialists/prefect-expert.md": {
+    "path": ".claude/agents/specialists/prefect-expert.md",
+    "token_count": 2381,
+    "content_hash": "34aa39212f99d7496ef957f5fedcb219",
+    "size_bytes": 12080,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.310374"
+  },
+  ".claude/agents/specialists/aws-expert.md": {
+    "path": ".claude/agents/specialists/aws-expert.md",
+    "token_count": 8783,
+    "content_hash": "5fb0ea6d0e4b5267c1a77fbd17bd777c",
+    "size_bytes": 38365,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.319195"
+  },
+  ".claude/agents/specialists/tableau-expert.md": {
+    "path": ".claude/agents/specialists/tableau-expert.md",
+    "token_count": 5973,
+    "content_hash": "33d67ceb75ba4d7ea78d2117043a7db1",
+    "size_bytes": 27883,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.324911"
+  },
+  ".claude/agents/deprecated/issue-lifecycle-expert.md": {
+    "path": ".claude/agents/deprecated/issue-lifecycle-expert.md",
+    "token_count": 2785,
+    "content_hash": "98271707787b9347d8680fd8e097d5f2",
+    "size_bytes": 12598,
+    "cached": false,
+    "counted_at": "2025-10-14T18:32:17.329216"
+  },
+  ".claude/memory/README.md": {
+    "path": ".claude/memory/README.md",
+    "token_count": 460,
+    "content_hash": "ff3af19ad9f8c318edf51af02c5803f7",
+    "size_bytes": 2182,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.571479"
+  },
+  ".claude/memory/research/github-sleuth-expert-enhancement.md": {
+    "path": ".claude/memory/research/github-sleuth-expert-enhancement.md",
+    "token_count": 4532,
+    "content_hash": "a57794610209723767040cdd946e95bc",
+    "size_bytes": 18164,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.576786"
+  },
+  ".claude/memory/research/github-mcp-server-capabilities.md": {
+    "path": ".claude/memory/research/github-mcp-server-capabilities.md",
+    "token_count": 5895,
+    "content_hash": "586f0dd73e867c6a3a6028cf6a1fc119",
+    "size_bytes": 24856,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.583567"
+  },
+  ".claude/memory/research/github-mcp-quick-reference.md": {
+    "path": ".claude/memory/research/github-mcp-quick-reference.md",
+    "token_count": 906,
+    "content_hash": "dccd2e68ccc92d0936999e64afdb7e7c",
+    "size_bytes": 3235,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.585878"
+  },
+  ".claude/memory/research/GITHUB_MCP_RESEARCH_SUMMARY.md": {
+    "path": ".claude/memory/research/GITHUB_MCP_RESEARCH_SUMMARY.md",
+    "token_count": 3376,
+    "content_hash": "8eab29c99da7a2e1c8ae549e4ffbf9e6",
+    "size_bytes": 13986,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.589996"
+  },
+  ".claude/memory/quick-reference/aws-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/aws-mcp-quick-reference.md",
+    "token_count": 3197,
+    "content_hash": "6dd2c85fc1049a8c141f027f33e420f3",
+    "size_bytes": 12510,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.601346"
+  },
+  ".claude/memory/quick-reference/dbt-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/dbt-mcp-quick-reference.md",
+    "token_count": 2556,
+    "content_hash": "87000f37fcd0301843e3592ccc74478c",
+    "size_bytes": 9090,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.604623"
+  },
+  ".claude/memory/quick-reference/github-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/github-mcp-quick-reference.md",
+    "token_count": 4008,
+    "content_hash": "523d92426643368e3ae7bfe1a411e6c1",
+    "size_bytes": 14408,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.609555"
+  },
+  ".claude/memory/quick-reference/snowflake-mcp-quick-reference.md": {
+    "path": ".claude/memory/quick-reference/snowflake-mcp-quick-reference.md",
+    "token_count": 3558,
+    "content_hash": "6ff59667762b85b757ced6ec440c6ae0",
+    "size_bytes": 12926,
+    "cached": false,
+    "counted_at": "2025-10-14T18:36:40.613917"
+  }
+}
