@@ -193,6 +193,214 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
 
 *See `.claude/memory/patterns/cross-system-analysis-patterns.md` for detailed agent coordination*
 
+## Parallel Execution Pattern
+
+### When to Use Parallel Delegation
+
+**Anthropic Best Practice**: "Invoke all relevant tools simultaneously rather than sequentially" for maximum efficiency.
+
+Use parallel delegation when tasks are **truly independent** (no dependencies between them):
+
+**✅ Good Candidates for Parallel Execution**:
+- Analyzing multiple repositories simultaneously (each repo analysis is independent)
+- Consulting multiple specialists on different aspects of same problem
+- Processing multiple data sources concurrently
+- Running independent validation checks
+- Gathering information from multiple systems at once
+
+**❌ Poor Candidates (Use Sequential Instead)**:
+- Pipeline steps where later steps need earlier results
+- Operations with dependencies (Step 2 needs Step 1 output)
+- Workflows requiring specific ordering
+- State-dependent operations
+
+### How to Request Parallel Execution
+
+**Be Explicit About Parallelization**:
+```markdown
+Task: Investigate dashboard performance issues
+
+❌ BAD (Implies sequential):
+"First analyze Tableau dashboard, then check Snowflake queries, then review dbt models"
+
+✅ GOOD (Explicit parallel):
+"Analyze these THREE aspects IN PARALLEL:
+1. tableau-expert: Tableau dashboard performance metrics
+2. snowflake-expert: SQL query performance analysis
+3. dbt-expert: dbt model efficiency review
+
+I'll synthesize all findings once all three reports are received."
+```
+
+### Parallel Execution Pattern in Practice
+
+**Step-by-Step Approach**:
+
+1. **Identify Independent Subtasks**
+   ```markdown
+   <reasoning>
+   **Step 2 - Decomposition**:
+   This problem has 3 independent components:
+   - Component A: Can be investigated independently
+   - Component B: No dependency on A or C
+   - Component C: Independent of A and B
+
+   These CAN run in parallel.
+   </reasoning>
+   ```
+
+2. **Delegate to Specialists in Parallel**
+   ```markdown
+   I'm delegating to THREE specialists IN PARALLEL:
+
+   PARALLEL DELEGATION:
+   - specialist-1: [specific independent task]
+   - specialist-2: [specific independent task]
+   - specialist-3: [specific independent task]
+
+   Waiting for all results before synthesis.
+   ```
+
+3. **Wait for All Results**
+   - Don't proceed with synthesis until ALL parallel tasks complete
+   - Results may arrive in any order - that's OK
+
+4. **Synthesize Findings**
+   ```markdown
+   <synthesis>
+   **Results from Parallel Investigation**:
+
+   From specialist-1:
+   - Finding: [summary]
+   - Key insight: [insight]
+
+   From specialist-2:
+   - Finding: [summary]
+   - Key insight: [insight]
+
+   From specialist-3:
+   - Finding: [summary]
+   - Key insight: [insight]
+
+   **Combined Analysis**:
+   Cross-referencing findings, the root cause is: [synthesis]
+
+   **Recommended Solution**:
+   Based on ALL three specialist inputs: [recommendation]
+   </synthesis>
+   ```
+
+### Performance Benefits
+
+**Time Savings Formula**:
+- **Sequential**: Time = sum(all_subtask_times)
+- **Parallel**: Time = max(subtask_times)
+
+**Example**:
+```
+Task: Multi-repo investigation
+
+Sequential Approach:
+- dbt repo analysis: 10 minutes
+- orchestration repo analysis: 15 minutes
+- react repo analysis: 8 minutes
+TOTAL: 33 minutes
+
+Parallel Approach:
+- All three analyzed simultaneously
+TOTAL: 15 minutes (longest subtask)
+
+Savings: 54% reduction in time
+```
+
+### Common Parallel Patterns
+
+**Pattern 1: Multi-Repository Analysis**
+```markdown
+Investigate issue across repos IN PARALLEL:
+- github-sleuth-expert (dbt_cloud): Check for related commits
+- github-sleuth-expert (orchestration): Review pipeline changes
+- github-sleuth-expert (react-app): Examine frontend updates
+```
+
+**Pattern 2: Multi-Specialist Consultation**
+```markdown
+Get expert input IN PARALLEL:
+- snowflake-expert: Warehouse optimization for cost
+- dbt-expert: Query pattern analysis for performance
+- tableau-expert: Dashboard design for UX
+```
+
+**Pattern 3: Cross-System Validation**
+```markdown
+Validate deployment IN PARALLEL across systems:
+- aws-expert: Infrastructure health check
+- snowflake-expert: Data pipeline status
+- github-sleuth-expert: Deployment confirmation
+```
+
+### When Sequential is Required
+
+**Use Sequential Execution when**:
+1. **Dependencies exist**: Step B needs Step A output
+2. **State changes**: Operation A modifies state that B reads
+3. **Ordered workflow**: Business logic requires specific sequence
+4. **Resource constraints**: Can't run simultaneously (e.g., exclusive locks)
+
+**Example of Required Sequential**:
+```markdown
+Task: Deploy new dbt model
+
+MUST BE SEQUENTIAL (dependencies exist):
+1. dbt-expert: Validate model compiles
+   ↓ (needs validation results)
+2. snowflake-expert: Create staging table
+   ↓ (needs table to exist)
+3. dbt-expert: Run full refresh
+   ↓ (needs data loaded)
+4. tableau-expert: Update dashboard
+
+Cannot parallelize - each step depends on previous completion.
+```
+
+### Agent Template Integration
+
+**For Role Agents**:
+When delegating to multiple specialists, explicitly state if parallel or sequential:
+
+```markdown
+## Delegation Approach
+
+**Parallel**: ✅ (specialists working on independent aspects)
+OR
+**Sequential**: ⏭️ (dependencies require ordering)
+
+**Justification**: [Why this approach]
+```
+
+**For Main Claude Coordination**:
+When role agent requests parallel specialist consultation:
+1. Invoke all specialists in same message (not separate messages)
+2. Wait for all responses before synthesizing
+3. Combine findings with clear attribution
+
+### Success Metrics
+
+Track parallel execution effectiveness:
+```markdown
+**Task**: [Description]
+**Specialists Used**: [N]
+**Execution Mode**: Parallel
+**Time**:
+- Longest subtask: [X] minutes
+- If sequential: [Y] minutes estimated
+- Savings: [Z]% reduction
+```
+
+---
+
+**Remember**: Parallel execution is about efficiency for independent work. When in doubt, check for dependencies first. If truly independent → parallelize for speed. If dependencies exist → sequential execution required.
+
 ## Context Management & Memory System
 
 ### Session Start Protocol
@@ -200,12 +408,14 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
 
 1. **Memory Health Check** → Verify memory system within healthy thresholds
    ```bash
-   source projects/active/ai-memory-system-improvements/.venv/bin/activate && \
-   python3 scripts/check-memory-health.py
+   ./scripts/check-memory-health-uvx.sh
    ```
-   - Current status: 46,012 tokens (23% of 200K limit)
+   - Uses uvx to handle tiktoken dependency automatically
+   - Current status: ~50,000 tokens (25% of 200K limit)
    - Alerts if approaching 150K tokens (Phase 3 trigger)
    - Monthly checks recommended, automated via cron jobs
+   - For detailed breakdown: `./scripts/check-memory-health-uvx.sh --detailed`
+   - For history/trends: `./scripts/check-memory-health-uvx.sh --history`
 
 2. **Recent Patterns** (`.claude/memory/recent/`) → Review last 30 days for similar solutions
 

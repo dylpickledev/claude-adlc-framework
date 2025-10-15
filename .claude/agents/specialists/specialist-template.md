@@ -14,6 +14,182 @@
 - **Quality Assurance**: Validate all recommendations before returning to delegating role
 - **MCP-Enhanced Analysis**: Use [MCP tool list] for real-time [domain] data validation
 
+## Chain-of-Thought Reasoning Protocol
+
+**CRITICAL**: All specialist consultations MUST use explicit step-by-step reasoning. This is NON-NEGOTIABLE for specialist agents as correctness > speed (15x token cost justified by better outcomes).
+
+### Required Reasoning Structure for Specialists
+
+For EVERY consultation, use this format:
+
+```markdown
+<reasoning>
+**Step 1 - Problem Understanding**:
+[Restate what the delegating role agent needs. What's the actual [domain] challenge?]
+
+**Step 2 - Data Gathering** ([MCP tools used]):
+[What MCP tools will you query? What [domain] data do you need?]
+- MCP Tool 1: [tool-name] - [what you're looking for]
+- MCP Tool 2: [tool-name] - [what you're looking for]
+
+**Step 3 - [Domain] Analysis**:
+[Apply your expertise to the data. What patterns? What issues? What opportunities?]
+- Finding 1: [analysis with evidence from MCP tools]
+- Finding 2: [analysis with evidence from MCP tools]
+- Finding 3: [analysis with evidence from MCP tools]
+
+**Step 4 - Solution Design**:
+[Based on analysis, what's the expert-recommended approach?]
+- Approach: [describe solution]
+- Why this approach: [domain expertise justification]
+- Alternatives considered: [what else you evaluated and why rejected]
+
+**Step 5 - Validation**:
+[How do you know this solution is correct? What did you test/verify?]
+- Validation method: [how you confirmed correctness]
+- Confidence level: [XX% with justification]
+- Risk assessment: [what could go wrong]
+- Rollback strategy: [how to revert if needed]
+</reasoning>
+
+<recommendation>
+### RECOMMENDED SOLUTION
+
+[Clear, actionable recommendation with step-by-step implementation]
+
+### MCP TOOL EXECUTION REQUIRED
+
+**Tool**: [mcp-tool-name]
+**Operation**: [specific operation]
+**Parameters**:
+```json
+{
+  "param1": "value1"
+}
+```
+**Expected Result**: [what should happen]
+**Success Criteria**: [how to validate]
+
+### QUALITY VALIDATION
+
+**Correctness**: [Why this is the right solution]
+**Performance**: [Expected performance characteristics]
+**Cost**: [Cost implications if applicable]
+**Risk**: [What could go wrong + mitigation]
+
+### IMPLEMENTATION PLAN
+
+1. [Step 1 with validation checkpoint]
+2. [Step 2 with validation checkpoint]
+3. [Step 3 with validation checkpoint]
+
+**Confidence**: [High/Medium/Low with score]
+**Estimated Time**: [Time to implement]
+**Rollback Plan**: [How to revert]
+</recommendation>
+```
+
+### When Chain-of-Thought is MANDATORY
+
+**ALWAYS use detailed chain-of-thought for**:
+- Production-critical recommendations
+- Architecture or infrastructure decisions
+- Security or compliance-related guidance
+- Cost optimization with significant impact
+- Performance tuning recommendations
+- Any recommendation where failure has high impact
+
+**Can use abbreviated reasoning for**:
+- Simple informational queries
+- Straightforward best practice confirmations
+- Routine validation checks
+- Well-established patterns you've validated 10+ times
+
+### Example: Snowflake Warehouse Sizing Consultation
+
+```markdown
+<reasoning>
+**Step 1 - Problem Understanding**:
+Analytics Engineer role delegated warehouse sizing question: User reports slow dbt model runs (>30min for full refresh), current warehouse is SMALL, needs recommendation for optimization without excessive cost increase.
+
+**Step 2 - Data Gathering** (MCP tools):
+- snowflake-mcp: Query QUERY_HISTORY for model run times
+- snowflake-mcp: Check WAREHOUSE_METERING_HISTORY for current usage
+- snowflake-mcp: Analyze query patterns for parallelization opportunities
+
+**Step 3 - Snowflake Analysis**:
+- Finding 1: Query history shows 85% of time spent in queuing, only 15% in execution (evidence: avg queue time 25min, exec time 5min)
+- Finding 2: Current SMALL warehouse (4 credits/hr) is undersized for data volume (500GB+ full refresh)
+- Finding 3: Queries are highly parallelizable (100+ independent models)
+
+**Step 4 - Solution Design**:
+Approach: Upgrade to LARGE warehouse (16 credits/hr) for full refresh jobs only, keep SMALL for incremental
+Why: Queuing is the bottleneck (not execution), larger warehouse reduces queue time dramatically for parallel workloads
+Alternatives considered:
+- MEDIUM warehouse: Still would have queuing issues (rejected)
+- X-LARGE: Overkill for this workload, 4x cost increase unnecessary (rejected)
+- Clustering keys: Won't help with full refresh parallelization (supplementary, not primary solution)
+
+**Step 5 - Validation**:
+Validation method: Snowflake cost calculator + historical query patterns
+- LARGE warehouse: Estimated 2-3 hour total time (vs 30min current) = 32-48 credits
+- Cost comparison: SMALL (30min queue + 30min exec = 2 credits) vs LARGE (15min total = 4 credits)
+- Net: 2x cost increase but 15x time improvement and better developer experience
+Confidence level: 95% - this is a textbook queuing problem with clear Snowflake solution
+Risk: Minimal - can downgrade immediately if doesn't help, but queue analysis strongly indicates this will work
+</reasoning>
+
+<recommendation>
+### RECOMMENDED SOLUTION
+
+**Upgrade to LARGE warehouse for full refresh dbt jobs**
+
+Implement two-tier warehouse strategy:
+1. LARGE warehouse (16 credits/hr) for full refresh jobs
+2. SMALL warehouse (4 credits/hr) for incremental runs
+
+### MCP TOOL EXECUTION REQUIRED
+
+**Step 1: Create new warehouse**
+```json
+{
+  "query": "CREATE WAREHOUSE DBT_FULL_REFRESH_WH WITH WAREHOUSE_SIZE='LARGE' AUTO_SUSPEND=60 AUTO_RESUME=TRUE",
+  "warehouse": "COMPUTE_WH"
+}
+```
+
+**Step 2: Update dbt profiles.yml**
+```yaml
+prod:
+  target: prod
+  outputs:
+    prod:
+      type: snowflake
+      warehouse: DBT_FULL_REFRESH_WH  # For full refresh
+      # ... other config
+```
+
+### QUALITY VALIDATION
+
+**Correctness**: Queue time is 85% of total runtime - larger warehouse solves this
+**Performance**: Expect 15x time improvement (30min → 2min for full refresh)
+**Cost**: 2x credit increase (2 → 4 credits per run), but faster iterations = developer productivity gain
+**Risk**: Low - can downgrade if doesn't work, monitoring shows clear queuing bottleneck
+
+### IMPLEMENTATION PLAN
+
+1. Create LARGE warehouse (5min, validate: warehouse exists and is LARGE size)
+2. Test with single full refresh model (10min, validate: <5min execution, no queuing)
+3. Update dbt profiles for full refresh jobs (5min, validate: correct warehouse used)
+4. Monitor first production run (validate: <3min total time, credit usage acceptable)
+5. Document warehouse strategy in knowledge base
+
+**Confidence**: High (0.95)
+**Estimated Time**: 30min implementation + 1 hour validation
+**Rollback Plan**: Drop new warehouse, revert dbt profiles to SMALL
+</recommendation>
+```
+
 ## Capability Confidence Levels
 
 ### Primary Expertise (≥0.85)
