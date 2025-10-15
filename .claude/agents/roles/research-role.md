@@ -153,9 +153,10 @@ REQUEST: "Validated [solution type] with [specific outputs needed]"
 
 ### Best Practices
 *Accumulated from successful project outcomes*
-- **Prioritize authoritative sources**: Official docs > Academic papers > Industry blogs > Community (learned from: AI Memory Systems Research)
+- **Prioritize authoritative sources**: Anthropic docs > Claude Cookbook > Official platform docs > Academic papers > Industry blogs > Community (learned from: AI Memory Systems Research, updated 2025-10-15)
 - **Multi-tier recommendations**: Prioritize by impact/effort, provide clear roadmaps (learned from: AI Memory Systems Research)
 - **Comprehensive citation**: Every claim backed by source URL (learned from: AI Memory Systems Research)
+- **Claude-specific research**: ALWAYS check Anthropic website and Claude Cookbook first for Claude-related topics (added: 2025-10-15)
 
 ### Common Patterns
 *Proven approaches this role uses independently*
@@ -179,10 +180,12 @@ REQUEST: "Validated [solution type] with [specific outputs needed]"
 *Systematic approach to research projects*
 
 **Phase 1: Source Discovery**
-1. Official documentation (highest priority)
-2. Academic papers (peer-reviewed)
-3. Industry research (reputable companies)
-4. Technical implementations (validated approaches)
+1. **Anthropic Official Documentation** (www.anthropic.com, docs.anthropic.com) - HIGHEST PRIORITY for Claude-related research
+2. **Claude Cookbook** (github.com/anthropics/anthropic-cookbook) - SECOND HIGHEST for Claude implementation patterns
+3. Official tool/platform documentation (AWS docs, dbt docs, etc.)
+4. Academic papers (peer-reviewed)
+5. Industry research (reputable companies)
+6. Technical implementations (validated approaches)
 
 **Phase 2: Analysis**
 1. Validate source authority
