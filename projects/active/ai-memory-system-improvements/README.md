@@ -115,33 +115,61 @@
 - ✅ Zero Pattern Loss: High-value patterns protected
 - ✅ Full Workflow: All consolidation steps validated
 
-### Next Phase (Weeks 5-6)
-🔜 **Phase 3: Semantic Search**
-- Vector embeddings for similarity search
-- Pattern recommendation engine
-- Context-aware pattern retrieval
+### ⏸️ Phase 3: DEFERRED (Research-Driven Decision)
+**Phase 3: Semantic Search** - DEFERRED until memory approaches 200K tokens
 
-### Future Phases
-- Phase 3: Semantic Search (Weeks 5-6)
+**Research Finding** (2025-01-14):
+- **Current memory size**: 76,120 tokens (38% of threshold)
+- **Anthropic guidance**: "Don't use retrieval for <200K tokens - use prompt caching instead"
+- **Cost savings with caching**: 90% reduction + 2x latency improvement
+- **Growth needed**: +162% (42 more files) to reach retrieval threshold
+
+**Decision**: Deploy Phase 1 + Phase 2 with prompt caching. Revisit Phase 3 when approaching 150K tokens.
+
+**Future Implementation** (when needed):
+- Use BM25 (NOT embeddings) per Anthropic recommendation
+- Lightweight bm25s library (55MB vs 2GB PyTorch)
+- Hybrid retrieval with contextual awareness
+- Complete implementation guide: `.claude/tasks/semantic-search-research/bm25-future-implementation.md`
+
+### Future Phases (Re-prioritized Based on Research)
+- **Phase 3A: Token Monitoring & Alerts** (Next) - Track growth toward 200K limit
+- **Phase 3B: Prompt Caching Integration** (Next) - 90% cost savings + 2x speed
+- Phase 3C: BM25 Semantic Search (When >150K tokens)
 - Phase 4: Agent-Specific Memory Scopes (Weeks 7-8)
 - Phase 5: Memory Hygiene Automation (Weeks 9-10)
 - Phase 6: Cross-Session Pattern Learning (Weeks 11-12)
 
 ## Key Decisions
 
-### Decision 1: Anthropic-First Architecture
+### Decision 1: Defer Phase 3 Semantic Search (Research-Driven)
+**Date**: 2025-01-14
+**Decision**: Defer semantic search until memory approaches 200K tokens
+**Rationale**:
+- Current memory: 76,120 tokens (38% of Anthropic's 200K threshold)
+- Anthropic explicit guidance: "No retrieval needed for <200K tokens"
+- Prompt caching provides 90% cost savings + 2x speed improvement
+- Growth needed: +162% to reach threshold (years at current rate)
+**Impact**:
+- Zero heavy dependencies (no PyTorch)
+- Simpler deployment (Phase 1 + Phase 2 only)
+- Cost-effective at current scale
+- Clear monitoring strategy for future Phase 3 trigger
+**Research**: Complete findings in `.claude/tasks/semantic-search-research/`
+
+### Decision 2: Anthropic-First Architecture
 **Date**: 2025-01-14
 **Decision**: Follow Anthropic's official guidance as authoritative source
 **Rationale**: Official documentation + cookbook are most validated approaches
 **Impact**: Architecture decisions prioritize context engineering over speculation
 
-### Decision 2: Phased Implementation
+### Decision 3: Phased Implementation
 **Date**: 2025-01-14
 **Decision**: 12-week phased approach with validation gates
 **Rationale**: Minimize risk, validate each improvement before next phase
 **Impact**: Each phase delivers measurable value independently
 
-### Decision 3: Token Budget as Foundation
+### Decision 4: Token Budget as Foundation
 **Date**: 2025-01-14
 **Decision**: Start with token-aware loading (Phase 1)
 **Rationale**: Highest ROI, lowest risk, enables all other improvements
