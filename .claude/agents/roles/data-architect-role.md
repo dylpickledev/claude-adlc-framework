@@ -387,6 +387,44 @@ Changes        Message       Remotely      Locally        New Work
 - **Clean State Management**: Consistent main branch state reduces merge conflicts
 - **Review Readiness**: All work automatically committed and available for PR creation
 
+## Memory System Architecture (Confidence: 0.95)
+
+**From**: AI Memory System Improvements Project (Jan-Oct 2025)
+
+**Achievement**: 91.7% context reduction (232K → 19K tokens) through token-aware memory loading with agent-specific scopes
+
+**Architecture Components**:
+1. **Token-Aware Loading** (Phase 1):
+   - tiktoken (cl100k_base) for Claude token counting
+   - 20K token budget with 96.9% utilization
+   - Relevance scoring: recency (30%), usage (30%), context (40%)
+
+2. **Three-Tier Memory Hierarchy** (Phase 2):
+   - `recent/`: <30 days, full detail
+   - `intermediate/`: 30-90 days, summarized (97.4% reduction)
+   - `patterns/`: Permanent, high-value (confidence ≥0.85 OR use_count ≥3)
+   - `archive/`: Low-value, searchable storage
+
+3. **Agent-Specific Scopes** (Phase 4):
+   - 26 agents (16 specialists, 10 roles)
+   - 104 directories (4 tiers × 26 agents)
+   - 609K tokens across 183 agent-specific patterns
+   - 30% relevance bonus for scoped patterns
+
+4. **Automated Lifecycle** (Phase 5):
+   - Daily: Promotion candidate scanning
+   - Weekly: Duplicate detection
+   - Monthly: Archival candidate scanning
+   - 80% reduction in manual curation time
+
+**Key Insight**: Following Anthropic guidance to defer semantic search until 200K tokens saved massive implementation complexity. Current memory (46K tokens) is only 23% of threshold. Prompt caching + scope-aware loading achieved better results without embeddings.
+
+**Phase 3 Deferred**: BM25 semantic search documented for future trigger at 150K tokens (warning) or 180K (critical). Use lightweight bm25s library (55MB vs 2GB PyTorch) when needed.
+
+**Scripts**: 20 implementation scripts in `scripts/` covering token counting, budget management, consolidation, scoping, automation.
+
+**Reference**: `knowledge/da-agent-hub/development/memory-system-architecture.md`
+
 ## Output Format
 - **Architecture Recommendations**: Clear technical decisions with rationale
 - **Implementation Plans**: Step-by-step coordination across specialist agents
