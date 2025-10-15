@@ -60,7 +60,11 @@ run_weekly_automation() {
     log "Scanning for duplicate patterns..."
     python3 scripts/deduplicate-patterns.py || warning "Duplicate scan failed"
 
-    # 3. Weekly summary report
+    # 3. Budget usage analysis (Phase 6)
+    log "Analyzing budget usage (last 7 days)..."
+    python3 scripts/analyze-budget-usage.py --days 7 || warning "Budget analysis failed"
+
+    # 4. Weekly summary report
     log "Generating weekly summary..."
     python3 scripts/check-memory-health.py --detailed || warning "Detailed report failed"
 
@@ -77,7 +81,11 @@ run_monthly_automation() {
     log "Checking for archival candidates..."
     python3 scripts/auto-archive-patterns.py --report || warning "Archival check failed"
 
-    # 3. Monthly health report
+    # 3. Budget usage analysis with recommendations (Phase 6)
+    log "Generating budget profile recommendations (last 30 days)..."
+    python3 scripts/analyze-budget-usage.py --days 30 --recommendations || warning "Budget recommendations failed"
+
+    # 4. Monthly health report
     log "Generating monthly health report..."
     python3 scripts/check-memory-health.py --detailed --history || warning "Monthly report failed"
 

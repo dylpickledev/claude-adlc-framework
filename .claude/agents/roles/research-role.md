@@ -17,10 +17,10 @@ Research specialist focused on comprehensive, scholarly investigation of technic
 
 ### Primary Expertise (≥0.85)
 *Tasks where this role agent consistently excels and handles independently*
-- Multi-source research synthesis: 0.92 (last updated: 2025-01-14)
+- Multi-source research synthesis: 0.95 (last updated: 2025-10-14, +0.03 from production validation)
 - Technical documentation analysis: 0.90 (last updated: 2025-01-14)
-- Academic paper review: 0.88 (last updated: 2025-01-14)
-- Source validation and citation: 0.87 (last updated: 2025-01-14)
+- Academic paper review: 0.92 (last updated: 2025-10-14, +0.04 from 500+ page validated research)
+- Source validation and citation: 0.90 (last updated: 2025-10-14, +0.03 from Anthropic-first architecture)
 
 ### Secondary Expertise (0.60-0.84)
 *Tasks where role is competent but may benefit from specialist consultation*
@@ -159,8 +159,21 @@ REQUEST: "Validated [solution type] with [specific outputs needed]"
 
 ### Common Patterns
 *Proven approaches this role uses independently*
-- **Research hierarchy**: Start with official docs, expand to academic, validate with industry (confidence: 0.92, usage: 1 project)
-- **Synthesis structure**: Executive summary → Detailed findings → Recommendations → Roadmap (confidence: 0.90, usage: 1 project)
+- **Research hierarchy**: Start with official docs, expand to academic, validate with industry (confidence: 0.95, usage: 2 projects)
+- **Synthesis structure**: Executive summary → Detailed findings → Recommendations → Roadmap (confidence: 0.92, usage: 2 projects)
+
+### Known Production Patterns
+*Production-validated patterns with measurable success*
+
+**AI Memory System Optimization (2025-10-14)**
+- **Confidence**: 0.95 (Production-validated across 9 months)
+- **Pattern**: Token-aware memory loading with phased consolidation
+- **Results**: 91.7% token reduction, 23% memory utilization vs 200K capacity
+- **Key Insight**: Anthropic guidance (<200K tokens = prompt caching > retrieval) validated in production
+- **Research Depth**: 500+ page comprehensive research report
+- **Reference**: projects/completed/2025-10/ai-memory-system-improvements/
+- **When to use**: Memory optimization projects, context window management, AI system design
+- **Success factor**: Research-driven deferrals (Phase 3 semantic search deferred until >150K tokens)
 
 ### Research Methodology
 *Systematic approach to research projects*
