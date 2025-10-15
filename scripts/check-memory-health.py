@@ -44,6 +44,7 @@ class MemoryHealthChecker:
         self.counter = TokenCounter()
         self.base_dir = Path(".claude/memory")
         self.history_file = Path(".claude/cache/memory-health-history.json")
+        self.budget_log_file = Path(".claude/cache/budget-usage.jsonl")
 
     def count_directory_tokens(self, directory: Path) -> Dict:
         """Count tokens in a directory"""
@@ -100,6 +101,64 @@ class MemoryHealthChecker:
                     scope_stats["roles"][role_dir.name] = self.count_directory_tokens(role_dir / "patterns")
 
         return scope_stats
+
+    def get_budget_usage_stats(self) -> Dict:
+        """Get Phase 6 budget usage statistics from logs"""
+        if not self.budget_log_file.exists():
+            return None
+
+        # Load all budget usage logs
+        usage_data = []
+        with open(self.budget_log_file, 'r') as f:
+            for line in f:
+                try:
+                    usage_data.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+
+        if not usage_data:
+            return None
+
+        # Calculate stats
+        total_executions = len(usage_data)
+        total_budget_allocated = sum(e["budget_allocated"] for e in usage_data)
+        total_tokens_used = sum(e["tokens_loaded"] for e in usage_data)
+        avg_usage_pct = sum(e["usage_pct"] for e in usage_data) / total_executions
+        exceedances = [e for e in usage_data if e["exceeded_budget"]]
+
+        # Complexity breakdown
+        complexity_counts = {}
+        for entry in usage_data:
+            complexity = entry.get("complexity", "unknown")
+            if complexity not in complexity_counts:
+                complexity_counts[complexity] = 0
+            complexity_counts[complexity] += 1
+
+        # Agent breakdown
+        agent_counts = {}
+        for entry in usage_data:
+            agent = entry.get("agent", "unknown")
+            if agent not in agent_counts:
+                agent_counts[agent] = {"count": 0, "avg_usage": []}
+            agent_counts[agent]["count"] += 1
+            agent_counts[agent]["avg_usage"].append(entry["usage_pct"])
+
+        # Calculate per-agent averages
+        for agent, data in agent_counts.items():
+            data["avg_usage_pct"] = sum(data["avg_usage"]) / len(data["avg_usage"])
+            del data["avg_usage"]  # Remove raw list
+
+        return {
+            "total_executions": total_executions,
+            "total_budget_allocated": total_budget_allocated,
+            "total_tokens_used": total_tokens_used,
+            "avg_usage_pct": avg_usage_pct,
+            "exceedance_count": len(exceedances),
+            "exceedance_rate": len(exceedances) / total_executions if total_executions > 0 else 0,
+            "complexity_breakdown": complexity_counts,
+            "agent_breakdown": agent_counts,
+            "latest_entry": usage_data[-1] if usage_data else None
+        }
 
     def get_memory_status(self) -> Dict:
         """Get current memory system status"""
@@ -343,9 +402,37 @@ class MemoryHealthChecker:
         total_scope_files = specialist_total_files + role_total_files
 
         print(f"\n📊 Scope Summary:")
-        print(f"  Global:      {global_total:>8,} tokens ({global_files:>3} files)")
-        print(f"  Agent-Specific: {total_scope_tokens:>8,} tokens ({total_scope_files:>3} files)")
-        print(f"  TOTAL:       {global_total + total_scope_tokens:>8,} tokens ({global_files + total_scope_files:>3} files)")
+        print(f"  Global:        {global_total:>8,} tokens ({global_files:>3} files)")
+        print(f"  Agent-Specific:  {total_scope_tokens:>8,} tokens ({total_scope_files:>3} files)")
+        print(f"  TOTAL:         {global_total + total_scope_tokens:>8,} tokens ({global_files + total_scope_files:>3} files)")
+
+        # Phase 6: Budget usage stats
+        budget_stats = self.get_budget_usage_stats()
+        if budget_stats:
+            print("\n" + "=" * 70)
+            print("PHASE 6: BUDGET PROFILE USAGE")
+            print("=" * 70)
+
+            print(f"\n📊 Budget Execution Summary:")
+            print(f"  Total Executions:   {budget_stats['total_executions']}")
+            print(f"  Avg Budget Usage:   {budget_stats['avg_usage_pct']:.1f}%")
+            print(f"  Budget Exceedances: {budget_stats['exceedance_count']} ({budget_stats['exceedance_rate']:.1%})")
+
+            print(f"\n🎯 Complexity Distribution:")
+            for complexity, count in sorted(budget_stats['complexity_breakdown'].items(), key=lambda x: x[1], reverse=True):
+                pct = (count / budget_stats['total_executions']) * 100
+                print(f"  {complexity:15s}: {count:>3} executions ({pct:>5.1f}%)")
+
+            print(f"\n👤 Top Agents by Execution Count:")
+            top_agents = sorted(
+                budget_stats['agent_breakdown'].items(),
+                key=lambda x: x[1]['count'],
+                reverse=True
+            )[:5]
+
+            for agent, data in top_agents:
+                agent_short = agent.split("/")[-1][:30]
+                print(f"  {agent_short:30s}: {data['count']:>3} executions (avg {data['avg_usage_pct']:.1f}% usage)")
 
         if detailed:
             print("\n" + "=" * 70)

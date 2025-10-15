@@ -38,6 +38,22 @@ count_tokens_module = importlib.util.module_from_spec(spec_token)
 spec_token.loader.exec_module(count_tokens_module)
 TokenCounter = count_tokens_module.TokenCounter
 
+# Import Phase 6 budget components
+spec_budget_calc = importlib.util.spec_from_file_location("calculate_agent_budget", script_dir / "calculate-agent-budget.py")
+budget_calc_module = importlib.util.module_from_spec(spec_budget_calc)
+spec_budget_calc.loader.exec_module(budget_calc_module)
+AgentBudgetCalculator = budget_calc_module.AgentBudgetCalculator
+
+spec_complexity = importlib.util.spec_from_file_location("detect_task_complexity", script_dir / "detect-task-complexity.py")
+complexity_module = importlib.util.module_from_spec(spec_complexity)
+spec_complexity.loader.exec_module(complexity_module)
+TaskComplexityDetector = complexity_module.TaskComplexityDetector
+
+spec_monitor = importlib.util.spec_from_file_location("budget_monitor", script_dir / "budget-monitor.py")
+monitor_module = importlib.util.module_from_spec(spec_monitor)
+spec_monitor.loader.exec_module(monitor_module)
+BudgetMonitor = monitor_module.BudgetMonitor
+
 
 @dataclass
 class Pattern:
@@ -51,15 +67,82 @@ class Pattern:
 
 
 class ScopedMemoryBudget:
-    """Memory budget with agent-specific scope awareness"""
+    """Memory budget with agent-specific scope awareness and Phase 6 budget profiles"""
 
-    def __init__(self, max_tokens: int = 20000, agent_name: Optional[str] = None, agent_type: Optional[str] = None):
-        self.max_tokens = max_tokens
+    def __init__(
+        self,
+        max_tokens: int = None,
+        agent_name: Optional[str] = None,
+        agent_type: Optional[str] = None,
+        task_description: str = "",
+        complexity: str = None,
+        use_budget_profiles: bool = True
+    ):
+        """Initialize scoped memory budget
+
+        Args:
+            max_tokens: Maximum tokens (if None, use budget profiles)
+            agent_name: Agent name (e.g., "dbt-expert")
+            agent_type: Agent type ("specialists" or "roles")
+            task_description: Task description for complexity detection
+            complexity: Override complexity (simple, medium, complex, multi-system)
+            use_budget_profiles: Enable Phase 6 budget profile system
+        """
+        self.agent_name = agent_name
+        self.agent_type = agent_type  # "specialists" or "roles"
+        self.task_description = task_description
+        self.use_budget_profiles = use_budget_profiles
+
+        # Phase 6: Calculate budget from profiles if enabled
+        if use_budget_profiles and agent_name and agent_type:
+            try:
+                # Build full agent path
+                agent_full_name = f"{agent_type}/{agent_name}"
+
+                # Detect complexity if not provided
+                if complexity is None and task_description:
+                    detector = TaskComplexityDetector()
+                    complexity, _, _ = detector.detect_complexity(task_description)
+                elif complexity is None:
+                    complexity = "medium"  # Default
+
+                self.detected_complexity = complexity
+
+                # Calculate budget
+                calculator = AgentBudgetCalculator()
+                budget_info = calculator.calculate_budget(agent_full_name, complexity)
+
+                self.max_tokens = budget_info["calculated_budget"]
+                self.budget_info = budget_info
+
+                # Initialize budget monitor
+                self.monitor = BudgetMonitor(
+                    agent_name=agent_full_name,
+                    budget=self.max_tokens,
+                    task_description=task_description,
+                    complexity=complexity
+                )
+
+                print(f"📊 Budget Profile: {budget_info['profile_name']} "
+                      f"| Complexity: {complexity} | Budget: {self.max_tokens:,} tokens")
+
+            except Exception as e:
+                # Fallback to manual budget if profiles fail
+                print(f"⚠️  Budget profile failed ({e}), using manual budget")
+                self.max_tokens = max_tokens or 20000
+                self.budget_info = None
+                self.monitor = None
+                self.detected_complexity = None
+        else:
+            # Use manual budget (Phase 4 behavior)
+            self.max_tokens = max_tokens or 20000
+            self.budget_info = None
+            self.monitor = None
+            self.detected_complexity = None
+
         self.current_tokens = 0
         self.loaded_patterns: List[Pattern] = []
         self.skipped_patterns: List[Pattern] = []
-        self.agent_name = agent_name
-        self.agent_type = agent_type  # "specialists" or "roles"
         self.relevance_scorer = RelevanceScorer()
         self.token_counter = TokenCounter()
 
@@ -158,6 +241,11 @@ class ScopedMemoryBudget:
         if self.can_load(pattern):
             self.loaded_patterns.append(pattern)
             self.current_tokens += pattern.token_count
+
+            # Phase 6: Track loading in budget monitor
+            if self.monitor:
+                self.monitor.track_load(pattern.scope, pattern.token_count)
+
             return True
         else:
             self.skipped_patterns.append(pattern)
@@ -231,6 +319,16 @@ class ScopedMemoryBudget:
             "scope_efficiency": (sum(p.token_count for p in agent_patterns) / self.current_tokens * 100) if self.current_tokens > 0 else 0
         }
 
+    def finish_loading(self, success: bool = True, error_message: str = ""):
+        """Finalize pattern loading and log budget usage
+
+        Args:
+            success: Whether loading completed successfully
+            error_message: Optional error message if loading failed
+        """
+        if self.monitor:
+            self.monitor.log_usage(success=success, error_message=error_message)
+
     def print_stats(self, detailed: bool = False):
         """Print formatted statistics"""
         stats = self.get_stats()
@@ -245,6 +343,10 @@ class ScopedMemoryBudget:
         else:
             print("Agent: None (global patterns only)")
 
+        # Phase 6: Show budget profile info
+        if self.budget_info:
+            print(f"Profile: {self.budget_info['profile_name']} ({self.budget_info['complexity']})")
+
         print(f"\nBudget Utilization:")
         print(f"  Max Tokens:     {stats['max_tokens']:,}")
         print(f"  Used Tokens:    {stats['used_tokens']:,} ({stats['utilization_pct']:.1f}%)")
@@ -255,6 +357,12 @@ class ScopedMemoryBudget:
         print(f"  Agent-Specific: {scope_stats['agent_specific_count']} patterns ({scope_stats['agent_specific_tokens']:,} tokens)")
         print(f"  Global:         {scope_stats['global_count']} patterns ({scope_stats['global_tokens']:,} tokens)")
         print(f"  Scope Efficiency: {scope_stats['scope_efficiency']:.1f}% of tokens from agent-specific patterns")
+
+        # Phase 6: Show budget monitor warnings
+        if self.monitor and self.monitor.warnings:
+            print(f"\nBudget Alerts:")
+            for warning in self.monitor.warnings:
+                print(f"  {warning['message']}")
 
         if detailed:
             print("\n" + "=" * 70)
@@ -274,11 +382,15 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Test scope-aware memory budget"
+        description="Test scope-aware memory budget with Phase 6 budget profiles"
     )
     parser.add_argument("--agent-name", help="Agent name (e.g., dbt-expert)")
     parser.add_argument("--agent-type", choices=["specialists", "roles"], help="Agent type")
-    parser.add_argument("--max-tokens", type=int, default=20000, help="Maximum tokens")
+    parser.add_argument("--max-tokens", type=int, help="Maximum tokens (manual override)")
+    parser.add_argument("--task", default="", help="Task description for complexity detection")
+    parser.add_argument("--complexity", choices=["simple", "medium", "complex", "multi-system"],
+                        help="Override complexity tier")
+    parser.add_argument("--no-profiles", action="store_true", help="Disable budget profiles (Phase 4 mode)")
     parser.add_argument("--detailed", action="store_true", help="Show detailed stats")
 
     args = parser.parse_args()
@@ -287,7 +399,10 @@ def main():
     budget = ScopedMemoryBudget(
         max_tokens=args.max_tokens,
         agent_name=args.agent_name,
-        agent_type=args.agent_type
+        agent_type=args.agent_type,
+        task_description=args.task,
+        complexity=args.complexity,
+        use_budget_profiles=not args.no_profiles
     )
 
     # Load patterns
@@ -296,8 +411,11 @@ def main():
         "technologies": ["dbt", "snowflake", "sql"] if args.agent_name == "dbt-expert" else []
     }
 
-    print(f"Loading patterns for {args.agent_name or 'global'}...")
+    print(f"\nLoading patterns for {args.agent_name or 'global'}...")
     loaded = budget.load_patterns_with_scope(context)
+
+    # Finalize loading
+    budget.finish_loading(success=True)
 
     # Print stats
     budget.print_stats(detailed=args.detailed)

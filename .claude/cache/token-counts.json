@@ -1910,5 +1910,13 @@
     "size_bytes": 12245,
     "cached": false,
     "counted_at": "2025-10-14T19:48:38.435983"
+  },
+  ".claude/memory/recent/session-resume-2025-10-14.md": {
+    "path": ".claude/memory/recent/session-resume-2025-10-14.md",
+    "token_count": 1361,
+    "content_hash": "d5e223f8b0d03d7cf6d60f6aaa160877",
+    "size_bytes": 5428,
+    "cached": false,
+    "counted_at": "2025-10-14T20:40:00.019897"
   }
 }
