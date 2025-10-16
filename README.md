@@ -19,13 +19,13 @@ Implements the [dbt Analytics Development Lifecycle](https://www.getdbt.com/anal
 
 ```mermaid
 graph LR
-    A[💡 Idea] --> B[/capture]
-    B --> C[📋 GitHub Issue]
+    A[Idea] --> B[/capture]
+    B --> C[GitHub Issue]
     C --> D[/research]
     D --> E[/start]
-    E --> F[🔧 Development<br/>with AI Agents]
+    E --> F[Development<br/>with AI Agents]
     F --> G[/complete]
-    G --> H[📚 Memory System]
+    G --> H[Memory System]
     H -.-> D
 
     style A fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
