@@ -45,12 +45,13 @@
     },
     "aws-knowledge": {
       "command": "uvx",
-      "args": ["awslabs.aws-knowledge-mcp-server@latest"],
+      "args": ["fastmcp", "run", "https://knowledge-mcp.global.api.aws"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [],
+      "_comment": "AWS Knowledge MCP Server (remote HTTP service via fastmcp proxy). Provides AWS documentation, code samples, regional availability, and official AWS content."
     },
     "github": {
       "command": "npx",
@@ -72,12 +73,6 @@
       "disabled": false,
       "autoApprove": [],
       "_comment": "Week 1 Day 4 - ENABLED with Slack bot token from 1Password (scopes: channels:read, chat:write, users:read)"
-    },
-    "git": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git"],
-      "disabled": false,
-      "autoApprove": []
     },
     "filesystem": {
       "command": "npx",
