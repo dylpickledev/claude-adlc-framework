@@ -90,73 +90,114 @@ When you encounter non-Orchestra topics, document them as requirements for the p
 ## MCP Tools
 
 ### Available MCP Servers
-**No orchestra-mcp available** - Use existing tools for research
-**Alternative**: WebFetch, filesystem-mcp (for config files), github-mcp (for pipeline code)
+✅ **orchestra-mcp NOW AVAILABLE** - Production-ready MCP server with direct Orchestra API access
+**Built**: 2025-10-15 - Following dbt-mcp pattern with 1Password authentication
 
-### Tool Access Pattern (Without Custom MCP)
+### MCP Tool Access (Production-Validated)
 
-**WebFetch** (Orchestra Documentation):
-- Research Orchestra best practices and patterns
-- Verify API endpoints and capabilities
-- Check for new features and updates
-- URLs: `https://docs.getorchestra.io/` and related docs
+**✅ WORKING TOOLS**:
 
-**filesystem-mcp** (Local Configuration):
-- Read Orchestra workflow YAML files
-- Search for pipeline configuration patterns
-- Analyze dependency structures
-- Directory tree for pipeline organization
+**mcp__orchestra-mcp__list_pipeline_runs** (Pipeline Execution History):
+- ✅ Query recent pipeline runs (default: last 7 days)
+- ✅ Get paginated results (50 per page, up to 1000 total)
+- ✅ Time filtering: Must use BOTH time_from AND time_to (max 7-day range)
+- ⚠️ **LIMITATION**: `status` and `pipeline_run_ids` parameters NOT exposed by FastMCP schema
+- **Workaround**: Use `scripts/find_run.py` for full parameter support
+- **Returns**: Run ID, status, timing, generic failure message ("Pipeline failed - a task is in failed state")
+- **Does NOT return**: Specific task errors, error details, which task failed
 
-**github-mcp** (Pipeline Code Repository):
-- Read Orchestra pipeline definitions
-- Search for similar workflow patterns
-- Review historical pipeline changes
-- Track pipeline-related issues
+**mcp__orchestra-mcp__trigger_pipeline** (Manual Execution):
+- ✅ Trigger pipeline run via webhook
+- ✅ Provide custom cause for audit trail
+- ✅ Returns new run ID and initial status
 
-### MCP Recommendation Pattern (Without Custom MCP)
+**❌ NON-WORKING TOOLS** (API Tier Limitations):
 
-When providing recommendations, use existing tools:
+**mcp__orchestra-mcp__get_pipeline_run_status** (Individual Run Details):
+- ❌ Returns 404 - endpoint not available
+- **Workaround**: Use `list_pipeline_runs` and filter client-side
+
+**mcp__orchestra-mcp__get_pipeline_run_details** (Detailed Run Info):
+- ❌ Returns 404 - endpoint not available
+- **Workaround**: Use `list_pipeline_runs` and filter client-side
+
+**mcp__orchestra-mcp__list_task_runs** (Task-Level Details):
+- ❌ Returns 404 - endpoint not available in current Orchestra tier
+- **Impact**: CANNOT determine which task failed or get task-level timing
+
+**mcp__orchestra-mcp__get_task_run_artifacts** (Artifact Metadata):
+- ❌ Cannot test - requires task_run_id from unavailable list_task_runs endpoint
+
+**mcp__orchestra-mcp__download_task_artifact** (Artifact Content):
+- ❌ Cannot test - requires task_run_id from unavailable list_task_runs endpoint
+
+**📋 COMPLETE CAPABILITIES DOCUMENTATION**:
+See `projects/active/feature-build-orchestra-mcp-server-.../CAPABILITIES.md` for exhaustive testing results and limitations
+
+### MCP Recommendation Pattern (With orchestra-mcp)
+
+When providing recommendations, use MCP tools directly:
 
 ```markdown
-### RECOMMENDED RESEARCH APPROACH
+### RECOMMENDED MCP TOOL EXECUTION
 
-**WebFetch Orchestra Documentation**:
-- URL: https://docs.getorchestra.io/[relevant-page]
-- Extract: Current best practices for [workflow pattern]
-
-**filesystem-mcp** (if local access available):
-- Read: Orchestra workflow YAML configurations
-- Search: Similar pipeline patterns for reference
-
-**github-mcp** (for historical context):
-- Search: Previous Orchestra implementations
-- Review: Pipeline code and configurations
-
-**Expected Result**: Informed recommendations based on official docs + existing patterns
-**Confidence**: MEDIUM (0.70-0.75) - Limited without direct Orchestra API access
+**Tool**: orchestra-mcp.list_pipeline_runs
+**Operation**: Query failed runs in last 24 hours
+**Parameters**:
+```json
+{
+  "time_from": "2025-10-15T00:00:00Z",
+  "status": "FAILED",
+  "limit": 10
+}
+```
+**Expected Result**: Paginated response with failed pipeline run details
+**Success Criteria**: Returns array of runs with error messages and timing
+**Fallback**: Direct Orchestra API call if MCP connection fails
 ```
 
-### Confidence Levels (Without Custom MCP)
+### Confidence Levels (ACCURATE - Production-Validated)
 
-| Operation | Confidence | Notes |
-|-----------|------------|-------|
-| Documentation research | HIGH (0.90) | WebFetch official docs |
-| Workflow pattern recommendations | MEDIUM (0.75) | Based on docs + file analysis |
-| Performance optimization | MEDIUM (0.70) | Limited without runtime metrics |
-| Dependency analysis | MEDIUM (0.72) | File-based only, no API access |
-| Error troubleshooting | LOW (0.60) | Limited without execution logs API |
+| Operation | Confidence | Reality Check | Notes |
+|-----------|------------|---------------|-------|
+| Documentation research | HIGH (0.90) | ✅ Accurate | WebFetch for Orchestra docs works well |
+| Pipeline failure detection | HIGH (0.95) | ✅ Accurate | Can reliably identify failed runs |
+| Performance analysis | HIGH (0.90) | ✅ Accurate | Good timing/duration data available |
+| Workflow pattern recommendations | MEDIUM (0.75) | ⚠️ Limited | No access to pipeline definitions via API |
+| Error troubleshooting | **LOW (0.25)** | ❌ **CORRECTED** | **NO access to error details via API** |
+| Root cause analysis | **LOW (0.20)** | ❌ **CORRECTED** | **MUST defer to UI - cannot see which task failed** |
+| Dependency analysis | MEDIUM (0.65) | ⚠️ Limited | Can infer from timing but no task graph access |
 
-### Future: Custom orchestra-mcp Integration
+**CRITICAL LIMITATION**: Orchestra MCP **CANNOT** provide error details. Can only report:
+- ✅ WHICH pipeline failed
+- ✅ WHEN it failed
+- ✅ HOW LONG it ran
+- ❌ WHY it failed (must check Orchestra UI manually)
 
-**If custom orchestra-mcp developed**:
-- Direct API access to workflow definitions
-- Runtime execution metrics
-- Real-time dependency graphs
-- Error log analysis
-- Performance profiling
-- **Confidence increase**: 0.70-0.75 → 0.85-0.92 (HIGH)
+### orchestra-mcp ACTUAL Capabilities (Production-Tested 2025-10-15)
 
-**Current Approach**: Research-focused with WebFetch + file analysis (functional, not optimal)
+**✅ CONFIRMED WORKING**:
+- Pipeline run history queries (last 7 days default)
+- Runtime execution metrics (start/end times, duration)
+- Pipeline run status detection (FAILED, SUCCEEDED, etc.)
+- Manual pipeline triggering via webhook
+- Paginated result handling (50/page, max 1000)
+
+**❌ CONFIRMED NOT AVAILABLE** (API Tier Limitations):
+- Task-level execution details (404 error)
+- Individual task error messages (404 error)
+- Task logs and artifacts (404 error)
+- Specific error details (only generic "Pipeline failed - a task is in failed state")
+- Direct run endpoint (404 error)
+
+**⚠️ FASTMCP SCHEMA LIMITATIONS**:
+- `status` parameter exists but not exposed in MCP schema
+- `pipeline_run_ids` parameter exists but not exposed in MCP schema
+- **Workaround**: Use `scripts/find_run.py` for full API parameter access
+
+**ACCURATE CAPABILITY ASSESSMENT**:
+- **Detection**: HIGH - Can reliably find failed pipeline runs
+- **Diagnostics**: LOW - Cannot determine root cause without UI access
 
 ## Core Orchestra Knowledge Base
 

@@ -6,6 +6,12 @@
       "disabled": false,
       "_comment": "Week 1 Day 5 - Using wrapper script to inherit 1Password env vars. Python 3.12 due to asyncio stdio bug in Python 3.13."
     },
+    "orchestra-mcp": {
+      "command": "bash",
+      "args": ["scripts/launch-orchestra-mcp.sh"],
+      "disabled": false,
+      "_comment": "Orchestra orchestration platform MCP integration. Provides pipeline run querying, task run analysis, and artifact access. Week 5 Day 3 - Following dbt-mcp pattern with 1Password env vars."
+    },
     "snowflake-mcp": {
       "command": "bash",
       "args": ["scripts/launch-snowflake-mcp.sh"],
@@ -37,6 +43,15 @@
       "disabled": false,
       "autoApprove": []
     },
+    "aws-knowledge": {
+      "command": "uvx",
+      "args": ["awslabs.aws-knowledge-mcp-server@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
@@ -57,6 +72,12 @@
       "disabled": false,
       "autoApprove": [],
       "_comment": "Week 1 Day 4 - ENABLED with Slack bot token from 1Password (scopes: channels:read, chat:write, users:read)"
+    },
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "disabled": false,
+      "autoApprove": []
     },
     "filesystem": {
       "command": "npx",

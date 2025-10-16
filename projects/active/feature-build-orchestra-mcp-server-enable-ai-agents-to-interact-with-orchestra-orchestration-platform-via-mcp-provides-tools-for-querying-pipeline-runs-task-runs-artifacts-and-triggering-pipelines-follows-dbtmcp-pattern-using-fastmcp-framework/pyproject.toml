@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "orchestra-mcp"
+version = "0.1.0"
+description = "Model Context Protocol server for Orchestra orchestration platform"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "GraniteRock Data & Analytics", email = "noreply@graniterock.com" }
+]
+dependencies = [
+    "fastmcp>=0.1.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "respx>=0.20.0",
+]
+
+[project.scripts]
+orchestra-mcp = "orchestra_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/orchestra_mcp"]
