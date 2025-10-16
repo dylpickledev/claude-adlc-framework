@@ -1926,5 +1926,29 @@
     "size_bytes": 10991,
     "cached": false,
     "counted_at": "2025-10-15T12:55:47.762886"
+  },
+  ".claude/memory/recent/2025-10.md": {
+    "path": ".claude/memory/recent/2025-10.md",
+    "token_count": 538,
+    "content_hash": "84eaa265c581fd290252437d01cecfd4",
+    "size_bytes": 2767,
+    "cached": false,
+    "counted_at": "2025-10-15T16:48:50.662967"
+  },
+  ".claude/memory/patterns/pr-merge-verification-pattern.md": {
+    "path": ".claude/memory/patterns/pr-merge-verification-pattern.md",
+    "token_count": 1523,
+    "content_hash": "f57486abd113dcc5da7fc329fa5f5045",
+    "size_bytes": 6348,
+    "cached": false,
+    "counted_at": "2025-10-15T16:48:50.671525"
+  },
+  ".claude/memory/patterns/anthropic-best-practices-alignment.md": {
+    "path": ".claude/memory/patterns/anthropic-best-practices-alignment.md",
+    "token_count": 2461,
+    "content_hash": "f081d66883bab22b67bf8edefe5644f3",
+    "size_bytes": 10752,
+    "cached": false,
+    "counted_at": "2025-10-15T16:48:50.681293"
   }
 }

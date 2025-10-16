@@ -23,8 +23,8 @@ echo "DEBUG: Launching Orchestra-MCP server" >> /tmp/orchestra-mcp-debug.log
 echo "DEBUG: ORCHESTRA_API_KEY is set: ${ORCHESTRA_API_KEY:+yes}" >> /tmp/orchestra-mcp-debug.log
 echo "DEBUG: ORCHESTRA_API_BASE_URL=$ORCHESTRA_API_BASE_URL" >> /tmp/orchestra-mcp-debug.log
 
-# Launch orchestra-MCP from local project directory with Python 3.12
+# Launch orchestra-MCP from production location with Python 3.12
 # (Python 3.13 has asyncio stdio bug)
-ORCHESTRA_MCP_DIR="$PROJECT_ROOT/projects/active/feature-build-orchestra-mcp-server-enable-ai-agents-to-interact-with-orchestra-orchestration-platform-via-mcp-provides-tools-for-querying-pipeline-runs-task-runs-artifacts-and-triggering-pipelines-follows-dbtmcp-pattern-using-fastmcp-framework"
+ORCHESTRA_MCP_DIR="$PROJECT_ROOT/mcp-servers/orchestra-mcp"
 cd "$ORCHESTRA_MCP_DIR"
 uvx --python 3.12 --from . orchestra-mcp
