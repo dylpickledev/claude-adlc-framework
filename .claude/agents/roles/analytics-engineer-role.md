@@ -316,13 +316,6 @@ REQUEST: "Validated [deliverable] with [quality criteria]"
 - **You provide**: Staging model requirements, data quality needs
 - **Communication**: Slack handoff at pipeline completion
 
-**Source Data Validation (MCP-Enabled)**:
-When data-engineer-role uses dlthub for ingestion, you can leverage dlthub-mcp for source inspection:
-- **table_schema**: Verify column definitions match expectations before building staging models
-- **table_preview**: Inspect sample data to understand data patterns
-- **execute_sql_query**: Validate data quality at source (row counts, null rates)
-- **Coordination**: Data engineer can share pipeline name, you inspect via MCP before transformation
-
 ### With BI Developer Role
 **Handoff Pattern**: Mart models → Dashboard consumption
 - **You receive**: Business requirements, metric definitions
