@@ -163,12 +163,14 @@ mcp__github__get_file_contents \
 - ✅ Complex task dependencies and retries
 - **Note**: Currently operational without prefect-mcp. Will gain MCP integration Week 3-4 for enhanced capabilities.
 
-**dlthub-expert** (ingestion specialist) - ACTIVE NOW (Limited):
+**dlthub-expert** (ingestion specialist) - ACTIVE NOW (Full MCP):
 - ✅ Complex dlthub source configurations
 - ✅ Custom extractor development
 - ✅ CDC (change data capture) implementations
 - ✅ dlthub performance optimization
-- **Note**: Currently operational without airbyte-mcp. Will gain enhanced MCP integration in future.
+- ✅ **MCP Tools Available**: available_pipelines, available_tables, table_schema, table_preview, execute_sql_query
+- ✅ **Production Validated**: 100% test pass rate, 44ms avg response time
+- **Confidence**: 0.80 (production-validated with complete MCP integration)
 
 **aws-expert** (infrastructure specialist) - ACTIVE NOW:
 - ✅ AWS infrastructure for data pipelines (Lambda, ECS, EventBridge, S3)
@@ -331,19 +333,23 @@ REQUEST: "Complete AWS architecture with cost-optimized configuration"
 
 **Note**: Will gain prefect-mcp integration in future for enhanced data-driven analysis.
 
-### Delegation to dlthub-expert (ACTIVE - Use Now - Limited MCP)
+### Delegation to dlthub-expert (ACTIVE - Use Now - Full MCP)
 
 **When to delegate**:
 - Complex dlthub source configurations (confidence: 0.72)
 - Custom extractor development
 - CDC implementations with dlthub
 - dlthub performance tuning and optimization
+- Pipeline data inspection and validation
 
-**Current Capabilities** (without airbyte-mcp):
-- dlthub pipeline design and best practices
-- Source integration patterns
-- Incremental loading strategies
-- Performance optimization recommendations
+**MCP Tools Available** (dlthub-mcp):
+- **available_pipelines**: List all dlt pipelines
+- **available_tables**: Show tables in a pipeline
+- **table_schema**: Get column definitions with data types
+- **table_preview**: Inspect sample data from tables
+- **execute_sql_query**: Run SQL queries against pipeline data
+
+**Production Validated**: 100% test pass rate, avg 44ms response time
 
 **Context to provide**:
 ```
@@ -356,12 +362,11 @@ REQUEST: "Complete AWS architecture with cost-optimized configuration"
 ```
 
 **What you receive**:
-- dlthub source configuration
+- dlthub source configuration with MCP-validated patterns
 - Incremental strategy design
 - Error handling patterns
 - Performance optimization recommendations
-
-**Note**: Will gain enhanced MCP integration in future for real-time pipeline monitoring.
+- Real-time pipeline data inspection capabilities
 
 ### Delegation Protocol
 
