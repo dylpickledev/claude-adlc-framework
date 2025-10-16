@@ -376,6 +376,66 @@ async def download_dbt_artifact(
 
 
 @mcp.tool()
+async def get_dbt_artifacts_from_cloud(
+    task_run_id: str,
+) -> dict[str, Any]:
+    """Fetch dbt Cloud artifacts for an Orchestra task run.
+
+    This is the RECOMMENDED way to get dbt artifacts - it fetches them directly
+    from dbt Cloud API instead of relying on Orchestra's artifact storage.
+
+    How it works:
+    1. Gets the Orchestra task run to extract dbt Cloud run_id from runParameters
+    2. Fetches artifacts directly from dbt Cloud API using that run_id
+    3. Returns manifest.json, run_results.json, catalog.json if available
+
+    This method provides more reliable artifact access than download_dbt_artifact,
+    since Orchestra doesn't always persist artifacts from dbt Cloud.
+
+    Args:
+        task_run_id: Orchestra task run ID (from list_task_runs)
+
+    Returns:
+        Dictionary with available artifacts:
+        {
+            "run_id": 123456,
+            "manifest": {...},          # dbt project structure, models, tests
+            "run_results": {...},       # execution results, timing, errors
+            "catalog": {...}            # table/column metadata, statistics
+        }
+
+    Requirements:
+        - DBT_CLOUD_API_TOKEN environment variable (dbt Cloud API token)
+        - DBT_CLOUD_ACCOUNT_ID environment variable (dbt Cloud account ID)
+        - Task must be a dbt Cloud job (integration=DBT with runParameters.run_id)
+
+    Example:
+        # Get all dbt artifacts for a task run
+        artifacts = get_dbt_artifacts_from_cloud(
+            task_run_id="b069b1da-7e4c-4d32-b3b8-5a3c7322d857"
+        )
+
+        # Access specific artifact
+        if "run_results" in artifacts:
+            for result in artifacts["run_results"]["results"]:
+                if result["status"] == "error":
+                    print(f"Error in {result['unique_id']}: {result['message']}")
+
+    Note:
+        This replaces the need for download_dbt_artifact in most cases.
+        Use this when you need reliable access to dbt artifacts for debugging,
+        lineage analysis, or understanding execution details.
+    """
+    client = get_client()
+    try:
+        return await client.get_dbt_artifacts_via_cloud(task_run_id)
+    except OrchestraAPIError as e:
+        return {"error": str(e)}
+    except ValueError as e:
+        return {"error": f"dbt Cloud configuration error: {str(e)}"}
+
+
+@mcp.tool()
 async def trigger_pipeline(
     pipeline_id: str, cause: str = "Triggered by Orchestra MCP"
 ) -> dict[str, Any]:

@@ -7,6 +7,110 @@ import httpx
 from .models import PipelineRun, PipelineRunStatus, TaskRun, ArtifactInfo, TriggerResponse
 
 
+class DBTCloudClient:
+    """Client for fetching dbt Cloud artifacts via Admin API."""
+
+    def __init__(
+        self,
+        api_token: Optional[str] = None,
+        account_id: Optional[str] = None,
+        host: Optional[str] = None,
+        timeout: int = 30,
+    ):
+        """Initialize dbt Cloud API client.
+
+        Args:
+            api_token: dbt Cloud API token (from Account Settings → API Tokens)
+            account_id: dbt Cloud account ID
+            host: dbt Cloud host URL (default: cloud.getdbt.com)
+            timeout: Request timeout in seconds
+        """
+        self.api_token = api_token or os.getenv("DBT_CLOUD_API_TOKEN")
+        self.account_id = account_id or os.getenv("DBT_CLOUD_ACCOUNT_ID")
+        self.host = host or os.getenv("DBT_CLOUD_HOST", "cloud.getdbt.com")
+
+        if not self.api_token:
+            raise ValueError(
+                "dbt Cloud API token required. Set DBT_CLOUD_API_TOKEN environment variable "
+                "or pass api_token parameter."
+            )
+        if not self.account_id:
+            raise ValueError(
+                "dbt Cloud account ID required. Set DBT_CLOUD_ACCOUNT_ID environment variable "
+                "or pass account_id parameter."
+            )
+
+        self.base_url = f"https://{self.host}/api/v2/accounts/{self.account_id}"
+        self.client = httpx.AsyncClient(
+            headers={
+                "Authorization": f"Token {self.api_token}",
+                "Content-Type": "application/json",
+            },
+            timeout=timeout,
+        )
+
+    async def close(self):
+        """Close the HTTP client."""
+        await self.client.aclose()
+
+    async def get_run_artifact(
+        self, run_id: int, artifact_path: str, step: Optional[int] = None
+    ) -> Any:
+        """Download artifact from dbt Cloud run.
+
+        Args:
+            run_id: dbt Cloud run ID
+            artifact_path: Path to artifact (e.g., 'manifest.json', 'run_results.json')
+            step: Optional step index (defaults to last step)
+
+        Returns:
+            Parsed JSON artifact content
+
+        Raises:
+            httpx.HTTPStatusError: If artifact not found or request fails
+        """
+        url = f"{self.base_url}/runs/{run_id}/artifacts/{artifact_path}"
+        params = {}
+        if step is not None:
+            params["step"] = step
+
+        response = await self.client.get(url, params=params)
+        response.raise_for_status()
+        return response.json()
+
+    async def list_run_artifacts(self, run_id: int, step: Optional[int] = None) -> list[str]:
+        """List available artifacts for a dbt Cloud run.
+
+        Args:
+            run_id: dbt Cloud run ID
+            step: Optional step index (defaults to last step)
+
+        Returns:
+            List of artifact paths available
+
+        Note:
+            dbt Cloud doesn't have a dedicated list endpoint, so this returns
+            common artifact paths that typically exist.
+        """
+        # Common dbt artifacts that typically exist
+        common_artifacts = [
+            "manifest.json",
+            "run_results.json",
+            "catalog.json",
+        ]
+
+        # Try to fetch each and return those that exist
+        available = []
+        for artifact_path in common_artifacts:
+            try:
+                await self.get_run_artifact(run_id, artifact_path, step)
+                available.append(artifact_path)
+            except httpx.HTTPStatusError:
+                continue
+
+        return available
+
+
 class OrchestraAPIError(Exception):
     """Base exception for Orchestra API errors."""
 
@@ -380,6 +484,113 @@ class OrchestraClient:
         except httpx.RequestError as e:
             error_msg = f"Failed to download dbt artifact '{filename}': {str(e)}"
             raise OrchestraAPIError(error_msg) from e
+
+    async def get_dbt_cloud_run_id(self, task_run_id: str) -> Optional[int]:
+        """Extract dbt Cloud run_id from Orchestra task run.
+
+        Args:
+            task_run_id: Orchestra task run ID
+
+        Returns:
+            dbt Cloud run ID if task is a dbt job, None otherwise
+
+        Raises:
+            OrchestraAPIError: If task run not found
+        """
+        # Get task run details
+        task_runs = await self.list_task_runs(task_run_ids=task_run_id, limit=1)
+        results = task_runs.get("results", [])
+
+        if not results:
+            raise OrchestraAPIError(f"Task run {task_run_id} not found")
+
+        task_run = results[0]
+
+        # Check if this is a dbt task with run_id in runParameters
+        if task_run.get("integration") == "DBT":
+            run_params = task_run.get("runParameters", {})
+            return run_params.get("run_id")
+
+        return None
+
+    async def get_dbt_artifacts_via_cloud(
+        self,
+        task_run_id: str,
+        dbt_cloud_client: Optional[DBTCloudClient] = None,
+    ) -> dict[str, Any]:
+        """Fetch dbt artifacts from dbt Cloud API for an Orchestra task run.
+
+        This method:
+        1. Gets the Orchestra task run
+        2. Extracts the dbt Cloud run_id from runParameters
+        3. Fetches artifacts from dbt Cloud API
+        4. Returns manifest.json, run_results.json, catalog.json if available
+
+        Args:
+            task_run_id: Orchestra task run ID
+            dbt_cloud_client: Optional DBTCloudClient instance
+                            (will create one if not provided)
+
+        Returns:
+            Dictionary with available artifacts:
+            {
+                "run_id": 123456,
+                "manifest": {...},
+                "run_results": {...},
+                "catalog": {...}
+            }
+
+        Raises:
+            OrchestraAPIError: If task not found or not a dbt task
+            ValueError: If dbt Cloud credentials not configured
+
+        Example:
+            # Automatic client creation (uses env vars)
+            artifacts = await orchestra_client.get_dbt_artifacts_via_cloud(
+                task_run_id="abc-123"
+            )
+
+            # Or bring your own client
+            dbt_client = DBTCloudClient(api_token="...", account_id="...")
+            artifacts = await orchestra_client.get_dbt_artifacts_via_cloud(
+                task_run_id="abc-123",
+                dbt_cloud_client=dbt_client
+            )
+        """
+        # Get dbt Cloud run_id
+        dbt_run_id = await self.get_dbt_cloud_run_id(task_run_id)
+        if not dbt_run_id:
+            raise OrchestraAPIError(
+                f"Task run {task_run_id} is not a dbt Cloud job or missing run_id"
+            )
+
+        # Create dbt Cloud client if not provided
+        should_close_client = False
+        if dbt_cloud_client is None:
+            dbt_cloud_client = DBTCloudClient()
+            should_close_client = True
+
+        try:
+            # Fetch artifacts from dbt Cloud
+            artifacts = {"run_id": dbt_run_id}
+
+            # Try to get each artifact type
+            artifact_types = ["manifest.json", "run_results.json", "catalog.json"]
+            for artifact_path in artifact_types:
+                try:
+                    artifact_key = artifact_path.replace(".json", "")
+                    artifacts[artifact_key] = await dbt_cloud_client.get_run_artifact(
+                        run_id=dbt_run_id, artifact_path=artifact_path
+                    )
+                except httpx.HTTPStatusError:
+                    # Artifact not available, skip it
+                    continue
+
+            return artifacts
+
+        finally:
+            if should_close_client:
+                await dbt_cloud_client.close()
 
     async def trigger_pipeline(
         self, pipeline_id: str, cause: str = "Triggered by Orchestra MCP"
