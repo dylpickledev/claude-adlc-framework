@@ -43,7 +43,7 @@ KNOWN_ISSUES=0
 
 # Known failing servers (expected failures)
 KNOWN_FAILING=(
-    "snowflake-mcp"  # Known authentication issue
+    # All servers now working!
 )
 
 # Parse each server status
