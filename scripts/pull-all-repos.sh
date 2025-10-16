@@ -94,6 +94,14 @@ if [ -d "$REPO_ROOT/repos/ingestion_analytics" ]; then
         git pull origin master
         echo ""
     fi
+
+    if [ -d "$REPO_ROOT/repos/ingestion_analytics/dlthub" ]; then
+        cd "$REPO_ROOT/repos/ingestion_analytics/dlthub"
+        echo -e "${GREEN}📦 dlthub${NC}"
+        git checkout main
+        git pull origin main
+        echo ""
+    fi
 fi
 
 # Transformation repos

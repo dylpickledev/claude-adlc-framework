@@ -1,11 +1,18 @@
 {
   "pattern_file": "dlthub-expert.md",
-  "token_count": 3762,
-  "content_hash": "6c8a8aa8c67df3cc7741e0bead6872c0",
+  "token_count": 3900,
+  "content_hash": "8bb09dbb0c0678cda6fd362d2e912004",
   "use_count": 0,
   "last_used": null,
-  "created_at": "2025-10-07T16:48:43.760993",
-  "modified_at": "2025-10-07T16:48:43.760993",
+  "created_at": "2025-10-15T21:00:00.000000",
+  "modified_at": "2025-10-15T21:00:00.000000",
   "confidence": null,
-  "tags": []
+  "tags": [
+    "data-ingestion",
+    "dlthub",
+    "dlt-plus",
+    "mcp-server",
+    "specialist",
+    "production-validated"
+  ]
 }

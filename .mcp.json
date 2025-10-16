@@ -89,6 +89,12 @@
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "disabled": false,
       "autoApprove": []
+    },
+    "dlthub-mcp": {
+      "command": "bash",
+      "args": ["scripts/launch-dlthub-mcp.sh"],
+      "disabled": false,
+      "_comment": "dlthub data ingestion MCP integration. Requires dlt+ license. Provides pipeline metadata, operational metrics, SQL execution, and dlt config inspection. Week 6 Day 1 - Following dbt-mcp pattern with 1Password env vars for license key."
     }
   }
 }

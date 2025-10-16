@@ -70,6 +70,12 @@
         "branch": "master",
         "description": "Hex platform data pipeline configurations (dlt-hub to Snowflake analytics data store)",
         "folder": "repos/ingestion_analytics"
+      },
+      "dlthub": {
+        "url": "https://github.com/graniterock/dlthub.git",
+        "branch": "main",
+        "description": "dlthub data ingestion pipelines to Snowflake analytics (dlt+ with MCP server integration)",
+        "folder": "repos/ingestion_analytics"
       }
     },
     "transformation": {
