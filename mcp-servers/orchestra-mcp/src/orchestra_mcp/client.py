@@ -259,6 +259,128 @@ class OrchestraClient:
         response.raise_for_status()
         return response.text
 
+    async def list_operations(
+        self,
+        time_from: Optional[str] = None,
+        time_to: Optional[str] = None,
+        operation_type: Optional[str] = None,
+        external_id: Optional[str] = None,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> dict[str, Any]:
+        """List operations (detailed task-level execution info) with optional filtering.
+
+        Operations provide granular details about task executions, including error messages,
+        integration-specific metadata (e.g., dbt model results), and execution metrics.
+
+        Args:
+            time_from: Start time filter (ISO 8601 format, e.g., '2025-04-01T00:00:00Z')
+            time_to: End time filter (ISO 8601 format)
+            operation_type: Filter by operation type (QUERY, AGGREGATION, DEPLOY, MATERIALISATION,
+                          TEST, SNAPSHOT, SOURCE, SEED, etc.)
+            external_id: Filter by external identifier (e.g., dbt model name)
+            limit: Maximum number of results (default: 100, max: 1000)
+            offset: Pagination offset (default: 0)
+
+        Returns:
+            Paginated response with structure:
+            {
+                "page": 1,
+                "pageSize": 50,
+                "total": 567,
+                "results": [
+                    {
+                        "id": "...",
+                        "pipelineRunId": "...",
+                        "taskRunId": "...",
+                        "operationName": "model.my_project.my_model",
+                        "operationStatus": "SUCCEEDED" | "FAILED",
+                        "message": "Error message or success message",
+                        "externalStatus": "SUCCESS" | "ERROR",
+                        "externalDetail": "Additional integration-specific details",
+                        "integration": "DBT" | "SNOWFLAKE" | etc.,
+                        "integrationJob": "DBT_RUN_MODEL",
+                        "operationType": "MATERIALISATION",
+                        "startedAt": "2025-10-16T...",
+                        "completedAt": "2025-10-16T...",
+                        "operationDuration": 12.5,
+                        "rowsAffected": 1000
+                    }
+                ]
+            }
+
+        Note:
+            Without date filters, only last 7 days of data available.
+            Time filters must be used together or not at all (max 7 day range).
+
+            This endpoint provides the ERROR MESSAGES that were missing from task_runs!
+        """
+        params = {"limit": min(limit, 1000), "offset": offset}
+        if time_from:
+            params["time_from"] = time_from
+        if time_to:
+            params["time_to"] = time_to
+        if operation_type:
+            params["operation_type"] = operation_type
+        if external_id:
+            params["external_id"] = external_id
+
+        return await self._request("GET", "operations", params=params)
+
+    async def download_dbt_artifact(
+        self, pipeline_run_id: str, task_run_id: str, artifact_type: str = "manifest"
+    ) -> dict[str, Any]:
+        """Download dbt artifacts (manifest.json or run_results.json) from task run.
+
+        Args:
+            pipeline_run_id: Pipeline run ID
+            task_run_id: Task run ID
+            artifact_type: Type of artifact to download:
+                         - "manifest" → manifest.json
+                         - "run_results" → run_results.json
+                         - "run_results_1" → run_results_1.json (if multiple exist)
+
+        Returns:
+            Parsed JSON content of the artifact
+
+        Example:
+            # Get dbt manifest
+            manifest = await client.download_dbt_artifact(
+                pipeline_run_id="...",
+                task_run_id="...",
+                artifact_type="manifest"
+            )
+
+            # Get run results
+            results = await client.download_dbt_artifact(
+                pipeline_run_id="...",
+                task_run_id="...",
+                artifact_type="run_results"
+            )
+        """
+        filename_map = {
+            "manifest": "manifest.json",
+            "run_results": "run_results.json",
+            "run_results_1": "run_results_1.json",
+            "run_results_2": "run_results_2.json",
+        }
+
+        filename = filename_map.get(artifact_type, f"{artifact_type}.json")
+
+        try:
+            response = await self.client.get(
+                f"pipeline_runs/{pipeline_run_id}/task_runs/{task_run_id}/artifacts/download",
+                params={"filename": filename},
+            )
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPStatusError as e:
+            error_msg = f"dbt artifact '{filename}' not found (status {e.response.status_code})"
+            raise OrchestraAPIError(error_msg) from e
+        except httpx.RequestError as e:
+            error_msg = f"Failed to download dbt artifact '{filename}': {str(e)}"
+            raise OrchestraAPIError(error_msg) from e
+
     async def trigger_pipeline(
         self, pipeline_id: str, cause: str = "Triggered by Orchestra MCP"
     ) -> dict[str, Any]:
