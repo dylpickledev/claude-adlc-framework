@@ -76,6 +76,8 @@ When you encounter non-dlthub topics, document them as requirements for the pare
 1. **Start with WebFetch** to get current documentation before making any recommendations
 2. **dlt MCP Integration**: When available, use MCP tools to access LLM-optimized documentation
 3. **Primary Sources**: Use these URLs with WebFetch tool:
+
+   **Official Documentation**:
    - Main Docs: `https://dlthub.com/docs/`
    - Connectors: `https://dlthub.com/docs/dlt-ecosystem/destinations/`
    - Pipeline Guide: `https://dlthub.com/docs/walkthroughs/`
@@ -83,6 +85,11 @@ When you encounter non-dlthub topics, document them as requirements for the pare
    - Best Practices: `https://dlthub.com/docs/general-usage/`
    - **MCP Server**: `https://dlthub.com/docs/dlt-ecosystem/llm-tooling/mcp-server`
    - **LLM Workflows**: `https://dlthub.com/docs/dlt-ecosystem/llm-tooling/llm-native-workflow`
+
+   **Learning Resources** (Production-Validated):
+   - **Weekly How-To Series**: `https://github.com/1997mahadi/Data-Engineering-with-dlt/` - Real-world dlthub patterns from active practitioner (highly recommended for practical examples)
+   - **Advanced dlt Course**: `https://dlthub.learnworlds.com/course/dlt-advanced` - Deep-dive course for advanced patterns and optimization techniques
+
 4. **Verify**: Cross-reference multiple sources when needed
 5. **Document**: Include documentation URLs in your findings
 
@@ -98,16 +105,63 @@ When you encounter non-dlthub topics, document them as requirements for the pare
 When dlt MCP server is available, leverage these capabilities:
 
 #### MCP Tools Available
-- **Pipeline Metadata**: Access operational metadata and pipeline configurations
-- **Dataset Querying**: Text-to-SQL capabilities for data exploration
-- **Configuration Exploration**: Inspect dlt project settings and schemas
-- **LLM-Optimized Documentation**: Access tailored documentation resources
+- **Pipeline Metadata**: Access operational metadata and pipeline configurations via `available_pipelines`
+- **Table Discovery**: List all tables in a pipeline via `available_tables`
+- **Schema Inspection**: Get detailed table schemas via `table_schema`
+- **Data Preview**: View sample data from tables via `table_preview`
+- **Dataset Querying**: Execute SQL queries against pipeline data via `execute_sql_query`
+
+#### Production-Validated MCP Setup (Week 6 Day 1)
+
+**dlt+ License Required**: MCP server requires dlt+ license (not free tier)
+- License stored in 1Password as `DLTHUB_LICENSE_KEY`
+- Follows dbt-mcp pattern: wrapper script loads secrets via 1Password
+
+**Configuration**: `.mcp.json`
+```json
+{
+  "dlthub-mcp": {
+    "command": "bash",
+    "args": ["scripts/launch-dlthub-mcp.sh"],
+    "disabled": false,
+    "_comment": "dlthub data ingestion MCP integration. Requires dlt+ license. Week 6 Day 1 - Following dbt-mcp pattern with 1Password env vars for license key."
+  }
+}
+```
+
+**Launch Script**: `scripts/launch-dlthub-mcp.sh`
+```bash
+#!/bin/bash
+# Load secrets from 1Password (provides DLTHUB_LICENSE_KEY)
+source "$HOME/dotfiles/load-secrets-from-1password.sh"
+
+# Verify license key is set
+if [ -z "$DLTHUB_LICENSE_KEY" ]; then
+    echo "ERROR: DLTHUB_LICENSE_KEY not set - check 1Password configuration" >&2
+    exit 1
+fi
+
+# Launch dlthub MCP server with dlt+ license
+# CRITICAL: Use 'run_plus' for licensed version (not 'run')
+exec uvx --from "dlt-plus[mcp]==0.9.0" dlt mcp run_plus
+```
+
+**Key Learnings**:
+- ✅ `dlt mcp run_plus` activates dlt+ features (uses license key)
+- ❌ `dlt mcp run` is free tier (ignores license, limited features)
+- ✅ MCP server looks for pipelines in `~/.dlt/pipelines/` by default
+- ✅ Server expects pipeline structure created by dlt runtime
+- ⚠️ Empty repos won't have pipelines - need actual dlt pipeline executions
 
 #### MCP Setup Verification
 ```python
 # Check if MCP server is configured
-# Use ListMcpResourcesTool to verify dlt server availability
-# Look for server named "dlt" or similar in MCP resources
+# Use available MCP tools to verify functionality:
+# 1. mcp__dlthub-mcp__available_pipelines - List all dlt pipelines
+# 2. mcp__dlthub-mcp__available_tables - List tables in a pipeline
+# 3. mcp__dlthub-mcp__table_schema - Get table schema details
+# 4. mcp__dlthub-mcp__table_preview - View sample data
+# 5. mcp__dlthub-mcp__execute_sql_query - Run SQL against pipeline data
 ```
 
 ### LLM-Native Development Workflow

@@ -501,11 +501,38 @@ As a specialist, you:
 
 **Setup steps**:
 1. Copy this template to `.claude/agents/specialists/[domain]-expert.md`
-2. Define specialist's domain and expertise scope
-3. Map relevant MCP tools (or note if custom MCP needed)
-4. Define who delegates and when
-5. Create quality standards for the domain
-6. Document validation protocols
+2. Create corresponding `[domain]-expert.metadata.json` file (see format below)
+3. Define specialist's domain and expertise scope
+4. Map relevant MCP tools (or note if custom MCP needed)
+5. Define who delegates and when
+6. Create quality standards for the domain
+7. Document validation protocols
+
+**metadata.json Format**:
+```json
+{
+  "pattern_file": "[domain]-expert.md",
+  "token_count": 0,
+  "content_hash": "",
+  "use_count": 0,
+  "last_used": null,
+  "created_at": "YYYY-MM-DDTHH:MM:SS.mmmmmm",
+  "modified_at": "YYYY-MM-DDTHH:MM:SS.mmmmmm",
+  "confidence": null,
+  "tags": [
+    "[domain-tag]",
+    "specialist",
+    "mcp-server"
+  ]
+}
+```
+
+**Metadata Update Process**:
+- `token_count`: Estimate from word count (words × 1.67 ≈ tokens)
+- `content_hash`: Generate with `md5 -q [domain]-expert.md`
+- `created_at` / `modified_at`: Use ISO 8601 format
+- `tags`: Domain-specific tags for discovery
+- Updated automatically by `/complete` command
 
 ### MCP Tool Integration
 
