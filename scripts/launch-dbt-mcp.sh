@@ -15,7 +15,7 @@ if [ -f "$HOME/dotfiles/load-secrets-from-1password.sh" ]; then
 fi
 
 # Map 1Password variable names to dbt-mcp expected names
-export DBT_HOST="cloud.getdbt.com"
+export DBT_HOST="te240.us1.dbt.com"  # Multi-tenant instance (not cloud.getdbt.com)
 export DBT_TOKEN="${DBT_CLOUD_API_TOKEN}"
 export DBT_PROD_ENV_ID="${DBT_CLOUD_PROD_ENV_ID:-12333}"  # Default from .env.template
 export DBT_PATH="/usr/local/bin/dbt"
