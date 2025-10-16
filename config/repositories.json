@@ -1,5 +1,6 @@
 {
-  "_comment": "Repository configuration for D&A Agent Hub. All entries are cloned during setup.",
+  "_comment": "Repository configuration for DA Agent Hub. Copy to repositories.json and customize for your organization.",
+  "_setup_instructions": "1. Copy this file to repositories.json, 2. Replace 'your-org' with your GitHub organization, 3. Update URLs to match your data stack repositories",
   "settings": {
     "clone_method": "https",
     "update_existing": true,
@@ -7,96 +8,64 @@
   },
   "knowledge": {
     "da_agent_hub": {
-      "url": "https://github.com/graniterock/da-agent-hub.git",
+      "url": "https://github.com/your-org/da-agent-hub.git",
       "branch": "main",
       "description": "DA Agent Hub - Analytics Development Lifecycle (ADLC) AI Platform"
     },
     "da_team_documentation": {
-      "url": "https://github.com/graniterock/da-team-documentation.git",
+      "url": "https://github.com/your-org/da-team-documentation.git",
       "branch": "main",
       "description": "Data & Analytics team documentation - data architecture, integrations, products, and templates"
     },
     "da_obsidian": {
-      "url": "https://github.com/graniterock/da_obsidian.git",
+      "url": "https://github.com/your-org/da-obsidian.git",
       "branch": "master",
       "description": "Data & Analytics team Obsidian knowledge management vault - raw notes and unrefined ideas"
     }
   },
   "data_stack": {
-    "_comment": "Organized data stack repositories by functional layer",
+    "_comment": "Organized data stack repositories by functional layer - customize for your tools",
     "orchestration": {
       "orchestra": {
-        "url": "https://github.com/graniterock/Orchestra.git",
+        "url": "https://github.com/your-org/orchestra.git",
         "branch": "master",
-        "description": "Primary orchestration system - kicks off and manages Prefect flow executions",
+        "description": "Primary orchestration system - kicks off and manages workflow executions",
         "folder": "repos/orchestration"
       },
       "prefect": {
-        "url": "https://github.com/graniterock/prefect.git",
+        "url": "https://github.com/your-org/prefect-flows.git",
         "branch": "master",
-        "description": "Main Prefect flows repository (airbyte-orchestrator, dbt-jobs-orchestrator, business integrations: JDE/AD sync, RockTalk employee sync)",
+        "description": "Prefect workflow repository",
         "folder": "repos/orchestration"
       }
     },
-    "ingestion_operational": {
-      "plantdemand_etl": {
-        "url": "https://github.com/graniterock/plantdemand-etl.git",
-        "branch": "master",
-        "description": "PlantDemand ETL and Construction Forecasts flows (to PostgreSQL operational data store)",
-        "folder": "repos/ingestion_operational"
-      },
-      "mapistry_etl": {
-        "url": "https://github.com/graniterock/mapistry-etl.git",
-        "branch": "master",
-        "description": "Mapistry ETL flows (to PostgreSQL operational data store)",
-        "folder": "repos/ingestion_operational"
-      },
-      "xbe_data_ingestion": {
-        "url": "https://github.com/graniterock/xbe_data_ingestion.git",
+    "ingestion": {
+      "etl_pipelines": {
+        "url": "https://github.com/your-org/etl-pipelines.git",
         "branch": "main",
-        "description": "XBE data ingestion flows (to PostgreSQL operational data store)",
-        "folder": "repos/ingestion_operational"
+        "description": "Data ingestion and ETL pipelines",
+        "folder": "repos/ingestion"
       },
-      "postgres_pipelines": {
-        "url": "https://github.com/graniterock/postgres_pipelines.git",
+      "dlthub_pipelines": {
+        "url": "https://github.com/your-org/dlt-pipelines.git",
         "branch": "master",
-        "description": "PostgreSQL data pipeline configurations (operational data store)",
-        "folder": "repos/ingestion_operational"
-      }
-    },
-    "ingestion_analytics": {
-      "hex_pipelines": {
-        "url": "https://github.com/graniterock/hex_pipelines.git",
-        "branch": "master",
-        "description": "Hex platform data pipeline configurations (dlt-hub to Snowflake analytics data store)",
-        "folder": "repos/ingestion_analytics"
+        "description": "dlt-hub data ingestion pipelines to data warehouse",
+        "folder": "repos/ingestion"
       }
     },
     "transformation": {
       "dbt_cloud": {
-        "url": "https://github.com/graniterock/dbt_cloud.git",
-        "branch": "dbt_dw",
+        "url": "https://github.com/your-org/dbt-project.git",
+        "branch": "main",
         "description": "Main dbt transformation project",
-        "folder": "repos/transformation"
-      },
-      "dbt_postgres": {
-        "url": "https://github.com/graniterock/dbt_postgres.git",
-        "branch": "master",
-        "description": "dbt transformations for PostgreSQL",
         "folder": "repos/transformation"
       }
     },
     "front_end": {
-      "streamlit_apps_snowflake": {
-        "url": "https://github.com/graniterock/streamlit_apps_snowflake.git",
+      "streamlit_apps": {
+        "url": "https://github.com/your-org/streamlit-apps.git",
         "branch": "master",
-        "description": "Streamlit applications for Snowflake data visualization",
-        "folder": "repos/front_end"
-      },
-      "snowflake_notebooks": {
-        "url": "https://github.com/graniterock/snowflake_notebooks.git",
-        "branch": "master",
-        "description": "Snowflake notebook collection for data analysis",
+        "description": "Streamlit applications for data visualization",
         "folder": "repos/front_end"
       },
       "tableau": {
@@ -105,85 +74,50 @@
         "description": "Tableau dashboard configurations and workbooks",
         "folder": "repos/front_end"
       },
-      "quarryreport": {
-        "url": "local",
-        "branch": "main",
-        "description": "Quarry reporting front-end applications",
-        "folder": "repos/front_end"
-      },
-      "react_sales_journal": {
-        "url": "https://github.com/graniterock/react-sales-journal.git",
+      "react_apps": {
+        "url": "https://github.com/your-org/react-data-apps.git",
         "branch": "master",
-        "description": "React-based sales journal application",
-        "folder": "repos/front_end"
-      },
-      "da_app_portal": {
-        "url": "https://github.com/graniterock/da-app-portal.git",
-        "branch": "master",
-        "description": "React-based home page / portal for all d&a apps",
+        "description": "React-based data applications",
         "folder": "repos/front_end"
       }
     },
     "operations": {
-      "roy_kent": {
-        "url": "https://github.com/graniterock/roy_kent.git",
+      "monitoring": {
+        "url": "https://github.com/your-org/data-monitoring.git",
         "branch": "master",
-        "description": "Roy Kent coaching system",
+        "description": "Data quality monitoring and alerting",
         "folder": "repos/operations"
       },
-      "sherlock": {
-        "url": "https://github.com/graniterock/sherlock-investigation-bureau.git",
+      "investigation": {
+        "url": "https://github.com/your-org/data-investigation.git",
         "branch": "main",
-        "description": "Sherlock Investigation Bureau - data quality and pipeline issue investigation",
+        "description": "Data quality and pipeline issue investigation tools",
         "folder": "repos/operations"
       }
     }
   },
-  "prefect_context": {
-    "_comment": "Prefect Cloud workspace context for workflow orchestration analysis",
-    "workspace": "graniterock/bedrock",
+  "orchestration_context": {
+    "_comment": "Workflow orchestration context - customize for your environment",
+    "workspace": "your-org/your-workspace",
     "environment": "production",
     "source_repositories": [
       "orchestra",
       "prefect",
-      "plantdemand_etl",
-      "mapistry_etl",
-      "xbe_data_ingestion"
+      "etl_pipelines"
     ],
     "work_pools": [
-      "K8s-Prod",
-      "production"
+      "production",
+      "staging"
     ],
     "key_flows": [
-      "mapistry-etl",
-      "dbt-jobs-orchestrator-flow",
-      "airbyte-orchestrator",
-      "Construction Forecasts",
-      "Fuel cloud data ingestion",
-      "PlantDemand ETL",
-      "XBE ingestion",
-      "jde-ad-sync",
-      "rocktalk-employee-sync",
-      "union-pacific-etl",
-      "wrightexpress-ftp-etl"
+      "dbt-orchestrator",
+      "airbyte-sync",
+      "data-quality-checks"
     ],
     "integration_patterns": [
       "dbt Cloud coordination",
       "Airbyte data ingestion",
-      "External API orchestration",
-      "Business system synchronization"
-    ],
-    "coordination_strategy": {
-      "master_orchestration": "orchestra-expert leads ALL workflow analysis - triggers everything",
-      "prefect_flows": "Most Prefect flows are in the main 'prefect' repository (airbyte-orchestrator, dbt-jobs, business integrations)",
-      "specialized_flows": "Construction/PlantDemand in plantdemand_etl, Mapistry in mapistry_etl, XBE in xbe_data_ingestion",
-      "dbt_coordination": "orchestra-expert + dbt-expert for direct dbt job triggering",
-      "cross_tool_coordination": "orchestra-expert coordinates all tools (Prefect, dbt, Airbyte, etc.)"
-    },
-    "orchestration_hierarchy": {
-      "level_1_master": "Orchestra (kicks off everything - Prefect, dbt, Airbyte, Snowflake jobs)",
-      "level_2_executors": "Prefect flows, dbt jobs, Airbyte syncs (when Orchestra calls them)",
-      "level_3_data": "Snowflake, data warehouses (receive processed data)"
-    }
+      "External API orchestration"
+    ]
   }
 }

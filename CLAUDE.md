@@ -25,16 +25,17 @@ don't look at the full .env file. Only search for the var names up to the equals
 ## Simplified Workflow Commands
 
 ### Essential Commands (Use Slash Commands)
-1. **`/idea "[idea]"`** → Quick idea capture (creates GitHub issues with auto-labeling)
+1. **`/idea "[idea]"`** → Quick idea capture (creates GitHub issues)
 2. **`/research [text|issue#]`** → Deep exploration and analysis (pre-capture or issue analysis)
-3. **`/roadmap [timeframe]`** → Strategic planning and prioritization (analyzes GitHub issues)
-4. **`/start [issue#|"text"]`** → Begin development (from issue OR creates issue from text + starts)
+3. **`/start [issue#|"text"]`** → Begin development (from issue OR creates issue from text + starts)
+4. **`/switch [optional-branch]`** → Zero-loss context switching with automated backup
 5. **`/complete [project]`** → Complete and archive projects (closes GitHub issue + cleans up worktree)
 
 ### Support Commands
-6. **`/switch [optional-branch]`** → Zero-loss context switching with automated backup
-7. **`/pause [description]`** → Save conversation context for seamless resumption
-8. **`/setup-worktrees`** → One-time VS Code worktree integration setup
+6. **`/pause [description]`** → Save conversation context for seamless resumption
+7. **`/setup-worktrees`** → One-time VS Code worktree integration setup
+
+**Note**: For roadmap planning and prioritization, use GitHub's native issue management (labels, milestones, projects).
 
 ### Deprecated (Still Work, But Use New Names)
 - **`/capture`** → Use `/idea` instead
@@ -43,10 +44,9 @@ don't look at the full .env file. Only search for the var names up to the equals
 ### Underlying Scripts (Called by Slash Commands)
 - `/idea` → `./scripts/idea.sh`
 - `/research` → `./scripts/research.sh`
-- `/roadmap` → `./scripts/roadmap.sh`
 - `/start` → `./scripts/start.sh`
-- `/complete` → `./scripts/finish.sh`
 - `/switch` → `./scripts/switch.sh`
+- `/complete` → `./scripts/finish.sh`
 - `/pause` → (Claude-native, no script)
 - `/setup-worktrees` → `./scripts/setup-worktrees.sh`
 
@@ -97,70 +97,36 @@ Templates encode correct architecture patterns:
 - Specialists use MCP tools + expertise (correctness-first)
 - Both include quality standards, validation protocols, /complete integration
 
-### Primary Agents (Use These First)
+### Primary Agents (Use These First - Handle 80% Independently)
 **Analytics Engineer** (`analytics-engineer-role`) - Owns transformation layer (dbt + Snowflake + BI data)
 - SQL transformations, data modeling, performance optimization
 - Business logic implementation, metrics, semantic layer
-- Handles 80% of transformation work independently
+- Delegates to dbt-expert and snowflake-expert for complex cases
 
 **Data Engineer** (`data-engineer-role`) - Owns ingestion layer (Orchestra + dlthub + Prefect + Airbyte)
 - Pipeline setup and orchestration (batch AND streaming)
 - Source system integration, data quality at ingestion
 - Chooses right tool (dlthub vs Prefect) based on requirements
-
-**BI Developer** (`bi-developer-role`) - Owns BI consumption layer (Tableau + Power BI)
-- Enterprise BI dashboards, reports, executive views
-- BI tool performance optimization, self-service analytics
-- Business user training and documentation
-
-**UI/UX Developer** (`ui-ux-developer-role`) - Owns web application layer (Streamlit + React)
-- Data applications, admin tools, custom web interfaces
-- User experience design, responsive applications
-- Interactive prototypes and proof-of-concepts
+- Delegates to dlthub-expert for complex ingestion patterns
 
 **Data Architect** (`data-architect-role`) - Strategic platform decisions and system design
 - Architecture patterns, technology selection, cross-system integration
 - Platform roadmap, governance, standards
+- Coordinates with all specialists for system-level decisions
 
-**Business Analyst** (`business-analyst-role`) - Requirements and stakeholder alignment
-- Business logic validation, metric definitions
-- Stakeholder communication, project scoping
-
-**QA Engineer** (`qa-engineer-role`) - Testing and quality assurance
-- Comprehensive testing strategies, validation frameworks
-- Data quality validation, system integration testing
-
-**Project Manager** (`project-manager-role`) - Delivery coordination and stakeholder management
-- Project planning, UAT frameworks, milestone tracking
-- Cross-functional coordination, risk management
-
-### Tool Specialists (Consultation Layer - Use When Needed)
+### Tool Specialists (Consultation Layer - 20% Edge Cases)
 Role agents delegate to specialists who combine deep domain expertise with MCP tool access for informed, validated recommendations.
 
-**Cloud & Infrastructure**:
-- `aws-expert`: THE specialist for AWS infrastructure (uses aws-api, aws-docs, aws-knowledge MCP)
-- `azure-expert`: Azure infrastructure specialist (future - uses azure-mcp when available)
+**Data Platform (Available)**:
+- `dbt-expert`: SQL transformations, dbt patterns (MCP-enabled for dbt Cloud API)
+- `snowflake-expert`: Warehouse optimization, cost analysis (MCP-enabled for Snowflake)
+- `dlthub-expert`: Data ingestion patterns for dlthub pipelines
+- `tableau-expert`: BI optimization and dashboard performance
 
-**Data Platform**:
-- `dbt-expert`: SQL transformations, dbt patterns (uses dbt-mcp, snowflake-mcp, git-mcp)
-- `snowflake-expert`: Warehouse optimization, cost analysis (uses snowflake-mcp, dbt-mcp)
-- `orchestra-expert`: Workflow orchestration (uses orchestra-mcp custom, prefect-mcp, airbyte-mcp)
-- `prefect-expert`: Python workflows (uses prefect-mcp custom, orchestra-mcp)
-- `dlthub-expert`: Data ingestion (uses airbyte-mcp, snowflake-mcp, orchestra-mcp)
+**Cross-Functional (Available)**:
+- `github-sleuth-expert`: Repository analysis, issue investigation (MCP-enabled for GitHub)
 
-**BI & Visualization**:
-- `tableau-expert`: BI optimization (uses tableau-mcp, snowflake-mcp, dbt-mcp)
-
-**Development**:
-- `react-expert`: React patterns (uses github-mcp, git-mcp)
-- `streamlit-expert`: Streamlit apps (uses github-mcp, filesystem-mcp)
-- `ui-ux-expert`: UX design (uses notion-mcp, filesystem-mcp)
-
-**Cross-Functional**:
-- `documentation-expert`: Standards and docs (uses confluence-mcp, github-mcp, dbt-mcp)
-- `github-sleuth-expert`: Repository analysis (uses github-mcp, git-mcp, filesystem-mcp)
-- `business-context`: Requirements (uses atlassian-mcp, slack-mcp, dbt-mcp)
-- `qa-coordinator`: Quality assurance (uses dbt-mcp, snowflake-mcp, github-mcp)
+**Note**: Other specialists (aws-expert, business-context, documentation-expert, etc.) were removed in cleanup. Role agents now handle most work directly or can request specialist agent creation when needed.
 
 **Pattern**: Role agents delegate when confidence <0.60 OR domain expertise needed
 **Specialists**: Use MCP tools + expertise to provide validated, correct recommendations
@@ -449,17 +415,13 @@ Create separate improvement PRs for:
 ## Complete Development Workflow
 
 ```
-💡 IDEA: /idea → GitHub issue creation → auto-labeling → roadmap planning
-    ↓ Strategic prioritization (optional deep analysis)
+💡 IDEA: /idea → GitHub issue creation
+    ↓ (Use GitHub for prioritization)
 🔬 RESEARCH: /research [text|issue#] → Deep exploration → Feasibility → Technical approach
     ↓ Informed decision-making
-🗺️ ROADMAP: /roadmap → impact/effort analysis → GitHub issue analysis → execution planning
-    ↓ Priority selection
 🚀 START: /start [issue#|"text"] → project setup → worktree creation → specialist agents → development
     ↓ Deploy to production
 ✅ COMPLETE: /complete → archive → worktree cleanup → close GitHub issue → next iteration
-    ↓ Operations monitoring
-🤖 OPERATIONS: GitHub Actions → Error detection → AI investigation → Cross-repo PRs
 ```
 
 ## Additional Resources

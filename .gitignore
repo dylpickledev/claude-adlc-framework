@@ -114,3 +114,7 @@ knowledge/*/*
 .claude/settings.local.json
 
 # Project work tracking - commit everything for collaboration
+# Company-specific configuration
+config/repositories.json.backup
+# Local customizations
+*.local
