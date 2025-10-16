@@ -139,7 +139,9 @@ snowflake-expert:
 - Git
 - Modern data stack (dbt, Snowflake, etc.)
 
-### Setup
+### Setup Options
+
+#### Option 1: Standard Installation
 ```bash
 # Clone repository
 git clone https://github.com/yourusername/da-agent-hub.git
@@ -154,6 +156,21 @@ claude /setup-worktrees
 # Start using
 claude /capture "Your first data project idea"
 ```
+
+#### Option 2: Guest Mode (Testing/Workshops)
+Test drive da-agent-hub with your own repos using someone else's installation:
+
+```bash
+# Host creates isolated session
+./scripts/guest-mode.sh start workshop-demo
+
+# Guest activates and uses their own GitHub repos
+source .guest-sessions/workshop-demo/activate.sh
+gh auth login  # Use your GitHub account
+claude /capture "Test with my own repos"
+```
+
+See [GUEST_MODE.md](GUEST_MODE.md) for complete guest mode documentation.
 
 ### MCP Configuration (Optional)
 Configure MCP servers in `.claude/mcp.json` for real-time data access:
