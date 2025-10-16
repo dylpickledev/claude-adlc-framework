@@ -15,6 +15,107 @@ Implements the [dbt Analytics Development Lifecycle](https://www.getdbt.com/anal
 /capture "idea" → /research → /start → /switch → /complete
 ```
 
+### ADLC Workflow Visualization
+
+```mermaid
+graph TB
+    %% LAYER 1: PLAN
+    subgraph PLAN["💡 LAYER 1: PLAN<br/>Ideation & Strategic Planning"]
+        Idea[("💭 Idea")]
+        Capture["/capture<br/>📝 Create GitHub Issue"]
+        Research["/research<br/>🔬 Deep Exploration<br/>• Technical Feasibility<br/>• Architecture Review<br/>• Agent Analysis"]
+        GH_Issues[("📋 GitHub Issues<br/>Labels & Milestones")]
+
+        Idea --> Capture
+        Capture --> GH_Issues
+        GH_Issues --> Research
+    end
+
+    %% LAYER 2: DEVELOP + TEST + DEPLOY
+    subgraph DEVELOP["🔧 LAYER 2: DEVELOP + TEST + DEPLOY<br/>Local Development with Specialist Agents"]
+        Start["/start<br/>🚀 Initialize Project<br/>• Create branch<br/>• Setup worktree<br/>• Generate spec.md"]
+
+        subgraph Roles["Role Agents (80% Independent)"]
+            AnalyticsEng["analytics-engineer-role<br/>• dbt models<br/>• SQL transformations<br/>• BI data prep"]
+            DataEng["data-engineer-role<br/>• Pipelines<br/>• Ingestion<br/>• Orchestration"]
+            DataArch["data-architect-role<br/>• System design<br/>• Architecture<br/>• Platform decisions"]
+        end
+
+        subgraph Specialists["Specialists (20% Consultation)"]
+            dbt["dbt-expert<br/>🔌 MCP"]
+            snowflake["snowflake-expert<br/>🔌 MCP"]
+            dlthub["dlthub-expert"]
+            tableau["tableau-expert"]
+        end
+
+        Switch["/switch<br/>🔄 Context Switch<br/>Zero-loss switching"]
+        ProjectFolder[("📁 projects/active/<br/>feature-name/<br/>• README.md<br/>• spec.md<br/>• context.md<br/>• tasks/")]
+
+        Research --> Start
+        Start --> ProjectFolder
+        ProjectFolder --> Roles
+        Roles -.->|"confidence < 0.60"| Specialists
+        Specialists -.->|"validated<br/>recommendations"| Roles
+        Roles --> Switch
+        Switch --> ProjectFolder
+    end
+
+    %% LAYER 3: OPERATE
+    subgraph OPERATE["🤖 LAYER 3: OPERATE + OBSERVE + DISCOVER + ANALYZE<br/>Automated Operations"]
+        Complete["/complete<br/>✅ Archive & Learn<br/>• Extract patterns<br/>• Update memory<br/>• Close issue<br/>• Clean worktree"]
+
+        subgraph Memory["📚 Memory System"]
+            Patterns[("patterns/<br/>Cross-cutting patterns")]
+            Recent[("recent/<br/>Last 30 days")]
+            RolePatterns[("roles/<br/>Per-role collections")]
+            SpecPatterns[("specialists/<br/>Per-specialist collections")]
+        end
+
+        Archive[("📦 projects/completed/<br/>YYYY-MM/<br/>project-name/")]
+        NextIdea[("💡 Next Idea")]
+
+        ProjectFolder --> Complete
+        Complete --> Memory
+        Complete --> Archive
+        Complete --> GH_Issues
+        Memory -.->|"learned patterns"| Research
+        Memory -.->|"enhanced capabilities"| Roles
+        Memory -.->|"refined expertise"| Specialists
+        Archive --> NextIdea
+        NextIdea --> Capture
+    end
+
+    %% MCP Integration Layer
+    subgraph MCP["🔌 MCP Integration Layer"]
+        dbtCloud["dbt Cloud API<br/>• Jobs, runs<br/>• Models, tests"]
+        SnowflakeDB["Snowflake<br/>• Query execution<br/>• Warehouse metadata<br/>• Cost analysis"]
+        GitHub["GitHub API<br/>• Issues<br/>• PRs<br/>• Repository data"]
+    end
+
+    dbt <--> dbtCloud
+    snowflake <--> SnowflakeDB
+    Capture <--> GitHub
+    Complete <--> GitHub
+
+    %% Styling
+    classDef planLayer fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
+    classDef devLayer fill:#fff9e1,stroke:#f57c00,stroke-width:2px
+    classDef opLayer fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef mcpLayer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef storage fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class Idea,Capture,Research,GH_Issues planLayer
+    class Start,Roles,Specialists,Switch,ProjectFolder,AnalyticsEng,DataEng,DataArch,dbt,snowflake,dlthub,tableau devLayer
+    class Complete,Memory,Archive,NextIdea,Patterns,Recent,RolePatterns,SpecPatterns opLayer
+    class dbtCloud,SnowflakeDB,GitHub mcpLayer
+```
+
+**Key Features:**
+- **Three-Layer Architecture**: Plan → Develop → Operate with continuous learning
+- **Role-Based Delegation**: 80% independent work, 20% specialist consultation
+- **MCP Integration**: Real-time data access for accurate recommendations
+- **Memory System**: Automatic pattern extraction and enhanced capabilities
+
 **Available agents:**
 - **Roles**: analytics-engineer-role, data-engineer-role, data-architect-role
 - **Specialists**: dbt-expert, snowflake-expert, dlthub-expert, tableau-expert
