@@ -2,7 +2,7 @@
 
 > AI-powered Analytics Development Lifecycle (ADLC) workflow for data and analytics engineers
 
-**5 commands + 8 agents + MCP integration = Your complete data engineering AI assistant**
+**5 commands + 7 agents + MCP integration = Your complete data engineering AI assistant**
 
 ---
 
@@ -12,17 +12,16 @@ Implements the [dbt Analytics Development Lifecycle](https://www.getdbt.com/anal
 
 **Core workflow:**
 ```bash
-/capture "idea" → /research → /start → /switch → /pause → /complete
+/capture "idea" → /research → /start → /switch → /complete
 ```
 
 **Available agents:**
 - **Roles**: analytics-engineer-role, data-engineer-role, data-architect-role
-- **Specialists**: dbt-expert, snowflake-expert, github-sleuth-expert, dlthub-expert, tableau-expert
+- **Specialists**: dbt-expert, snowflake-expert, dlthub-expert, tableau-expert
 
 **MCP integration:**
 - Direct access to dbt Cloud API
 - Query Snowflake warehouse
-- GitHub repository operations
 
 ---
 
@@ -72,10 +71,14 @@ claude /switch feature-branch  # Switch to specific branch
 ```
 
 ### 5. `/complete` - Finish project
-Archives project, closes issue, cleans up
+Archives project, extracts learnings, closes issue
 ```bash
 claude /complete feature-project-name
 ```
+
+**Bonus Commands:**
+- `/pause [description]` - Save conversation context for seamless resumption
+- `/setup-worktrees` - One-time VS Code worktree integration setup
 
 **Note**: Use GitHub's native issue management, labels, and milestones for roadmap planning and prioritization.
 
@@ -104,8 +107,6 @@ claude /complete feature-project-name
 
 **snowflake-expert** - Warehouse optimization, cost analysis (MCP-enabled)
 
-**github-sleuth-expert** - Repository analysis, issue investigation (MCP-enabled)
-
 **dlthub-expert** - Data ingestion patterns
 
 **tableau-expert** - BI optimization
@@ -125,10 +126,6 @@ dbt-expert:
 snowflake-expert:
    ├─ snowflake-mcp → Warehouse metadata, cost analysis
    └─ Returns: Cost optimization with projected savings
-
-github-sleuth-expert:
-   ├─ github-mcp → Repository operations, issue analysis
-   └─ Returns: Cross-repo coordination recommendations
 ```
 
 **Result:** AI decisions based on REAL data, not generic advice.
@@ -159,7 +156,7 @@ claude /capture "Your first data project idea"
 ```
 
 ### MCP Configuration (Optional)
-Configure MCP servers in `.mcp.json` for real-time data access:
+Configure MCP servers in `.claude/mcp.json` for real-time data access:
 - dbt Cloud API token
 - Snowflake credentials
 - GitHub personal access token
@@ -197,6 +194,7 @@ claude /switch feature-real-time-customer-analytics  # Resume
 
 # 6. Complete project
 claude /complete feature-real-time-customer-analytics
+# → Extracts learnings to memory system
 # → Archives project
 # → Closes GitHub issue #123
 # → Cleans up worktree
@@ -234,14 +232,14 @@ Essential scripts (automatically called by slash commands):
 - `work-init.sh` → Project setup (called by start.sh)
 - `setup-worktrees.sh` → VS Code integration (called by `/setup-worktrees`)
 - `pull-all-repos.sh` → Sync multiple repos
-- `resolve-repo-context.py` → Multi-repo support
 - `get-repo-owner.sh` → Helper utility
+- `idea.sh` → GitHub issue creation utility
 
 ---
 
 ## Project Structure
 
-When you `/start` a project:
+When you `/start` a project, the following structure is created:
 ```
 projects/active/feature-project-name/
 ├── README.md      # Navigation hub
@@ -252,13 +250,60 @@ projects/active/feature-project-name/
     └── [tool]-findings.md
 ```
 
+**Note:** The `projects/` directory is created on-demand. After cleanup, it doesn't exist until your first `/start` command.
+
+When completed with `/complete`, projects are archived to:
+```
+projects/completed/YYYY-MM/[project-name]/
+```
+
+---
+
+## Memory System
+
+The DA Agent Hub includes a sophisticated memory system that learns from your work:
+
+### Automatic Pattern Extraction
+When you `/complete` a project, the system automatically:
+- Extracts reusable patterns from agent findings
+- Organizes by role and specialist agent
+- Makes patterns available for future projects
+
+### Pattern Markers
+Use these markers in `tasks/[tool]-findings.md` for automatic extraction:
+```markdown
+PATTERN: [Description of reusable pattern]
+SOLUTION: [Specific solution that worked]
+ERROR-FIX: [Error message] -> [Fix that resolved it]
+ARCHITECTURE: [System design pattern]
+INTEGRATION: [Cross-system coordination approach]
+```
+
+### Memory Structure
+```
+.claude/memory/
+├── patterns/           # Cross-cutting reusable patterns
+├── recent/            # Last 30 days of project patterns
+├── roles/             # Per-role pattern collections
+├── specialists/       # Per-specialist pattern collections
+└── templates/         # Reusable project templates
+```
+
+**Result:** Every project makes your AI assistant smarter.
+
 ---
 
 ## Documentation
 
 - `CLAUDE.md` - Project instructions for Claude
-- `knowledge/da-agent-hub/` - Platform documentation
+- `knowledge/da-agent-hub/` - Platform documentation organized by ADLC phase:
+  - `planning/` - Idea management and strategic planning
+  - `development/` - Local development and agent coordination
+  - `operations/` - Automated operations and troubleshooting
+  - `architecture/` - System design and agent capabilities
 - `.claude/agents/` - Agent definitions and prompts
+
+**Entry Point:** Start with `knowledge/da-agent-hub/README.md` for comprehensive documentation.
 
 ---
 
@@ -270,9 +315,105 @@ projects/active/feature-project-name/
 - Use commands: `/start` creates branch, `/complete` guides PR creation
 
 **Multi-repo support:**
-- Configure repositories in `config/repositories.json.example`
-- Smart context resolution for cross-repo coordination
-- Automatic owner/repo detection for GitHub operations
+- Smart context resolution for GitHub operations
+- Automatic owner/repo detection
+- Cross-repo coordination for complex changes
+
+---
+
+## Creating Custom Agents
+
+The system includes templates for creating new agents:
+
+### Role Agent Template
+Copy `.claude/agents/roles/role-template.md` when creating agents that:
+- Handle 80% of domain work independently
+- Delegate to specialists for edge cases
+- Have broad domain expertise
+
+### Specialist Agent Template
+Copy `.claude/agents/specialists/specialist-template.md` when creating agents that:
+- Provide deep expertise in specific tools/domains
+- Are consulted by role agents for complex cases
+- May have MCP tool integrations
+
+See `knowledge/da-agent-hub/development/agent-development.md` for detailed guidance.
+
+---
+
+## Advanced Features
+
+### VS Code Worktree Integration
+Seamless branch switching with dedicated VS Code windows:
+```bash
+claude /setup-worktrees  # One-time setup
+claude /start 123        # Opens new VS Code window
+claude /switch          # Switches VS Code windows
+```
+
+See `knowledge/da-agent-hub/development/vscode-worktree-integration.md` for details.
+
+### Multi-Repository Synchronization
+Keep all your data stack repos in sync:
+```bash
+./scripts/pull-all-repos.sh
+# Updates: dbt_cloud, snowflake utilities, tableau configs, etc.
+```
+
+### Conversation Pause/Resume
+Save and resume Claude conversations:
+```bash
+claude /pause "Working on customer analytics dashboard optimization"
+# Later...
+claude "Resume work on customer analytics"
+```
+
+---
+
+## Continuous Improvement
+
+### Learning from Projects
+Every completed project contributes to the system:
+- Agent capabilities enhanced with new patterns
+- Knowledge base expanded with proven solutions
+- Specialist expertise refined with production experience
+
+### Improvement PR Workflow
+When completing projects, the system recommends:
+- Agent updates for high-impact patterns
+- Knowledge documentation for recurring topics
+- Process improvements for workflow optimization
+
+**Example:**
+```bash
+claude /complete feature-customer-analytics
+# → Suggests: "Create improvement PR for analytics-engineer-role
+#    with customer metric patterns?"
+```
+
+---
+
+## Why It Works
+
+**Role-based delegation (80/20 rule):**
+- Role agents handle most work independently
+- Specialists consulted for complex edge cases
+- Clear delegation protocols minimize overhead
+
+**MCP tool integration:**
+- Real-time data access = accurate recommendations
+- Query actual warehouse state, not assumptions
+- Validate changes against production systems
+
+**Memory system:**
+- Automatic learning from completed projects
+- Role-specific pattern collections
+- Context-aware recommendations
+
+**ADLC alignment:**
+- Workflow maps to proven analytics development lifecycle
+- Plan → Develop → Test → Deploy → Operate
+- Industry-standard approach with AI acceleration
 
 ---
 
@@ -293,4 +434,4 @@ Built for data/analytics engineers who want AI that understands their modern dat
 
 ---
 
-**Focus:** ADLC workflow for data engineering • 6 commands • 8 specialist agents • MCP integration
+**Focus:** ADLC workflow for data engineering • 5 commands • 7 specialist agents • MCP integration • Automatic learning
