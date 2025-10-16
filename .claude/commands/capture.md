@@ -1,15 +1,7 @@
 # /capture Command Protocol
 
-⚠️ **DEPRECATED**: This command has been renamed to `/idea` for better semantics. Please use `/idea` instead.
-
-This command still works but will redirect to `/idea`.
-
----
-
 ## Purpose
-**Use `/idea` instead - clearer, more intuitive naming.**
-
-Simplified idea capture using GitHub Issues for ADLC Plan phase. Replaces file-based idea management with integrated issue tracking that connects ideation directly to project execution.
+Quick idea capture using GitHub Issues for ADLC Plan phase. Creates trackable GitHub issues that connect ideation directly to project execution.
 
 ## Usage
 ```bash
@@ -39,17 +31,18 @@ When user runs `/capture [idea]`:
 
 ### Response Format
 ```
-🧠 Capturing idea: [idea description]
-📋 Detected type: [BI/Analytics|Data Engineering|Analytics Engineering|Architecture|UI Development|General]
+💡 Capturing idea...
+📝 Idea: [idea description]
 
-✅ Idea captured as GitHub issue!
-🔗 Issue: https://github.com/[org]/[repo]/issues/[number]
+✅ GitHub issue created successfully!
+🔗 Issue #[number]: [URL]
 
-💡 Next steps:
-   - Add more ideas: ./scripts/capture.sh "[another idea]"
-   - View all ideas: gh issue list --label idea
-   - Plan roadmap: ./scripts/roadmap.sh [quarterly|sprint|annual]
-   - Build top priority: ./scripts/build.sh <issue-number>
+🎯 Next steps:
+   1. View issue: gh issue view [number]
+   2. Deep analysis: /research [number]
+   3. Start development: /start [number]
+
+💡 Use GitHub's native issue management for prioritization and roadmap planning
 ```
 
 ## Integration with ADLC
@@ -93,15 +86,17 @@ claude /capture "Evaluate Snowflake cost optimization strategies"
 
 ### From Idea Capture to Project
 ```
-/capture → GitHub Issue Created
+/capture → GitHub Issue Created (#123)
     ↓
-/roadmap → Prioritize issues in roadmap planning
+/research 123 → Deep analysis (optional)
     ↓
-/build <issue-number> → Create project from prioritized issue
+Use GitHub for prioritization (labels, milestones, projects)
+    ↓
+/start 123 → Create project from issue
     ↓
 Development → Project work with agent coordination
     ↓
-/finish → Complete project, close linked issue
+/complete → Complete project, close linked issue
 ```
 
 ## Success Criteria

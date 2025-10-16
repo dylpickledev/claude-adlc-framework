@@ -12,7 +12,7 @@ Implements the [dbt Analytics Development Lifecycle](https://www.getdbt.com/anal
 
 **Core workflow:**
 ```bash
-/idea "idea" → /research → /start → /switch → /pause → /complete
+/capture "idea" → /research → /start → /switch → /pause → /complete
 ```
 
 **Available agents:**
@@ -44,10 +44,10 @@ claude /capture "Build customer churn prediction model"
 
 ## The 5 Commands
 
-### 1. `/idea` - Capture ideas
+### 1. `/capture` - Capture ideas
 Creates GitHub issues for data initiatives
 ```bash
-claude /idea "Optimize Snowflake costs"
+claude /capture "Optimize Snowflake costs"
 ```
 
 ### 2. `/research` - Deep exploration
@@ -155,7 +155,7 @@ chmod +x scripts/*.sh
 claude /setup-worktrees
 
 # Start using
-claude /idea "Your first data project idea"
+claude /capture "Your first data project idea"
 ```
 
 ### MCP Configuration (Optional)
@@ -172,7 +172,7 @@ See `knowledge/da-agent-hub/development/setup.md` for detailed MCP setup.
 
 ```bash
 # 1. Capture idea
-claude /idea "Build real-time customer analytics dashboard"
+claude /capture "Build real-time customer analytics dashboard"
 # → Creates GitHub issue #123
 
 # 2. Research approach (optional for complex projects)
@@ -226,7 +226,7 @@ claude /complete feature-real-time-customer-analytics
 ## Core Scripts
 
 Essential scripts (automatically called by slash commands):
-- `idea.sh` → Creates GitHub issues (called by `/idea`)
+- `capture.sh` → Creates GitHub issues (called by `/capture`)
 - `start.sh` → Project initialization (called by `/start`)
 - `research.sh` → Research helper (called by `/research`)
 - `switch.sh` → Context switching (called by `/switch`)

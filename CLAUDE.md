@@ -25,7 +25,7 @@ don't look at the full .env file. Only search for the var names up to the equals
 ## Simplified Workflow Commands
 
 ### Essential Commands (Use Slash Commands)
-1. **`/idea "[idea]"`** → Quick idea capture (creates GitHub issues)
+1. **`/capture "[idea]"`** → Quick idea capture (creates GitHub issues)
 2. **`/research [text|issue#]`** → Deep exploration and analysis (pre-capture or issue analysis)
 3. **`/start [issue#|"text"]`** → Begin development (from issue OR creates issue from text + starts)
 4. **`/switch [optional-branch]`** → Zero-loss context switching with automated backup
@@ -38,11 +38,10 @@ don't look at the full .env file. Only search for the var names up to the equals
 **Note**: For roadmap planning and prioritization, use GitHub's native issue management (labels, milestones, projects).
 
 ### Deprecated (Still Work, But Use New Names)
-- **`/capture`** → Use `/idea` instead
 - **`/build`** → Use `/start` instead
 
 ### Underlying Scripts (Called by Slash Commands)
-- `/idea` → `./scripts/idea.sh`
+- `/capture` → `./scripts/capture.sh`
 - `/research` → `./scripts/research.sh`
 - `/start` → `./scripts/start.sh`
 - `/switch` → `./scripts/switch.sh`
@@ -434,7 +433,7 @@ Create separate improvement PRs for:
 ## Complete Development Workflow
 
 ```
-💡 IDEA: /idea → GitHub issue creation
+💡 CAPTURE: /capture → GitHub issue creation
     ↓ (Use GitHub for prioritization)
 🔬 RESEARCH: /research [text|issue#] → Deep exploration → Feasibility → Technical approach
     ↓ Informed decision-making
