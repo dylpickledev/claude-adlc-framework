@@ -1,7 +1,7 @@
 # /idea Command Protocol
 
 ## Purpose
-Quick idea capture using GitHub Issues for ADLC Plan phase. The primary command for capturing ideas - replaces `/capture` with clearer, more intuitive naming.
+Quick idea capture using GitHub Issues for ADLC Plan phase. Creates trackable GitHub issues that connect ideation directly to project execution.
 
 ## Usage
 ```bash
@@ -16,9 +16,8 @@ claude /idea "idea description"
 ```
 
 ### 2. Automatic GitHub Issue Creation
-- **Creates GitHub issue**: Idea stored as issue with appropriate labels
-- **Auto-labeling**: Intelligently categorizes ideas (bi-analytics, data-engineering, analytics-engineering, architecture, ui-development)
-- **ADLC tracking**: Issues tagged with 'idea' label for roadmap planning
+- **Creates GitHub issue**: Idea stored as issue with 'idea' label
+- **ADLC tracking**: Tagged for roadmap planning
 - **Next step guidance**: Clear path to research, roadmap, and start commands
 
 ## Claude Instructions
@@ -31,18 +30,18 @@ When user runs `/idea [idea]`:
 
 ### Response Format
 ```
-💡 Capturing idea: [idea description]
-📋 Detected type: [BI/Analytics|Data Engineering|Analytics Engineering|Architecture|UI Development]
+💡 Creating GitHub issue for idea...
+📝 Idea: [idea description]
 
-✅ Idea captured as GitHub issue!
-🔗 Issue: https://github.com/[org]/[repo]/issues/[number]
+✅ GitHub issue created successfully!
+🔗 Issue #[number]: [URL]
 
-💡 Next steps:
-   - Deep analysis: /research [number]
-   - Add more ideas: /idea "[another idea]"
-   - View all ideas: gh issue list --label idea
-   - Plan roadmap: /roadmap [quarterly|sprint|annual]
-   - Start building: /start [number]
+🎯 Next steps:
+   1. View issue: gh issue view [number]
+   2. Deep analysis: /research [number]
+   3. Start development: /start [number]
+
+💡 Or use /roadmap to see all ideas and prioritize
 ```
 
 ## Integration with ADLC
@@ -51,66 +50,47 @@ When user runs `/idea [idea]`:
 - **Seamless workflow**: Direct path from issue to project via `/start <issue-number>`
 - **Team visibility**: All team members can see and prioritize ideas
 
-## GitHub Issue Labels
-
-### Automatic Labeling
-- **idea**: All captured ideas (enables filtering)
-- **bi-analytics**: Dashboard, visualization, Tableau, Power BI projects
-- **data-engineering**: Pipeline, ETL, ingestion, orchestration work
-- **analytics-engineering**: dbt models, transformations, SQL work
-- **architecture**: Platform, infrastructure, AWS, Snowflake architecture
-- **ui-development**: Streamlit, React, frontend applications
-
 ## Examples
 
 ### Example 1: BI Dashboard Idea
 ```bash
-/idea "Create executive KPI dashboard with real-time metrics"
-# → Creates issue with labels: idea, bi-analytics
+claude /idea "Create executive KPI dashboard with real-time metrics"
+# → Creates issue #123
 ```
 
 ### Example 2: Data Engineering Idea
 ```bash
-/idea "Implement real-time customer data pipeline from Salesforce"
-# → Creates issue with labels: idea, data-engineering
+claude /idea "Implement real-time customer data pipeline from Salesforce"
+# → Creates issue #124
 ```
 
 ### Example 3: Architecture Idea
 ```bash
-/idea "Evaluate Snowflake cost optimization strategies"
-# → Creates issue with labels: idea, architecture
+claude /idea "Evaluate Snowflake cost optimization strategies"
+# → Creates issue #125
 ```
 
 ## Workflow Integration
 
-### From Idea to Production
+### From Idea Capture to Project
 ```
-/idea → GitHub Issue Created
+/idea → GitHub Issue Created (#123)
     ↓
-/research [#] → Deep analysis (optional but recommended)
+/research 123 → Deep analysis (optional)
     ↓
-/roadmap → Prioritize issues in roadmap planning
+/roadmap → Prioritize in strategic planning (optional)
     ↓
-/start [#] → Create project from prioritized issue
+/start 123 → Create project from issue
     ↓
 Development → Project work with agent coordination
     ↓
-/complete → Finish project, close linked issue
+/complete → Complete project, close linked issue
 ```
-
-## When to Use /idea vs /research
-
-| Scenario | Command | Reason |
-|----------|---------|--------|
-| Quick thought, clear value | `/idea` | Fast capture, obvious benefit |
-| Complex idea, needs analysis | `/research` first | Validate before committing |
-| Brainstorming session | `/idea` multiple times | Rapid collection |
-| Strategic planning | `/idea` then `/roadmap` | Capture then prioritize |
 
 ## Success Criteria
 - [ ] GitHub issue created successfully
-- [ ] Appropriate labels automatically applied
-- [ ] Issue description includes ADLC context
+- [ ] 'idea' label applied
+- [ ] Issue description includes context
 - [ ] Clear next step guidance provided
 - [ ] Issue URL returned for reference
 
@@ -118,22 +98,20 @@ Development → Project work with agent coordination
 
 ### List All Ideas
 ```bash
-gh issue list --label idea
+gh issue list --label idea --state open
 ```
 
-### Filter by Category
+### Sort by Date
 ```bash
-gh issue list --label idea --label bi-analytics
-gh issue list --label idea --label data-engineering
-gh issue list --label idea --label architecture
+gh issue list --label idea --sort created --order desc
+gh issue list --label idea --sort updated --order desc
 ```
 
 ### Search Ideas
 ```bash
 gh issue list --label idea --search "dashboard"
-gh issue list --label idea --state open
 ```
 
 ---
 
-*Primary ADLC idea capture command - from thought to trackable GitHub issue in seconds.*
+*Streamlined ADLC Plan phase implementation - from brainstorm to GitHub-tracked execution plan.*
