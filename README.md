@@ -164,10 +164,31 @@ snowflake-expert:
 
 ### Setup Options
 
-#### Option 1: Standard Installation
+#### Option 1: Devcontainer (Recommended - Zero to 100)
+Get started instantly with VS Code devcontainers:
+
+```bash
+# Prerequisites: Docker Desktop + VS Code + Dev Containers extension
+
+git clone https://github.com/dylpickledev/da-agent-hub.git
+cd da-agent-hub
+code .
+
+# VS Code will prompt "Reopen in Container" → Click it
+# Wait ~2-3 minutes for first-time setup
+
+# Once container is ready:
+gh auth login        # Authenticate with GitHub
+claude auth          # Authenticate with Claude Code
+claude /capture "Your first idea"
+```
+
+See [.devcontainer/README.md](.devcontainer/README.md) for details.
+
+#### Option 2: Standard Installation
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/da-agent-hub.git
+git clone https://github.com/dylpickledev/da-agent-hub.git
 cd da-agent-hub
 
 # Make scripts executable
@@ -180,7 +201,7 @@ claude /setup-worktrees
 claude /capture "Your first data project idea"
 ```
 
-#### Option 2: Guest Mode (Testing/Workshops)
+#### Option 3: Guest Mode (Testing/Workshops)
 Test drive da-agent-hub with your own repos using someone else's installation:
 
 ```bash
