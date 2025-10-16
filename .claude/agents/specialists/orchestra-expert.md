@@ -155,6 +155,48 @@ When you encounter non-Orchestra topics, document them as requirements for the p
 - ⚠️ Endpoint exists but availability depends on task type
 - **Alternative**: Use download_dbt_artifact for dbt manifests/run_results
 
+**🎯 NEW: dbt Cloud Integration (2025-10-16)**
+
+**mcp__orchestra-mcp__get_dbt_artifacts_from_cloud** (Recommended dbt Artifact Access):
+- ✅ **BEST WAY** to get dbt artifacts - fetches directly from dbt Cloud API
+- ✅ Automatically correlates Orchestra task_run → dbt Cloud run_id
+- ✅ Returns ALL artifacts: manifest.json, run_results.json, catalog.json
+- ✅ More reliable than Orchestra's artifact storage
+- ✅ Production-tested with run_id 436881710
+- **Requirements**: DBT_CLOUD_API_TOKEN and DBT_CLOUD_ACCOUNT_ID env vars
+- **Use Case**: Complete dbt run analysis (models, tests, errors, lineage)
+
+**How It Works**:
+1. Orchestra tasks store dbt Cloud `run_id` in `runParameters`
+2. MCP tool extracts run_id from Orchestra task_run
+3. Fetches artifacts directly from dbt Cloud Admin API
+4. Returns parsed JSON (no additional processing needed)
+
+**Example**:
+```python
+# Single call gets all dbt artifacts
+artifacts = get_dbt_artifacts_from_cloud(
+    task_run_id="b069b1da-7e4c-4d32-b3b8-5a3c7322d857"
+)
+
+# Access artifacts
+manifest = artifacts.get("manifest")        # Project structure, models, tests
+run_results = artifacts.get("run_results")  # Execution results, errors, timing
+catalog = artifacts.get("catalog")          # Table/column metadata
+
+# Analyze errors from run_results
+if run_results:
+    for result in run_results["results"]:
+        if result["status"] == "error":
+            print(f"Error in {result['unique_id']}: {result['message']}")
+```
+
+**Why Use This Instead of download_dbt_artifact**:
+- ✅ Orchestra doesn't always save dbt artifacts
+- ✅ dbt Cloud API is authoritative source
+- ✅ Single call vs multiple API requests
+- ✅ Guaranteed availability (if run completed)
+
 ### MCP Recommendation Pattern (With orchestra-mcp)
 
 When providing recommendations, use MCP tools directly:
@@ -189,7 +231,8 @@ When providing recommendations, use MCP tools directly:
 | Performance analysis | HIGH (0.90) | 0.90 | - | Excellent timing/duration data at operation level |
 | Workflow pattern recommendations | MEDIUM (0.75) | 0.75 | - | No access to pipeline definitions via API |
 | Dependency analysis | MEDIUM-HIGH (0.75) | 0.65 | +0.10 | Can infer from operations + task timing |
-| dbt integration analysis | HIGH (0.88) | NEW | NEW | Download manifest.json + operations metadata |
+| dbt integration analysis | **HIGH (0.92)** | 0.88 | **+0.04** | **dbt Cloud API integration - ALL artifacts available** |
+| dbt error diagnosis | **HIGH (0.94)** | NEW | NEW | **run_results.json + operations = complete error context** |
 
 **CRITICAL BREAKTHROUGH**: Orchestra MCP **CAN** provide complete error details via `/operations` endpoint:
 - ✅ WHICH pipeline failed (pipeline_runs)
@@ -232,11 +275,18 @@ task_runs = list_task_runs(
 )
 ```
 
-**Step 4**: Download dbt artifacts (for dbt pipelines)
+**Step 4**: Download dbt artifacts (for dbt pipelines) - RECOMMENDED APPROACH
 ```python
+# BEST: Use dbt Cloud API integration (single call, all artifacts)
+artifacts = get_dbt_artifacts_from_cloud(
+    task_run_id="<task_id>"  # From operations.taskRunId
+)
+# Returns: manifest, run_results, catalog (all available artifacts)
+
+# FALLBACK: Use Orchestra's artifact storage (may not be available)
 manifest = download_dbt_artifact(
     pipeline_run_id="<id>",
-    task_run_id="<task_id>",  # From operations.taskRunId
+    task_run_id="<task_id>",
     artifact_type="manifest"
 )
 ```
@@ -245,7 +295,7 @@ manifest = download_dbt_artifact(
 - Pipeline runs show WHICH pipeline failed
 - Operations show WHICH specific task/model failed + error message
 - Task runs provide timing context
-- dbt artifacts provide full project context
+- dbt artifacts (via Cloud API) provide full project context + detailed errors
 
 ## Core Orchestra Knowledge Base
 
