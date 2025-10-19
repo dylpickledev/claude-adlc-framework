@@ -68,6 +68,22 @@ else
     echo "✅ Project moved to projects/completed/"
 fi
 
+# tmux session cleanup
+if command -v tmux &> /dev/null; then
+    SESSION_NAME="feature-$PROJECT_NAME"
+
+    if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+        echo ""
+        echo "🖥️  Cleaning up tmux session..."
+        tmux kill-session -t "$SESSION_NAME" 2>/dev/null
+        if [ $? -eq 0 ]; then
+            echo "   ✅ tmux session removed: $SESSION_NAME"
+        else
+            echo "   ⚠️  Could not remove tmux session"
+        fi
+    fi
+fi
+
 # Worktree cleanup
 WORKTREE_DIR="../da-agent-hub-worktrees/$PROJECT_NAME"
 

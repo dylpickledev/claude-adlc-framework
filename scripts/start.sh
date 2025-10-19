@@ -218,6 +218,22 @@ print_color $GREEN "📁 Project location: $PROJECT_DIR/"
 print_color $GREEN "🔗 Linked to: https://github.com/$(git remote get-url origin | sed 's/.*github.com[:/]\(.*\)\.git/\1/')/issues/$ISSUE_NUMBER"
 echo ""
 
+# Create dedicated tmux session for this project (if tmux available)
+if command -v tmux &> /dev/null; then
+    SESSION_NAME="feature-$PROJECT_NAME"
+
+    if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+        print_color $BLUE "🖥️  Creating tmux session: $SESSION_NAME"
+        tmux new-session -d -s "$SESSION_NAME"
+        print_color $GREEN "✅ tmux session ready (access from anywhere via SSH)"
+        echo ""
+        print_color $YELLOW "📱 Monitor remotely:"
+        echo "   ssh dylanmorrish@macbook-fair"
+        echo "   tmux attach -t $SESSION_NAME"
+        echo ""
+    fi
+fi
+
 print_color $YELLOW "🎯 Next steps:"
 echo "   1. Review project spec: $PROJECT_DIR/spec.md"
 echo "   2. Begin development work with specialist agents"

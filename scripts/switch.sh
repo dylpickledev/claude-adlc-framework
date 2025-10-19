@@ -135,11 +135,27 @@ if [[ -n "$TARGET_BRANCH" ]]; then
     if git rev-parse --verify "$TARGET_BRANCH" > /dev/null 2>&1; then
         git checkout "$TARGET_BRANCH"
         print_status "Switched to existing branch: $TARGET_BRANCH"
+
+        # Attach to tmux session if it exists
+        if command -v tmux &> /dev/null; then
+            if tmux has-session -t "$TARGET_BRANCH" 2>/dev/null; then
+                print_info "📱 tmux session available: $TARGET_BRANCH"
+                echo "   Attach with: tmux attach -t $TARGET_BRANCH"
+            fi
+        fi
     else
         # Check if branch exists on remote
         if git ls-remote --exit-code --heads origin "$TARGET_BRANCH" > /dev/null 2>&1; then
             git checkout -b "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
             print_status "Checked out remote branch: $TARGET_BRANCH"
+
+            # Attach to tmux session if it exists
+            if command -v tmux &> /dev/null; then
+                if tmux has-session -t "$TARGET_BRANCH" 2>/dev/null; then
+                    print_info "📱 tmux session available: $TARGET_BRANCH"
+                    echo "   Attach with: tmux attach -t $TARGET_BRANCH"
+                fi
+            fi
         else
             print_warning "Branch '$TARGET_BRANCH' not found locally or remotely"
             print_info "Staying on main branch"
