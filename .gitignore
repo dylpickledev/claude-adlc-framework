@@ -51,10 +51,6 @@ Thumbs.db
 # Developer customizations
 developer/
 
-# Guest sessions (isolated testing environments)
-.guest-sessions/
-.guest-sessions-archive/
-
 # Task files (local work only)
 .claude/tasks/
 !.claude/tasks/.gitkeep
