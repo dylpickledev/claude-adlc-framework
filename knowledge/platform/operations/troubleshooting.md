@@ -219,7 +219,7 @@ gh auth status
 gh secret list
 
 # Test repository access
-gh repo view graniterock/da-agent-hub
+gh repo view your-org/your-repo
 ```
 
 ## 🛠️ Advanced Debugging
@@ -358,9 +358,9 @@ gh api repos/:owner/:repo/collaborators/claude[bot] -X PUT \
 # Backup current workflows
 cp -r .github/workflows .github/workflows.backup
 
-# Restore from repository template
+# Restore from repository (if you forked this project)
 curl -o .github/workflows/claude-collaborative-fixes.yml \
-  https://raw.githubusercontent.com/graniterock/da-agent-hub/main/.github/workflows/claude-collaborative-fixes.yml
+  https://raw.githubusercontent.com/your-org/claude-adlc-framework/main/.github/workflows/claude-collaborative-fixes.yml
 
 # Validate workflow syntax
 gh workflow list
@@ -377,8 +377,8 @@ gh workflow list
 
 ### Community Support
 
-1. **GitHub Issues**: [Report bugs and request features](https://github.com/graniterock/da-agent-hub/issues)
-2. **GitHub Discussions**: [Ask questions and share experiences](https://github.com/graniterock/da-agent-hub/discussions)
+1. **GitHub Issues**: Report bugs and request features in your organization's repository
+2. **GitHub Discussions**: Ask questions and share experiences with your team
 3. **Documentation**: [Review additional guides](../README.md)
 
 ### Professional Support

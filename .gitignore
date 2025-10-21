@@ -97,12 +97,9 @@ knowledge/*/*
 # Allow D&A team documentation in knowledge/da_team_documentation/
 !knowledge/da_team_documentation/
 !knowledge/da_team_documentation/**
-# Allow DA Agent Hub documentation in knowledge/da-agent-hub/
-!knowledge/da-agent-hub/
-!knowledge/da-agent-hub/**
-# Allow GraniteRock SharePoint analysis in knowledge/graniterock_sharepoint/
-!knowledge/graniterock_sharepoint/
-!knowledge/graniterock_sharepoint/**
+# Allow Claude ADLC Framework platform documentation
+!knowledge/platform/
+!knowledge/platform/**
 # Allow da_obsidian knowledge base for raw notes and ideas
 !knowledge/da_obsidian/
 !knowledge/da_obsidian/**

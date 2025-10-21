@@ -1,5 +1,5 @@
 {
-  "_comment": "Repository configuration for DA Agent Hub. Copy to repositories.json and customize for your organization.",
+  "_comment": "Repository configuration for Claude ADLC Framework. Copy to repositories.json and customize for your organization.",
   "_setup_instructions": "1. Copy this file to repositories.json, 2. Replace 'your-org' with your GitHub organization, 3. Update URLs to match your data stack repositories",
   "settings": {
     "clone_method": "https",
@@ -7,10 +7,10 @@
     "check_git_access": true
   },
   "knowledge": {
-    "da_agent_hub": {
-      "url": "https://github.com/your-org/da-agent-hub.git",
+    "claude_adlc_framework": {
+      "url": "https://github.com/your-org/claude-adlc-framework.git",
       "branch": "main",
-      "description": "DA Agent Hub - Analytics Development Lifecycle (ADLC) AI Platform"
+      "description": "Claude ADLC Framework - Analytics Development Lifecycle AI Platform"
     },
     "da_team_documentation": {
       "url": "https://github.com/your-org/da-team-documentation.git",

@@ -222,18 +222,18 @@ gh issue create \
 1. **Classification not triggering**:
    ```bash
    # Check workflow permissions
-   gh workflow list --repo graniterock/da-agent-hub
+   gh workflow list --repo your-org/claude-adlc-framework
 
    # Verify secrets are configured
-   gh secret list --repo graniterock/dbt_cloud
+   gh secret list --repo your-org/your-data-repo
    ```
 
 2. **Cross-repository triggers failing**:
    ```bash
    # Test PAT token permissions
-   curl -H "Authorization: token $DA_AGENT_HUB_PAT" \
+   curl -H "Authorization: token $FRAMEWORK_PAT" \
         -H "Accept: application/vnd.github.v3+json" \
-        https://api.github.com/repos/graniterock/da-agent-hub/actions/workflows
+        https://api.github.com/repos/your-org/claude-adlc-framework/actions/workflows
    ```
 
 3. **Agent not responding correctly**:
