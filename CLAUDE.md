@@ -2,6 +2,57 @@ don't look at the full .env file. Only search for the var names up to the equals
 
 # DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
 
+## Quick Start (First Time Setup)
+
+### 1. Configure MCP for dbt Cloud Access
+
+**IMPORTANT**: MCP (Model Context Protocol) integration with dbt Cloud is required for DA Agent Hub to work.
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env with your credentials
+# - Get API token: https://cloud.getdbt.com/settings/tokens
+# - Get Account ID from URL: https://cloud.getdbt.com/accounts/<ID>
+
+# Validate configuration
+./scripts/validate-mcp.sh
+```
+
+### 2. Restart Claude Code (REQUIRED)
+
+**CRITICAL**: MCP servers only load when Claude Code starts.
+
+1. Exit Claude Code completely (Cmd+Q on Mac, or kill the process)
+2. Restart Claude Code in this directory
+3. Verify MCP is loaded
+
+### 3. Verify MCP is Working
+
+```bash
+# Check MCP servers loaded
+claude /mcp
+# Should show: dbt - dbt Cloud integration
+
+# Test it
+claude "List my dbt Cloud jobs"
+```
+
+### 4. Run Setup Wizard (Optional)
+
+```bash
+claude /setup
+# Customizes DA Agent Hub for your specific data stack and role
+```
+
+**Troubleshooting**: If you encounter issues, see `docs/troubleshooting-mcp.md` or ask the onboarding-agent:
+```bash
+claude "I need help with DA Agent Hub setup" --agent onboarding-agent
+```
+
+---
+
 ## Quick Reference
 
 **Security**: See `.claude/memory/patterns/git-workflow-patterns.md` for protected branch rules
@@ -157,6 +208,72 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
    - Clear separation of concerns: planning vs execution
 
 *See `.claude/memory/patterns/cross-system-analysis-patterns.md` for detailed agent coordination*
+
+## Skills System: Workflow Automation
+
+### What are Skills?
+
+**Skills** are reusable workflows that automate repetitive procedures through organized folders containing instructions, scripts, and resources. Skills complement the agent system by handling procedural automation, while agents provide domain expertise.
+
+**Location**: `.claude/skills/[skill-name]/skill.md`
+**Invocation**: Use the Skill tool to execute skill workflows
+
+### When to Use Skills vs Agents vs Patterns
+
+**Use Skills for**:
+- ✅ Repeatable multi-step workflows (project setup, PR generation)
+- ✅ Tool orchestration (coordinating Read, Write, Bash, Task tools)
+- ✅ Template-driven document generation
+- ✅ Process automation that you've done 3+ times manually
+
+**Use Agents for**:
+- ✅ Domain expertise and problem-solving (dbt optimization, AWS architecture)
+- ✅ MCP-enhanced analysis (real-time data investigation)
+- ✅ Complex decisions requiring research and recommendations
+- ✅ Specialist consultation when confidence <0.60
+
+**Use Patterns for**:
+- ✅ Quick reference documentation (git workflows, delegation protocols)
+- ✅ Decision frameworks ("when to use X vs Y")
+- ✅ Production-validated solutions from completed projects
+- ✅ Best practices and technical implementation patterns
+
+**Complete Guide**: See `.claude/memory/patterns/knowledge-organization-strategy.md` for comprehensive decision framework
+
+### Current Skill Status
+
+**Implementation Status**: 🚧 PLANNED (Not yet deployed)
+
+**High-Value Skill Candidates**:
+1. **project-setup**: Initialize project structure, README, git branch
+2. **pr-description-generator**: Generate PR description from project context
+3. **dbt-model-scaffolder**: Generate dbt model boilerplate with tests
+4. **documentation-validator**: Check documentation completeness
+
+**Future Integration**: Skills will work alongside agents and reference patterns for comprehensive automation + expertise
+
+### Skills + Agents + Patterns Architecture
+
+```
+Skills (.claude/skills/) - "HOW to execute workflows"
+   ↓ Uses
+Agents (.claude/agents/) - "WHO to consult for expertise"
+   ↓ References
+Patterns (.claude/memory/patterns/) - "WHAT solutions work"
+```
+
+**Example Flow**:
+```
+User: "Set up new dbt optimization project"
+  ↓
+Skill: project-setup
+  - Creates project directories
+  - Invokes analytics-engineer-role agent for technical approach
+  - Generates README using agent recommendations + pattern templates
+  - Creates git branch with appropriate naming
+  ↓
+Result: Structured project with expert guidance in 30 seconds
+```
 
 ## Context Management & Memory System
 
