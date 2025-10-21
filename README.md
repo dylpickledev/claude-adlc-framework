@@ -631,6 +631,60 @@ INTEGRATION: [Cross-system coordination approach]
 
 ---
 
+## Troubleshooting
+
+### "Permission denied" on scripts
+```bash
+chmod +x scripts/*.sh
+```
+
+### "Command not found: claude"
+You need to install Claude Code first:
+```bash
+# macOS/Linux
+curl -fsSL https://claude.com/install.sh | sh
+
+# Then authenticate
+claude auth
+```
+
+See the [Claude Code docs](https://docs.claude.com/en/docs/claude-code) for Windows installation.
+
+### "gh: command not found"
+Install GitHub CLI:
+```bash
+# macOS
+brew install gh
+
+# Linux/Windows
+# See: https://github.com/cli/cli#installation
+```
+
+### "Repository not found" or GitHub authentication issues
+```bash
+# Authenticate with GitHub CLI
+gh auth login
+
+# Verify you have access to your repository
+gh repo view dylpickledev/claude-adlc-framework
+```
+
+### Setup script fails or MCP not working
+```bash
+# Verify prerequisites
+claude --version    # Should show Claude Code version
+gh --version        # Should show GitHub CLI version
+node --version      # Should show Node.js version (if using MCP)
+
+# Re-run setup
+./setup.sh
+
+# Check MCP configuration (if using MCP)
+cat ~/.config/Claude/claude_desktop_config.json
+```
+
+---
+
 ## Git Workflow
 
 **Protected branches:** Never push directly to main/master/production
