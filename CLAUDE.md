@@ -242,15 +242,44 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
 
 ### Current Skill Status
 
-**Implementation Status**: 🚧 PLANNED (Not yet deployed)
+**Implementation Status**: ✅ ACTIVE (4 high-value skills deployed)
 
-**High-Value Skill Candidates**:
-1. **project-setup**: Initialize project structure, README, git branch
-2. **pr-description-generator**: Generate PR description from project context
-3. **dbt-model-scaffolder**: Generate dbt model boilerplate with tests
-4. **documentation-validator**: Check documentation completeness
+**Available Skills**:
+1. **project-setup** (`.claude/skills/project-setup/skill.md`)
+   - Initialize new project structure with README, spec.md, context.md
+   - Create git branch with proper naming conventions
+   - Generate task tracking structure
+   - **Saves**: 10-15 minutes per project setup
 
-**Future Integration**: Skills will work alongside agents and reference patterns for comprehensive automation + expertise
+2. **pr-description-generator** (`.claude/skills/pr-description-generator/skill.md`)
+   - Generate comprehensive PR descriptions from project context
+   - Analyze git changes and create structured summary
+   - Include test plan and quality checklist
+   - **Saves**: 5-10 minutes per PR
+
+3. **dbt-model-scaffolder** (`.claude/skills/dbt-model-scaffolder/skill.md`)
+   - Generate dbt model boilerplate (staging, intermediate, mart)
+   - Create schema.yml with tests and documentation
+   - Follow dbt style guide and best practices
+   - **Saves**: 15-20 minutes per model
+
+4. **documentation-validator** (`.claude/skills/documentation-validator/skill.md`)
+   - Validate documentation completeness before project closure
+   - Check required files and sections exist
+   - Verify internal links work
+   - Generate comprehensive validation report
+   - **Used by**: `/complete` command to ensure quality
+
+**How to Use Skills**:
+```
+# Skills are invoked automatically when appropriate, or manually:
+"Set up new project for [name]"  → project-setup skill
+"Generate PR description"         → pr-description-generator skill
+"Create dbt staging model"        → dbt-model-scaffolder skill
+"Validate documentation"          → documentation-validator skill
+```
+
+**Integration**: Skills work alongside agents and reference patterns for comprehensive automation + expertise
 
 ### Skills + Agents + Patterns Architecture
 
