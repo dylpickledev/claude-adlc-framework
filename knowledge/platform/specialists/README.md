@@ -5,63 +5,32 @@ This directory contains comprehensive documentation for tool specialist agents. 
 
 ## Available Specialist Documentation
 
-### Cloud & Infrastructure
-
-#### Azure Expert
-- **[Azure Expert](azure-expert.md)** - Comprehensive Azure documentation covering infrastructure, security, cross-cloud integration
-- **[Azure Quick Reference](azure-quick-reference.md)** - Fast lookup guide for common Azure patterns and troubleshooting
-
-**Expertise Areas**:
-- Azure Active Directory / Microsoft Entra ID (OAuth, OIDC, SAML)
-- Azure infrastructure & networking (VNets, private endpoints, NSGs)
-- Cross-cloud authentication (Azure AD with AWS ALB OIDC)
-- Security & compliance (Defender, Key Vault, managed identities)
-- Data & analytics services (Synapse, Data Factory)
-- DevOps & CI/CD (Bicep, Terraform, Azure DevOps)
-
-**Key Capabilities**:
-- 20+ year enterprise Azure expertise
-- Production-validated cross-cloud patterns
-- Comprehensive troubleshooting guides
-- 2025 best practices and deprecation awareness
-
----
-
 ### Data Platform
-
-#### Coming Soon
 - **dbt Expert** - dbt Cloud patterns, SQL transformations, semantic layer
 - **Snowflake Expert** - Warehouse optimization, cost analysis, performance tuning
 - **Orchestra Expert** - Workflow orchestration across multiple platforms
 - **Prefect Expert** - Python-based workflow patterns
 - **dlthub Expert** - Data ingestion and pipeline patterns
 
----
-
 ### BI & Visualization
-
-#### Coming Soon
 - **Tableau Expert** - Dashboard optimization, Tableau Server/Cloud patterns
 
----
-
 ### Development
-
-#### Coming Soon
-- **React Expert** - React.js applications, AWS deployment patterns
-- **Streamlit Expert** - Corporate dashboards, data applications
+- **React Expert** - React.js applications, cloud deployment patterns
+- **Streamlit Expert** - Data applications and dashboards
 - **UI/UX Expert** - User experience design, prototyping
 
----
-
 ### Cross-Functional
-
-#### Coming Soon
-- **Documentation Expert** - Standards enforcement, GraniteRock patterns
+- **Documentation Expert** - Standards enforcement and documentation patterns
 - **GitHub Sleuth Expert** - Repository analysis, issue investigation
 - **Business Context** - Requirements gathering, stakeholder alignment
 - **Cost Optimization Specialist** - Cross-platform cost analysis
 - **Data Quality Specialist** - Testing architecture, validation strategies
+
+### Cloud & Infrastructure
+- **AWS Expert** - AWS infrastructure, security, deployment patterns
+- **Azure Expert** - Azure infrastructure, authentication, cross-cloud integration
+- **Multi-Cloud Expert** - Cross-cloud architectures and integrations
 
 ---
 

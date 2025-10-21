@@ -2,6 +2,57 @@ don't look at the full .env file. Only search for the var names up to the equals
 
 # DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
 
+## Quick Start (First Time Setup)
+
+### 1. Configure MCP for dbt Cloud Access
+
+**IMPORTANT**: MCP (Model Context Protocol) integration with dbt Cloud is required for DA Agent Hub to work.
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env with your credentials
+# - Get API token: https://cloud.getdbt.com/settings/tokens
+# - Get Account ID from URL: https://cloud.getdbt.com/accounts/<ID>
+
+# Validate configuration
+./scripts/validate-mcp.sh
+```
+
+### 2. Restart Claude Code (REQUIRED)
+
+**CRITICAL**: MCP servers only load when Claude Code starts.
+
+1. Exit Claude Code completely (Cmd+Q on Mac, or kill the process)
+2. Restart Claude Code in this directory
+3. Verify MCP is loaded
+
+### 3. Verify MCP is Working
+
+```bash
+# Check MCP servers loaded
+claude /mcp
+# Should show: dbt - dbt Cloud integration
+
+# Test it
+claude "List my dbt Cloud jobs"
+```
+
+### 4. Run Setup Wizard (Optional)
+
+```bash
+claude /setup
+# Customizes DA Agent Hub for your specific data stack and role
+```
+
+**Troubleshooting**: If you encounter issues, see `docs/troubleshooting-mcp.md` or ask the onboarding-agent:
+```bash
+claude "I need help with DA Agent Hub setup" --agent onboarding-agent
+```
+
+---
+
 ## Quick Reference
 
 **Security**: See `.claude/memory/patterns/git-workflow-patterns.md` for protected branch rules
