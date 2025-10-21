@@ -55,6 +55,7 @@ This document explains how **roles**, **specialists**, and **MCP tools** work to
 │ - ui-ux-expert (UX design)                                  │
 │                                                             │
 │ Cross-Functional:                                           │
+│ - claude-code-expert (Claude Code configuration)            │
 │ - documentation-expert (Standards, docs)                    │
 │ - github-sleuth-expert (Repository analysis)                │
 │ - business-context (Requirements)                           │
