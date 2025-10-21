@@ -167,32 +167,120 @@ Show summary of agent changes:
 
 For each relevant MCP server based on their stack, offer opt-in configuration:
 
-**dbt-mcp** (if using dbt Cloud):
+**dbt-mcp** (if using dbt Cloud or dbt Core):
 ```
-🔌 dbt Cloud MCP Server (optional)
+🔌 dbt MCP Server (optional)
 
-This enables real-time dbt Cloud access:
+This enables real-time dbt access:
   • Query model metadata and status
-  • Run jobs programmatically
+  • Run jobs programmatically (dbt Cloud)
   • Access Semantic Layer metrics
   • Analyze test results
+  • Execute local dbt commands (dbt Core)
 
 Configure now? [y/N]
 
 [If yes]
-  What's your dbt Cloud host? [default: https://cloud.getdbt.com]
-  What's your dbt Cloud API token? [secure input]
-  What's your production environment ID? [input]
+  Choose your dbt MCP setup method:
 
-  Testing connection...
-  ✅ Connected to dbt Cloud!
+  1. Local MCP with .env (simplest)
+     → Credentials in .env file
+     → Best for: Single developer, quick setup
 
-  Updated .claude/mcp.json
+  2. Local MCP with OAuth (most secure)
+     → Browser-based authentication
+     → Best for: Security-conscious teams, credential rotation
 
-  Try it: "What dbt models failed in the last run?"
+  3. Remote MCP with OAuth (cloud/team)
+     → Centralized MCP server
+     → Best for: Teams, Claude Web integration
+
+  Which option? [1/2/3]
+
+  [If option 1 - Local .env]
+    dbt Cloud API Settings:
+      Host: [default: cloud.getdbt.com]
+      API Token: [secure input]
+      Production Environment ID: [input]
+      Multi-cell account prefix (optional): [input]
+
+    Local dbt Project Settings (if using dbt Core):
+      dbt project directory: [default: ~/claude-adlc-framework/repos/dbt_cloud]
+      dbt executable path: [default: /usr/local/bin/dbt]
+
+    Creating .env file...
+    ✅ .env configured with dbt credentials
+
+    Installing MCP server...
+    npm install -g @modelcontextprotocol/server-dbt
+
+    Configuring Claude Desktop...
+    ✅ Updated ~/Library/Application Support/Claude/claude_desktop_config.json
+
+    Next steps:
+      1. Restart Claude Desktop to load the MCP server
+      2. Try: "What dbt models failed in the last run?"
+
+    Setup guide: config/dbt-mcp-setup.md
+
+  [If option 2 - Local OAuth]
+    First, create an OAuth app in dbt Cloud:
+      1. Go to dbt Cloud → Account Settings → Service Tokens → OAuth Applications
+      2. Click "Create OAuth App"
+      3. Set redirect URI: http://localhost:8080/callback
+      4. Copy the client_id and client_secret
+
+    dbt Cloud OAuth Settings:
+      Host: [default: cloud.getdbt.com]
+      OAuth Client ID: [input]
+      OAuth Client Secret: [secure input]
+      Production Environment ID: [input]
+      Multi-cell account prefix (optional): [input]
+
+    Local dbt Project Settings (if using dbt Core):
+      dbt project directory: [default: ~/claude-adlc-framework/repos/dbt_cloud]
+      dbt executable path: [default: /usr/local/bin/dbt]
+
+    Installing MCP server...
+    npm install -g @modelcontextprotocol/server-dbt
+
+    Configuring Claude Desktop with OAuth...
+    ✅ Updated ~/Library/Application Support/Claude/claude_desktop_config.json
+
+    Next steps:
+      1. Restart Claude Desktop
+      2. Browser will open for OAuth authorization
+      3. Authorize the application
+      4. Try: "What dbt models failed in the last run?"
+
+    Setup guide: config/dbt-mcp-setup.md
+
+  [If option 3 - Remote OAuth]
+    Remote MCP setup requires infrastructure deployment.
+
+    This option is for teams who want:
+      • Centralized MCP server management
+      • Claude Web compatibility
+      • Shared team configuration
+
+    I'll create a deployment guide for your infrastructure team.
+
+    Creating deployment guide...
+    ✅ Created: docs/mcp-setup/dbt-mcp-remote-deployment.md
+
+    This guide includes:
+      • AWS Lambda deployment example
+      • Docker containerization
+      • OAuth configuration
+      • Claude Desktop/Web configuration
+
+    After your team deploys the remote MCP:
+      1. Get the MCP endpoint URL
+      2. Run /onboard again and select option 3
+      3. I'll configure Claude with the remote endpoint
 
 [If no]
-  No problem! Setup guide saved to: docs/mcp-setup/dbt-mcp.md
+  No problem! Setup guide available at: config/dbt-mcp-setup.md
   You can configure this anytime by running /onboard again.
 ```
 
@@ -393,9 +481,78 @@ The `.claude/config/tech-stack.json` should follow this structure:
 - When removing agents, explain why they're being removed
 
 **MCP configuration**:
-- Read existing `.claude/mcp.json` if it exists
+- Read existing `claude_desktop_config.json` if it exists
 - Merge new server configs with existing ones
 - Don't overwrite unrelated MCP servers
+
+**dbt MCP Configuration Details**:
+
+For **Option 1 (Local .env)**:
+1. Update or create `.env` file in project root with:
+   ```
+   DBT_HOST=cloud.getdbt.com
+   DBT_TOKEN=<user-provided>
+   DBT_PROD_ENV_ID=<user-provided>
+   MULTICELL_ACCOUNT_PREFIX=<user-provided-or-empty>
+   DBT_PROJECT_DIR=<user-provided-or-default>
+   DBT_PATH=<user-provided-or-default>
+   ```
+
+2. Update `~/Library/Application Support/Claude/claude_desktop_config.json`:
+   ```json
+   {
+     "mcpServers": {
+       "dbt": {
+         "command": "mcp-server-dbt",
+         "args": [],
+         "env": {
+           "DBT_HOST": "cloud.getdbt.com",
+           "DBT_TOKEN": "<from-user-input>",
+           "DBT_PROD_ENV_ID": "<from-user-input>",
+           "DBT_PROJECT_DIR": "<from-user-input>"
+         }
+       }
+     }
+   }
+   ```
+
+For **Option 2 (Local OAuth)**:
+1. Guide user through OAuth app creation in dbt Cloud (show instructions before collecting credentials)
+
+2. Update `~/Library/Application Support/Claude/claude_desktop_config.json`:
+   ```json
+   {
+     "mcpServers": {
+       "dbt": {
+         "command": "mcp-server-dbt",
+         "args": ["--oauth"],
+         "env": {
+           "DBT_HOST": "cloud.getdbt.com",
+           "DBT_OAUTH_CLIENT_ID": "<from-user-input>",
+           "DBT_OAUTH_CLIENT_SECRET": "<from-user-input>",
+           "DBT_PROD_ENV_ID": "<from-user-input>",
+           "DBT_PROJECT_DIR": "<from-user-input>"
+         }
+       }
+     }
+   }
+   ```
+
+For **Option 3 (Remote OAuth)**:
+1. Create deployment guide at `docs/mcp-setup/dbt-mcp-remote-deployment.md`
+2. Use Write tool to create comprehensive deployment guide
+3. Reference `config/dbt-mcp-setup.md` for OAuth setup details
+4. Explain that actual configuration happens after infrastructure deployment
+
+**Claude Desktop Config Path**:
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**MCP Server Installation**:
+- Always run: `npm install -g @modelcontextprotocol/server-dbt`
+- Check if npm is installed first, provide installation guide if missing
+- Verify installation: `which mcp-server-dbt`
 
 ### Error Handling
 

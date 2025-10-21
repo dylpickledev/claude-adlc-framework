@@ -1,35 +1,62 @@
-# DA Agent Hub - Setup Guide
+# Claude ADLC Framework - Setup Guide
 
-Quick setup guide for cloning and configuring the DA Agent Hub for your organization.
+Quick setup guide for installing and configuring the Claude ADLC Framework for your data team.
 
 ## Prerequisites
 
 - [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) installed
 - Git installed
 - GitHub CLI (`gh`) installed and authenticated
-- Access to your organization's GitHub repositories
+- Node.js/npm installed (for MCP servers)
 
 ## Quick Setup
 
-### 1. Clone the Repository
+### Option A: Interactive Setup (Recommended)
+
+The fastest way to get started:
 
 ```bash
-git clone https://github.com/your-org/da-agent-hub.git
-cd da-agent-hub
+# Clone the repository
+git clone https://github.com/your-org/claude-adlc-framework.git
+cd claude-adlc-framework
+
+# Run interactive onboarding
+./setup.sh
 ```
 
-### 2. Make Scripts Executable
+The interactive onboarding will:
+1. ✅ Discover your data stack (dbt, Snowflake, Tableau, etc.)
+2. ✅ Configure specialist agents for your tools
+3. ✅ Set up dbt MCP server with your preferred authentication method:
+   - **Local .env** (simplest - credentials in .env file)
+   - **Local OAuth** (most secure - browser-based auth)
+   - **Remote OAuth** (team/cloud - centralized MCP server)
+4. ✅ Optional: Configure Snowflake, GitHub, and other MCP servers
+5. ✅ Quick tutorial on the ADLC workflow
+
+Takes about 5 minutes to complete.
+
+### Option B: Manual Setup
+
+If you prefer manual configuration:
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-org/claude-adlc-framework.git
+cd claude-adlc-framework
+```
+
+#### 2. Make Scripts Executable
 
 ```bash
 chmod +x scripts/*.sh
 ```
 
-### 3. Configure Repositories (Optional)
-
-If you want to work with multiple data stack repositories:
+#### 3. Configure Your Data Stack
 
 ```bash
-# Copy the example configuration
+# Copy example configuration
 cp config/repositories.json.example config/repositories.json
 
 # Edit with your organization's repositories
@@ -39,26 +66,47 @@ cp config/repositories.json.example config/repositories.json
 
 **Note**: `config/repositories.json` is git-ignored to keep organization-specific configuration private.
 
-### 4. Test the Installation
+#### 4. (Optional) Configure dbt MCP Server
+
+See `config/dbt-mcp-setup.md` for detailed setup instructions for all three authentication methods.
+
+Quick option (Local .env):
+```bash
+# Copy environment template
+cp .env.template .env
+
+# Edit .env with your dbt Cloud credentials
+# DBT_TOKEN, DBT_PROD_ENV_ID, etc.
+
+# Install MCP server
+npm install -g @modelcontextprotocol/server-dbt
+
+# Configure Claude Desktop
+# Edit ~/Library/Application Support/Claude/claude_desktop_config.json
+# (See config/dbt-mcp-setup.md for complete configuration)
+```
+
+#### 5. Test the Installation
 
 ```bash
 # Create your first idea
-claude /idea "Test the DA Agent Hub setup"
+claude /capture "Test the Claude ADLC Framework setup"
 
 # This should create a GitHub issue in your repository
 ```
 
 ## Available Commands
 
-Once setup is complete, you have access to 5 core commands:
+Once setup is complete, you have access to the ADLC workflow commands:
 
 | Command | Purpose | Example |
 |---------|---------|---------|
-| `/idea` | Capture ideas as GitHub issues | `claude /idea "Build customer dashboard"` |
+| `/capture` | Capture ideas as GitHub issues | `claude /capture "Build customer dashboard"` |
 | `/research` | Deep analysis with specialist agents | `claude /research 123` |
 | `/start` | Begin development from issue | `claude /start 123` |
 | `/switch` | Context switching between projects | `claude /switch` |
 | `/complete` | Finish and archive project | `claude /complete feature-project-name` |
+| `/onboard` | Reconfigure your data stack and MCP servers | `claude /onboard` |
 
 ## Available Agents
 
@@ -74,15 +122,29 @@ Once setup is complete, you have access to 5 core commands:
 - **dlthub-expert**: Data ingestion patterns
 - **tableau-expert**: BI optimization
 
-## MCP Integration (Optional)
+## MCP Integration
 
-To enable MCP (Model Context Protocol) integration for real-time data access:
+MCP (Model Context Protocol) servers provide real-time access to your data tools.
 
-1. **dbt Cloud API**: Configure `.mcp.json` with dbt Cloud token
-2. **Snowflake**: Configure `.mcp.json` with Snowflake credentials
-3. **GitHub**: GitHub CLI authentication (`gh auth login`)
+### Recommended Setup Method
 
-See [Claude Code MCP documentation](https://docs.claude.com/en/docs/claude-code/mcp) for detailed setup.
+Run the interactive onboarding for guided MCP configuration:
+```bash
+claude /onboard
+```
+
+This will walk you through:
+- **dbt MCP Server**: Choose between .env, OAuth (local), or OAuth (remote)
+- **Snowflake MCP Server**: Direct warehouse access (optional)
+- **GitHub MCP Server**: Repository and issue management (optional)
+
+### Manual Setup
+
+For manual dbt MCP configuration, see:
+- **Complete guide**: `config/dbt-mcp-setup.md`
+- **Quick reference**: `.env.template`
+
+The guide covers all three authentication options with step-by-step instructions.
 
 ## VS Code Worktree Integration (Optional)
 
@@ -97,13 +159,13 @@ This enables:
 - Automatic VS Code workspace switching
 - Clean context separation
 
-See `knowledge/da-agent-hub/development/vscode-worktree-integration.md` for details.
+See `knowledge/platform/development/vscode-worktree-integration.md` for details.
 
 ## First Project Workflow
 
 ```bash
 # 1. Capture an idea
-claude /idea "Analyze customer churn patterns"
+claude /capture "Analyze customer churn patterns"
 # → Creates GitHub issue #1
 
 # 2. (Optional) Deep analysis
@@ -169,10 +231,22 @@ gh repo view your-org/da-agent-hub
 
 ## Support
 
-- **Documentation**: `knowledge/da-agent-hub/README.md`
+- **Platform Documentation**: `knowledge/platform/README.md`
+- **dbt MCP Setup**: `config/dbt-mcp-setup.md`
 - **Git Workflows**: `.claude/memory/patterns/git-workflow-patterns.md`
 - **Testing Patterns**: `.claude/memory/patterns/testing-patterns.md`
 
+## Reconfiguration
+
+Need to change your data stack or MCP servers?
+
+```bash
+# Run onboarding again to reconfigure
+claude /onboard
+```
+
+The onboarding will detect your existing configuration and offer to update it.
+
 ---
 
-**Ready to go!** Start with `claude /idea "your first idea"` and let the agents guide you.
+**Ready to go!** Start with `./setup.sh` for interactive onboarding or `claude /capture "your first idea"` to begin.
