@@ -113,6 +113,12 @@ knowledge/*/*
 
 .claude/settings.local.json
 
+# User-specific tech stack configuration (personalized per user)
+.claude/config/tech-stack.json
+
+# User-specific MCP server configuration (contains credentials)
+.claude/mcp.json
+
 # Project work tracking - commit everything for collaboration
 # Company-specific configuration
 config/repositories.json.backup

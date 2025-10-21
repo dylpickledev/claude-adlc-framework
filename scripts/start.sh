@@ -32,6 +32,28 @@ usage() {
     exit 1
 }
 
+# Pre-flight check: Verify tech stack is configured
+if [ ! -f ".claude/config/tech-stack.json" ]; then
+    echo ""
+    print_color $YELLOW "⚠️  Tech stack not configured yet"
+    echo ""
+    echo "For the best experience, we recommend running setup to configure"
+    echo "agents for your specific tools:"
+    echo ""
+    echo "  ./setup.sh"
+    echo ""
+    echo "This ensures AI specialists match your actual data stack."
+    echo ""
+    read -p "Continue without setup? [y/N] " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        print_color $BLUE "Run ./setup.sh when ready!"
+        exit 0
+    fi
+    print_color $YELLOW "Proceeding without stack configuration..."
+    echo ""
+fi
+
 # Check if input was provided
 if [ -z "$1" ]; then
     print_color $RED "❌ Error: No issue number or idea text provided"

@@ -1,8 +1,10 @@
-# DA Agent Hub
+# claude-adlc-framework
 
-> AI-powered Analytics Development Lifecycle (ADLC) workflow for data and analytics engineers
+> AI-powered Analytics Development Lifecycle (ADLC) for **YOUR** data stack
 
-**5 commands + 7 agents + MCP integration = Your complete data engineering AI assistant**
+**Supports**: dbt • Snowflake • BigQuery • Databricks • Tableau • Prefect • Airflow • +more
+
+**5 commands + AI agents tailored to your tools + Optional MCP integration**
 
 ---
 
@@ -48,19 +50,31 @@ graph LR
 
 ---
 
-## Quick Start
+## Quick Start (2 minutes)
 
+**Step 1: Clone**
 ```bash
-# Clone
-git clone https://github.com/yourusername/da-agent-hub.git
-cd da-agent-hub
-
-# Make scripts executable
-chmod +x scripts/*.sh
-
-# Start using
-claude /capture "Build customer churn prediction model"
+git clone https://github.com/dylpickledev/claude-adlc-framework.git
+cd claude-adlc-framework
 ```
+
+**Step 2: Setup**
+```bash
+./setup.sh
+```
+
+Setup will:
+- Check Claude Code is installed (guides you if not)
+- Ask about your data stack
+- Create AI specialists for your tools
+- Optionally configure MCP servers
+
+**Step 3: Start building**
+```bash
+claude /start "your first project"
+```
+
+**That's it!** You now have AI agents configured specifically for your tools.
 
 ---
 
