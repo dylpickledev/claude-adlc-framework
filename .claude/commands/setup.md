@@ -10,6 +10,44 @@ claude /setup
 
 ## Protocol
 
+### 0. Pre-Setup Validation (CRITICAL - Run First)
+
+**BEFORE starting conversational discovery**, ensure MCP foundation is in place:
+
+```bash
+# Check if .env exists
+if [ ! -f .env ]; then
+  echo "📋 Creating .env from template..."
+  cp .env.example .env
+  echo "⚠️  IMPORTANT: Edit .env with your dbt Cloud credentials before continuing"
+  echo "   1. Get API token: https://cloud.getdbt.com/settings/tokens"
+  echo "   2. Get Account ID from URL: https://cloud.getdbt.com/accounts/<ID>"
+  echo ""
+  echo "Run ./scripts/validate-mcp.sh when ready to validate your setup"
+  exit 0
+fi
+
+# Check if .env has real values (not placeholders)
+if grep -q "your_.*_here" .env || ! grep -q "^DBT_CLOUD_ACCOUNT_ID=[0-9]" .env; then
+  echo "⚠️  .env needs your credentials"
+  echo "   Run: ./scripts/validate-mcp.sh to check what's missing"
+  exit 0
+fi
+
+# Validate MCP config
+echo "🔍 Validating MCP configuration..."
+./scripts/validate-mcp.sh
+
+echo "✅ MCP foundation is ready! Starting customization..."
+echo ""
+```
+
+**Key Points:**
+- Project uses **project-level** MCP config (`.claude/mcp.json` in repo, not `~/.claude/mcp.json`)
+- Credentials go in `.env` (NOT committed to git)
+- Start minimal with just `dbt` MCP server
+- Validation script catches issues before they become problems
+
 ### 1. Discovery Phase - Ask Questions Conversationally
 
 **Goal**: Understand the user's data stack, role, and needs through natural conversation.

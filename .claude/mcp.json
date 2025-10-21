@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "dbt-local": {
-      "command": "/usr/local/bin/uvx",
+    "dbt": {
+      "command": "uvx",
       "args": ["--env-file", ".env", "dbt-mcp"],
       "disabled": false,
       "autoApprove": [],
-      "_comment": "Local MCP server with full dbt CLI, Admin API, and Fusion tools access"
+      "_comment": "dbt Cloud integration - Admin API, CLI, and Semantic Layer access"
     }
   }
 }
