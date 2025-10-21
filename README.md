@@ -14,26 +14,31 @@ A project management framework for data work with AI assistants configured for y
 
 ---
 
-## TL;DR - Should I Use This?
+## TL;DR - Is This For You?
 
-**✅ Yes, if you:**
-- Work on multiple data projects and want better organization
-- Use dbt, Snowflake, or other modern data tools
-- Want AI help that knows your specific tools
-- Need to track ideas → development → completion
-- Switch between projects frequently
-- Work solo or on a small team
+**You'll love this if you're frustrated by:**
+- 🔀 **Scattered work** across dbt repos, pipeline code, BI dashboards with no coordination
+- 🤖 **Generic AI advice** that doesn't know your dbt patterns, warehouse setup, or BI standards
+- 🧠 **Lost context** when switching between customer analytics → fraud detection → cost optimization projects
+- 📝 **Tribal knowledge** stuck in people's heads instead of captured for the team
+- 🔁 **Repetitive explanations** - every new team member asks the same questions about your data models
 
-**❌ Maybe not, if you:**
-- Only work on one project at a time
-- Prefer plain chatting with Claude (no project structure)
-- Don't use Git/GitHub for version control
-- Your tools aren't in the common data stack (though you can create custom agents)
+**What you get:**
+- **One project coordinates dbt + warehouse + BI changes** - no more juggling scattered repos
+- **AI that learns YOUR patterns** - after 3-5 projects, knows your incremental strategies, naming conventions, testing standards
+- **Zero-loss context switching** - `/switch` saves everything, pick up exactly where you left off
+- **Automatic knowledge capture** - patterns extracted when you `/complete`, new team members get your expertise
+- **Works with any tools** - pre-built agents for dbt/Snowflake/Tableau, create custom for yours
 
-**⏱️ Time to value:**
-- Setup: ~5 minutes (asks about your tools, creates agents)
-- First project: Immediate (`/start "idea"` creates folder + structure)
-- Learning curve: Minimal (5 commands, clear workflow)
+**Not a fit if:**
+- You only work on one thing at a time (no context switching → less value)
+- You prefer unstructured Claude chats (this adds project organization)
+- You don't use Git (workflow depends on branches/PRs)
+
+**Time investment:**
+- ⚡ Setup: 5 minutes (interactive questions about your stack)
+- ⚡ First project: Immediate (`/start "idea"` → working folder)
+- ⚡ ROI: After project #3, agents know your patterns better than documentation
 
 ---
 
