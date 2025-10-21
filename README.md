@@ -1,80 +1,199 @@
 # claude-adlc-framework
 
-> AI-powered Analytics Development Lifecycle (ADLC) for **YOUR** data stack
+> Organized data projects + AI agents that understand YOUR tools
 
-**Supports**: dbt • Snowflake • BigQuery • Databricks • Tableau • Prefect • Airflow • +more
+A project management framework for data work with AI assistants configured for your specific tech stack.
 
-**5 commands + AI agents tailored to your tools + Optional MCP integration**
+**What you get:**
+- 5 slash commands for project lifecycle (`/capture` → `/research` → `/start` → `/switch` → `/complete`)
+- AI agents created based on YOUR tools (setup asks what you use)
+- Optional live system access via MCP servers
+- Automatic learning from completed projects
+
+**Built on:** [Claude Code](https://docs.claude.com/en/docs/claude-code) (Anthropic's official AI coding assistant)
 
 ---
 
-## What This Does
+## TL;DR - Is This For You?
 
-Implements the [dbt Analytics Development Lifecycle](https://www.getdbt.com/analytics-engineering/transformation/) with AI agents that understand dbt, Snowflake, and your modern data stack.
+**You'll love this if you're frustrated by:**
+- 🔀 **Scattered work** across dbt repos, pipeline code, BI dashboards with no coordination
+- 🤖 **Generic AI advice** that doesn't know your dbt patterns, warehouse setup, or BI standards
+- 🧠 **Lost context** when switching between customer analytics → fraud detection → cost optimization projects
+- 📝 **Tribal knowledge** stuck in people's heads instead of captured for the team
+- 🔁 **Repetitive explanations** - every new team member asks the same questions about your data models
 
-**Core workflow:**
+**What you get:**
+- **One project coordinates dbt + warehouse + BI changes** - no more juggling scattered repos
+- **AI that learns YOUR patterns** - after 3-5 projects, knows your incremental strategies, naming conventions, testing standards
+- **Zero-loss context switching** - `/switch` saves everything, pick up exactly where you left off
+- **Automatic knowledge capture** - patterns extracted when you `/complete`, new team members get your expertise
+- **Works with any tools** - pre-built agents for dbt/Snowflake/Tableau, create custom for yours
+
+**Not a fit if:**
+- You only work on one thing at a time (no context switching → less value)
+- You prefer unstructured Claude chats (this adds project organization)
+- You don't use Git (workflow depends on branches/PRs)
+
+**Time investment:**
+- ⚡ Setup: 5 minutes (interactive questions about your stack)
+- ⚡ First project: Immediate (`/start "idea"` → working folder)
+- ⚡ ROI: After project #3, agents know your patterns better than documentation
+
+---
+
+## What This Is
+
+**A meta-repository that orchestrates work across your data stack.**
+
+Think of it as a control center sitting alongside your existing repositories (dbt projects, Tableau dashboards, data pipelines, etc.). It doesn't replace your repos - it provides structure and AI guidance for working on them.
+
+**The architecture:**
+```
+claude-adlc-framework/          ← This repo (meta-layer)
+├── .claude/                    ← AI agents + commands
+│   ├── agents/                 ← Specialists for YOUR tools
+│   ├── commands/               ← /capture, /start, /complete, etc.
+│   └── config/                 ← Your tech stack configuration
+├── projects/                   ← Active/completed project folders
+│   ├── active/                 ← Current work
+│   └── completed/              ← Archived learnings
+└── scripts/                    ← Workflow automation
+
+Your actual data stack repos:     ← Separate repositories
+├── dbt_cloud/                  ← Your dbt project
+├── tableau_dashboards/         ← Your BI work
+├── data_pipelines/             ← Your ETL/orchestration
+└── [any other repos]           ← Any tools you use
+```
+
+**How it augments your development:**
+
+1. **Structured coordination**: Instead of scattered work across repos, you get organized projects that coordinate changes
+2. **AI that knows your stack**: Agents read from and operate on your actual repositories with context about your tools
+3. **Cross-repo workflows**: Work that spans dbt + Snowflake + Tableau gets coordinated in one project
+4. **Knowledge accumulation**: As you complete projects, the framework learns your patterns and improves recommendations
+
+**The workflow:**
+1. **Capture** ideas as GitHub issues (`/capture "build customer dashboard"`)
+2. **Research** complex topics before building (`/research 123` - optional)
+3. **Start** projects with organized folders (`/start 123` - creates structure + git worktree)
+4. **Switch** between projects seamlessly (`/switch` - zero-loss context switching)
+5. **Complete** and archive (`/complete project-name` - closes issue, extracts learnings)
+
+**The AI agents:**
+- Setup asks what tools you use (dbt? Snowflake? Tableau? etc.)
+- Creates specialist agents for your stack
+- Agents know patterns for YOUR tools (not generic advice)
+- Optionally connect to live systems (dbt Cloud API, Snowflake queries, etc.)
+
+**The result:**
+You still work in your normal repos, but now you have:
+- Project organization and tracking
+- AI assistance tailored to your tools
+- Cross-repository coordination
+- Automatic knowledge capture
+
+**Example: Multi-repo project coordination**
+
+```
+Project: "Add customer churn prediction dashboard"
+
+claude-adlc-framework/
+├── projects/active/feature-churn-dashboard/
+│   ├── spec.md              ← What we're building
+│   ├── context.md           ← Current state, blockers, decisions
+│   └── tasks/
+│       ├── dbt-expert-findings.md      ← Model designs
+│       ├── tableau-expert-findings.md  ← Dashboard layouts
+│       └── data-engineer-findings.md   ← Pipeline setup
+
+Changes coordinated across your repos:
+├── ../dbt_cloud/models/marts/customer_churn.sql       (new model)
+├── ../data_pipelines/prefect/churn_refresh.py         (new pipeline)
+└── ../tableau_dashboards/churn_dashboard.twb          (new dashboard)
+
+On /complete:
+✅ All changes committed to respective repos
+✅ Patterns extracted: "customer churn modeling approach"
+✅ Future churn projects now start with YOUR proven pattern
+```
+
+### The Workflow (Visual)
+
+```
+💡 Idea
+  ↓ /capture
+📋 GitHub Issue #123
+  ↓ /research (optional)
+🔬 Research Report
+  ↓ /start 123
+📁 Project Folder + Git Branch + AI Agents
+  ↓ Work with specialists
+🔄 /switch (context switch anytime)
+  ↓ /complete
+✅ Archived + Learnings Extracted + Issue Closed
+  ↓
+💾 Memory System (future projects benefit)
+```
+
+---
+
+## Quick Start (Zero to Running in 5 Minutes)
+
+**Prerequisites**: You need [Claude Code](https://docs.claude.com/en/docs/claude-code) installed first.
+
+### Never used Claude Code?
+
+Claude Code is Anthropic's official AI coding assistant that runs in your terminal:
+
 ```bash
-/capture "idea" → /research → /start → /switch → /complete
+# Install Claude Code (macOS/Linux)
+curl -fsSL https://claude.com/install.sh | sh
+
+# Authenticate
+claude auth
 ```
 
-### ADLC Workflow
+See the [Claude Code docs](https://docs.claude.com/en/docs/claude-code) for Windows installation or troubleshooting.
 
-```mermaid
-graph LR
-    A[Idea] --> B[capture]
-    B --> C[GitHub Issue]
-    C --> D[research]
-    D --> E[start]
-    E --> F[Development<br/>with AI Agents]
-    F --> G[complete]
-    G --> H[Memory System]
-    H -.-> D
+### Installation
 
-    style A fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
-    style B fill:#fff9e1,stroke:#f57c00,stroke-width:2px
-    style C fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
-    style D fill:#fff9e1,stroke:#f57c00,stroke-width:2px
-    style E fill:#fff9e1,stroke:#f57c00,stroke-width:2px
-    style F fill:#fff9e1,stroke:#f57c00,stroke-width:2px
-    style G fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style H fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-```
-
-**Available agents:**
-- **Roles**: analytics-engineer-role, data-engineer-role, data-architect-role
-- **Specialists**: dbt-expert, snowflake-expert, dlthub-expert, tableau-expert
-
-**MCP integration:**
-- Direct access to dbt Cloud API
-- Query Snowflake warehouse
-
----
-
-## Quick Start (2 minutes)
-
-**Step 1: Clone**
+**Step 1: Clone this repository**
 ```bash
 git clone https://github.com/dylpickledev/claude-adlc-framework.git
 cd claude-adlc-framework
 ```
 
-**Step 2: Setup**
+**Step 2: Run interactive setup**
 ```bash
 ./setup.sh
 ```
 
-Setup will:
-- Check Claude Code is installed (guides you if not)
-- Ask about your data stack
-- Create AI specialists for your tools
-- Optionally configure MCP servers
+**What setup does:**
 
-**Step 3: Start building**
+1. **Checks** you have Claude Code installed (exits with install instructions if not)
+2. **Asks** about your tech stack:
+   - What transformation tool? (dbt Cloud, dbt Core, raw SQL, etc.)
+   - What data warehouse? (Snowflake, BigQuery, PostgreSQL, etc.)
+   - What orchestration? (Prefect, Airflow, manual, etc.)
+   - What BI tool? (Tableau, Power BI, Streamlit, etc.)
+3. **Creates AI specialists** matching your answers:
+   - If you said "dbt Cloud" → creates `dbt-expert.md` agent
+   - If you said "Snowflake" → creates `snowflake-expert.md` agent
+   - If you said "Tableau" → creates `tableau-expert.md` agent
+   - If you said "Other [tool]" → offers to create custom agent from template
+4. **Optionally configures MCP servers** for live data access (you can skip this):
+   - dbt MCP → query dbt Cloud API in real-time
+   - Snowflake MCP → execute warehouse queries directly
+   - GitHub MCP → analyze repositories and issues
+
+**Step 3: Start your first project**
 ```bash
-claude /start "your first project"
+claude /start "your first project idea"
 ```
 
-**That's it!** You now have AI agents configured specifically for your tools.
+**That's it!** You have a project folder, AI agents that know your tools, and the 5-command workflow ready to use.
 
 ---
 
@@ -121,71 +240,181 @@ claude /complete feature-project-name
 
 ---
 
-## The Agents
+## The AI Agents (Created During Setup)
 
-### Role Agents (Primary - 80% Independent Work)
+### Role Agents (Always Created)
+
+These handle 80% of work independently:
+
 **analytics-engineer-role**
-- dbt models, SQL transformations, data modeling
-- Performance optimization, semantic layer, BI data prep
-- Delegates to specialists for complex edge cases
+- Writes dbt models, SQL transformations, data modeling
+- Optimizes query performance, semantic layer design
+- Prepares data for BI consumption
 
 **data-engineer-role**
-- Pipeline setup, ingestion, orchestration
-- Source system integration, data quality at ingestion
-- Chooses right tool (dlthub vs Prefect vs Airbyte)
+- Sets up data pipelines and orchestration
+- Integrates source systems, ensures data quality
+- Chooses appropriate ingestion tools
 
 **data-architect-role**
-- System design, architecture patterns
-- Technology selection, cross-system integration
-- Strategic platform decisions
+- Designs system architecture
+- Makes technology selection decisions
+- Plans cross-system integration
 
-### Specialist Agents (Consultation Layer - 20% Edge Cases)
-**dbt-expert** - SQL transformations, dbt patterns (MCP-enabled)
+### Specialist Agents (Created Based on Your Tech Stack)
 
-**snowflake-expert** - Warehouse optimization, cost analysis (MCP-enabled)
+Setup creates these **only if you use these tools**:
 
-**dlthub-expert** - Data ingestion patterns
+**dbt-expert** (if you selected dbt Cloud or dbt Core)
+- Deep dbt knowledge: incremental models, testing, packages
+- Can connect to dbt Cloud API via MCP (optional setup)
 
-**tableau-expert** - BI optimization
+**snowflake-expert** (if you selected Snowflake)
+- Warehouse optimization and cost analysis
+- Can query Snowflake directly via MCP (optional setup)
+
+**tableau-expert** (if you selected Tableau)
+- Dashboard performance and design patterns
+
+**claude-code-expert** (always created)
+- Helps with setup, troubleshooting, workflow questions
+
+**Don't see your tool?** Setup offers to create a custom specialist agent from a template.
+
+### Supported Tools (Out of the Box)
+
+Setup recognizes these tools and creates appropriate specialists:
+
+**Transformation:**
+- dbt Cloud ✅
+- dbt Core ✅
+- Raw SQL / Stored Procedures (uses generic analytics-engineer-role)
+- Databricks SQL (creates custom agent from template)
+- Other (you create custom agent)
+
+**Warehouses:**
+- Snowflake ✅ (with optional MCP)
+- BigQuery (uses generic knowledge)
+- PostgreSQL (uses generic knowledge)
+- Databricks (uses generic knowledge)
+- Redshift (uses generic knowledge)
+- Other (you create custom agent)
+
+**Orchestration:**
+- Prefect (uses generic data-engineer-role)
+- Airflow (uses generic data-engineer-role)
+- Dagster (uses generic data-engineer-role)
+- dbt Cloud scheduler (uses dbt-expert)
+- Other (you create custom agent)
+
+**BI/Visualization:**
+- Tableau ✅
+- Power BI (uses generic knowledge)
+- Looker (uses generic knowledge)
+- Streamlit (uses generic knowledge)
+- Metabase (uses generic knowledge)
+- Other (you create custom agent)
+
+**Always Available:**
+- GitHub ✅ (with optional MCP)
+- Git workflow (built-in)
+- Claude Code expert (setup/troubleshooting)
+
+✅ = Has dedicated specialist agent with deep expertise
+🔌 = MCP server available for live system access
+
+**The truth about "support":**
+- ✅ = Pre-built agents with mature patterns (fastest time to value)
+- "Generic knowledge" = Claude's base knowledge works, agents guide workflow
+- "Custom agent" = You create specialist, framework helps it improve over time
+
+**This framework is designed to support ANY tool:**
+- Start with basic agents (even generic ones work)
+- Use the ADLC workflow to build projects
+- Agents learn your patterns as you complete work
+- After 3-5 projects, your custom agents know YOUR specific patterns
+- The `/complete` command extracts learnings automatically
+
+**Bottom line:** You don't need pre-built agents to start. The framework is self-improving. Your first projects teach the agents about your tools.
+
+### How Agents Work Together
+
+Role agents delegate to specialists for complex cases (20% of work). Example:
+
+```
+You: "Optimize this slow dbt model"
+  ↓
+analytics-engineer-role: Reviews model structure
+  ↓ (needs deep dbt expertise)
+dbt-expert: Analyzes incremental strategy, suggests optimizations
+  ↓ (if MCP configured)
+dbt-mcp: Queries actual run history from dbt Cloud API
+  ↓
+Result: Specific optimization based on YOUR production data
+```
 
 ---
 
-## MCP Integration
+## MCP Integration (Optional)
 
-Agents access your data systems in real-time:
+MCP servers connect Claude to your live systems for real-time data access.
 
-```
-dbt-expert:
-   ├─ dbt-mcp → Access dbt Cloud API (jobs, runs, models, tests)
-   ├─ snowflake-mcp → Query Snowflake directly
-   └─ Returns: Performance optimizations based on actual query patterns
+**Setup asks** if you want to configure these (you can skip and add later):
 
-snowflake-expert:
-   ├─ snowflake-mcp → Warehouse metadata, cost analysis
-   └─ Returns: Cost optimization with projected savings
-```
+**dbt MCP** (if using dbt):
+- Query model metadata and job status
+- Analyze test results from actual runs
+- Access Semantic Layer metrics
 
-**Result:** AI decisions based on REAL data, not generic advice.
+**Snowflake MCP** (if using Snowflake):
+- Execute queries directly in your warehouse
+- Analyze query performance and costs
+- Check data quality in real tables
+
+**GitHub MCP** (always offered):
+- Search code across repositories
+- Analyze issues and pull requests
+- Review commit history
+
+**How it works:**
+1. Setup guides you through credential collection
+2. Updates `claude_desktop_config.json` with MCP server config
+3. Restart Claude Desktop → MCP servers load automatically
+4. Agents can now query your real systems
+
+**Why it matters:** Instead of generic advice, agents see YOUR actual data and make informed recommendations.
 
 ---
 
-## Installation
+## What You Need to Get Started
 
-### Prerequisites
-- [Claude Code CLI](https://docs.claude.com/en/docs/claude-code)
-- Git
-- Modern data stack (dbt, Snowflake, etc.)
+**Essential:**
+- [Claude Code](https://docs.claude.com/en/docs/claude-code) - Anthropic's AI coding assistant
+- Git - For version control and GitHub integration
 
-### Setup Options
+**Your data tools:**
+- The framework adapts to what YOU use
+- Setup asks about your stack and configures accordingly
+- No specific tools required upfront
 
-#### Option 1: Devcontainer (Recommended - Zero to 100)
-Get started instantly with VS Code devcontainers:
+**Optional (setup will guide you):**
+- Node.js/npm - Only if you want MCP server integration
+- GitHub CLI (`gh`) - For enhanced GitHub operations
+- Docker + VS Code - If you want devcontainer setup (see below)
+
+---
+
+## Advanced Setup Options
+
+### Devcontainer Setup (Fully Automated)
+
+Get everything pre-installed in a Docker container:
 
 ```bash
 # Prerequisites: Docker Desktop + VS Code + Dev Containers extension
 
-git clone https://github.com/dylpickledev/da-agent-hub.git
-cd da-agent-hub
+git clone https://github.com/dylpickledev/claude-adlc-framework.git
+cd claude-adlc-framework
 code .
 
 # VS Code will prompt "Reopen in Container" → Click it
@@ -194,90 +423,125 @@ code .
 # Once container is ready:
 gh auth login        # Authenticate with GitHub
 claude auth          # Authenticate with Claude Code
-claude /capture "Your first idea"
+./setup.sh           # Run interactive setup
 ```
+
+**Devcontainer includes:**
+- Claude Code pre-installed
+- Node.js + npm (for MCP servers)
+- GitHub CLI
+- Git configured
+- All dependencies ready
 
 See [.devcontainer/README.md](.devcontainer/README.md) for details.
 
-#### Option 2: Standard Installation
+### VS Code Worktree Integration
+
+For seamless branch switching with dedicated VS Code windows:
+
 ```bash
-# Clone repository
-git clone https://github.com/dylpickledev/da-agent-hub.git
-cd da-agent-hub
-
-# Make scripts executable
-chmod +x scripts/*.sh
-
-# Optional: VS Code worktree integration
-claude /setup-worktrees
-
-# Start using
-claude /capture "Your first data project idea"
+claude /setup-worktrees  # One-time setup
 ```
 
-### MCP Configuration (Optional)
-Configure MCP servers in `.claude/mcp.json` for real-time data access:
-- dbt Cloud API token
-- Snowflake credentials
-- GitHub personal access token
-
-See `knowledge/da-agent-hub/development/setup.md` for detailed MCP setup.
+After setup, `/start` and `/switch` commands automatically open the right VS Code window for each project.
 
 ---
 
 ## Example Workflow
 
+Here's what a typical project looks like:
+
 ```bash
-# 1. Capture idea
-claude /capture "Build real-time customer analytics dashboard"
-# → Creates GitHub issue #123
+# 1. Capture idea → GitHub issue
+claude /capture "Build customer analytics dashboard"
+# Output: ✅ Created issue #123
 
-# 2. Research approach (optional for complex projects)
+# 2. Research (optional - for complex projects)
 claude /research 123
-# → Specialist agents analyze: data sources, dbt models needed, BI layer
+# Specialist agents analyze approach, feasibility, technical details
+# You get a research report before starting
 
-# 3. Start development
+# 3. Start project → folder + git worktree + issue link
 claude /start 123
-# → Creates: projects/active/feature-real-time-customer-analytics/
-# → Sets up git worktree (if configured)
-# → Links to GitHub issue
+# Output:
+#   ✅ Created: projects/active/feature-customer-analytics/
+#   ✅ Created branch: feature/customer-analytics
+#   ✅ Linked to issue #123
+#   📝 VS Code opened (if worktree integration setup)
 
-# 4. Development with specialists
-claude "use analytics-engineer-role to build dbt models for customer metrics"
-claude "use data-engineer-role to set up incremental refresh pipeline"
+# 4. Work with AI agents
+claude "use analytics-engineer-role to design the data model"
+# Role agent delegates to dbt-expert for complex modeling
+# If MCP configured, queries your actual dbt project structure
 
-# 5. Switch to urgent work
-claude /switch  # Saves current state
-claude /start 125  # Work on urgent issue
-claude /complete feature-urgent-fix
-claude /switch feature-real-time-customer-analytics  # Resume
+claude "use data-engineer-role to set up incremental refresh"
+# Gets suggestions based on your orchestration tool (from setup)
 
-# 6. Complete project
-claude /complete feature-real-time-customer-analytics
-# → Extracts learnings to memory system
-# → Archives project
-# → Closes GitHub issue #123
-# → Cleans up worktree
+# 5. Context switch (urgent work pops up)
+claude /switch  # Saves current work, returns to main
+claude /start 125  # Different urgent project
+claude /complete feature-urgent-fix  # Finish urgent work
+claude /switch feature-customer-analytics  # Resume original work
+# Zero loss - picks up exactly where you left off
+
+# 6. Complete and learn
+claude /complete feature-customer-analytics
+# Output:
+#   ✅ Archived to: projects/completed/2025-10/feature-customer-analytics/
+#   ✅ Extracted learnings to memory system
+#   ✅ Closed GitHub issue #123
+#   ✅ Cleaned up git worktree
+#   💡 Agents now know customer analytics patterns for future projects
 ```
+
+**What just happened:**
+- Idea tracked in GitHub (team visibility)
+- Organized project folder (not scattered files)
+- AI agents with domain expertise helped (not generic chatbot)
+- Work saved when context switching (no lost progress)
+- Knowledge extracted automatically (future projects benefit)
 
 ---
 
-## Why This Matters
+## What Makes This Different
 
-**For data engineers:**
-- Specialist agents understand dbt patterns, Snowflake optimization, pipeline orchestration
-- MCP integration = decisions based on YOUR actual data warehouse state
-- Multi-repo coordination across dbt, source control, BI tools
+**This is NOT:**
+- ❌ A replacement for your existing repos
+- ❌ A new tool you have to migrate to
+- ❌ Just AI prompts in a folder
+- ❌ Locked into specific tools
 
-**For analytics engineers:**
-- AI that knows dimensional modeling, incremental strategies, semantic layers
-- Direct dbt Cloud API access for model analysis
-- Testing and data quality validation built-in
+**This IS:**
+- ✅ A meta-repository that sits alongside your existing work
+- ✅ A structured workflow for coordinating cross-repo changes
+- ✅ A learning system that captures YOUR team's expertise
+- ✅ Tool-agnostic with agent templates for any stack
 
-**For data architects:**
-- System-level thinking across ingestion → transformation → consumption
-- Cross-tool coordination (Orchestra, dlthub, Prefect, dbt, Tableau)
-- Architecture patterns specific to modern data stacks
+**How it's different from just using Claude Code:**
+
+| Plain Claude Code | claude-adlc-framework |
+|---|---|
+| Ad-hoc conversations | Organized projects with tracking |
+| Generic AI knowledge | Agents that know YOUR tools & patterns |
+| Work scattered across repos | Coordinated cross-repo workflows |
+| No memory between sessions | Automatic pattern extraction & learning |
+| Manual git workflow | Built-in branch/PR workflow |
+| Lost context when switching | Zero-loss context switching |
+
+**Practical benefits:**
+
+- **Works with your existing setup**: No migration, just add this repo alongside your others
+- **Coordinates multi-repo work**: dbt changes + Snowflake DDL + Tableau updates in one project
+- **Gets smarter over time**: After 3-5 projects, agents know YOUR specific patterns
+- **Team learning**: One person's solutions become everyone's knowledge
+- **Any tools work**: Pre-built agents for common tools, create custom for yours
+
+**Who this helps:**
+- **Analytics engineers**: Coordinate dbt models + warehouse objects + BI changes
+- **Data engineers**: Orchestrate pipeline + ingestion + transformation workflows
+- **Data architects**: Design cross-system patterns with documented decisions
+- **Solo practitioners**: Structure for managing multiple data projects + build expertise
+- **Teams**: Shared workflow, consistent patterns, collective learning, easy onboarding
 
 ---
 
@@ -453,27 +717,174 @@ claude /complete feature-customer-analytics
 
 ---
 
-## Why It Works
+## How Teams Iteratively Improve with This
 
-**Role-based delegation (80/20 rule):**
-- Role agents handle most work independently
-- Specialists consulted for complex edge cases
-- Clear delegation protocols minimize overhead
+**The self-improving loop:**
 
-**MCP tool integration:**
-- Real-time data access = accurate recommendations
-- Query actual warehouse state, not assumptions
-- Validate changes against production systems
+```
+Project 1: "Build customer dashboard"
+  ↓ Use basic dbt-expert agent
+  ↓ Complete project with /complete
+  ✅ Extracts: "Incremental model pattern for customer_dim table"
+
+Project 2: "Add customer churn metrics"
+  ↓ Agent now knows your customer_dim pattern
+  ↓ Suggests consistent approach
+  ↓ Complete with /complete
+  ✅ Extracts: "Churn calculation logic + dbt test pattern"
+
+Project 3: "Optimize slow customer models"
+  ↓ Agent knows your patterns + previous optimizations
+  ↓ Suggests specific improvements for YOUR models
+  ✅ Extracts: "Performance patterns for customer analytics"
+
+Future projects: Agent is now an expert in YOUR customer analytics approach
+```
+
+**What gets captured and improved:**
+
+1. **Tool-specific patterns** (stored in `.claude/agents/specialists/`)
+   - dbt model structures you use
+   - SQL optimization patterns that work in your warehouse
+   - BI dashboard layouts that match your standards
+   - Pipeline orchestration patterns
+
+2. **Cross-system workflows** (stored in `.claude/memory/patterns/`)
+   - How you coordinate dbt + Snowflake + Tableau changes
+   - Testing strategies across your stack
+   - Deployment procedures
+   - Troubleshooting approaches
+
+3. **Team knowledge** (stored in `knowledge/`)
+   - Architecture decisions and why
+   - Data model documentation
+   - Integration patterns
+   - Lessons learned from incidents
+
+**How teams benefit:**
+
+- **Onboarding**: New team members get agents that know your patterns
+- **Consistency**: Everyone's AI suggests the same proven approaches
+- **Documentation**: Knowledge captured automatically, not as separate task
+- **Continuous improvement**: Each project makes the next one faster
+- **Collective learning**: One person's solution becomes team knowledge
+
+**The improvement workflow:**
+
+```bash
+# After completing a project
+claude /complete feature-customer-analytics
+# Output:
+#   ✅ Extracted 3 new patterns to dbt-expert
+#   💡 Suggestion: Update analytics-engineer-role with customer modeling patterns?
+
+# Review extracted patterns
+cat .claude/memory/recent/2025-10-21-customer-analytics.md
+
+# Decide: Keep in recent memory OR promote to agent expertise
+# Option A: Let it stay in recent patterns (auto-referenced for 30 days)
+# Option B: Update agent file for permanent knowledge
+
+# Update agent (if pattern is valuable long-term)
+claude "Add the customer_dim incremental pattern to dbt-expert agent"
+# Agent now has this pattern permanently
+
+# Commit improvements back to the framework repo
+git add .claude/agents/specialists/dbt-expert.md
+git commit -m "feat: Add customer dimension modeling patterns to dbt-expert"
+# Your team's agents get smarter
+```
+
+**Example: Improving dbt knowledge over time**
+
+```markdown
+<!-- .claude/agents/specialists/dbt-expert.md - Evolution over time -->
+
+# Initial setup (Day 1):
+- Generic dbt best practices
+- Common incremental strategies
+- Standard testing patterns
+
+# After 5 projects (Month 1):
++ Your specific dbt project structure
++ Custom macro patterns you use
++ Your incremental model conventions
++ Tests that matter for YOUR data quality
+
+# After 20 projects (Month 3):
++ Performance optimization patterns for YOUR warehouse
++ Edge cases and fixes from production incidents
++ Integration patterns with YOUR BI tools
++ Deployment procedures for YOUR CI/CD pipeline
+
+# Result: dbt-expert now = Generic dbt knowledge + YOUR team's expertise
+```
+
+**This works for ANY tool:**
+- Start with generic agent or create custom one
+- Use ADLC workflow (`/start` → work → `/complete`)
+- Framework extracts patterns automatically
+- Agents improve with each completed project
+- No tool is "unsupported" - you just start with a blank slate and build expertise
+
+---
+
+## How It Works (Behind the Scenes)
+
+**Role-based agents (80/20 pattern):**
+- Role agents (analytics-engineer, data-engineer, architect) handle most work
+- They delegate to specialists (dbt-expert, snowflake-expert) for complex cases
+- Minimizes token usage while maintaining quality
+
+**Dynamic setup:**
+- Setup script asks about YOUR tools
+- Creates only relevant specialist agents
+- Offers to build custom agents for tools not in library
+- Saves config to `.claude/config/tech-stack.json`
+
+**MCP integration (optional):**
+- Connects Claude to your real systems
+- Setup guides credential collection
+- Agents query actual data instead of guessing
+- You control what systems to connect
 
 **Memory system:**
-- Automatic learning from completed projects
-- Role-specific pattern collections
-- Context-aware recommendations
+- Completed projects automatically extracted to pattern library
+- Agents learn from your work over time
+- Future projects benefit from past learnings
+- Pattern markers in task files trigger extraction
+- Recent patterns (30 days) vs permanent agent knowledge
 
-**ADLC alignment:**
-- Workflow maps to proven analytics development lifecycle
-- Plan → Develop → Test → Deploy → Operate
-- Industry-standard approach with AI acceleration
+---
+
+## Common Questions
+
+**Q: Do I need to know how to code?**
+A: Basic comfort with command line and Git helps. The AI agents write code for you, but you should understand what they're doing.
+
+**Q: What if my tool isn't supported?**
+A: Setup offers to create a custom specialist agent from a template. You fill in tool-specific knowledge, and the agent works like the built-in ones.
+
+**Q: Is MCP required?**
+A: No! MCP is optional. The framework works fine without it - you just get more generic AI advice instead of insights from your live systems.
+
+**Q: Can I use this without GitHub?**
+A: Technically yes, but you'll lose issue tracking and some commands. Git is required (for branches/worktrees).
+
+**Q: Does this work with Claude Desktop or just Claude Code CLI?**
+A: Primarily designed for Claude Code CLI. MCP servers can be configured for Claude Desktop, but the slash commands are Claude Code specific.
+
+**Q: How is this different from just using Claude Code normally?**
+A: Structure + Learning. This is a meta-repository that orchestrates work across your existing repos (dbt, pipelines, BI, etc.). Instead of ad-hoc conversations scattered across your data stack, you get organized projects that coordinate multi-repo changes, agents that learn YOUR patterns, and automatic knowledge capture. Think: mission control for your data work.
+
+**Q: Do I need to change how I organize my existing repos?**
+A: No! This sits alongside your existing repositories. Your dbt project stays in its repo, your Tableau dashboards in theirs, etc. This framework just provides coordination and AI guidance ACROSS those repos.
+
+**Q: Will this work with my team?**
+A: Yes - projects create feature branches, use GitHub issues for tracking, and support PR workflow. Each team member runs setup for their own agent configuration.
+
+**Q: What happens to my data?**
+A: Nothing leaves your machine except normal Claude API calls. MCP servers run locally and access your systems with credentials YOU provide.
 
 ---
 
@@ -494,4 +905,19 @@ Built for data/analytics engineers who want AI that understands their modern dat
 
 ---
 
-**Focus:** ADLC workflow for data engineering • 5 commands • 7 specialist agents • MCP integration • Automatic learning
+## Get Started
+
+```bash
+# Install Claude Code (if you haven't)
+curl -fsSL https://claude.com/install.sh | sh
+
+# Clone and setup
+git clone https://github.com/dylpickledev/claude-adlc-framework.git
+cd claude-adlc-framework
+./setup.sh
+
+# Start your first project
+claude /start "your first idea"
+```
+
+**Questions?** Open an issue or check the [documentation](knowledge/da-agent-hub/README.md)
