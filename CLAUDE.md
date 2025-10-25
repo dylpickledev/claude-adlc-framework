@@ -157,26 +157,18 @@ Templates encode correct architecture patterns:
 - Pipeline setup and orchestration (batch AND streaming)
 - Source system integration, data quality at ingestion
 - Chooses right tool (dlthub vs Prefect) based on requirements
-- Delegates to dlthub-expert for complex ingestion patterns
-
-**Data Architect** (`data-architect-role`) - Strategic platform decisions and system design
-- Architecture patterns, technology selection, cross-system integration
-- Platform roadmap, governance, standards
-- Coordinates with all specialists for system-level decisions
+- Creates specialist agents when deep tool expertise needed
 
 ### Tool Specialists (Consultation Layer - 20% Edge Cases)
 Role agents delegate to specialists who combine deep domain expertise with MCP tool access for informed, validated recommendations.
 
 **Data Platform (Available)**:
 - `dbt-expert`: SQL transformations, dbt patterns (MCP-enabled for dbt Cloud API)
-- `snowflake-expert`: Warehouse optimization, cost analysis (MCP-enabled for Snowflake)
-- `dlthub-expert`: Data ingestion patterns for dlthub pipelines
+- `snowflake-expert`: Warehouse optimization, cost analysis
 - `tableau-expert`: BI optimization and dashboard performance
+- `claude-code-expert`: Claude Code configuration specialist
 
-**Cross-Functional (Available)**:
-- `github-sleuth-expert`: Repository analysis, issue investigation (MCP-enabled for GitHub)
-
-**Note**: Other specialists (aws-expert, business-context, documentation-expert, etc.) were removed in cleanup. Role agents now handle most work directly or can request specialist agent creation when needed.
+**Note**: For other specialist needs (cloud infrastructure, business context, orchestration tools), create specialist agents using templates in `.claude/agents/specialists/specialist-template.md`.
 
 **Pattern**: Role agents delegate when confidence <0.60 OR domain expertise needed
 **Specialists**: Use MCP tools + expertise to provide validated, correct recommendations
