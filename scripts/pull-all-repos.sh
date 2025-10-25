@@ -1,5 +1,6 @@
 #!/bin/bash
-# Pull latest changes from all repositories defined in config/repositories.json
+# Update all git submodules to latest versions
+# Replaces legacy clone-based approach with submodule strategy
 
 set -e
 
@@ -14,162 +15,66 @@ NC='\033[0m' # No Color
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 
-echo -e "${BLUE}🔄 Pulling latest from all repositories in config/repositories.json${NC}\n"
+echo -e "${BLUE}🔄 Updating all git submodules${NC}\n"
 
-# Pull da-agent-hub itself first
-echo -e "${GREEN}📦 da-agent-hub${NC}"
 cd "$REPO_ROOT"
-git checkout main
+
+# Check if submodules are configured
+if [ ! -f ".gitmodules" ]; then
+  echo -e "${RED}❌ No .gitmodules file found!${NC}"
+  echo -e "${YELLOW}Run ./scripts/setup-submodules.sh to configure submodules${NC}"
+  exit 1
+fi
+
+# Pull main repository first
+echo -e "${GREEN}📦 claude-adlc-framework (main)${NC}"
 git pull origin main
 echo ""
 
-# Knowledge repos
-echo -e "${BLUE}=== Knowledge Repositories ===${NC}"
+# Update all submodules
+echo -e "${BLUE}=== Updating All Submodules ===${NC}\n"
 
-cd "$REPO_ROOT/knowledge/da_obsidian"
-echo -e "${GREEN}📦 da_obsidian${NC}"
-git checkout master
-git pull origin master
-echo ""
+# Initialize any new submodules
+git submodule init
 
-cd "$REPO_ROOT/knowledge/da_team_documentation"
-echo -e "${GREEN}📦 da_team_documentation${NC}"
-git checkout main
-git pull origin main
-echo ""
+# Update all submodules to their configured branches
+git submodule update --remote --recursive
 
-# Orchestration repos
-if [ -d "$REPO_ROOT/repos/orchestration" ]; then
-    echo -e "${BLUE}=== Orchestration Repositories ===${NC}"
+# Alternative: Update each submodule individually with branch tracking
+# This is more verbose but shows progress for each submodule
 
-    if [ -d "$REPO_ROOT/repos/orchestration/orchestra" ]; then
-        cd "$REPO_ROOT/repos/orchestration/orchestra"
-        echo -e "${GREEN}📦 orchestra${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
+echo -e "\n${BLUE}=== Detailed Submodule Status ===${NC}\n"
+
+# Get list of submodules
+submodules=$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
+
+if [ -z "$submodules" ]; then
+  echo -e "${YELLOW}No submodules configured${NC}"
+else
+  for submodule in $submodules; do
+    if [ -d "$submodule" ]; then
+      echo -e "${GREEN}📦 $(basename $submodule)${NC}"
+
+      cd "$submodule"
+
+      # Get current branch
+      branch=$(git rev-parse --abbrev-ref HEAD)
+
+      # Pull latest
+      git pull origin "$branch" --quiet || echo -e "${YELLOW}  ⚠️  Could not pull (check credentials/access)${NC}"
+
+      cd "$REPO_ROOT"
+      echo ""
     fi
-
-    if [ -d "$REPO_ROOT/repos/orchestration/prefect" ]; then
-        cd "$REPO_ROOT/repos/orchestration/prefect"
-        echo -e "${GREEN}📦 prefect${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
-    fi
+  done
 fi
 
-# Ingestion - Operational repos
-if [ -d "$REPO_ROOT/repos/ingestion_operational" ]; then
-    echo -e "${BLUE}=== Ingestion (Operational) Repositories ===${NC}"
+echo -e "${GREEN}✅ All repositories updated successfully!${NC}\n"
 
-    for repo in plantdemand_etl mapistry_etl postgres_pipelines; do
-        if [ -d "$REPO_ROOT/repos/ingestion_operational/$repo" ]; then
-            cd "$REPO_ROOT/repos/ingestion_operational/$repo"
-            echo -e "${GREEN}📦 $repo${NC}"
-            git checkout master
-            git pull origin master
-            echo ""
-        fi
-    done
+# Show submodule status
+echo -e "${BLUE}📋 Submodule Status:${NC}"
+git submodule status
 
-    # XBE uses main branch
-    if [ -d "$REPO_ROOT/repos/ingestion_operational/xbe_data_ingestion" ]; then
-        cd "$REPO_ROOT/repos/ingestion_operational/xbe_data_ingestion"
-        echo -e "${GREEN}📦 xbe_data_ingestion${NC}"
-        git checkout main
-        git pull origin main
-        echo ""
-    fi
-fi
-
-# Ingestion - Analytics repos
-if [ -d "$REPO_ROOT/repos/ingestion_analytics" ]; then
-    echo -e "${BLUE}=== Ingestion (Analytics) Repositories ===${NC}"
-
-    if [ -d "$REPO_ROOT/repos/ingestion_analytics/hex_pipelines" ]; then
-        cd "$REPO_ROOT/repos/ingestion_analytics/hex_pipelines"
-        echo -e "${GREEN}📦 hex_pipelines${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
-    fi
-fi
-
-# Transformation repos
-if [ -d "$REPO_ROOT/repos/transformation" ]; then
-    echo -e "${BLUE}=== Transformation Repositories ===${NC}"
-
-    if [ -d "$REPO_ROOT/repos/transformation/dbt_cloud" ]; then
-        cd "$REPO_ROOT/repos/transformation/dbt_cloud"
-        echo -e "${GREEN}📦 dbt_cloud (staging: dbt_dw)${NC}"
-        git checkout dbt_dw
-        git pull origin dbt_dw
-        echo ""
-    fi
-
-    if [ -d "$REPO_ROOT/repos/transformation/dbt_postgres" ]; then
-        cd "$REPO_ROOT/repos/transformation/dbt_postgres"
-        echo -e "${GREEN}📦 dbt_postgres${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
-    fi
-fi
-
-# Front End repos
-if [ -d "$REPO_ROOT/repos/front_end" ]; then
-    echo -e "${BLUE}=== Front End Repositories ===${NC}"
-
-    for repo in streamlit_apps_snowflake snowflake_notebooks; do
-        if [ -d "$REPO_ROOT/repos/front_end/$repo" ]; then
-            cd "$REPO_ROOT/repos/front_end/$repo"
-            echo -e "${GREEN}📦 $repo${NC}"
-            git checkout master
-            git pull origin master
-            echo ""
-        fi
-    done
-
-    # react-sales-journal uses master branch
-    if [ -d "$REPO_ROOT/repos/front_end/react-sales-journal" ]; then
-        cd "$REPO_ROOT/repos/front_end/react-sales-journal"
-        echo -e "${GREEN}📦 react-sales-journal${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
-    fi
-
-    # da-app-portal uses master branch
-    if [ -d "$REPO_ROOT/repos/front_end/da-app-portal" ]; then
-        cd "$REPO_ROOT/repos/front_end/da-app-portal"
-        echo -e "${GREEN}📦 da-app-portal${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
-    fi
-fi
-
-# Operations repos
-if [ -d "$REPO_ROOT/repos/operations" ]; then
-    echo -e "${BLUE}=== Operations Repositories ===${NC}"
-
-    if [ -d "$REPO_ROOT/repos/operations/roy_kent" ]; then
-        cd "$REPO_ROOT/repos/operations/roy_kent"
-        echo -e "${GREEN}📦 roy_kent${NC}"
-        git checkout master
-        git pull origin master
-        echo ""
-    fi
-
-    if [ -d "$REPO_ROOT/repos/operations/sherlock" ]; then
-        cd "$REPO_ROOT/repos/operations/sherlock"
-        echo -e "${GREEN}📦 sherlock${NC}"
-        git checkout main
-        git pull origin main
-        echo ""
-    fi
-fi
-
-cd "$REPO_ROOT"
-echo -e "${GREEN}✅ All repositories updated successfully!${NC}"
+echo -e "\n${BLUE}Tip:${NC} To update a specific submodule:"
+echo -e "  ${YELLOW}git submodule update --remote <path>${NC}"
+echo -e ""

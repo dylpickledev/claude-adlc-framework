@@ -40,7 +40,7 @@ Projects in `projects/active/` are SANDBOXES for coordination. When projects com
 ## Three-Tier Documentation Architecture
 
 ### Tier 1: Repository README (Lightweight)
-**Location**: `<repo>/README.md` (e.g., `react-sales-journal/README.md`)
+**Location**: `<repo>/README.md` (e.g., `react-customer-dashboard/README.md`)
 **Purpose**: Get developers productive FAST
 **Size**: < 200 lines
 **Contains**:
@@ -122,7 +122,7 @@ Quick commands
 ## Production-Validated Architecture Patterns
 
 ### ALB OIDC Authentication Pattern (Confidence: 0.92)
-**Production Status**: ✅ Validated (app-portal + sales-journal)
+**Production Status**: ✅ Validated (app-portal + customer-dashboard)
 **Reference**: `knowledge/applications/app-portal/architecture/alb-oidc-authentication.md`
 **When to use**: React apps requiring Azure AD SSO
 ```
@@ -130,7 +130,7 @@ Quick commands
 **Audience**: AI agents deciding what pattern to apply
 
 **Also Update**:
-- Role agents (e.g., ui-ux-developer-role.md) with "Known Applications" section
+- Role agents (e.g., frontend-developer-role.md) with "Known Applications" section
 - Points agents to knowledge base for comprehensive docs
 
 ---
@@ -149,7 +149,7 @@ When completing a project that touches multiple repos:
 - `CLAUDE.md` - Pattern documentation
 - `.gitignore` - Config updates
 
-**Production App Repos** (react-sales-journal, da-app-portal, etc.):
+**Production App Repos** (react-customer-dashboard, da-app-portal, etc.):
 - `README.md` - Lightweight Tier 1 docs ONLY
 - NO architecture/deployment details (link to knowledge base)
 
@@ -216,7 +216,7 @@ When completing a project with production deployment:
 - [ ] Write `operations/troubleshooting.md` (common issues)
 - [ ] Update `knowledge/applications/README.md` (add app to index)
 - [ ] Update specialist agent (e.g., `aws-expert.md`) with patterns + confidence scores
-- [ ] Update role agent (e.g., `ui-ux-developer-role.md`) "Known Applications" section
+- [ ] Update role agent (e.g., `frontend-developer-role.md`) "Known Applications" section
 - [ ] Update `CLAUDE.md` if pattern is novel
 - [ ] Update `.gitignore` if new knowledge directory added
 
@@ -294,16 +294,16 @@ projects/active/feature-salesjournaltoreact/
 
 **PR #96: da-agent-hub** (`feat/knowledge-base-three-tier-docs`)
 - `knowledge/applications/app-portal/` (architecture, deployment, operations)
-- `knowledge/applications/sales-journal/` (architecture, deployment, operations)
+- `knowledge/applications/customer-dashboard/` (architecture, deployment, operations)
 - `.claude/agents/specialists/aws-expert.md` (ALB OIDC 0.92, ECS 0.88)
-- `.claude/agents/roles/ui-ux-developer-role.md` (Known Applications)
+- `.claude/agents/roles/frontend-developer-role.md` (Known Applications)
 - `CLAUDE.md` (three-tier pattern docs)
 - `.gitignore` (allow knowledge/applications/**)
 
 **PR #3: da-app-portal** (`docs/update-readme-with-knowledge-base-links`)
 - `README.md` (lightweight, links to knowledge base)
 
-**PR: react-sales-journal** (`docs/update-readme-with-knowledge-base-links`)
+**PR: react-customer-dashboard** (`docs/update-readme-with-knowledge-base-links`)
 - `README.md` (lightweight, links to knowledge base)
 
 **Commit: da-agent-hub main**

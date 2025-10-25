@@ -85,27 +85,20 @@ temp/
 workspace/*
 !workspace/README.md
 
-# Repository clones - keep folder structure but not contents
-repos/*/
-!repos/*/.gitkeep
-repos/*/*
+# Git submodules are tracked in .gitmodules
+# Submodule contents are managed by git submodule commands
 
-# Knowledge folder - include top level but exclude subfolders (other repos)
-knowledge/*/
-!knowledge/*/.gitkeep
-knowledge/*/*
-# Allow D&A team documentation in knowledge/da_team_documentation/
-!knowledge/da_team_documentation/
-!knowledge/da_team_documentation/**
-# Allow Claude ADLC Framework platform documentation
+# Allow platform documentation (not a submodule)
 !knowledge/platform/
 !knowledge/platform/**
-# Allow da_obsidian knowledge base for raw notes and ideas
-!knowledge/da_obsidian/
-!knowledge/da_obsidian/**
-# Allow production applications documentation
+
+# Allow applications documentation (not a submodule)
 !knowledge/applications/
 !knowledge/applications/**
+
+# Backup directories from submodule conversion
+.repo-backup-*/
+.cleanup-backup-*/
 
 
 .claude/settings.local.json

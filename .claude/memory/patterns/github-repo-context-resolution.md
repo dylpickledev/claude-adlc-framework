@@ -86,7 +86,7 @@ Before making GitHub MCP calls, resolve repository context:
    - Extract owner from output
    - Use in GitHub MCP: owner=<resolved> repo=<resolved>
 
-2. If user provides full path (e.g., "graniterock/dbt_cloud"):
+2. If user provides full path (e.g., "your-org/dbt-project"):
    - Parse directly, no resolution needed
 
 3. If resolution fails:
@@ -125,7 +125,7 @@ All GitHub repositories are tracked with full URLs:
   "data_stack": {
     "transformation": {
       "dbt_cloud": {
-        "url": "https://github.com/graniterock/dbt_cloud.git",
+        "url": "https://github.com/your-org/dbt-project.git",
         "branch": "dbt_dw",
         "description": "Main dbt transformation project"
       }
@@ -141,12 +141,12 @@ The resolver extracts owner from URL pattern: `https://github.com/{owner}/{repo}
 All repositories in `config/repositories.json` with GitHub URLs:
 - Knowledge repos: da_team_documentation, da_obsidian
 - Orchestration: orchestra, prefect
-- Ingestion: plantdemand_etl, mapistry_etl, xbe_data_ingestion, postgres_pipelines, hex_pipelines
-- Transformation: dbt_cloud, dbt_postgres
-- Front-end: streamlit_apps_snowflake, snowflake_notebooks, react_sales_journal
-- Operations: roy_kent, sherlock
+- Ingestion: source1-etl, source2-etl, source3-ingestion, database-pipelines, notebook-pipelines
+- Transformation: dbt_cloud, dbt-project-secondary
+- Front-end: streamlit-apps, data-notebooks, react-data-app
+- Operations: monitoring-system, investigation-tool
 
-**Note**: Repos with `"url": "local"` (tableau, quarryreport) cannot be resolved - no GitHub URL.
+**Note**: Repos with `"url": "local"` (tableau, legacy-reporting) cannot be resolved - no GitHub URL.
 
 ## Error Handling
 
@@ -162,7 +162,7 @@ python3 scripts/resolve-repo-context.py unknown_repo
 ### Local Repositories
 Some repos have `"url": "local"` and cannot be resolved:
 - tableau
-- quarryreport
+- legacy-reporting
 
 These require explicit owner specification.
 
@@ -183,7 +183,7 @@ Before deploying agent updates, test resolution:
 python3 scripts/resolve-repo-context.py dbt_cloud
 
 # Test multiple repos
-for repo in dbt_cloud prefect orchestra roy_kent; do
+for repo in dbt_cloud prefect orchestra monitoring-system; do
   echo "Testing $repo..."
   python3 scripts/resolve-repo-context.py "$repo"
 done

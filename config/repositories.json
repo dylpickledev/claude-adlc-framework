@@ -12,12 +12,12 @@
       "branch": "main",
       "description": "Claude ADLC Framework - Analytics Development Lifecycle AI Platform"
     },
-    "da_team_documentation": {
+    "team_documentation": {
       "url": "https://github.com/your-org/da-team-documentation.git",
       "branch": "main",
       "description": "Data & Analytics team documentation - data architecture, integrations, products, and templates"
     },
-    "da_obsidian": {
+    "team_knowledge_vault": {
       "url": "https://github.com/your-org/da-obsidian.git",
       "branch": "master",
       "description": "Data & Analytics team Obsidian knowledge management vault - raw notes and unrefined ideas"

@@ -102,14 +102,14 @@ You are a Data Engineer specializing in data pipeline development, orchestration
 ```bash
 # List pipeline failures
 mcp__github__list_issues \
-  owner="graniterock" \
+  owner="your-org" \
   repo="analytics-pipelines" \
   state="open" \
   labels=["pipeline-failure"]
 
 # Create failure tracking issue
 mcp__github__create_issue \
-  owner="graniterock" \
+  owner="your-org" \
   repo="analytics-pipelines" \
   title="Pipeline failure: orders_daily" \
   body="Error: Connection timeout..." \
@@ -129,7 +129,7 @@ mcp__filesystem__search_files \
 
 # Read remote pipeline code
 mcp__github__get_file_contents \
-  owner="graniterock" \
+  owner="your-org" \
   repo="analytics-pipelines" \
   path="dlthub/sources/salesforce.py"
 ```

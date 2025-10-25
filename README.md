@@ -585,7 +585,7 @@ projects/completed/YYYY-MM/[project-name]/
 
 ## Memory System
 
-The DA Agent Hub includes a sophisticated memory system that learns from your work:
+The ADLC Agent Hub includes a sophisticated memory system that learns from your work:
 
 ### Automatic Pattern Extraction
 When you `/complete` a project, the system automatically:
