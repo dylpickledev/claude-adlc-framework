@@ -38,7 +38,7 @@ This guide documents the complete MCP (Model Context Protocol) integration strat
 |--------|---------|-------|---------------|--------|
 | **dbt-mcp** | `dbt-mcp` (uvx) | 40+ tools, 7 categories | dbt-expert, analytics-engineer-role | ✅ Connected |
 | **snowflake-mcp** | `snowflake-labs-mcp` (uvx) | 26+ tools, 4 categories | snowflake-expert, dbt-expert, analytics-engineer-role | ✅ Connected |
-| **aws-api** | `awslabs.aws-api-mcp-server` (uvx) | 3 core tools | aws-expert, ui-ux-developer-role, data-engineer-role | ✅ Connected |
+| **aws-api** | `awslabs.aws-api-mcp-server` (uvx) | 3 core tools | aws-expert, frontend-developer-role, data-engineer-role | ✅ Connected |
 | **aws-docs** | `awslabs.aws-documentation-mcp-server` (uvx) | 3 documentation tools | aws-expert | ✅ Connected |
 | **github** | `@modelcontextprotocol/server-github` (npx) | 28 tools, 4 categories | github-sleuth-expert, documentation-expert, all role agents | ✅ Connected |
 | **slack** | `@modelcontextprotocol/server-slack` (npx) | 8 tools | project-manager-role, business-analyst-role, qa-engineer-role | ✅ Connected |
@@ -359,7 +359,7 @@ When specialist agents provide MCP tool recommendations to main Claude:
 | **qa-engineer-role** | filesystem-mcp, sequential-thinking-mcp | Direct for testing, delegate domain work to specialists |
 | **business-analyst-role** | slack-mcp, sequential-thinking-mcp | Direct for communication, delegate technical to specialists |
 | **project-manager-role** | slack-mcp, github-mcp | Direct for coordination, delegate technical to specialists |
-| **ui-ux-developer-role** | github-mcp | Delegate AWS deployment to aws-expert |
+| **frontend-developer-role** | github-mcp | Delegate AWS deployment to aws-expert |
 | **bi-developer-role** | dbt-mcp (metrics), snowflake-mcp | Delegate complex analysis to dbt-expert, snowflake-expert |
 
 ### Delegation Guidelines

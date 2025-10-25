@@ -16,7 +16,7 @@
 - ✅ Genericizes company name (GraniteRock → your organization)
 - ✅ Updates team branding (DA Agent Hub → ADLC Agent Hub)
 - ✅ Replaces internal repository names with generic examples
-- ✅ Updates internal app references (sales-journal → customer-dashboard)
+- ✅ Updates internal app references (customer-dashboard → customer-dashboard)
 - ✅ Renames team repos (da_team_documentation → team_documentation)
 - ✅ Fixes ui-ux-developer-role references (agent doesn't exist)
 

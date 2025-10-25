@@ -1,12 +1,12 @@
 don't look at the full .env file. Only search for the var names up to the equals sign.
 
-# DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
+# ADLC Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
 
 ## Quick Start (First Time Setup)
 
 ### 1. Configure MCP for dbt Cloud Access
 
-**IMPORTANT**: MCP (Model Context Protocol) integration with dbt Cloud is required for DA Agent Hub to work.
+**IMPORTANT**: MCP (Model Context Protocol) integration with dbt Cloud is required for ADLC Agent Hub to work.
 
 ```bash
 # Copy environment template
@@ -43,12 +43,12 @@ claude "List my dbt Cloud jobs"
 
 ```bash
 claude /setup
-# Customizes DA Agent Hub for your specific data stack and role
+# Customizes ADLC Agent Hub for your specific data stack and role
 ```
 
 **Troubleshooting**: If you encounter issues, see `docs/troubleshooting-mcp.md` or ask the onboarding-agent:
 ```bash
-claude "I need help with DA Agent Hub setup" --agent onboarding-agent
+claude "I need help with ADLC Agent Hub setup" --agent onboarding-agent
 ```
 
 ---
@@ -429,12 +429,12 @@ All specialist agents working with GitHub should:
 ## Knowledge Repository Structure
 
 ### Team Documentation
-`knowledge/da_team_documentation/` - Data & Analytics team structured documentation (data architecture, integrations, products, templates)
+`knowledge/team_documentation/` - Analytics team structured documentation (data architecture, integrations, products, templates)
 
 ### Team Knowledge Vault
-`knowledge/da_obsidian/` - Data & Analytics team Obsidian vault for raw notes and unrefined ideas before ADLC planning
+`knowledge/team_knowledge_vault/` - Analytics team Obsidian vault for raw notes and unrefined ideas before ADLC planning
 
-### DA Agent Hub Platform Documentation
+### ADLC Agent Hub Platform Documentation
 `knowledge/da-agent-hub/` - Complete platform documentation organized by ADLC phases:
 - **Planning Layer** (`planning/`): Idea management and strategic planning
 - **Development Layer** (`development/`): Local development and agent coordination
@@ -446,7 +446,7 @@ All specialist agents working with GitHub should:
 **Three-Tier Documentation Architecture**:
 
 **Tier 1: Repository README** (Lightweight, Developer-Focused)
-- **Location**: `<repo>/README.md` (e.g., `react-sales-journal/README.md`)
+- **Location**: `<repo>/README.md` (e.g., `react-customer-dashboard/README.md`)
 - **Purpose**: Get developers productive fast
 - **Contains**: App purpose, local dev setup, npm commands, link to knowledge base
 - **Audience**: Human developers, AI doing code-level work
@@ -477,9 +477,9 @@ All specialist agents working with GitHub should:
 
 **Example Flow**:
 ```
-Agent Task: "Deploy Sales Journal update"
-1. Check ui-ux-developer-role.md → Known Applications → Find knowledge/applications/sales-journal/
-2. Read knowledge/applications/sales-journal/deployment/production-deploy.md → Complete runbook
+Agent Task: "Deploy Customer Dashboard update"
+1. Check ui-ux-developer-role.md → Known Applications → Find knowledge/applications/customer-dashboard/
+2. Read knowledge/applications/customer-dashboard/deployment/production-deploy.md → Complete runbook
 3. Delegate AWS work → aws-expert reads same knowledge base docs + applies patterns
 ```
 
@@ -541,7 +541,7 @@ Create separate improvement PRs for:
 - **ADLC METHODOLOGY**: Core system workflow refinements
 
 **Examples**:
-- "feat: Enhance aws-expert with ALB OIDC production patterns from sales-journal deployment"
+- "feat: Enhance aws-expert with ALB OIDC production patterns from customer-dashboard deployment"
 - "docs: Add React + FastAPI application architecture to knowledge/applications/"
 - "feat: Document three-tier documentation pattern for future app deployments"
 

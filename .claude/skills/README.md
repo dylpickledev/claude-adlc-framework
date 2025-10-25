@@ -40,27 +40,57 @@ Browse this catalog by category or search for keywords in descriptions.
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented Skills (4)
+**Ready to use now:**
+- `project-setup` - Initialize ADLC project structure
+- `pr-description-generator` - Generate comprehensive PR descriptions
+- `dbt-model-scaffolder` - Generate dbt model boilerplate
+- `documentation-validator` - Validate documentation completeness
+
+### ✅ Detection Libraries (3)
+**Production-ready reusable components:**
+- `platform-detector.md` - Detect dbt Core vs dbt Cloud
+- `mcp-project-size-detector.md` - Prevent MCP token overflow
+- `semantic-layer-detector.md` - Semantic Layer capability detection
+
+### 🚧 Planned Skills (8)
+**Coming in future releases - framework ready:**
+- `dbt-test-suite-generator` - Generate comprehensive test YAML
+- `dbt-incremental-strategy-advisor` - Recommend optimal incremental strategy
+- `dbt-core-local-runner` - Run dbt commands locally
+- `dbt-core-docs-generator` - Generate and serve docs
+- `dbt-core-model-analyzer` - Analyze models via file system
+- `dbt-cloud-job-monitor` - Monitor job runs (read-only)
+- `dbt-cloud-semantic-layer-explorer` - Explore Semantic Layer metrics
+- `dbt-cloud-discovery-navigator` - Navigate models via Discovery API
+
+**Want to contribute?** See "Contributing" section below to add new skills.
+
+---
+
 ## Skill Categories
 
-### 1. Project Management Skills
-- **project-setup** - Initialize ADLC project structure
-- **pr-description-generator** - Generate comprehensive PR descriptions
-- **documentation-validator** - Validate documentation completeness
+### 1. Project Management Skills (4 implemented)
+- ✅ **project-setup** - Initialize ADLC project structure
+- ✅ **pr-description-generator** - Generate comprehensive PR descriptions
+- ✅ **documentation-validator** - Validate documentation completeness
 
-### 2. dbt Universal Skills (Work on Core AND Cloud)
-- **dbt-model-scaffolder** - Generate dbt model boilerplate
-- **dbt-test-suite-generator** - Generate comprehensive test YAML
-- **dbt-incremental-strategy-advisor** - Recommend optimal incremental strategy
+### 2. dbt Universal Skills (1 implemented, 2 planned)
+- ✅ **dbt-model-scaffolder** - Generate dbt model boilerplate
+- 🚧 **dbt-test-suite-generator** - Generate comprehensive test YAML (Planned)
+- 🚧 **dbt-incremental-strategy-advisor** - Recommend optimal incremental strategy (Planned)
 
-### 3. dbt Core Skills (Core ONLY)
-- **dbt-core-local-runner** - Run dbt commands locally
-- **dbt-core-docs-generator** - Generate and serve docs
-- **dbt-core-model-analyzer** - Analyze models via file system
+### 3. dbt Core Skills (0 implemented, 3 planned)
+- 🚧 **dbt-core-local-runner** - Run dbt commands locally (Planned)
+- 🚧 **dbt-core-docs-generator** - Generate and serve docs (Planned)
+- 🚧 **dbt-core-model-analyzer** - Analyze models via file system (Planned)
 
-### 4. dbt Cloud Skills (Cloud ONLY)
-- **dbt-cloud-job-monitor** - Monitor job runs (read-only)
-- **dbt-cloud-semantic-layer-explorer** - Explore Semantic Layer metrics
-- **dbt-cloud-discovery-navigator** - Navigate models via Discovery API
+### 4. dbt Cloud Skills (0 implemented, 3 planned)
+- 🚧 **dbt-cloud-job-monitor** - Monitor job runs (read-only) (Planned)
+- 🚧 **dbt-cloud-semantic-layer-explorer** - Explore Semantic Layer metrics (Planned)
+- 🚧 **dbt-cloud-discovery-navigator** - Navigate models via Discovery API (Planned)
 
 ---
 
@@ -179,6 +209,7 @@ Generate dbt model boilerplate with tests, documentation, and best practices.
 #### dbt-test-suite-generator
 **Platform**: dbt Core AND dbt Cloud
 **Version**: 2.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Generate comprehensive test YAML based on model layer and version.
 
@@ -219,6 +250,7 @@ Generate comprehensive test YAML based on model layer and version.
 #### dbt-incremental-strategy-advisor
 **Platform**: dbt Core AND dbt Cloud
 **Version**: 2.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Recommend optimal incremental strategy based on data patterns and dbt version.
 
@@ -265,6 +297,7 @@ Recommend optimal incremental strategy based on data patterns and dbt version.
 #### dbt-core-local-runner
 **Platform**: dbt Core ONLY
 **Version**: 1.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Run dbt commands locally and display results.
 
@@ -293,6 +326,7 @@ Run dbt commands locally and display results.
 #### dbt-core-docs-generator
 **Platform**: dbt Core ONLY
 **Version**: 1.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Generate and serve dbt documentation locally.
 
@@ -321,6 +355,7 @@ Generate and serve dbt documentation locally.
 #### dbt-core-model-analyzer
 **Platform**: dbt Core ONLY
 **Version**: 1.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Analyze dbt models via file system and local CLI.
 
@@ -353,6 +388,7 @@ Analyze dbt models via file system and local CLI.
 #### dbt-cloud-job-monitor
 **Platform**: dbt Cloud ONLY
 **Version**: 1.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Monitor dbt Cloud job runs (READ-ONLY observability).
 
@@ -394,6 +430,7 @@ Monitor dbt Cloud job runs (READ-ONLY observability).
 #### dbt-cloud-semantic-layer-explorer
 **Platform**: dbt Cloud Team/Enterprise ONLY
 **Version**: 1.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Explore and query Semantic Layer metrics.
 
@@ -436,6 +473,7 @@ Explore and query Semantic Layer metrics.
 #### dbt-cloud-discovery-navigator
 **Platform**: dbt Cloud ONLY
 **Version**: 1.0.0
+**Status**: 🚧 PLANNED - Not yet implemented
 
 Navigate dbt models using Discovery API (project-size-aware).
 
