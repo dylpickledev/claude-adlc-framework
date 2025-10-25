@@ -1,7 +1,7 @@
 # Claude Code Quality Validation Checklists
 
 **Created**: 2025-10-21
-**Source**: PR #164 claude-code-expert (graniterock/da-agent-hub)
+**Source**: claude-code-expert analysis
 **Purpose**: Systematic quality validation for Claude Code configuration artifacts
 **Status**: Production guidance
 
@@ -461,5 +461,5 @@ See @.claude/memory/patterns/testing-patterns.md
 **Version**: 1.0.0
 **Last Updated**: 2025-10-21
 **Next Review**: 2026-01-21
-**Source**: Extracted from PR #164 (graniterock/da-agent-hub)
-**Maintainer**: ADLC Platform Team
+**Source**: Claude Code quality patterns
+**Maintainer**: ADLC Framework Community

@@ -391,10 +391,10 @@ When working with GitHub repositories, use smart context resolution to avoid spe
 ```bash
 # Resolve repository context from config/repositories.json
 python3 scripts/resolve-repo-context.py dbt_cloud
-# Output: graniterock dbt_cloud
+# Output: YOUR_ORG dbt_cloud
 
 # Use resolved context in GitHub MCP operations
-mcp__github__list_issues owner="graniterock" repo="dbt_cloud"
+mcp__github__list_issues owner="YOUR_ORG" repo="dbt_cloud"
 ```
 
 ### Available Commands
@@ -409,64 +409,67 @@ All specialist agents working with GitHub should:
 2. Use explicit owner/repo parameters in all GitHub MCP operations
 3. Reference pattern documentation: `.claude/memory/patterns/github-repo-context-resolution.md`
 
-**Benefit**: Eliminates cognitive overhead of remembering "graniterock" for every GitHub operation while maintaining explicit, correct MCP calls.
+**Benefit**: Eliminates cognitive overhead of remembering organization name for every GitHub operation while maintaining explicit, correct MCP calls.
 
 ## Knowledge Repository Structure
 
-### Team Documentation
-`knowledge/da_team_documentation/` - Data & Analytics team structured documentation (data architecture, integrations, products, templates)
+### Platform Documentation
+`knowledge/platform/` - ADLC Framework platform documentation organized by lifecycle phases:
 
-### Team Knowledge Vault
-`knowledge/da_obsidian/` - Data & Analytics team Obsidian vault for raw notes and unrefined ideas before ADLC planning
+- **`planning/`** - ADLC Plan Phase (idea management, strategic planning, GitHub issue workflows)
+- **`development/`** - ADLC Develop/Test/Deploy (agent development, VS Code integration, context management)
+- **`operations/`** - ADLC Operate/Observe/Discover/Analyze (cross-repo coordination, troubleshooting)
+- **`architecture/`** - System design, agent capabilities, confidence routing patterns
+- **`mcp-servers/`** - MCP integration guides (dbt, AWS docs, Slack, filesystem)
+- **`specialists/`** - Specialist agent documentation and patterns
+- **`training/`** - Agent learning, chat analysis, continuous improvement
 
-### DA Agent Hub Platform Documentation
-`knowledge/da-agent-hub/` - Complete platform documentation organized by ADLC phases:
-- **Planning Layer** (`planning/`): Idea management and strategic planning
-- **Development Layer** (`development/`): Local development and agent coordination
-- **Operations Layer** (`operations/`): Automated operations and cross-repo coordination
+**See `knowledge/platform/README.md` for complete navigation guide**
 
-### Production Applications Documentation
-`knowledge/applications/` - Comprehensive documentation for deployed applications
+### Extending the Knowledge Base
 
-**Three-Tier Documentation Architecture**:
+As you build your AI-augmented workflow, create additional knowledge directories for your needs:
+
+**Example: Team Documentation**
+```
+knowledge/team/
+├── architecture/          # Your data architecture docs
+├── integrations/          # System integration guides
+└── products/              # Product/service documentation
+```
+
+**Example: Application Documentation**
+```
+knowledge/applications/
+└── <app-name>/
+    ├── architecture/      # System design, data flows
+    ├── deployment/        # Deployment runbooks
+    └── operations/        # Monitoring, troubleshooting
+```
+
+**Three-Tier Documentation Pattern** (Recommended for Production Applications):
 
 **Tier 1: Repository README** (Lightweight, Developer-Focused)
-- **Location**: `<repo>/README.md` (e.g., `react-sales-journal/README.md`)
+- **Location**: `<your-app-repo>/README.md`
 - **Purpose**: Get developers productive fast
-- **Contains**: App purpose, local dev setup, npm commands, link to knowledge base
-- **Audience**: Human developers, AI doing code-level work
+- **Contains**: App purpose, local dev setup, commands, link to knowledge base
 - **Size**: < 200 lines
 
 **Tier 2: Knowledge Base** (Comprehensive, Cross-System)
 - **Location**: `knowledge/applications/<app-name>/`
 - **Purpose**: Complete reference for deployment, operations, architecture
-- **Structure**:
-  - `architecture/` - System design, data flows, infrastructure
-  - `deployment/` - Deployment runbooks, Docker builds, AWS config
-  - `operations/` - Monitoring, troubleshooting, incident response
 - **Audience**: AI agents coordinating deployments/operations
-- **Size**: Unlimited - source of truth
 
 **Tier 3: Agent Pattern Index** (Pointers + Confidence)
-- **Location**: `.claude/agents/specialists/<agent>.md` (e.g., `aws-expert.md`)
+- **Location**: `.claude/agents/specialists/<agent>.md`
 - **Purpose**: Help agents find proven patterns quickly
-- **Contains**: Pattern name, confidence score, link to Tier 2, when to use
-- **Audience**: AI agents deciding what pattern to apply
-- **Size**: Index only, not full content
+- **Contains**: Pattern name, confidence score, link to Tier 2 docs
 
 **Key Principles**:
 - **Single Source of Truth**: Each piece of info lives in ONE canonical location
 - **Cross-Reference, Don't Duplicate**: Use links instead of copying content
 - **Task-Aware Discovery**: Agents read what they need, when they need it
 - **Layer-Appropriate Detail**: Match detail level to audience needs
-
-**Example Flow**:
-```
-Agent Task: "Deploy Sales Journal update"
-1. Check ui-ux-developer-role.md → Known Applications → Find knowledge/applications/sales-journal/
-2. Read knowledge/applications/sales-journal/deployment/production-deploy.md → Complete runbook
-3. Delegate AWS work → aws-expert reads same knowledge base docs + applies patterns
-```
 
 ## Repository Branch Structures
 
@@ -502,7 +505,7 @@ When completing projects, extract learnings to appropriate locations based on co
   3. Add to "Known Applications" in relevant role agents (e.g., ui-ux-developer-role.md)
   4. Create lightweight README in actual repo (Tier 1) linking to knowledge base
 
-**Platform/Tool Patterns** → `knowledge/da-agent-hub/`
+**Platform/Tool Patterns** → `knowledge/platform/`
 - **When**: Discovering reusable patterns for ADLC workflow
 - **Structure**: Organized by ADLC phase (planning/, development/, operations/)
 - **Examples**: Testing frameworks, git workflows, cross-system analysis patterns
@@ -540,7 +543,7 @@ Create separate improvement PRs for:
 
 **Usage**: `./scripts/analyze-claude-chats.sh`
 
-**Results**: `knowledge/da-agent-hub/training/analysis-results/` (local only)
+**Results**: `knowledge/platform/training/analysis-results/` (local only)
 
 ### Continuous Learning Loop
 ```
@@ -566,6 +569,6 @@ Create separate improvement PRs for:
 **Git Workflows**: `.claude/memory/patterns/git-workflow-patterns.md`
 **Testing Patterns**: `.claude/memory/patterns/testing-patterns.md`
 **Cross-System Analysis**: `.claude/memory/patterns/cross-system-analysis-patterns.md`
-**VS Code Worktrees**: `knowledge/da-agent-hub/development/vscode-worktree-integration.md`
+**VS Code Worktrees**: `knowledge/platform/development/vscode-worktree-integration.md`
 **Agent Definitions**: `.claude/agents/`
-**Platform Documentation**: `knowledge/da-agent-hub/README.md`
+**Platform Documentation**: `knowledge/platform/README.md`
