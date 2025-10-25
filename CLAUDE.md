@@ -471,14 +471,73 @@ knowledge/applications/
 - **Task-Aware Discovery**: Agents read what they need, when they need it
 - **Layer-Appropriate Detail**: Match detail level to audience needs
 
-## Repository Branch Structures
+## Git Workflow & Security Rules
+
+### Critical Security Rules - Protected Branches
+
+**NEVER commit directly to**: `main`, `master`, `production`, `prod`, `release/*`, `hotfix/*`
+
+**Mandatory Workflow**:
+1. **ALWAYS create feature branch** before making any code changes
+2. **ALWAYS create Pull Request** for code review and approval
+3. **NEVER push directly** to protected branches
+4. **NEVER merge without approval** (except for documentation-only changes)
+
+**Pre-Commit Safety Check** - Claude MUST verify branch before committing:
+```bash
+CURRENT_BRANCH=$(git branch --show-current)
+PROTECTED_BRANCHES=("main" "master" "production" "prod")
+
+for branch in "${PROTECTED_BRANCHES[@]}"; do
+    if [ "$CURRENT_BRANCH" = "$branch" ]; then
+        echo "❌ ERROR: Cannot commit to protected branch '$CURRENT_BRANCH'"
+        echo "Please create a feature branch: git checkout -b feature/your-feature-name"
+        exit 1
+    fi
+done
+```
+
+**If user requests commit to protected branch**:
+1. **Stop immediately** - Do not execute the commit
+2. **Explain the security policy** - Protected branches require PR workflow
+3. **Offer to create feature branch** - Suggest branch name based on work
+4. **Create PR after commit** - Ensure changes go through approval process
+
+### Branch Naming Conventions
+
+**Standard prefixes**:
+- `feature/[description]` - New features
+- `fix/[description]` - Bug fixes
+- `docs/[description]` - Documentation updates
+- `refactor/[description]` - Code refactoring
+- `test/[description]` - Testing improvements
+
+**Best practices**: Use descriptive, kebab-case names (e.g., `feature/add-customer-dashboard`)
+
+### Repository-Specific Branch Structures
 
 **dbt_cloud**: master (prod), dbt_dw (staging) - Branch from dbt_dw
 **dbt_errors_to_issues**: main (prod) - Branch directly from main
 **roy_kent**: master (prod) - Branch directly from master
 **sherlock**: main (prod) - Branch directly from main
 
-*See `.claude/memory/patterns/git-workflow-patterns.md` for detailed workflows*
+### Standard Workflow
+
+**CRITICAL - Always start from up-to-date main**:
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/your-feature-name
+```
+
+**Complete workflow checklist**:
+1. ✅ Sync with main branch before creating features
+2. ✅ Create descriptive branch names
+3. ✅ Keep branches focused and atomic
+4. ✅ Test locally before pushing
+5. ✅ Create PR with clear description
+6. ✅ Wait for approval
+7. ✅ Clean up branches after merge
 
 ## ADLC Continuous Improvement Strategy
 
