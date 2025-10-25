@@ -110,7 +110,7 @@ This document explains how **roles**, **specialists**, and **MCP tools** work to
 ### 2. **MCP Tools Are Data Access, Not Expertise**
 
 **What aws-api MCP provides**:
-- "You have 3 ECS services named: sales-journal, app-portal, data-pipeline"
+- "You have 3 ECS services named: customer-dashboard, app-portal, data-pipeline"
 - "Your ALB has listeners on ports 80 and 443"
 - "Lambda function timeout is 30 seconds"
 
@@ -332,7 +332,7 @@ Task: Deploy new React financial dashboard to AWS
 Current state:
   - React app built and tested locally
   - Existing AWS infrastructure: ECS cluster "data-apps", ALB with OIDC
-  - Current apps: sales-journal (ECS service on same ALB)
+  - Current apps: customer-dashboard (ECS service on same ALB)
 Requirements:
   - Zero downtime deployment
   - Must integrate with existing ALB OIDC authentication
@@ -341,7 +341,7 @@ Requirements:
 Constraints:
   - Must deploy by end of week
   - Team has limited AWS experience
-  - Cannot disrupt existing sales-journal service
+  - Cannot disrupt existing customer-dashboard service
 ```
 
 ### 3. **Use MCP Tools for Context Gathering**
@@ -417,7 +417,7 @@ After aws-expert solves complex ALB OIDC integration:
    DELEGATE TO: aws-expert
    CONTEXT: {
      task: "Deploy updated React app to existing ECS service",
-     current: "sales-journal ECS service on app-cluster",
+     current: "customer-dashboard ECS service on app-cluster",
      requirements: "Zero downtime, maintain OIDC auth, <5 min deploy",
      constraints: "Production environment, business hours"
    }

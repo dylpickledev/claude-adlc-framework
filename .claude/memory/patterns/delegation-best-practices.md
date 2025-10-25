@@ -102,8 +102,8 @@ This document captures proven delegation patterns from Week 3-4 testing where 4/
 
 **Pattern**: Specialists reference actual production deployments to increase confidence levels
 
-**Evidence**: Test 4 (aws-expert) - Confidence 0.95 based on sales-journal and app-portal deployments
-- Referenced `knowledge/applications/sales-journal/` for ECS + ALB pattern
+**Evidence**: Test 4 (aws-expert) - Confidence 0.95 based on customer-dashboard and app-portal deployments
+- Referenced `knowledge/applications/customer-dashboard/` for ECS + ALB pattern
 - Referenced `knowledge/applications/app-portal/` for OIDC authentication
 - Avoided trial-and-error by reusing proven patterns
 - Identified critical gotchas from production experience

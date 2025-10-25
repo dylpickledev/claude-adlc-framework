@@ -3,7 +3,7 @@
 **Pattern Type**: Infrastructure Deployment
 **Tools**: aws-api, aws-docs
 **Confidence**: HIGH (0.90) - Production-validated pattern
-**Primary Users**: aws-expert, data-engineer-role, ui-ux-developer-role, data-architect-role
+**Primary Users**: aws-expert, data-engineer-role, frontend-developer-role, data-architect-role
 
 ---
 
@@ -336,7 +336,7 @@ mcp__aws-api__call_aws \
 
 ## Real-World Example
 
-### Scenario: Deploy Sales Journal React App to ECS
+### Scenario: Deploy Customer Dashboard React App to ECS
 
 **Step 1: Documentation Research** (aws-docs)
 ```bash
@@ -368,13 +368,13 @@ mcp__aws-docs__recommend \
 # Check existing resources
 mcp__aws-api__call_aws cli_command="aws ecs describe-clusters --clusters app-cluster --region us-west-2"
 mcp__aws-api__call_aws cli_command="aws elbv2 describe-load-balancers --region us-west-2"
-mcp__aws-api__call_aws cli_command="aws ecr describe-repositories --repository-names sales-journal --region us-west-2"
+mcp__aws-api__call_aws cli_command="aws ecr describe-repositories --repository-names customer-dashboard --region us-west-2"
 ```
 
 **Findings**:
 - Cluster: app-cluster (exists)
 - ALB: app-alb with OIDC auth (exists)
-- ECR: sales-journal:latest (exists)
+- ECR: customer-dashboard:latest (exists)
 - VPC: Private subnets with NAT (exists)
 
 ---
@@ -385,7 +385,7 @@ Based on CURRENT docs + existing infrastructure:
 **Task Definition**:
 ```json
 {
-  "family": "sales-journal",
+  "family": "customer-dashboard",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",  // 0.25 vCPU (docs recommend for NGINX + static)
@@ -393,8 +393,8 @@ Based on CURRENT docs + existing infrastructure:
   "executionRoleArn": "arn:aws:iam::account:role/ecsTaskExecutionRole",
   "taskRoleArn": "arn:aws:iam::account:role/salesJournalTaskRole",
   "containerDefinitions": [{
-    "name": "sales-journal",
-    "image": "account.dkr.ecr.us-west-2.amazonaws.com/sales-journal:latest",
+    "name": "customer-dashboard",
+    "image": "account.dkr.ecr.us-west-2.amazonaws.com/customer-dashboard:latest",
     "portMappings": [{"containerPort": 80, "protocol": "tcp"}],
     "healthCheck": {
       "command": ["CMD-SHELL", "curl -f http://localhost/health || exit 1"],
@@ -405,7 +405,7 @@ Based on CURRENT docs + existing infrastructure:
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/ecs/sales-journal",
+        "awslogs-group": "/ecs/customer-dashboard",
         "awslogs-region": "us-west-2",
         "awslogs-stream-prefix": "ecs"
       }
@@ -431,12 +431,12 @@ aws ecs register-task-definition --cli-input-json file://task-def.json
 # Create service with Service Connect (NEW 2025 feature)
 aws ecs create-service \
   --cluster app-cluster \
-  --service-name sales-journal \
-  --task-definition sales-journal \
+  --service-name customer-dashboard \
+  --task-definition customer-dashboard \
   --desired-count 2 \
   --launch-type FARGATE \
   --network-configuration "awsvpcConfiguration={subnets=[subnet-xxx],securityGroups=[sg-xxx]}" \
-  --load-balancers "targetGroupArn=arn:aws:elasticloadbalancing:...,containerName=sales-journal,containerPort=80" \
+  --load-balancers "targetGroupArn=arn:aws:elasticloadbalancing:...,containerName=customer-dashboard,containerPort=80" \
   --service-connect-configuration "enabled=true,namespace=app-services"
 ```
 
@@ -446,11 +446,11 @@ aws ecs create-service \
 ```bash
 # Check service status
 mcp__aws-api__call_aws \
-  cli_command="aws ecs describe-services --cluster app-cluster --services sales-journal --region us-west-2"
+  cli_command="aws ecs describe-services --cluster app-cluster --services customer-dashboard --region us-west-2"
 
 # Verify tasks running
 mcp__aws-api__call_aws \
-  cli_command="aws ecs list-tasks --cluster app-cluster --service-name sales-journal --region us-west-2"
+  cli_command="aws ecs list-tasks --cluster app-cluster --service-name customer-dashboard --region us-west-2"
 
 # Check target health (ALB)
 mcp__aws-api__call_aws \
@@ -605,7 +605,7 @@ aws-expert (design within limits) → aws-api (validate)
 ## Related Patterns
 
 - **AWS Infrastructure Optimization**: `.claude/memory/patterns/aws-cost-optimization.md`
-- **ECS Deployment Runbook**: `knowledge/applications/sales-journal/deployment/`
+- **ECS Deployment Runbook**: `knowledge/applications/customer-dashboard/deployment/`
 - **aws-expert Agent**: `.claude/agents/specialists/aws-expert.md`
 
 ---

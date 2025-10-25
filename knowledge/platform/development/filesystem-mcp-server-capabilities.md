@@ -624,7 +624,7 @@ Based on the tool capabilities and typical use cases:
         "@modelcontextprotocol/server-filesystem",
         "/Users/username/GRC/da-agent-hub",
         "/Users/username/GRC/dbt_cloud",
-        "/Users/username/GRC/react-sales-journal"
+        "/Users/username/GRC/react-customer-dashboard"
       ],
       "disabled": false
     }
