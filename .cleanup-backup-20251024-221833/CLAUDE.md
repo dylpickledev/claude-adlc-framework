@@ -102,12 +102,19 @@ claude "I need help with DA Agent Hub setup" --agent onboarding-agent
 
 **Note**: Prefer slash commands for better Claude integration. Scripts can be run directly if needed.
 
-### Repository Management
-- **`./scripts/pull-all-repos.sh`** → Pull latest from all repos defined in `config/repositories.json`
-  - Updates all knowledge repos (da_obsidian, da_team_documentation)
-  - Updates all data stack repos (orchestration, ingestion, transformation, front_end, operations)
-  - Uses correct branch for each repo (main, master, dbt_dw, etc.)
-  - Organized output by category with color coding
+### Repository Management (Git Submodules)
+
+External repositories (knowledge bases, data stack repos) are managed as **git submodules** for version control and collaboration.
+
+**Quick Commands**:
+- **`./scripts/setup-submodules.sh`** → Initialize all submodules (first time setup)
+- **`./scripts/pull-all-repos.sh`** → Update all submodules to latest versions
+- **`git submodule update --remote`** → Standard git command to update all
+- **`git submodule status`** → Check current submodule commits
+
+**Configuration**: Edit `config/repositories.json` to add/remove submodules
+
+**Full Documentation**: See `docs/git-submodules-workflow.md` for complete workflow guide
 
 ### GitHub Issues Integration
 All ideas are managed as GitHub issues with 'idea' label:
@@ -157,18 +164,26 @@ Templates encode correct architecture patterns:
 - Pipeline setup and orchestration (batch AND streaming)
 - Source system integration, data quality at ingestion
 - Chooses right tool (dlthub vs Prefect) based on requirements
-- Creates specialist agents when deep tool expertise needed
+- Delegates to dlthub-expert for complex ingestion patterns
+
+**Data Architect** (`data-architect-role`) - Strategic platform decisions and system design
+- Architecture patterns, technology selection, cross-system integration
+- Platform roadmap, governance, standards
+- Coordinates with all specialists for system-level decisions
 
 ### Tool Specialists (Consultation Layer - 20% Edge Cases)
 Role agents delegate to specialists who combine deep domain expertise with MCP tool access for informed, validated recommendations.
 
 **Data Platform (Available)**:
 - `dbt-expert`: SQL transformations, dbt patterns (MCP-enabled for dbt Cloud API)
-- `snowflake-expert`: Warehouse optimization, cost analysis
+- `snowflake-expert`: Warehouse optimization, cost analysis (MCP-enabled for Snowflake)
+- `dlthub-expert`: Data ingestion patterns for dlthub pipelines
 - `tableau-expert`: BI optimization and dashboard performance
-- `claude-code-expert`: Claude Code configuration specialist
 
-**Note**: For other specialist needs (cloud infrastructure, business context, orchestration tools), create specialist agents using templates in `.claude/agents/specialists/specialist-template.md`.
+**Cross-Functional (Available)**:
+- `github-sleuth-expert`: Repository analysis, issue investigation (MCP-enabled for GitHub)
+
+**Note**: Other specialists (aws-expert, business-context, documentation-expert, etc.) were removed in cleanup. Role agents now handle most work directly or can request specialist agent creation when needed.
 
 **Pattern**: Role agents delegate when confidence <0.60 OR domain expertise needed
 **Specialists**: Use MCP tools + expertise to provide validated, correct recommendations
