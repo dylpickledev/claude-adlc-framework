@@ -48,7 +48,7 @@ echo -e "${GREEN}✓ Updated data-architect-role.md${NC}"
 echo -e "${YELLOW}Genericizing github-repo-context-resolution.md...${NC}"
 cp .claude/memory/patterns/github-repo-context-resolution.md "$BACKUP_DIR/"
 sed -i '' \
-  -e 's/graniterock\/dbt_cloud/your-org\/dbt-project/g' \
+  -e 's/your-org\/dbt_cloud/your-org\/dbt-project/g' \
   -e 's/react_sales_journal/react-data-app/g' \
   -e 's/roy_kent/monitoring-system/g' \
   -e 's/sherlock/investigation-tool/g' \
@@ -119,14 +119,14 @@ echo -e "${YELLOW}Updating agent pattern references...${NC}"
 # Update dbt-expert.md
 if [ -f .claude/agents/specialists/dbt-expert.md ]; then
   cp .claude/agents/specialists/dbt-expert.md "$BACKUP_DIR/"
-  sed -i '' 's/graniterock/your-org/g' .claude/agents/specialists/dbt-expert.md
+  sed -i '' 's/your-org/your-org/g' .claude/agents/specialists/dbt-expert.md
   echo -e "${GREEN}✓ Updated dbt-expert.md${NC}"
 fi
 
 # Update data-engineer-role.md
 if [ -f .claude/agents/roles/data-engineer-role.md ]; then
   cp .claude/agents/roles/data-engineer-role.md "$BACKUP_DIR/"
-  sed -i '' 's/graniterock/your-org/g' .claude/agents/roles/data-engineer-role.md
+  sed -i '' 's/your-org/your-org/g' .claude/agents/roles/data-engineer-role.md
   echo -e "${GREEN}✓ Updated data-engineer-role.md${NC}"
 fi
 

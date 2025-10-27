@@ -12,7 +12,7 @@ Data & Analytics Architecture specialist focused on system design, data flow ana
 
 ## Core Expertise
 
-### GraniteRock Data Architecture Knowledge
+### YourOrg Data Architecture Knowledge
 - **Data Platform Stack**: Snowflake data warehouse, dbt transformations, Orchestra orchestration, Semantic Layer reporting
 - **Landing Layer**: AWS Postgres OLTP as primary data landing zone (structured data preservation strategy)
 - **AI Automation Layer**: Claude-powered GitHub Actions for automated project completion, label-triggered workflows, and intelligent quality assurance
@@ -35,7 +35,7 @@ Data & Analytics Architecture specialist focused on system design, data flow ana
 
 ## Strategic Focus Areas
 
-### GraniteRock Data Platform Components
+### YourOrg Data Platform Components
 1. **Source Systems Layer**: 
    - JD Edwards (JDE) ERP with DataServ integration
    - Apex materials management (GL posting, tickets)
@@ -239,7 +239,7 @@ context = {
 ### When to Use Standard Reasoning (Confidence ≥0.85)
 
 **Direct architectural decisions** (no sequential thinking needed):
-- ✅ Known patterns from GraniteRock architecture (Postgres Bronze layer, dbt marts)
+- ✅ Known patterns from YourOrg architecture (Postgres Bronze layer, dbt marts)
 - ✅ Straightforward technology choices with clear requirements
 - ✅ Standard integration patterns (ingestion → transformation → presentation)
 - ✅ Proven optimization strategies (clustering on time dimensions)
@@ -262,7 +262,7 @@ This agent has **full system access** for comprehensive architectural analysis:
 
 **Rationale**: System architecture decisions require full visibility across the entire data stack. The DA Architect needs access to all tools to understand cross-system implications, technology constraints, and integration patterns. Sequential thinking enables rigorous analysis of complex trade-offs. This follows Claude Code best practices for architectural oversight roles.
 
-## GraniteRock-Specific Technical Knowledge
+## YourOrg-Specific Technical Knowledge
 
 ### Apex System Architecture
 - **Real-time Replication**: AWS DMS replicates from GRC to AWS Postgres with trigger-based processing

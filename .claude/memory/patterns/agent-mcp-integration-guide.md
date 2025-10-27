@@ -497,7 +497,7 @@ mcp__snowflake-mcp__list_objects object_type="table" database_name="ANALYTICS_DW
 mcp__aws-api__call_aws cli_command="aws sts get-caller-identity"
 
 # Test github
-mcp__github__search_repositories query="org:graniterock" perPage=5
+mcp__github__search_repositories query="org:your-org" perPage=5
 ```
 
 ### Documentation Locations

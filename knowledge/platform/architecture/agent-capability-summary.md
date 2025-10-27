@@ -43,7 +43,7 @@ The DA Agent Hub provides a comprehensive AI-powered Analytics Development Lifec
 - **ui-ux-expert**: User experience design
 
 ### Cross-Functional
-- **documentation-expert**: Standards enforcement, GraniteRock patterns
+- **documentation-expert**: Standards enforcement, YourOrg patterns
 - **github-sleuth-expert**: Repository analysis, issue investigation via `github-mcp`
 - **business-context**: ClickUp requirements, stakeholder alignment
 - **cost-optimization-specialist**: Cross-platform cost analysis

@@ -4,7 +4,7 @@
 Automatic resolution of GitHub owner/repo information from `config/repositories.json` for seamless GitHub MCP operations.
 
 ## Problem Solved
-Previously, agents and MCP tools required explicit `owner="graniterock"` for every GitHub operation. This created cognitive overhead and potential for errors.
+Previously, agents and MCP tools required explicit `owner="your-org"` for every GitHub operation. This created cognitive overhead and potential for errors.
 
 ## Solution
 Smart context resolution system that automatically extracts owner/repo from repository URLs in configuration.
@@ -17,11 +17,11 @@ Smart context resolution system that automatically extracts owner/repo from repo
 ```bash
 # Get owner and repo (space-separated)
 python3 scripts/resolve-repo-context.py dbt_cloud
-# Output: graniterock dbt_cloud
+# Output: your-org dbt_cloud
 
 # Get full JSON context
 python3 scripts/resolve-repo-context.py --json dbt_cloud
-# Output: {"owner": "graniterock", "repo": "dbt_cloud", ...}
+# Output: {"owner": "your-org", "repo": "dbt_cloud", ...}
 
 # List all resolvable repositories
 python3 scripts/resolve-repo-context.py --list
@@ -33,7 +33,7 @@ python3 scripts/resolve-repo-context.py --list
 ```bash
 # Get just the owner
 ./scripts/get-repo-owner.sh dbt_cloud
-# Output: graniterock
+# Output: your-org
 ```
 
 ## Agent Integration Pattern
@@ -55,8 +55,8 @@ User asks: "Check issues in dbt_cloud"
 
 Claude executes:
 1. python3 scripts/resolve-repo-context.py dbt_cloud
-   → Returns: graniterock dbt_cloud
-2. mcp__github__list_issues owner="graniterock" repo="dbt_cloud"
+   → Returns: your-org dbt_cloud
+2. mcp__github__list_issues owner="your-org" repo="dbt_cloud"
 ```
 
 ### For Bash Scripts
@@ -112,7 +112,7 @@ When analyzing repository issues:
    mcp__github__list_issues owner=<resolved> repo=<resolved>
    ```
 
-This eliminates need for user to specify "graniterock" each time.
+This eliminates need for user to specify "your-org" each time.
 ```
 
 ## Configuration Source
@@ -168,7 +168,7 @@ These require explicit owner specification.
 
 ## Benefits
 
-1. **Reduced Cognitive Load**: No need to remember "graniterock" for every GitHub operation
+1. **Reduced Cognitive Load**: No need to remember "your-org" for every GitHub operation
 2. **Error Prevention**: Eliminates typos in owner name
 3. **Consistency**: Single source of truth for repository context
 4. **Scalability**: Easy to add new repositories to config

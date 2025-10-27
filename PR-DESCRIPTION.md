@@ -93,7 +93,7 @@ This PR adds dbt-aware skills infrastructure with platform detection, MCP integr
 
 **Automated Cleanup**:
 - ✅ Removes non-existent agent delegations from `/complete`
-- ✅ Genericizes company name (GraniteRock → your organization)
+- ✅ Genericizes company name (YourOrg → your organization)
 - ✅ Updates branding (DA Agent Hub → ADLC Agent Hub)
 - ✅ Replaces internal repo names with generic examples
 - ✅ Updates internal app references (customer-dashboard → customer-dashboard)

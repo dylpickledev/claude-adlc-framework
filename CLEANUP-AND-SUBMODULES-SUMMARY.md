@@ -13,7 +13,7 @@
 
 **What it fixes**:
 - ✅ Removes non-existent agent delegations (memory-system-expert, documentation-expert)
-- ✅ Genericizes company name (GraniteRock → your organization)
+- ✅ Genericizes company name (YourOrg → your organization)
 - ✅ Updates team branding (DA Agent Hub → ADLC Agent Hub)
 - ✅ Replaces internal repository names with generic examples
 - ✅ Updates internal app references (customer-dashboard → customer-dashboard)
@@ -114,7 +114,7 @@ git commit -m "feat: Convert to git submodules"
 
 ```bash
 # Test cleanup worked
-grep -r "GraniteRock\|graniterock" . --exclude-dir=.git
+grep -r "YourOrg\|your-org" . --exclude-dir=.git
 
 # Test submodule setup (if converted)
 git submodule status
@@ -194,7 +194,7 @@ Before public release, verify:
 
 - [ ] Run cleanup script: `./scripts/cleanup-internal-refs.sh`
 - [ ] Review all changes: `git diff`
-- [ ] No "GraniteRock" references: `grep -r "graniterock" . --exclude-dir=.git -i`
+- [ ] No "YourOrg" references: `grep -r "your-org" . --exclude-dir=.git -i`
 - [ ] No internal repo names: Check pattern docs don't reference roy_kent, sherlock, etc.
 - [ ] /complete doesn't delegate to non-existent agents
 - [ ] config/repositories.json uses placeholders or your org's repos
