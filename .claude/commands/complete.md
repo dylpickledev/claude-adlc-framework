@@ -1,28 +1,47 @@
-# /complete Command Protocol (Enhanced with ACE Learning)
+# /complete Command Protocol (Progressive Disclosure)
 
 ## Purpose
-Complete and archive projects with automated knowledge extraction, performance metrics tracking, ACE-based continuous learning, and intelligent knowledge dissemination. Implements prompt-first ADLC project completion with skill discovery, pattern evolution, and subagent-enhanced analysis.
+Complete and archive projects with automated knowledge extraction and intelligent knowledge dissemination. Supports lean default mode for speed, plus optional deep ACE analysis for continuous improvement insights.
 
 ## Usage
 ```bash
+# Default: Fast, action-focused completion
 claude /complete [project-name]
+
+# Deep Analysis: Full ACE learning with detailed reflection
+claude /complete [project-name] --deep
 ```
+
+## Progressive Disclosure Modes
+
+### Default Mode (Recommended)
+**Fast, action-focused completion:**
+- Extract key learnings and patterns
+- Update relevant agent knowledge
+- Archive project efficiently
+- **Time**: ~30-60 seconds
+
+### Deep Mode (`--deep` flag)
+**Comprehensive ACE learning analysis:**
+- All default mode features PLUS:
+- Delegation effectiveness deep-dive
+- Project execution reflection (what worked/failed)
+- Skill discovery from repetitive workflows
+- Pattern confidence evolution tracking
+- **Time**: ~2-4 minutes
+- **Use when**: Major project completion, quarterly reviews, establishing new patterns
 
 ## Protocol Overview
 
 ```
-🔍 Analysis Phase (Steps 1-1.9):
-   - Project knowledge extraction
-   - Performance metrics & delegation effectiveness
-   - ACE self-reflection on what worked/failed
-   - Skill discovery from repetitive workflows
-   - Pattern confidence evolution
-   - Subagent validation (configuration, patterns, dissemination)
+🔍 Analysis Phase:
+   DEFAULT: Project knowledge + basic metrics
+   --deep: + Delegation analysis + ACE reflection + Skill discovery
 
 💬 Approval Phase:
    - User reviews and approves proposed changes
 
-✅ Execution Phase (Steps 2-5):
+✅ Execution Phase:
    - Execute approved knowledge updates
    - Archive project with patterns
    - Git workflow guidance
@@ -31,16 +50,17 @@ claude /complete [project-name]
 
 ---
 
-## Analysis Phase: Steps 1-1.9
+## Analysis Phase
 
-### Step 1: Project Analysis & Knowledge Extraction
+### DEFAULT MODE: Steps 1-1.5 (Core Analysis)
+
+#### Step 1: Project Analysis & Knowledge Extraction
 
 **Claude analyzes completed project for:**
 - **Technical Documentation**: Architecture patterns, implementation strategies
 - **Agent Knowledge**: Tool-specific learnings and best practices
 - **Process Insights**: Workflow improvements and organizational patterns
 - **Integration Patterns**: Cross-system coordination strategies
-- **Performance Metrics**: Agent effectiveness and routing intelligence
 
 **Actions**:
 1. **Read project files**: `spec.md`, `context.md`, `tasks/`, `README.md`
@@ -52,294 +72,110 @@ claude /complete [project-name]
 
 ---
 
-### Step 1.5: Extract Performance Metrics & Delegation Effectiveness
+#### Step 1.5: Basic Performance Metrics
 
-**Track quantitative AND qualitative data for continuous improvement:**
+**Track essential metrics for knowledge extraction:**
 
-#### 1.5.1 Agent Invocation Patterns
-- Count agent invocations by type (dbt-expert: 3, snowflake-expert: 2, etc.)
-- Document success/retry patterns for each agent
-- Measure estimated execution times
-
-#### 1.5.2 Performance Indicators
-- Success rate (completed without retries vs total attempts)
-- Task complexity indicators (simple query vs complex transformation)
-- Cross-agent coordination effectiveness
-
-#### 1.5.3 Delegation Effectiveness Analysis (NEW)
-
-For each specialist agent invoked, assess:
-
-```markdown
-### [specialist-name] Delegation Assessment
-
-**Invocations**: [X] times
-**Tasks Delegated**:
-1. [Task 1 description]
-2. [Task 2 description]
-
-**Value Delivered**:
-- **Specialist Outcome**: [What specialist provided]
-- **Compared to Direct Role Work**: [Would role agent have achieved same quality?]
-- **Unique Value**: [What specifically required specialist expertise?]
-- **Business Impact**: [Cost savings, bug prevention, time saved]
-
-**Delegation Necessity**:
-- ✅ **Necessary**: Required specialist expertise, role confidence <0.60
-- ⚠️ **Marginal**: Role could have handled, but specialist added quality
-- ❌ **Unnecessary**: Role agent could have achieved same outcome directly
-
-**Token Cost vs Value**:
-- Specialist tokens: [X]
-- Estimated direct role tokens: [Y]
-- Cost multiplier: [X/Y]x
-- Value delivered: [$Z business impact / time saved / bugs prevented]
-- ROI: [Z / token cost] = [High/Medium/Low] value
-```
-
-#### 1.5.4 Confidence Threshold Validation (NEW)
-
-```markdown
-### Delegation Decision Validation
-
-**Role Agent Confidence Levels This Project**:
-| Task | Role Confidence | Delegated? | Outcome | Correct Decision? |
-|------|----------------|------------|---------|-------------------|
-| [task-1] | 0.75 | ❌ No | ✅ Success | ✅ Yes (confidence adequate) |
-| [task-2] | 0.55 | ✅ Yes | ✅ Success | ✅ Yes (needed specialist) |
-| [task-3] | 0.75 | ✅ Yes | ✅ Success | ⚠️ Marginal (could have tried directly) |
-
-**Threshold Optimization**:
-- Current delegation threshold: 0.60
-- Delegation decisions correct: [X]/[Y] ([Z]%)
-- Threshold adjustment: [Recommendation based on data]
-```
-
-#### 1.5.5 Confidence Score Updates
-
-```markdown
-### Confidence Score Updates
-
-**Increases** (Successful patterns):
-- [agent-name]: +0.10 ([pattern name])
-  - **Evidence**: [Specific success in project]
-  - **Validation count**: [X projects using this pattern successfully]
-  - **New confidence**: 0.XX → 0.XX
-
-**Decreases** (Knowledge gaps or failures):
-- [agent-name]: -0.05 ([area of struggle])
-  - **Evidence**: [Specific challenge or failure]
-  - **Root cause**: [Why pattern didn't work]
-  - **Remediation**: [What was learned, what should change]
-
-**Delegation Threshold Adjustments**:
-- [agent-name]: Threshold 0.60 → 0.65 (reduce marginal delegations)
-- [agent-name]: Threshold 0.60 → 0.55 (increase delegation for quality)
-```
+- **Agent invocations**: Count by type (dbt-expert: 3, snowflake-expert: 2, etc.)
+- **Success patterns**: Completed without retries vs total attempts
+- **Key learnings**: What worked, what patterns emerged
+- **Confidence updates**: Which agent patterns validated (+0.05 to +0.15)
 
 ---
 
-### Step 1.75: Project Execution Reflection (NEW - ACE Learning)
+### DEEP MODE ONLY (`--deep` flag): Steps 1.6-1.9 (ACE Analysis)
 
-**Analyze project execution for continuous improvement learnings:**
+**Note**: The following analysis steps are ONLY executed when user runs `/complete [project] --deep`
 
-#### 1.75.1 Approach Effectiveness Analysis
+---
 
-```markdown
-## Project Execution Reflection
+#### Step 1.6: Delegation Effectiveness Deep-Dive
 
-### Effective Approaches ✅
-1. [Approach name] (Effectiveness: High/Medium)
-   - **What worked**: [Specific success]
-   - **Evidence**: [Measurable outcome]
-   - **Reuse guidance**: When to apply this approach
+**Quantitative + qualitative analysis of agent delegation decisions:**
 
-### Ineffective Approaches ⚠️
-1. [Approach name] (Effectiveness: Low)
-   - **What didn't work**: [Specific failure]
-   - **Root cause**: [Why it failed]
-   - **Better alternative**: [What should be used instead]
-```
+For each specialist agent invoked:
+- Assess value delivered vs token cost
+- Evaluate delegation necessity (necessary/marginal/unnecessary)
+- Validate 0.60 confidence threshold effectiveness
+- Calculate ROI (business impact / token cost)
 
-#### 1.75.2 Error Pattern Analysis
+**Outputs**:
+- Delegation necessity breakdown (% necessary vs marginal)
+- Token cost vs value analysis
+- Threshold optimization recommendations
 
-```markdown
-### Error Patterns Resolved 🔧
-1. [Error type]: [Error message or description]
-   - **Frequency**: [How many times encountered]
-   - **Resolution**: [Solution that worked]
-   - **Prevention**: [Pattern to avoid future occurrence]
-```
+---
 
-#### 1.75.3 Skill Performance Validation
+#### Step 1.7: Project Execution Reflection (ACE Learning)
 
-If skills were used during project:
+**Systematic analysis of what worked, what failed, and why:**
 
-```markdown
-### Skill Performance Validation 🎯
-1. [skill-name] (Used: X times)
-   - **Outcome**: ✅ Expected / ⚠️ Needs improvement
-   - **Feedback**: [What worked, what needs refinement]
-   - **Action**: Update skill instructions / No change needed
-```
+**Key reflection areas**:
+1. **Approach Effectiveness**: What patterns worked (rank by effectiveness)
+2. **Error Patterns**: What errors occurred, root causes, resolutions
+3. **Skill Performance**: If skills used, did they deliver expected outcomes?
+4. **Decision Quality**: Were major technical decisions validated?
+5. **Knowledge Gaps**: What information was missing that slowed progress?
 
-#### 1.75.4 Decision Quality Review
-
-```markdown
-### Decision Quality Review 🤔
-1. [Decision name]
-   - **Evidence used**: [Documentation, benchmarks, patterns]
-   - **Outcome**: ✅ Validated / ⚠️ Needs refinement
-   - **Pattern**: [Reusable decision framework if applicable]
-```
-
-#### 1.75.5 Knowledge Gap Identification
-
-```markdown
-### Knowledge Gaps Identified 📚
-1. [Gap description]
-   - **Impact**: [How it affected project - time lost, uncertainty]
-   - **Action**: Add to [agent knowledge base / pattern library / CLAUDE.md]
-```
-
-**Questions to Answer**:
-- What approaches/patterns worked well? (Rank by effectiveness)
-- What approaches didn't work or were inefficient? (Identify failures)
-- Were there alternative approaches considered? Which was chosen and why?
+**Critical ACE questions**:
 - What would you do differently if starting this project again?
-- What errors/retries occurred? What was root cause and resolution?
-- Which skills were invoked? Did they deliver expected outcomes?
-- What major technical decisions were made? Were they validated by outcomes?
-- What information was missing that slowed progress?
+- Were there alternative approaches? Which was chosen and why?
+- What approaches didn't work or were inefficient?
+
+**Outputs**:
+- Ranked list of effective approaches with reuse guidance
+- Error pattern documentation (error → resolution → prevention)
+- Knowledge gap identification for agent updates
+- Decision validation (what worked, what needs refinement)
 
 ---
 
-### Step 1.8: Skill Discovery Analysis (NEW - Automation Opportunities)
+#### Step 1.8: Skill Discovery Analysis (Automation Opportunities)
 
-**Analyze project for repetitive workflows that should be automated:**
+**Identify repetitive workflows worth automating:**
 
-#### 1.8.1 Workflow Frequency Analysis
+**Analysis process**:
+1. Review project files for procedural patterns ("Step A → Step B → Step C")
+2. Count repetitions: How many times executed in this + past projects?
+3. Score automation value (HIGH/MEDIUM/LOW)
+4. Extract reusable templates (documents, code, config)
 
-- Review project files (`spec.md`, `context.md`, task findings, `README.md`)
-- Identify procedural patterns: "Step A → Step B → Step C" sequences
-- Count repetitions: How many times was similar workflow executed?
-- Compare to past projects: Have we done this workflow 3+ times total?
+**Scoring criteria**:
+- **HIGH VALUE**: 3+ occurrences, 15+ min each, clear reusable pattern → Propose skill
+- **MEDIUM VALUE**: 2-3 occurrences, 10-15 min each → Track as candidate
+- **LOW VALUE**: 1-2 occurrences, <10 min each → Skip
 
-#### 1.8.2 Automation Opportunity Scoring
-
-```markdown
-## Skill Discovery Analysis 🤖
-
-### Workflow Frequency Detected
-| Workflow | This Project | Historical | Time/Exec | Automation Value |
-|----------|--------------|------------|-----------|------------------|
-| [workflow-1] | X times | Y times total | Z min | HIGH/MED/LOW |
-| [workflow-2] | X times | Y times total | Z min | HIGH/MED/LOW |
-```
-
-**Scoring Criteria**:
-- **HIGH VALUE**: 3+ occurrences, 15+ min each, clear reusable pattern
-- **MEDIUM VALUE**: 2-3 occurrences, 10-15 min each, partially reusable
-- **LOW VALUE**: 1-2 occurrences, <10 min each, context-specific
-
-#### 1.8.3 Template Extraction
-
-- Identify reusable document structures (spec.md sections, README patterns)
-- Identify reusable code patterns (dbt model boilerplate, SQL patterns)
-- Identify reusable configuration (git workflows, deployment steps)
-
-#### 1.8.4 Skill Candidate Proposal
-
-For each HIGH VALUE automation opportunity:
-
-```markdown
-### Skill Candidate: [proposed-skill-name]
-
-**Trigger**: You've executed [workflow] [X] times manually
-**Workflow Steps**:
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-**Templates Needed**:
-- [template-1.md]: [Purpose]
-- [template-2.sql]: [Purpose]
-
-**Expected Time Savings**: [Y] minutes per execution × [frequency] = [Z] min/month
-
-**Should I create this skill?**
-- Type 'yes' to implement skill with templates
-- Type 'defer' to track as candidate for future
-- Type 'no' if not worth automating
-```
+**Outputs**:
+- Workflow frequency table (this project + historical)
+- HIGH VALUE skill candidates with time savings calculations
+- Extracted templates ready for skill creation
 
 ---
 
-### Step 1.9: Pattern Confidence Evolution (NEW - ACE Context Evolution)
+#### Step 1.9: Knowledge Dissemination Strategy
 
-**Update pattern confidence scores based on project validation:**
+**Determine optimal knowledge placement and updates:**
 
-
-**Main Claude synthesizes**:
-- memory-system-expert pattern recommendations
-- claude-code-expert configuration validation
-- documentation-expert dissemination strategy
+**Claude analyzes**:
+- Which agent files need updates (tool-specific insights)
+- Whether new patterns warrant pattern library additions
+- If application knowledge requires three-tier documentation
+- Configuration quality (follows Anthropic best practices)
 
 **Present unified proposal to user** with all recommended changes:
 
 ```markdown
 🔍 Analyzing project: [project-name]
-📊 Extracting performance metrics...
 
-📈 Project Performance Summary:
+📈 Project Summary:
    • Agents invoked: [X] (agent-1: Y, agent-2: Z)
    • Success rate: [X]% ([Y] retries needed)
-   • Estimated execution time: [X] minutes
    • Task complexity: [Simple/Medium/Complex]
-   • New patterns discovered: [X]
-
-🎯 Delegation Effectiveness:
-
-   **[agent-name] ([X] invocations)**:
-   - Value: HIGH/MEDIUM/LOW ([business impact])
-   - Necessity: ✅ Necessary ([X]/[Y]), ⚠️ Marginal ([Z]/[Y])
-   - Token ROI: [X]x ([tokens] → [value])
-   - Unique contribution: [What specialist provided]
+   • Key patterns discovered: [X]
 
 🎯 Confidence Updates:
-   ↗️ [agent-name]: +0.10 ([pattern name])
-      - Evidence: [Xth] successful project using this pattern
-      - New confidence: 0.XX → 0.XX
-
-## Project Execution Reflection
-
-### Effective Approaches ✅
-[List approaches that worked well]
-
-### Ineffective Approaches ⚠️
-[List approaches that didn't work]
-
-### Error Patterns Resolved 🔧
-[List errors and their resolutions]
-
-### Skill Performance Validation 🎯
-[List skills used and their effectiveness]
-
-## Skill Discovery Analysis 🤖
-
-### Workflow Frequency Detected
-[Table showing workflows and automation value]
-
-### Skill Candidates (HIGH VALUE)
-[List proposed skills with time savings calculations]
-
-## Pattern Confidence Evolution 📊
-
-### Patterns Validated This Project
-[List patterns with updated confidence scores]
-
-### Pattern Supersession Detected
-[List deprecated patterns replaced by better approaches]
+   ↗️ [agent-name]: +0.10 ([pattern name validated])
+   ↗️ [agent-name]: +0.05 ([successful pattern application])
 
 💡 Proposed Knowledge Updates:
 
@@ -349,13 +185,13 @@ For each HIGH VALUE automation opportunity:
    + Confidence: +0.XX ([reason])
    + [show exact content additions]
 
-### New Knowledge Documents:
+### New Knowledge Documents (if applicable):
 📄 knowledge/applications/[app-name]/ (if deploying new app)
-   + architecture/system-design.md - [Purpose]
-   + deployment/production-deploy.md - [Purpose]
-   + operations/troubleshooting.md - [Purpose]
+   + architecture/ - System design, data flows
+   + deployment/ - Deployment runbooks
+   + operations/ - Monitoring, troubleshooting
 
-📄 .claude/memory/patterns/[new-pattern].md
+📄 .claude/memory/patterns/[new-pattern].md (if new pattern discovered)
    + [Pattern purpose and key content]
 
 ### Memory Extraction (Automatic):
@@ -365,12 +201,40 @@ For each HIGH VALUE automation opportunity:
    - [Z] ERROR-FIX markers
    → Saved to memory/recent/YYYY-MM.md
 
-### Configuration Quality Validation (claude-code-expert):
-✅ [Agent updates follow Anthropic best practices]
-⚠️ [Recommendations for refinement]
+--- DEEP MODE ADDITIONS (if --deep flag used) ---
 
-### Knowledge Dissemination Strategy (documentation-expert):
-✅ [Optimal knowledge placement following three-tier pattern]
+## 🔬 Delegation Effectiveness Analysis
+
+**[agent-name] ([X] invocations)**:
+- Necessity: ✅ Necessary ([X]/[Y]), ⚠️ Marginal ([Z]/[Y])
+- Token ROI: [X]x ([tokens] → [business value])
+- Unique contribution: [What specialist provided]
+
+## 💭 Project Execution Reflection
+
+### Effective Approaches ✅
+[Ranked list of what worked with reuse guidance]
+
+### Ineffective Approaches ⚠️
+[What didn't work, root causes, better alternatives]
+
+### Error Patterns 🔧
+[Error → Resolution → Prevention pattern]
+
+### Knowledge Gaps Identified 📚
+[What information was missing that slowed progress]
+
+## 🤖 Skill Discovery
+
+**HIGH VALUE Automation Opportunities**:
+[Table showing workflows, frequency, time savings]
+
+**Skill Candidate: [proposed-skill-name]**
+- Trigger: [workflow executed X times]
+- Expected savings: [Y] min/month
+- Should I create this skill? (yes/defer/no)
+
+--- END DEEP MODE ADDITIONS ---
 
 🤔 **Should I proceed with these knowledge updates?**
    - Type 'yes' to execute all proposed changes
@@ -432,7 +296,7 @@ Update agent files with:
 
 #### 2.3 Pattern Library Updates
 
-- Create new patterns based on memory-system-expert recommendations
+- Create new patterns based on project learnings
 - Update existing patterns with new validations and confidence scores
 - Add contextual guidance to patterns (when to use, when to avoid)
 - Deprecate superseded patterns with links to better approaches
@@ -596,23 +460,27 @@ git checkout main && git merge [branch]
 
 ## Success Criteria
 
+### Default Mode
 - [ ] Project knowledge automatically extracted and preserved
-- [ ] Performance metrics tracked and analyzed
+- [ ] Basic performance metrics tracked (agent invocations, success rate)
 - [ ] Agent confidence scores updated based on outcomes
-- [ ] Delegation effectiveness measured (qualitative + quantitative)
-- [ ] ACE self-reflection completed (approaches, errors, decisions)
-- [ ] Skill discovery analysis performed (automation opportunities identified)
-- [ ] Pattern confidence evolution executed (validation counts updated)
-- [ ] Subagent validation completed (claude-code-expert, memory-system-expert, documentation-expert)
 - [ ] Relevant agent files updated with new insights + confidence adjustments
 - [ ] Technical documentation created when warranted (three-tier pattern)
 - [ ] Memory system populated with patterns (automatic via finish.sh)
-- [ ] Routing recommendations generated for future projects
 - [ ] Project successfully archived to completed directory
 - [ ] Git workflow guidance provided based on current branch
 - [ ] Related ideas updated with completion status
 - [ ] Clear next steps for continued development cycle
 
+### Deep Mode (`--deep` flag)
+All default mode criteria PLUS:
+- [ ] Delegation effectiveness measured (qualitative + quantitative ROI)
+- [ ] ACE self-reflection completed (approaches, errors, decisions)
+- [ ] Skill discovery analysis performed (automation opportunities identified)
+- [ ] Pattern validation and confidence evolution documented
+- [ ] Routing recommendations generated for future projects
+- [ ] Threshold optimization proposals (delegation confidence tuning)
+
 ---
 
-*ADLC project completion with ACE-enhanced continuous learning, automated skill discovery, pattern evolution, and subagent-validated knowledge extraction - from active development to operational wisdom with compound intelligence.*
+*ADLC project completion with progressive disclosure: lean default for speed, deep ACE analysis for continuous improvement - from active development to operational wisdom with compound intelligence.*
