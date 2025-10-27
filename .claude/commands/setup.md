@@ -268,7 +268,7 @@ If user approves, execute the plan:
 
 ### Option 1: Claude Code Command Pack
 **Publish**: Pre-configured `.claude/commands/` directory
-- Users: `gh repo clone graniterock/da-agent-hub-commands ~/.claude/commands/da`
+- Users: `gh repo clone your-org/da-agent-hub-commands ~/.claude/commands/da`
 - Gets: All slash commands (idea, research, start, setup, etc.)
 - Benefit: Distribution without full repo clone
 
@@ -280,7 +280,7 @@ If user approves, execute the plan:
 
 ### Option 3: Agent Library
 **Publish**: Pre-configured agents (analytics-engineer-role, dbt-expert, etc.)
-- Users: `claude agent add graniterock/analytics-engineer-role`
+- Users: `claude agent add your-org/analytics-engineer-role`
 - Gets: Agent definition automatically installed
 - Benefit: Mix-and-match agents from community
 
@@ -296,7 +296,7 @@ If user approves, execute the plan:
 **Phase 1: Command Pack (Easiest)**
 ```bash
 # Publish commands as standalone repo
-graniterock/claude-commands-data-stack
+your-org/claude-commands-data-stack
   ├── idea.md
   ├── research.md
   ├── start.md
@@ -304,20 +304,20 @@ graniterock/claude-commands-data-stack
   └── complete.md
 
 # Users install:
-gh repo clone graniterock/claude-commands-data-stack ~/.claude/commands/data
+gh repo clone your-org/claude-commands-data-stack ~/.claude/commands/data
 ```
 
 **Phase 2: Agent Library (Medium)**
 ```bash
 # Publish agents as standalone
-graniterock/claude-agents-data-stack
+your-org/claude-agents-data-stack
   ├── analytics-engineer-role.md
   ├── data-engineer-role.md
   ├── dbt-expert.md
   └── snowflake-expert.md
 
 # Future: Claude Code native support
-claude agent install graniterock/analytics-engineer-role
+claude agent install your-org/analytics-engineer-role
 ```
 
 **Phase 3: MCP Server Registry (When stable)**

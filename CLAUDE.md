@@ -399,10 +399,10 @@ When working with GitHub repositories, use smart context resolution to avoid spe
 ```bash
 # Resolve repository context from config/repositories.json
 python3 scripts/resolve-repo-context.py dbt_cloud
-# Output: graniterock dbt_cloud
+# Output: your-org dbt_cloud
 
 # Use resolved context in GitHub MCP operations
-mcp__github__list_issues owner="graniterock" repo="dbt_cloud"
+mcp__github__list_issues owner="your-org" repo="dbt_cloud"
 ```
 
 ### Available Commands
@@ -417,7 +417,7 @@ All specialist agents working with GitHub should:
 2. Use explicit owner/repo parameters in all GitHub MCP operations
 3. Reference pattern documentation: `.claude/memory/patterns/github-repo-context-resolution.md`
 
-**Benefit**: Eliminates cognitive overhead of remembering "graniterock" for every GitHub operation while maintaining explicit, correct MCP calls.
+**Benefit**: Eliminates cognitive overhead of remembering "your-org" for every GitHub operation while maintaining explicit, correct MCP calls.
 
 ## Knowledge Repository Structure
 
