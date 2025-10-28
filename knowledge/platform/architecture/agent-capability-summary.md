@@ -43,7 +43,7 @@ The DA Agent Hub provides a comprehensive AI-powered Analytics Development Lifec
 - **ui-ux-expert**: User experience design
 
 ### Cross-Functional
-- **documentation-expert**: Standards enforcement, GraniteRock patterns
+- **documentation-expert**: Standards enforcement, YourOrg patterns
 - **github-sleuth-expert**: Repository analysis, issue investigation via `github-mcp`
 - **business-context**: ClickUp requirements, stakeholder alignment
 - **cost-optimization-specialist**: Cross-platform cost analysis
@@ -97,7 +97,7 @@ Main Claude executes MCP calls + implements recommendations
 ### 3. Production-Validated Patterns
 Specialists maintain confidence scores for proven patterns:
 - **ALB OIDC Authentication** (confidence: 0.95) - Production-validated
-- **ECS Multi-Service Deployment** (confidence: 0.90) - Sales Journal app
+- **ECS Multi-Service Deployment** (confidence: 0.90) - Customer Dashboard app
 - **dbt Semantic Layer** (confidence: 0.85) - Analytics engineering
 
 ### 4. Knowledge-Driven Decision Making
@@ -122,9 +122,9 @@ Three-tier documentation architecture:
 ## 🎯 Current Production Applications
 
 ### Known Deployed Systems
-1. **Sales Journal** (React + FastAPI)
+1. **Customer Dashboard** (React + FastAPI)
    - ECS deployment, ALB OIDC auth, multi-service Docker
-   - Full knowledge base: `knowledge/applications/sales-journal/`
+   - Full knowledge base: `knowledge/applications/customer-dashboard/`
 
 2. **App Portal** (React + Node.js)
    - Application launcher, Azure AD integration

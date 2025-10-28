@@ -12,10 +12,10 @@ Usage:
 
 Examples:
     python scripts/resolve-repo-context.py dbt_cloud
-    # Output: graniterock dbt_cloud
+    # Output: your-org dbt_cloud
 
     python scripts/resolve-repo-context.py --json dbt_cloud
-    # Output: {"owner": "graniterock", "repo": "dbt_cloud", "url": "...", "branch": "..."}
+    # Output: {"owner": "your-org", "repo": "dbt_cloud", "url": "...", "branch": "..."}
 """
 
 import json

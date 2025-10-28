@@ -1,12 +1,12 @@
 don't look at the full .env file. Only search for the var names up to the equals sign.
 
-# DA Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
+# ADLC Agent Hub: Analytics Development Lifecycle (ADLC) AI Platform
 
 ## Quick Start (First Time Setup)
 
 ### 1. Configure MCP for dbt Cloud Access
 
-**IMPORTANT**: MCP (Model Context Protocol) integration with dbt Cloud is required for DA Agent Hub to work.
+**IMPORTANT**: MCP (Model Context Protocol) integration with dbt Cloud is required for ADLC Agent Hub to work.
 
 ```bash
 # Copy environment template
@@ -43,12 +43,12 @@ claude "List my dbt Cloud jobs"
 
 ```bash
 claude /setup
-# Customizes DA Agent Hub for your specific data stack and role
+# Customizes ADLC Agent Hub for your specific data stack and role
 ```
 
 **Troubleshooting**: If you encounter issues, see `docs/troubleshooting-mcp.md` or ask the onboarding-agent:
 ```bash
-claude "I need help with DA Agent Hub setup" --agent onboarding-agent
+claude "I need help with ADLC Agent Hub setup" --agent onboarding-agent
 ```
 
 ---
@@ -102,12 +102,19 @@ claude "I need help with DA Agent Hub setup" --agent onboarding-agent
 
 **Note**: Prefer slash commands for better Claude integration. Scripts can be run directly if needed.
 
-### Repository Management
-- **`./scripts/pull-all-repos.sh`** → Pull latest from all repos defined in `config/repositories.json`
-  - Updates all knowledge repos (da_obsidian, da_team_documentation)
-  - Updates all data stack repos (orchestration, ingestion, transformation, front_end, operations)
-  - Uses correct branch for each repo (main, master, dbt_dw, etc.)
-  - Organized output by category with color coding
+### Repository Management (Git Submodules)
+
+External repositories (knowledge bases, data stack repos) are managed as **git submodules** for version control and collaboration.
+
+**Quick Commands**:
+- **`./scripts/setup-submodules.sh`** → Initialize all submodules (first time setup)
+- **`./scripts/pull-all-repos.sh`** → Update all submodules to latest versions
+- **`git submodule update --remote`** → Standard git command to update all
+- **`git submodule status`** → Check current submodule commits
+
+**Configuration**: Edit `config/repositories.json` to add/remove submodules
+
+**Full Documentation**: See `docs/git-submodules-workflow.md` for complete workflow guide
 
 ### GitHub Issues Integration
 All ideas are managed as GitHub issues with 'idea' label:
@@ -242,15 +249,44 @@ Role agents delegate to specialists who combine deep domain expertise with MCP t
 
 ### Current Skill Status
 
-**Implementation Status**: 🚧 PLANNED (Not yet deployed)
+**Implementation Status**: ✅ ACTIVE (4 high-value skills deployed)
 
-**High-Value Skill Candidates**:
-1. **project-setup**: Initialize project structure, README, git branch
-2. **pr-description-generator**: Generate PR description from project context
-3. **dbt-model-scaffolder**: Generate dbt model boilerplate with tests
-4. **documentation-validator**: Check documentation completeness
+**Available Skills**:
+1. **project-setup** (`.claude/skills/project-setup/skill.md`)
+   - Initialize new project structure with README, spec.md, context.md
+   - Create git branch with proper naming conventions
+   - Generate task tracking structure
+   - **Saves**: 10-15 minutes per project setup
 
-**Future Integration**: Skills will work alongside agents and reference patterns for comprehensive automation + expertise
+2. **pr-description-generator** (`.claude/skills/pr-description-generator/skill.md`)
+   - Generate comprehensive PR descriptions from project context
+   - Analyze git changes and create structured summary
+   - Include test plan and quality checklist
+   - **Saves**: 5-10 minutes per PR
+
+3. **dbt-model-scaffolder** (`.claude/skills/dbt-model-scaffolder/skill.md`)
+   - Generate dbt model boilerplate (staging, intermediate, mart)
+   - Create schema.yml with tests and documentation
+   - Follow dbt style guide and best practices
+   - **Saves**: 15-20 minutes per model
+
+4. **documentation-validator** (`.claude/skills/documentation-validator/skill.md`)
+   - Validate documentation completeness before project closure
+   - Check required files and sections exist
+   - Verify internal links work
+   - Generate comprehensive validation report
+   - **Used by**: `/complete` command to ensure quality
+
+**How to Use Skills**:
+```
+# Skills are invoked automatically when appropriate, or manually:
+"Set up new project for [name]"  → project-setup skill
+"Generate PR description"         → pr-description-generator skill
+"Create dbt staging model"        → dbt-model-scaffolder skill
+"Validate documentation"          → documentation-validator skill
+```
+
+**Integration**: Skills work alongside agents and reference patterns for comprehensive automation + expertise
 
 ### Skills + Agents + Patterns Architecture
 
@@ -370,10 +406,10 @@ When working with GitHub repositories, use smart context resolution to avoid spe
 ```bash
 # Resolve repository context from config/repositories.json
 python3 scripts/resolve-repo-context.py dbt_cloud
-# Output: graniterock dbt_cloud
+# Output: your-org dbt_cloud
 
 # Use resolved context in GitHub MCP operations
-mcp__github__list_issues owner="graniterock" repo="dbt_cloud"
+mcp__github__list_issues owner="your-org" repo="dbt_cloud"
 ```
 
 ### Available Commands
@@ -388,17 +424,17 @@ All specialist agents working with GitHub should:
 2. Use explicit owner/repo parameters in all GitHub MCP operations
 3. Reference pattern documentation: `.claude/memory/patterns/github-repo-context-resolution.md`
 
-**Benefit**: Eliminates cognitive overhead of remembering "graniterock" for every GitHub operation while maintaining explicit, correct MCP calls.
+**Benefit**: Eliminates cognitive overhead of remembering "your-org" for every GitHub operation while maintaining explicit, correct MCP calls.
 
 ## Knowledge Repository Structure
 
 ### Team Documentation
-`knowledge/da_team_documentation/` - Data & Analytics team structured documentation (data architecture, integrations, products, templates)
+`knowledge/team_documentation/` - Analytics team structured documentation (data architecture, integrations, products, templates)
 
 ### Team Knowledge Vault
-`knowledge/da_obsidian/` - Data & Analytics team Obsidian vault for raw notes and unrefined ideas before ADLC planning
+`knowledge/team_knowledge_vault/` - Analytics team Obsidian vault for raw notes and unrefined ideas before ADLC planning
 
-### DA Agent Hub Platform Documentation
+### ADLC Agent Hub Platform Documentation
 `knowledge/da-agent-hub/` - Complete platform documentation organized by ADLC phases:
 - **Planning Layer** (`planning/`): Idea management and strategic planning
 - **Development Layer** (`development/`): Local development and agent coordination
@@ -410,7 +446,7 @@ All specialist agents working with GitHub should:
 **Three-Tier Documentation Architecture**:
 
 **Tier 1: Repository README** (Lightweight, Developer-Focused)
-- **Location**: `<repo>/README.md` (e.g., `react-sales-journal/README.md`)
+- **Location**: `<repo>/README.md` (e.g., `react-customer-dashboard/README.md`)
 - **Purpose**: Get developers productive fast
 - **Contains**: App purpose, local dev setup, npm commands, link to knowledge base
 - **Audience**: Human developers, AI doing code-level work
@@ -441,9 +477,9 @@ All specialist agents working with GitHub should:
 
 **Example Flow**:
 ```
-Agent Task: "Deploy Sales Journal update"
-1. Check ui-ux-developer-role.md → Known Applications → Find knowledge/applications/sales-journal/
-2. Read knowledge/applications/sales-journal/deployment/production-deploy.md → Complete runbook
+Agent Task: "Deploy Customer Dashboard update"
+1. Check ui-ux-developer-role.md → Known Applications → Find knowledge/applications/customer-dashboard/
+2. Read knowledge/applications/customer-dashboard/deployment/production-deploy.md → Complete runbook
 3. Delegate AWS work → aws-expert reads same knowledge base docs + applies patterns
 ```
 
@@ -505,7 +541,7 @@ Create separate improvement PRs for:
 - **ADLC METHODOLOGY**: Core system workflow refinements
 
 **Examples**:
-- "feat: Enhance aws-expert with ALB OIDC production patterns from sales-journal deployment"
+- "feat: Enhance aws-expert with ALB OIDC production patterns from customer-dashboard deployment"
 - "docs: Add React + FastAPI application architecture to knowledge/applications/"
 - "feat: Document three-tier documentation pattern for future app deployments"
 

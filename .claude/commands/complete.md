@@ -1,205 +1,240 @@
-# /complete Command Protocol
+# /complete Command Protocol (Progressive Disclosure)
 
 ## Purpose
-Complete and archive projects with automated knowledge extraction, performance metrics tracking, and intelligent knowledge dissemination. Implements prompt-first ADLC project completion with intelligent knowledge preservation.
+Complete and archive projects with automated knowledge extraction and intelligent knowledge dissemination. Supports lean default mode for speed, plus optional deep ACE analysis for continuous improvement insights.
 
 ## Usage
 ```bash
+# Default: Fast, action-focused completion
 claude /complete [project-name]
+
+# Deep Analysis: Full ACE learning with detailed reflection
+claude /complete [project-name] --deep
 ```
 
-## Protocol
+## Progressive Disclosure Modes
 
-### 1. Project Analysis & Knowledge Extraction
+### Default Mode (Recommended)
+**Fast, action-focused completion:**
+- Extract key learnings and patterns
+- Update relevant agent knowledge
+- Archive project efficiently
+- **Time**: ~30-60 seconds
+
+### Deep Mode (`--deep` flag)
+**Comprehensive ACE learning analysis:**
+- All default mode features PLUS:
+- Delegation effectiveness deep-dive
+- Project execution reflection (what worked/failed)
+- Skill discovery from repetitive workflows
+- Pattern confidence evolution tracking
+- **Time**: ~2-4 minutes
+- **Use when**: Major project completion, quarterly reviews, establishing new patterns
+
+## Protocol Overview
+
+```
+🔍 Analysis Phase:
+   DEFAULT: Project knowledge + basic metrics
+   --deep: + Delegation analysis + ACE reflection + Skill discovery
+
+💬 Approval Phase:
+   - User reviews and approves proposed changes
+
+✅ Execution Phase:
+   - Execute approved knowledge updates
+   - Archive project with patterns
+   - Git workflow guidance
+   - GitHub issue closure
+```
+
+---
+
+## Analysis Phase
+
+### DEFAULT MODE: Steps 1-1.5 (Core Analysis)
+
+#### Step 1: Project Analysis & Knowledge Extraction
+
 **Claude analyzes completed project for:**
 - **Technical Documentation**: Architecture patterns, implementation strategies
 - **Agent Knowledge**: Tool-specific learnings and best practices
 - **Process Insights**: Workflow improvements and organizational patterns
 - **Integration Patterns**: Cross-system coordination strategies
-- **Performance Metrics**: Agent effectiveness and routing intelligence
 
-### 2. Automated Knowledge Dissemination
-**Before archiving, Claude automatically:**
-- **Extracts key patterns** from project specifications and findings
-- **Updates agent knowledge bases** with tool-specific insights
-- **Tracks performance metrics** for continuous improvement
-- **Updates confidence scores** based on project outcomes
-- **Preserves technical documentation** in knowledge directory
-- **Creates cross-references** for future project reference
-
-### 3. Complete Project Archival
-- **Archives project**: Moves to `projects/completed/YYYY-MM/[project-name]/`
-- **Extracts patterns**: Auto-populates memory system via finish.sh
-- **Git workflow guidance**: Provides PR creation and merge options
-- **Updates related ideas**: Links completion back to original archived ideas
-- **Enables operations**: Project ready for ADLC Operate phase monitoring
-
-## Claude Instructions
-
-When user runs `/complete [project-name]`:
-
-### Step 1: Analyze Project and Propose Knowledge Changes
-1. **Read project files**: spec.md, context.md, tasks/, README.md
+**Actions**:
+1. **Read project files**: `spec.md`, `context.md`, `tasks/`, `README.md`
 2. **Identify extractable knowledge**:
    - Architecture patterns and technical decisions
    - Tool-specific insights for specialist agents
    - Process improvements and workflow learnings
    - Integration strategies and coordination patterns
 
-3. **Present proposed changes BEFORE making them**:
-   - List specific agent files to update with exact content additions
-   - Identify new knowledge documents to create
-   - Show proposed updates to README.md or CLAUDE.md if relevant
-   - Request explicit approval: "Should I proceed with these knowledge updates?"
+---
 
-4. **WAIT for user approval** before making any changes
+#### Step 1.5: Basic Performance Metrics
 
-### Step 1.5: Extract Performance Metrics
-**Track quantitative data for continuous improvement:**
+**Track essential metrics for knowledge extraction:**
 
-1. **Agent invocation patterns**:
-   - Count agent invocations by type (dbt-expert: 3, snowflake-expert: 2, etc.)
-   - Document success/retry patterns for each agent
-   - Measure estimated execution times
+- **Agent invocations**: Count by type (dbt-expert: 3, snowflake-expert: 2, etc.)
+- **Success patterns**: Completed without retries vs total attempts
+- **Key learnings**: What worked, what patterns emerged
+- **Confidence updates**: Which agent patterns validated (+0.05 to +0.15)
 
-2. **Performance indicators**:
-   - Success rate (completed without retries vs total attempts)
-   - Task complexity indicators (simple query vs complex transformation)
-   - Cross-agent coordination effectiveness
+---
 
-3. **Failure pattern documentation**:
-   - Common error types encountered
-   - Retry scenarios and resolution methods
-   - Knowledge gaps identified during execution
+### DEEP MODE ONLY (`--deep` flag): Steps 1.6-1.9 (ACE Analysis)
 
-4. **Confidence score updates**:
-   - Identify successful patterns that should increase agent confidence
-   - Document areas where agents struggled (decrease confidence)
-   - Calculate confidence adjustments based on task outcomes
+**Note**: The following analysis steps are ONLY executed when user runs `/complete [project] --deep`
 
-### Step 2: Execute Approved Knowledge Updates (Only After Approval)
-**Check for updates to:**
+---
 
-#### Agent Knowledge (`/.claude/agents/`)
-- **dbt-expert.md**: SQL patterns, model architectures, testing strategies + confidence updates
-- **snowflake-expert.md**: Query optimization, cost management patterns + confidence updates
-- **tableau-expert.md**: Dashboard design patterns, visualization strategies + confidence updates
-- **da-architect.md**: System design patterns, data flow architectures + confidence updates
-- **documentation-expert.md**: Documentation standards and templates + confidence updates
-- **business-context.md**: Stakeholder management and requirement patterns + confidence updates
-- **[other-agents].md**: Tool-specific insights and best practices + confidence updates
+#### Step 1.6: Delegation Effectiveness Deep-Dive
 
-**Confidence Score Management:**
-- Update agent confidence levels based on project outcomes
-- Document successful patterns that warrant confidence increases (+0.05 to +0.15)
-- Identify knowledge gaps that suggest confidence decreases (-0.05 to -0.10)
-- Create routing recommendations for future similar tasks
+**Quantitative + qualitative analysis of agent delegation decisions:**
 
-#### Technical Documentation (`/knowledge/`)
+For each specialist agent invoked:
+- Assess value delivered vs token cost
+- Evaluate delegation necessity (necessary/marginal/unnecessary)
+- Validate 0.60 confidence threshold effectiveness
+- Calculate ROI (business impact / token cost)
 
-**Production Application Knowledge** → `knowledge/applications/<app-name>/`
-- **When**: Deploying new apps or major app updates
-- **Structure**: Three-tier pattern (Tier 2 - comprehensive docs)
-  - `architecture/` - System design, data flows, infrastructure details
-  - `deployment/` - Complete deployment runbooks, Docker builds, AWS configuration
-  - `operations/` - Monitoring, troubleshooting guides, incident response
-- **Examples**: ALB OIDC authentication, ECS deployment patterns, multi-service Docker
-- **Updates Required**:
-  1. Create/update knowledge base docs for the application
-  2. Update agent pattern index (e.g., aws-expert.md with confidence scores)
-  3. Add to "Known Applications" in relevant role agents (e.g., ui-ux-developer-role.md)
-  4. Create lightweight README in actual repo (Tier 1) linking to knowledge base
+**Outputs**:
+- Delegation necessity breakdown (% necessary vs marginal)
+- Token cost vs value analysis
+- Threshold optimization recommendations
 
-**Platform/Tool Patterns** → `knowledge/da-agent-hub/`
-- **When**: Discovering reusable patterns for ADLC workflow
-- **Structure**: Organized by ADLC phase (planning/, development/, operations/)
-- **Examples**: Testing frameworks, git workflows, cross-system analysis patterns
+---
 
-**Three-Tier Documentation Principle**:
-- **Tier 1**: Repository README (lightweight, < 200 lines, developer-focused)
-- **Tier 2**: Knowledge base (comprehensive source of truth, unlimited size)
-- **Tier 3**: Agent pattern index (pointers with confidence scores)
+#### Step 1.7: Project Execution Reflection (ACE Learning)
 
-#### Memory System Updates (`/.claude/memory/`)
-**Note**: Pattern extraction happens automatically via `finish.sh`:
-- Extracts patterns marked with PATTERN:, SOLUTION:, ERROR-FIX:, etc.
-- Saves to `.claude/memory/recent/YYYY-MM.md`
-- No manual action needed - automatic during archival
+**Systematic analysis of what worked, what failed, and why:**
 
-### Step 3: Archive Project
-1. **Create archive directory**: `projects/completed/YYYY-MM/[project-name]/`
-2. **Move project files**: Complete project structure with full history
-3. **Remove from active**: Clean up `projects/active/[project-name]/`
+**Key reflection areas**:
+1. **Approach Effectiveness**: What patterns worked (rank by effectiveness)
+2. **Error Patterns**: What errors occurred, root causes, resolutions
+3. **Skill Performance**: If skills used, did they deliver expected outcomes?
+4. **Decision Quality**: Were major technical decisions validated?
+5. **Knowledge Gaps**: What information was missing that slowed progress?
 
-### Step 4: Git Workflow Guidance
-**Provide branch-aware options:**
-- **Feature branch**: Recommend PR creation for review
-- **Main branch**: Confirm direct merge readiness
-- **Stay on branch**: Option to continue working
+**Critical ACE questions**:
+- What would you do differently if starting this project again?
+- Were there alternative approaches? Which was chosen and why?
+- What approaches didn't work or were inefficient?
 
-### Step 5: Handle Related Ideas (If Any)
-- **Search for source ideas**: Look for original idea that led to this project
-- **Handle based on what's found**:
-  - **If source idea exists**: Move to archive and update with completion status
-  - **If no source idea**: Note as ad-hoc project (no idea cleanup needed)
-  - **If orphaned ideas found**: Clean up any related unarchived ideas
-- **Cross-reference completion**: Maintain idea → project → completion traceability when applicable
-- **Clean up workflow**: Ensure no orphaned ideas remain in inbox/organized
+**Outputs**:
+- Ranked list of effective approaches with reuse guidance
+- Error pattern documentation (error → resolution → prevention)
+- Knowledge gap identification for agent updates
+- Decision validation (what worked, what needs refinement)
 
-## Response Format
+---
 
-### Phase 1: Analysis and Proposal
-```
+#### Step 1.8: Skill Discovery Analysis (Automation Opportunities)
+
+**Identify repetitive workflows worth automating:**
+
+**Analysis process**:
+1. Review project files for procedural patterns ("Step A → Step B → Step C")
+2. Count repetitions: How many times executed in this + past projects?
+3. Score automation value (HIGH/MEDIUM/LOW)
+4. Extract reusable templates (documents, code, config)
+
+**Scoring criteria**:
+- **HIGH VALUE**: 3+ occurrences, 15+ min each, clear reusable pattern → Propose skill
+- **MEDIUM VALUE**: 2-3 occurrences, 10-15 min each → Track as candidate
+- **LOW VALUE**: 1-2 occurrences, <10 min each → Skip
+
+**Outputs**:
+- Workflow frequency table (this project + historical)
+- HIGH VALUE skill candidates with time savings calculations
+- Extracted templates ready for skill creation
+
+---
+
+#### Step 1.9: Knowledge Dissemination Strategy
+
+**Determine optimal knowledge placement and updates:**
+
+**Claude analyzes**:
+- Which agent files need updates (tool-specific insights)
+- Whether new patterns warrant pattern library additions
+- If application knowledge requires three-tier documentation
+- Configuration quality (follows Anthropic best practices)
+
+**Present unified proposal to user** with all recommended changes:
+
+```markdown
 🔍 Analyzing project: [project-name]
-📊 Extracting performance metrics...
 
-📈 Project Performance Summary:
-   • Agents invoked: 5 (dbt-expert: 3, snowflake-expert: 2)
-   • Success rate: 100% (0 retries needed)
-   • Estimated execution time: 18 minutes
-   • Task complexity: Medium (cross-system integration)
-   • New patterns discovered: 3
+📈 Project Summary:
+   • Agents invoked: [X] (agent-1: Y, agent-2: Z)
+   • Success rate: [X]% ([Y] retries needed)
+   • Task complexity: [Simple/Medium/Complex]
+   • Key patterns discovered: [X]
 
 🎯 Confidence Updates:
-   ↗️ dbt-expert: +0.10 (incremental model optimization)
-   ↗️ snowflake-expert: +0.05 (query performance tuning)
-   ➡️ tableau-expert: No change (limited involvement)
-
-📚 Identifying knowledge for preservation...
+   ↗️ [agent-name]: +0.10 ([pattern name validated])
+   ↗️ [agent-name]: +0.05 ([successful pattern application])
 
 💡 Proposed Knowledge Updates:
 
 ### Agent Files to Update:
-📝 .claude/agents/da-architect.md
-   + GitHub Actions automation patterns section
-   + AI-powered workflow design best practices
-   + Confidence: +0.08
+📝 .claude/agents/[agent-name].md
+   + [Pattern name] section
+   + Confidence: +0.XX ([reason])
    + [show exact content additions]
 
-📝 .claude/agents/dbt-expert.md
-   + Incremental model optimization patterns
-   + Confidence: +0.10
-   + [specific additions with exact content]
-
-### New Knowledge Documents:
+### New Knowledge Documents (if applicable):
 📄 knowledge/applications/[app-name]/ (if deploying new app)
-   + architecture/system-design.md - System architecture and data flows
-   + deployment/production-deploy.md - Complete deployment runbook
-   + operations/troubleshooting.md - Monitoring and incident response
-   + Three-tier pattern integration:
-     - Update aws-expert.md pattern index (Tier 3) with confidence scores
-     - Add to ui-ux-developer-role.md Known Applications section
-     - Create lightweight README in app repo (Tier 1) linking to knowledge base
+   + architecture/ - System design, data flows
+   + deployment/ - Deployment runbooks
+   + operations/ - Monitoring, troubleshooting
 
-📄 knowledge/da-agent-hub/[new-pattern].md (if platform improvement)
-   + [document purpose and key content outline]
+📄 .claude/memory/patterns/[new-pattern].md (if new pattern discovered)
+   + [Pattern purpose and key content]
 
 ### Memory Extraction (Automatic):
 🤖 finish.sh will automatically extract:
-   - 3 PATTERN markers from task findings
-   - 2 SOLUTION markers
-   - 1 ERROR-FIX marker
+   - [X] PATTERN markers from task findings
+   - [Y] SOLUTION markers
+   - [Z] ERROR-FIX markers
    → Saved to memory/recent/YYYY-MM.md
+
+--- DEEP MODE ADDITIONS (if --deep flag used) ---
+
+## 🔬 Delegation Effectiveness Analysis
+
+**[agent-name] ([X] invocations)**:
+- Necessity: ✅ Necessary ([X]/[Y]), ⚠️ Marginal ([Z]/[Y])
+- Token ROI: [X]x ([tokens] → [business value])
+- Unique contribution: [What specialist provided]
+
+## 💭 Project Execution Reflection
+
+### Effective Approaches ✅
+[Ranked list of what worked with reuse guidance]
+
+### Ineffective Approaches ⚠️
+[What didn't work, root causes, better alternatives]
+
+### Error Patterns 🔧
+[Error → Resolution → Prevention pattern]
+
+### Knowledge Gaps Identified 📚
+[What information was missing that slowed progress]
+
+## 🤖 Skill Discovery
+
+**HIGH VALUE Automation Opportunities**:
+[Table showing workflows, frequency, time savings]
+
+**Skill Candidate: [proposed-skill-name]**
+- Trigger: [workflow executed X times]
+- Expected savings: [Y] min/month
+- Should I create this skill? (yes/defer/no)
+
+--- END DEEP MODE ADDITIONS ---
 
 🤔 **Should I proceed with these knowledge updates?**
    - Type 'yes' to execute all proposed changes
@@ -207,106 +242,245 @@ When user runs `/complete [project-name]`:
    - Type 'skip' to complete project without knowledge updates
 ```
 
-### Phase 2: Execution (After Approval)
+---
+
+## Approval Phase
+
+### WAIT for User Approval
+
+User options:
+- **yes**: Execute all proposed changes
+- **modify**: Adjust specific updates (Claude asks which to modify)
+- **skip**: Complete project without knowledge updates
+
+---
+
+## Execution Phase: Steps 2-5
+
+### Step 2: Execute Approved Knowledge Updates
+
+**Only after user approval, Claude executes:**
+
+#### 2.1 Agent Knowledge Updates
+
+Update agent files with:
+- Tool-specific insights and best practices
+- Confidence score adjustments based on outcomes
+- Integration patterns and coordination strategies
+- Performance metrics updates
+
+**For each agent file updated**:
+- Add new pattern sections with evidence
+- Update confidence scores with validation counts
+- Add contextual guidance (when to use, when to avoid)
+- Update routing recommendations
+
+#### 2.2 Technical Documentation
+
+**Production Application Knowledge** → `knowledge/applications/<app-name>/`:
+- **When**: Deploying new apps or major app updates
+- **Structure**: Three-tier pattern (Tier 2 - comprehensive docs)
+  - `architecture/` - System design, data flows, infrastructure details
+  - `deployment/` - Complete deployment runbooks, Docker builds, AWS configuration
+  - `operations/` - Monitoring, troubleshooting guides, incident response
+- **Updates Required**:
+  1. Create/update knowledge base docs for the application
+  2. Update agent pattern index (e.g., aws-expert.md with confidence scores)
+  3. Add to "Known Applications" in relevant role agents
+  4. Create lightweight README in actual repo (Tier 1) linking to knowledge base
+
+**Platform/Tool Patterns** → `knowledge/da-agent-hub/`:
+- **When**: Discovering reusable patterns for ADLC workflow
+- **Structure**: Organized by ADLC phase (planning/, development/, operations/)
+- **Examples**: Testing frameworks, git workflows, cross-system analysis patterns
+
+#### 2.3 Pattern Library Updates
+
+- Create new patterns based on project learnings
+- Update existing patterns with new validations and confidence scores
+- Add contextual guidance to patterns (when to use, when to avoid)
+- Deprecate superseded patterns with links to better approaches
+
+#### 2.4 Skill Creation (If Proposed)
+
+If HIGH VALUE skill candidates identified:
+- Create `.claude/skills/[skill-name]/skill.md` with workflow
+- Add templates to `.claude/skills/[skill-name]/templates/`
+- Update `.claude/skills/README.md` catalog
+- Document trigger phrases and expected outcomes
+
+#### 2.5 Memory System Updates
+
+**Note**: Pattern extraction happens automatically via `finish.sh`:
+- Extracts patterns marked with PATTERN:, SOLUTION:, ERROR-FIX:, etc.
+- Saves to `.claude/memory/recent/YYYY-MM.md`
+- No manual action needed - automatic during archival
+
+---
+
+### Step 3: Archive Project
+
+1. **Create archive directory**: `projects/completed/YYYY-MM/[project-name]/`
+2. **Move project files**: Complete project structure with full history
+3. **Remove from active**: Clean up `projects/active/[project-name]/`
+4. **Execute finish.sh**: Automatic pattern extraction, GitHub issue closure, worktree cleanup
+
+---
+
+### Step 4: Git Workflow Guidance
+
+**Provide branch-aware options:**
+- **Feature branch**: Recommend PR creation for review
+- **Main branch**: Confirm direct merge readiness
+- **Stay on branch**: Option to continue working
+
+**Git workflow commands**:
+```bash
+# Create PR (recommended for feature branches)
+gh pr create --title "Complete [project-name]" --body "[description]"
+
+# Or merge to main
+git checkout main && git merge [branch]
 ```
+
+---
+
+### Step 5: Handle Related Ideas
+
+- **Search for source ideas**: Look for original idea that led to this project
+- **Handle based on what's found**:
+  - **If source idea exists**: Move to archive and update with completion status
+  - **If no source idea**: Note as ad-hoc project (no idea cleanup needed)
+  - **If orphaned ideas found**: Clean up any related unarchived ideas
+- **Cross-reference completion**: Maintain idea → project → completion traceability
+- **Clean up workflow**: Ensure no orphaned ideas remain
+
+---
+
+## Response Format
+
+### Phase 1: Analysis and Proposal
+```markdown
+🔍 Analyzing project: [project-name]
+📊 Extracting performance metrics...
+[Complete analysis output as shown in Step 1.10]
+
+🤔 **Should I proceed with these knowledge updates?**
+```
+
+### Phase 2: Execution (After Approval)
+```markdown
 ✅ Executing approved knowledge updates...
 
 💡 Knowledge Updates Applied:
-   ✅ Updated: agents/da-architect.md (integration patterns + confidence: +0.08)
-   ✅ Updated: agents/dbt-expert.md (incremental model patterns + confidence: +0.10)
-   ✅ Updated: agents/documentation-expert.md (process standards + confidence: +0.03)
-   ✅ Added: knowledge/applications/[app-name]/ (three-tier docs for production app)
-      - architecture/system-design.md, deployment/production-deploy.md, operations/troubleshooting.md
-      - Updated aws-expert.md pattern index + ui-ux-developer-role.md Known Applications
-   ✅ Added: knowledge/da-agent-hub/[new-pattern].md (platform improvement)
+   ✅ Updated: agents/[agent-name].md (pattern + confidence: +0.XX)
+   ✅ Updated: agents/[agent-name].md (confidence: +0.XX)
+   ✅ Created: .claude/memory/patterns/[new-pattern].md
+   ✅ Created: knowledge/applications/[app-name]/ (three-tier docs)
+   ✅ Created: .claude/skills/[skill-name]/ (automation opportunity)
 
 📦 Archiving project...
    ✅ Moved to: projects/completed/YYYY-MM/[project-name]/
-   🧹 Pattern extraction: 6 patterns saved to memory/recent/
+   🧹 Pattern extraction: [X] patterns saved to memory/recent/
 
 🔀 Git workflow options:
-   1. Create PR: gh pr create --title "Complete [project-name]" --body "Project completion with knowledge extraction"
+   1. Create PR: gh pr create --title "Complete [project-name]"
    2. Merge to main: git checkout main && git merge [branch]
    3. Stay on branch: Continue working
 
-💡 Recommended: Create PR for review
-
 🤖 Routing Recommendations for Future Projects:
-   • For incremental model work: Prefer dbt-expert (confidence: 0.92)
-   • For query optimization: dbt-expert + snowflake-expert (high coordination success)
-   • For cross-system integration: da-architect → dbt-expert → snowflake-expert (proven sequence)
+   • For [task type]: Prefer [agent] (confidence: 0.XX)
+   • For [coordination pattern]: [agent-1] + [agent-2] (proven sequence)
 
-🔗 Related ideas handled:
-   ✅ Source idea found and archived: ideas/[location]/[idea-file] → ideas/archive/
-   OR
-   💡 No source idea found - ad-hoc project (no cleanup needed)
-
-✅ Project '[project-name]' completed with knowledge preserved and metrics tracked!
+✅ Project '[project-name]' completed with ACE learning and skill discovery!
 
 🎉 Next steps:
    - Review performance metrics and confidence updates
-   - Review completed work and extracted knowledge
+   - Review extracted knowledge and new skills
    - Create PR if on feature branch
-   - Plan next project: ./scripts/build.sh [idea-name]
+   - Plan next project
 ```
+
+---
 
 ## Knowledge Extraction Criteria
 
 ### Agent Knowledge Updates
 **Update agent files when project contains:**
-- **New tool patterns**: Implementation strategies specific to each tool
-- **Best practices**: Proven approaches for tool configuration/usage
-- **Integration patterns**: How tools coordinate with other systems
-- **Troubleshooting insights**: Common issues and resolution patterns
-- **Performance optimizations**: Efficiency improvements and cost management
-- **Confidence adjustments**: Success/failure patterns affecting agent reliability
+- New tool patterns specific to each tool
+- Best practices for tool configuration/usage
+- Integration patterns with other systems
+- Troubleshooting insights and resolution patterns
+- Performance optimizations and cost management
+- Confidence adjustments based on success/failure patterns
 
 ### Technical Documentation
 **Add to knowledge/ when project demonstrates:**
-- **Production applications** (`knowledge/applications/<app-name>/`): New deployments or major app updates
-  - Follow three-tier pattern: Tier 2 comprehensive docs (architecture/, deployment/, operations/)
-  - Update agent pattern indexes (Tier 3) and Known Applications in role agents
-  - Create lightweight repo README (Tier 1) linking to knowledge base
-- **System architecture**: Novel integration or design patterns
-- **Process improvements**: Workflow enhancements worth preserving
-- **Standards evolution**: Updated team practices and conventions
-- **Cross-system coordination**: Multi-tool orchestration patterns
+- **Production applications** (`knowledge/applications/<app-name>/`): New deployments or major updates
+- System architecture: Novel integration or design patterns
+- Process improvements: Workflow enhancements worth preserving
+- Standards evolution: Updated team practices
+- Cross-system coordination: Multi-tool orchestration patterns
 
-### Performance Metrics Documentation
+### Pattern Confidence Evolution
 **Track and update when project reveals:**
-- **Agent effectiveness patterns**: Which agents excel at specific tasks
-- **Coordination strategies**: Successful multi-agent workflows
-- **Failure modes**: Common pitfalls and prevention strategies
-- **Routing intelligence**: Optimal agent selection for task types
+- Pattern validation (successful usage increases confidence)
+- Pattern edge cases (scenarios where pattern struggles)
+- Pattern supersession (better approaches discovered)
+- Contextual guidance (when to use, when to avoid)
 
-### Dissemination Decision Framework
-- **High impact + high confidence**: Core system changes → Update multiple agent files + increase confidence
-- **Tool-specific + proven**: Single tool insights → Update relevant agent only + confidence boost
-- **Process innovation**: Workflow improvements → Update knowledge/ + document success patterns
-- **Team learning**: Collaborative insights → Update da_team_documentation/ + share metrics
-- **Failed experiments**: Document what didn't work → Decrease confidence + capture lessons
+### Skill Discovery
+**Create skills when analysis shows:**
+- Workflow repeated 3+ times (frequency threshold)
+- 15+ minutes per execution (time savings threshold)
+- Clear procedural steps (automation feasibility)
+- Reusable templates identified (template extraction)
 
-## Integration with ADLC & Memory System
-- **ADLC Deploy Completion**: Final deployment with knowledge preservation and metrics
-- **ADLC Operate Transition**: Project ready for operations with documented patterns and performance data
-- **ADLC Observe Setup**: Knowledge base + metrics enable better monitoring and issue resolution
-- **Cross-layer context**: Full traceability from idea to operations with preserved learnings
-- **Memory System**: Automatic pattern extraction via finish.sh populates `.claude/memory/recent/`
-- **Confidence Routing**: Performance metrics inform future agent selection and coordination
-
-## Success Criteria
-- [ ] Project knowledge automatically extracted and preserved
-- [ ] Performance metrics tracked and analyzed
-- [ ] Agent confidence scores updated based on outcomes
-- [ ] Relevant agent files updated with new insights + confidence adjustments
-- [ ] Technical documentation created when warranted
-- [ ] Memory system populated with patterns (automatic via finish.sh)
-- [ ] Routing recommendations generated for future projects
-- [ ] Project successfully archived to completed directory
-- [ ] Git workflow guidance provided based on current branch
-- [ ] Related archived ideas updated with completion status
-- [ ] Clear next steps for continued development cycle
+### Delegation Effectiveness
+**Update delegation strategy when revealing:**
+- Agent effectiveness patterns (which agents excel at specific tasks)
+- Coordination strategies (successful multi-agent workflows)
+- Threshold optimization (adjust 0.60 threshold based on decisions)
+- Token ROI measurements (cost vs business value delivered)
 
 ---
 
-*ADLC project completion with intelligent knowledge preservation, performance tracking, and confidence-based routing - from active development to operational wisdom with compound learning.*
+## Integration with ADLC & ACE Learning
+
+- **ADLC Deploy Completion**: Final deployment with knowledge preservation
+- **ADLC Operate Transition**: Project ready for operations with documented patterns
+- **ACE Context Evolution**: Patterns, confidence scores, and skills evolve based on outcomes
+- **ACE Self-Reflection**: Systematic analysis of what worked, what failed, why
+- **ACE Skill Acquisition**: Automated discovery of workflows to automate
+- **Cross-layer Context**: Full traceability from idea to operations with preserved learnings
+- **Memory System**: Automatic pattern extraction populates `.claude/memory/recent/`
+- **Confidence Routing**: Performance metrics inform future agent selection
+
+---
+
+## Success Criteria
+
+### Default Mode
+- [ ] Project knowledge automatically extracted and preserved
+- [ ] Basic performance metrics tracked (agent invocations, success rate)
+- [ ] Agent confidence scores updated based on outcomes
+- [ ] Relevant agent files updated with new insights + confidence adjustments
+- [ ] Technical documentation created when warranted (three-tier pattern)
+- [ ] Memory system populated with patterns (automatic via finish.sh)
+- [ ] Project successfully archived to completed directory
+- [ ] Git workflow guidance provided based on current branch
+- [ ] Related ideas updated with completion status
+- [ ] Clear next steps for continued development cycle
+
+### Deep Mode (`--deep` flag)
+All default mode criteria PLUS:
+- [ ] Delegation effectiveness measured (qualitative + quantitative ROI)
+- [ ] ACE self-reflection completed (approaches, errors, decisions)
+- [ ] Skill discovery analysis performed (automation opportunities identified)
+- [ ] Pattern validation and confidence evolution documented
+- [ ] Routing recommendations generated for future projects
+- [ ] Threshold optimization proposals (delegation confidence tuning)
+
+---
+
+*ADLC project completion with progressive disclosure: lean default for speed, deep ACE analysis for continuous improvement - from active development to operational wisdom with compound intelligence.*
