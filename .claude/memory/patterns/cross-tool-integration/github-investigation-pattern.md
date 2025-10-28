@@ -50,7 +50,7 @@ github-mcp → Document findings (issue comment or new issue)
 ```bash
 # 1. Search issues org-wide for error pattern
 mcp__github__search_issues \
-  q="org:graniterock type:issue state:open \"dbt test failure\"" \
+  q="org:your-org type:issue state:open \"dbt test failure\"" \
   per_page=50
 ```
 
@@ -58,7 +58,7 @@ mcp__github__search_issues \
 ```bash
 # 2. Search for specific error text
 mcp__github__search_issues \
-  q="org:graniterock type:issue \"unique_key not defined\" in:body" \
+  q="org:your-org type:issue \"unique_key not defined\" in:body" \
   per_page=30
 ```
 
@@ -82,13 +82,13 @@ mcp__github__search_issues \
 ```bash
 # 3. Get issue details (repository A)
 mcp__github__get_issue \
-  owner="graniterock" \
+  owner="your-org" \
   repo="dbt_cloud" \
   issue_number=123
 
 # 4. Get issue details (repository B)
 mcp__github__get_issue \
-  owner="graniterock" \
+  owner="your-org" \
   repo="analytics-pipelines" \
   issue_number=456
 ```
@@ -115,7 +115,7 @@ mcp__filesystem__read_text_file \
 ```bash
 # 6. Get file contents from GitHub
 mcp__github__get_file_contents \
-  owner="graniterock" \
+  owner="your-org" \
   repo="dbt_cloud" \
   path="models/marts/fct_orders.sql" \
   branch="main"
@@ -125,7 +125,7 @@ mcp__github__get_file_contents \
 ```bash
 # 7. Search code across org for similar patterns
 mcp__github__search_code \
-  q="org:graniterock incremental unique_key" \
+  q="org:your-org incremental unique_key" \
   per_page=20
 ```
 
@@ -216,7 +216,7 @@ Thought 10: COMPLETE
 ```bash
 # 9. Search for incremental models without unique_key
 mcp__github__search_code \
-  q="org:graniterock \"materialized='incremental'\" -unique_key" \
+  q="org:your-org \"materialized='incremental'\" -unique_key" \
   per_page=100
 ```
 
@@ -224,7 +224,7 @@ mcp__github__search_code \
 ```bash
 # 10. List issues with same error across org
 mcp__github__search_issues \
-  q="org:graniterock type:issue state:open \"unique_key not defined\"" \
+  q="org:your-org type:issue state:open \"unique_key not defined\"" \
   per_page=50
 ```
 
@@ -262,7 +262,7 @@ mcp__dbt-mcp__get_model_health \
 ```bash
 # 13. Document root cause analysis
 mcp__github__add_issue_comment \
-  owner="graniterock" \
+  owner="your-org" \
   repo="dbt_cloud" \
   issue_number=123 \
   body="## Root Cause Analysis
@@ -304,7 +304,7 @@ mcp__github__add_issue_comment \
 ```bash
 # 14. Create issue in repository B
 mcp__github__create_issue \
-  owner="graniterock" \
+  owner="your-org" \
   repo="analytics-pipelines" \
   title="fix: Add unique_key to incremental models (dbt 1.7 breaking change)" \
   body="## Issue
@@ -337,7 +337,7 @@ Add unique_key configuration to affected incremental models:
 **Step 1: Pattern Discovery** (github-mcp)
 ```bash
 mcp__github__search_issues \
-  q="org:graniterock type:issue state:open \"duplicate records\" dbt test" \
+  q="org:your-org type:issue state:open \"duplicate records\" dbt test" \
   per_page=50
 ```
 
@@ -352,9 +352,9 @@ mcp__github__search_issues \
 **Step 2: Detailed Analysis** (github-mcp)
 ```bash
 # Get details for each issue
-mcp__github__get_issue owner="graniterock" repo="dbt_cloud" issue_number=234
-mcp__github__get_issue owner="graniterock" repo="analytics-pipelines" issue_number=567
-mcp__github__get_issue owner="graniterock" repo="data-platform" issue_number=890
+mcp__github__get_issue owner="your-org" repo="dbt_cloud" issue_number=234
+mcp__github__get_issue owner="your-org" repo="analytics-pipelines" issue_number=567
+mcp__github__get_issue owner="your-org" repo="data-platform" issue_number=890
 ```
 
 **Common patterns**:
@@ -373,7 +373,7 @@ mcp__filesystem__read_text_file \
 
 # Search for similar incremental patterns
 mcp__github__search_code \
-  q="org:graniterock incremental_strategy merge unique_key" \
+  q="org:your-org incremental_strategy merge unique_key" \
   per_page=30
 ```
 
@@ -434,7 +434,7 @@ LIMIT 10
 ```bash
 # Add analysis to each affected issue
 mcp__github__add_issue_comment \
-  owner="graniterock" \
+  owner="your-org" \
   repo="dbt_cloud" \
   issue_number=234 \
   body="## Root Cause Identified
@@ -612,7 +612,7 @@ github-mcp (comment findings)
 ```bash
 # Add date filter, specific repo, labels
 mcp__github__search_issues \
-  q="org:graniterock type:issue state:open created:>2025-09-01 label:bug \"dbt test\"" \
+  q="org:your-org type:issue state:open created:>2025-09-01 label:bug \"dbt test\"" \
   per_page=20
 ```
 
@@ -622,7 +622,7 @@ mcp__github__search_issues \
 ```bash
 # Search .sql files only with exact phrase
 mcp__github__search_code \
-  q="org:graniterock \"unique_key not defined\" extension:sql" \
+  q="org:your-org \"unique_key not defined\" extension:sql" \
   per_page=20
 ```
 
@@ -632,7 +632,7 @@ mcp__github__search_code \
 ```bash
 # Fall back to GitHub file contents
 mcp__github__get_file_contents \
-  owner="graniterock" \
+  owner="your-org" \
   repo="dbt_cloud" \
   path="models/marts/fct_orders.sql"
 ```
